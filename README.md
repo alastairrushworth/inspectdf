@@ -81,7 +81,7 @@ mtcars %>% report_na
 __Usage: correlation__
 
 ```{r}
-mtcars %>% report_na
+mtcars %>% report_cor
 ```
 
 ```{r}
@@ -119,6 +119,7 @@ mtcars %>% report_imbalance
     << Not applicable >>
 ```
 
+
 __Usage: association__
 
 ```{r}
@@ -126,9 +127,9 @@ mtcars %>% report_association
 ```
 
 ```{r}
------------------------------------------------
-* Top most imbalanced features (exlc. numeric *
------------------------------------------------
+-------------------------------------
+* Most associated categorical pairs *
+-------------------------------------
 
     << Not applicable >>
 ```
