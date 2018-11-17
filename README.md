@@ -4,17 +4,18 @@
 
 Tools to explore large and messy data frames
 
-__installation__ 
+__Installation__ 
 
 ```r
 devtools::install_github("alastairrushworth/reporter")
 ```
 
 
-__usage__
+__Usage__
 
 ```{r}
 library(reporter)
+
 # a data frame
 data(mtcars)
 
