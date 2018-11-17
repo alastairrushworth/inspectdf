@@ -2,9 +2,15 @@
 
 # reporter
 
-Tools to explore large and messy data frames.  
+Tools to explore large and messy data frames.
 
-- 
+`reporter::report` is a wrapper for the following operations
+- `report_space` show memory usage
+- `report_types` show column types
+- `report_na` show columns ranked by highest missingness
+- `report_cor` show column pairs ranked by highest absolute correlations
+- `report_imbalance` show non-numeric columns ranked by highest imbalance
+- `report_association` show non-numeric column pairs ranked by highest Goodman & Kruskal's tau
 
 
 __Installation__ 
