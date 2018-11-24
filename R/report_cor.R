@@ -1,13 +1,9 @@
-
-
 report_cor <- function(df, top_n = 10, type = "df"){
   
   # perform basic column check on dataframe input
   check_df_cols(df)
-  
   # filter to only the numeric variables
   df_numeric <- df %>% select_if(is.numeric)
-  
   # remove anything that is constant
   df_numeric <- df_numeric %>% select(-which(sapply(df_numeric, sd) == 0))
   
@@ -24,26 +20,28 @@ report_cor <- function(df, top_n = 10, type = "df"){
       dplyr::select(X1, X2, pair, cor) 
     out <- cor_df %>% dplyr::slice(1:top_n) 
     # if user doesn't request dataframe output
-    if(!type == "df"){
+    if(type == "console"){
       # print title text
       console_title("Most correlated numeric pairs")
       # print console chart
       out %>% select(-X1, -X2, cor, pair) %>% dot_bars_cor 
       # invisibly return the dataframe input
       invisible(df)
-    } else {
+    } 
+    if(type == "df"){
       # return dataframe of 
       return(out)
     }
   } else {
-    if(!type == "df"){
+    if(type == "console"){
     # print title text
     console_title("Most correlated numeric pairs")
     # print NULL message
     cat(silver("    << Not applicable >>\n"))
     # invisibly return the dataframe input
     invisible(df)
-    } else {
+    } 
+    if(type == "df"){
       # return empty dataframe of 
       return(tibble(X1 = character(), X2 = character(), 
                     pair = character(), cor = numeric()))

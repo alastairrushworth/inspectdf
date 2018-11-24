@@ -3,19 +3,11 @@ report_space <- function(df, top_n = 10){
   # perform basic column check on dataframe input
   check_df_cols(df)
   
-  # input object name
-  # data_name     <- deparse(substitute(df))
-  
   # get column size
   col_space     <- sapply(df, pryr::object_size)
   col_max       <- which.max(col_space)
   col_max_size  <- col_space[col_max]
   col_max_names <- names(col_space)[col_max]
-  
-  # # get column sparsity of numeric features
-  # val_numeric   <- df %>% select_if(is.numeric) %>% unlist %>% as.numeric
-  # val_numeric[is.na(val_numeric)] <- 1
-  # prop_sparse   <- round(mean(val_numeric == 0) * 100, 1)
   
   # get ncols, nrows, and storage size of the data
   ncl <- format(ncol(df), big.mark = ",")
