@@ -1,12 +1,9 @@
 
 
-report_cor <- function(df, plots = F, top_n = 10){
+report_cor <- function(df, top_n = 10, type = "df"){
   
   # perform basic column check on dataframe input
   check_df_cols(df)
-  
-  # print title text
-  console_title("Most correlated numeric pairs")
   
   # filter to only the numeric variables
   df_numeric <- df %>% select_if(is.numeric)
@@ -16,12 +13,6 @@ report_cor <- function(df, plots = F, top_n = 10){
   
   # calculate correlation coefficients
   if(ncol(df_numeric) > 0){
-    if(plots){
-      df_numeric %>% 
-        corrr::correlate(.) %>%
-        corrr::network_plot(min_cor = .0, legend = T) %>%
-        print
-    }
     cor_num_mat <- suppressWarnings(cor(df_numeric, use = "pairwise.complete.obs"))
     cor_num_mat[lower.tri(cor_num_mat, diag = T)] <- NA
     cor_df <- tibble::as.tibble(cor_num_mat)
@@ -30,12 +21,32 @@ report_cor <- function(df, plots = F, top_n = 10){
     cor_df <- cor_df %>% dplyr::filter(!is.na(cor)) %>%
       dplyr::arrange(desc(abs(cor))) %>%
       dplyr::mutate(pair = paste(X1, X2, sep = " & ")) %>%
-      dplyr::select(-X1, -X2)
-    cor_df %>% dplyr::slice(1:top_n) %>% dot_bars_cor
+      dplyr::select(X1, X2, pair, cor) 
+    out <- cor_df %>% dplyr::slice(1:top_n) 
+    # if user doesn't request dataframe output
+    if(!type == "df"){
+      # print title text
+      console_title("Most correlated numeric pairs")
+      # print console chart
+      out %>% select(-X1, -X2, cor, pair) %>% dot_bars_cor 
+      # invisibly return the dataframe input
+      invisible(df)
+    } else {
+      # return dataframe of 
+      return(out)
+    }
   } else {
+    if(!type == "df"){
+    # print title text
+    console_title("Most correlated numeric pairs")
+    # print NULL message
     cat(silver("    << Not applicable >>\n"))
+    # invisibly return the dataframe input
+    invisible(df)
+    } else {
+      # return empty dataframe of 
+      return(tibble(X1 = character(), X2 = character(), 
+                    pair = character(), cor = numeric()))
+    }
   }
-  
-  # invisibly return the df for further summaries
-  invisible(df)
 }
