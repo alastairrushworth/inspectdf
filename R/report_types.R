@@ -1,8 +1,7 @@
 # types of the columns
-report_types <- function(df, top_n = 10){
+report_types <- function(df, top_n = 10, type = "df"){
   # perform basic column check on dataframe input
   check_df_cols(df)
-  
   # number of columns
   ncl         <- ncol(df)
   # possible types to look out for
@@ -13,16 +12,24 @@ report_types <- function(df, top_n = 10){
   classes     <- sapply(classes, paste, collapse = " ")
   types       <- table(classes)
   type_tibble <- tibble(type = names(types), n = as.integer(types))
-  console_title(paste(ncl, " columns composed of types:", sep = ""))
-  left_join(type_spine, type_tibble, by = "type") %>%
+
+  # summarise column types into df
+  out <- left_join(type_spine, type_tibble, by = "type") %>%
     replace_na(list(n = 0))     %>%
     mutate(prop = n / ncol(df)) %>% 
     arrange(desc(prop))         %>% 
-    filter(prop > 0)            %>%
-    dot_bars_composition 
-  
-  # invisibly return the df for further summaries
-  invisible(df)
+    filter(prop > 0)            
+  if(type == "df"){
+    return(out)
+  } 
+  if(type == "console"){
+    # print title text
+    console_title(paste(ncl, " columns composed of types:", sep = ""))
+    # print console chart
+    out %>% dot_bars_composition 
+    # invisibly return the df for further summaries
+    invisible(df)
+  }
 }
 
 
