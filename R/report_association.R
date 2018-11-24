@@ -32,7 +32,7 @@ report_association <- function(df, top_n = 10, type = "df"){
       invisible(df)
     } 
     if(type == "df"){
-      # return dataframe of 
+      # return dataframe of values
       return(out)
     }
   } else {
