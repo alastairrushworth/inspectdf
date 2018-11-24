@@ -1,17 +1,16 @@
-report_association <- function(df, plots = F, top_n = 10){
+report_association <- function(df, top_n = 10, type = "df"){
   
   # perform basic column check on dataframe input
   check_df_cols(df)
   
-  # print title text
-  console_title("Most associated categorical pairs")
-  
+  # pick out categorical columns
   df_cat <- df %>% 
     select_if(function(v) is.character(v) | is.factor(v)) %>% 
     as.data.frame
+  
+  # calculate association if categorical columns exist
   if(ncol(df_cat) > 1){
     GKMat <- GoodmanKruskal::GKtauDataframe(df_cat)
-    if(plots) GKMat %>% plot
     ass_mat <- GKMat
     class(ass_mat) <- "matrix"
     diag(ass_mat) <- NA
@@ -21,11 +20,34 @@ report_association <- function(df, plots = F, top_n = 10){
     ass_df <- ass_df %>% dplyr::filter(!is.na(ass)) %>%
       dplyr::arrange(desc(abs(ass))) %>%
       dplyr::mutate(pair = paste(X1, X2, sep = " -> ")) %>%
-      dplyr::select(-X1, -X2)
-    ass_df %>% dplyr::slice(1:top_n) %>% dot_bars_ass
+      dplyr::select(X1, X2, pair, ass) 
+    out <- ass_df %>% dplyr::slice(1:top_n) 
+    # if user doesn't request dataframe output
+    if(type == "console"){
+      # print title text
+      console_title("Most associated categorical pairs")
+      # print console chart
+      out %>% select(-X1, -X2, ass, pair)  %>% dot_bars_ass
+      # invisibly return the dataframe input
+      invisible(df)
+    } 
+    if(type == "df"){
+      # return dataframe of 
+      return(out)
+    }
   } else {
-    cat(silver("    << Not applicable >>\n"))
+    if(type == "console"){
+      # print title text
+      console_title("Most associated categorical pairs")
+      # print NULL message
+      cat(silver("    << Not applicable >>\n"))
+      # invisibly return the dataframe input
+      invisible(df)
+    } 
+    if(type == "df"){
+      # return empty dataframe of 
+      return(tibble(X1 = character(), X2 = character(), 
+                    pair = character(), ass = numeric()))
+    }
   }
-  # invisibly return the df for further summaries
-  invisible(df)
 }
