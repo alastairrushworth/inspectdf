@@ -1,4 +1,4 @@
-report_cor <- function(df, top_n = 10, type = "df"){
+report_cor <- function(df, top_n = NULL, type = "df"){
   
   # perform basic column check on dataframe input
   check_df_cols(df)
@@ -18,15 +18,13 @@ report_cor <- function(df, top_n = 10, type = "df"){
       dplyr::arrange(desc(abs(cor))) %>%
       dplyr::mutate(pair = paste(X1, X2, sep = " & ")) %>%
       dplyr::select(X1, X2, pair, cor) 
-    out <- cor_df %>% dplyr::slice(1:top_n) 
+    out <- cor_df %>% dplyr::slice(1:min(top_n, nrow(.))) 
     # if user doesn't request dataframe output
     if(type == "console"){
       # print title text
       console_title("Most correlated numeric pairs")
       # print console chart
       out %>% select(-X1, -X2, cor, pair) %>% dot_bars_cor 
-      # invisibly return the dataframe input
-      invisible(df)
     } 
     if(type == "df"){
       # return dataframe of 
@@ -34,12 +32,10 @@ report_cor <- function(df, top_n = 10, type = "df"){
     }
   } else {
     if(type == "console"){
-    # print title text
-    console_title("Most correlated numeric pairs")
-    # print NULL message
-    cat(silver("    << Not applicable >>\n"))
-    # invisibly return the dataframe input
-    invisible(df)
+      # print title text
+      console_title("Most correlated numeric pairs")
+      # print NULL message
+      cat(silver("    << Not applicable >>\n"))
     } 
     if(type == "df"){
       # return empty dataframe of 
@@ -47,4 +43,5 @@ report_cor <- function(df, top_n = 10, type = "df"){
                     pair = character(), cor = numeric()))
     }
   }
+  if(type == "console") invisible(df)
 }

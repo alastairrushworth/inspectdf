@@ -1,5 +1,5 @@
 # find columns with missing values
-report_na <- function(df, top_n = 10, type = "df"){
+report_na <- function(df, top_n = NULL, type = "df"){
   # perform basic column check on dataframe input
   check_df_cols(df)
 
@@ -8,7 +8,7 @@ report_na <- function(df, top_n = 10, type = "df"){
     dplyr::mutate(prop = n / nrow(df)) %>%
     dplyr::filter(prop > 0) %>%  
     dplyr::arrange(desc(prop)) %>%
-    dplyr::slice(1:top_n) 
+    dplyr::slice(1:min(top_n, nrow(.))) 
   
   # if any missing values then print out
   if(nrow(df_summary) > 0){
@@ -18,8 +18,6 @@ report_na <- function(df, top_n = 10, type = "df"){
       console_title("Columns sorted by % missing")
       # print console chart
       df_summary %>% dot_bars_na
-      # invisibly return the df for further summaries
-      invisible(df)
     }
     # print dfs
     if(type == "df"){
@@ -32,14 +30,13 @@ report_na <- function(df, top_n = 10, type = "df"){
       console_title("Columns sorted by % missing")
       # print console chart
       cat(silver("    << Not applicable >>\n"))
-      # invisibly return the df for further summaries
-      invisible(df)
     } 
     if(type == "df"){
       # return dataframe of values
       return(tibble(names = character(), n = integer(), value = numeric()))
     }
   }
+  if(type == "console") invisible(df)
 }
 
 

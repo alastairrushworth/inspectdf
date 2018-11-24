@@ -1,5 +1,5 @@
 # show how much space the columns and data take up
-report_space <- function(df, top_n = 10){
+report_space <- function(df, top_n = NULL){
   # perform basic column check on dataframe input
   check_df_cols(df)
   
@@ -18,11 +18,12 @@ report_space <- function(df, top_n = 10){
   title_text <- c(paste("Data has ", ncl, " cols and ", nrw, " rows, occupying ", sz, sep = ""),
                   "Top columns in order of memory") %>% console_title
 
+  
   # get top 10 largest columns by storage size, pass to the console histogrammer
   vec_to_tibble(col_space) %>% 
     dplyr::mutate(prop = n / sum(n)) %>%
     dplyr::arrange(desc(n)) %>%
-    dplyr::slice(1:top_n) %>%
+    dplyr::slice(1:min(top_n, nrow(.))) %>%
     dot_bars_space
   
   # invisibly return the df for further summaries
