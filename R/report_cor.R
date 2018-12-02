@@ -5,7 +5,7 @@
 #' @param type Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.
 #' @return Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \code{pair} and \code{correlation}.  The report contains only the upper triangle of the correlation matrix.  The tibble is sorted by descending absolute value in the \code{correlation} column.
 #' @examples
-#' report_cor(mtcars)
+#' report_cor(starwars)
 
 report_cor <- function(df, top_n = NULL, type = "df"){
   

@@ -4,7 +4,7 @@
 #' @param type Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.
 #' @return Prints the proportion of columns with each type.
 #' @examples
-#' report_types(mtcars)
+#' report_types(starwars)
 
 report_types <- function(df, type = "df"){
   # perform basic column check on dataframe input

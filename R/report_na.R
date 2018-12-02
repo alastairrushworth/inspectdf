@@ -5,7 +5,7 @@
 #' @param type Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.
 #' @return Return a \code{tibble} containing the columns \code{col_name}, \code{count_na} and \code{percent_na}. 
 #' @examples
-#' report_na(mtcars)
+#' report_na(starwars)
 
 report_na <- function(df, top_n = NULL, type = "df"){
   # perform basic column check on dataframe input
