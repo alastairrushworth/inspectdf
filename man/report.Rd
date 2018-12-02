@@ -21,5 +21,5 @@ Report summary statistics for a data frame
 \code{report} is a wrapper for the all of the individual reporting functions \code{report_space}, \code{report_types}, \code{report_na}, \code{report_cor}, \code{report_imbalance}, \code{report_association}.
 }
 \examples{
-report(mtcars)
+report(starwars)
 }

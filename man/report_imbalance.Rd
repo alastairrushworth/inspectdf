@@ -20,5 +20,5 @@ Return a \code{tibble} containing the columns \code{col_name}, \code{value} and 
 Report the most commonly occuring value in each non-numeric column
 }
 \examples{
-report_imbalance(mtcars)
+report_imbalance(starwars)
 }

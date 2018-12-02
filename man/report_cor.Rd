@@ -20,5 +20,5 @@ Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \co
 Report the Pearson's correlation coefficient for each pair of numeric columns
 }
 \examples{
-report_cor(mtcars)
+report_cor(starwars)
 }

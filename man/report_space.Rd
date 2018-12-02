@@ -18,6 +18,6 @@ Prints the proportion of overall memory used by each column and the total usage.
 Report the memory usage of a data frame
 }
 \examples{
-report_space(mtcars)
+report_space(starwars)
 
 }
