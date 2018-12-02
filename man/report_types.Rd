@@ -18,5 +18,5 @@ Prints the proportion of columns with each type.
 Report column types of a data frame
 }
 \examples{
-report_types(mtcars)
+report_types(starwars)
 }

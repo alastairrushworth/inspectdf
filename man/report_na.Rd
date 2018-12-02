@@ -20,5 +20,5 @@ Return a \code{tibble} containing the columns \code{col_name}, \code{count_na} a
 Report the proportion of each column containing missing values
 }
 \examples{
-report_na(mtcars)
+report_na(starwars)
 }
