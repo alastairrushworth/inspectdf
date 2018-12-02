@@ -1,5 +1,4 @@
 useDynLib(reporter, .registration = TRUE)
-import(corrr)
 import(crayon)
 import(dplyr)
 import(GoodmanKruskal)
