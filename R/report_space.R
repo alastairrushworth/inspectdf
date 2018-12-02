@@ -1,4 +1,11 @@
-# show how much space the columns and data take up
+#' Report the memory usage of a data frame
+#'
+#' @param df A data frame
+#' @param top_n The number of rows to print for summaries. Default \code{top_n = NULL} prints everything.
+#' @return Prints the proportion of overall memory used by each column and the total usage.
+#' @examples
+#' report_space(mtcars)
+#' 
 report_space <- function(df, top_n = NULL){
   # perform basic column check on dataframe input
   check_df_cols(df)
