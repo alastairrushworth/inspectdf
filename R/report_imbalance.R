@@ -1,12 +1,19 @@
-report_imbalance <- function(df, top_n = NULL, type = "df", include_numeric = F){
+#' Report the most commonly occuring value in each non-numeric column
+#'
+#' @param df A data frame
+#' @param top_n The number of rows to print for summaries. Default \code{top_n = NULL} prints everything.
+#' @param type Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.
+#' @return Return a \code{tibble} containing the columns \code{col_name}, \code{value} and \code{percent_in_col}.  The \code{value} is the most frequently occuring category in each column and \code{percent_in_col} is the percentage frequency with which it occurs.
+#' @examples
+#' report_imbalance(mtcars)
+
+report_imbalance <- function(df, top_n = NULL, type = "df"){
   
   # perform basic column check on dataframe input
   check_df_cols(df)
   
   # exclude columns containing lists (or numeric if not specified)
-  col_exclude <- ifelse(include_numeric, 
-                        function(v) !is.list(v), 
-                        function(v) !(is.list(v) | is.numeric(v))) 
+  col_exclude <- function(v) !(is.list(v) | is.numeric(v)) 
   gdf         <- df %>% dplyr::select_if(col_exclude)
   
   # calculate imbalance if any columns available
@@ -26,7 +33,7 @@ report_imbalance <- function(df, top_n = NULL, type = "df", include_numeric = F)
     }
     if(type == "df"){
       # return dataframe of values
-      return(out %>% select(names, value, prop))
+      return(out %>% select(col_name = names, value, percent_in_col = prop))
     }
   } else {
       if(type == "console"){
@@ -37,7 +44,7 @@ report_imbalance <- function(df, top_n = NULL, type = "df", include_numeric = F)
       } 
     if(type == "df"){
       # return empty dataframe of 
-      return(tibble(names = character(), value = character(), value = numeric()))
+      return(tibble(col_name = character(), value = character(), percent_in_col = numeric()))
     }
   }
   if(type == "console") invisible(df)
