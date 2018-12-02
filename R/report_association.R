@@ -1,3 +1,12 @@
+#' Report Goodman and Kruskal's tau for association between categorical features
+#'
+#' @param df A data frame
+#' @param top_n The number of rows to print for summaries. Default \code{top_n = NULL} prints everything.
+#' @param type Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.
+#' @return Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \code{pair} and \code{association}.  The report contains only the upper triangle of the correlation matrix.  
+#' @examples
+#' report_association(starwars)
+
 report_association <- function(df, top_n = NULL, type = "df"){
   
   # perform basic column check on dataframe input
@@ -20,14 +29,14 @@ report_association <- function(df, top_n = NULL, type = "df"){
     ass_df <- ass_df %>% dplyr::filter(!is.na(ass)) %>%
       dplyr::arrange(desc(abs(ass))) %>%
       dplyr::mutate(pair = paste(X1, X2, sep = " -> ")) %>%
-      dplyr::select(X1, X2, pair, ass) 
+      dplyr::select(col_1 = X1, col_2 = X2, pair, association = ass) 
     out <- ass_df %>% dplyr::slice(1:min(top_n, nrow(.))) 
     # if user doesn't request dataframe output
     if(type == "console"){
       # print title text
       console_title("Most associated categorical pairs")
       # print console chart
-      out %>% select(-X1, -X2, ass, pair)  %>% dot_bars_ass
+      out %>% select(-col_1, -col_2, ass = association, pair)  %>% dot_bars_ass
     } 
     if(type == "df"){
       # return dataframe of values
@@ -42,8 +51,8 @@ report_association <- function(df, top_n = NULL, type = "df"){
     } 
     if(type == "df"){
       # return empty dataframe of 
-      return(tibble(X1 = character(), X2 = character(), 
-                    pair = character(), ass = numeric()))
+      return(tibble(col_1 = character(), col_2 = character(), 
+                    pair = character(), association = numeric()))
     }
   }
   if(type == "console") invisible(df)
