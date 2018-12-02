@@ -5,7 +5,7 @@
 #' @param type Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.
 #' @return Return a \code{tibble} containing the columns \code{col_name}, \code{value} and \code{percent_in_col}.  The \code{value} is the most frequently occuring category in each column and \code{percent_in_col} is the percentage frequency with which it occurs.
 #' @examples
-#' report_imbalance(mtcars)
+#' report_imbalance(starwars)
 
 report_imbalance <- function(df, top_n = NULL, type = "df"){
   
