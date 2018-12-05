@@ -4,10 +4,12 @@
 \alias{report_cor}
 \title{Report the Pearson's correlation coefficient for each pair of numeric columns}
 \usage{
-report_cor(df, top_n = NULL, type = "df")
+report_cor(df, df2 = NULL, top_n = NULL, type = "df")
 }
 \arguments{
-\item{df}{A data frame}
+\item{df}{A data frame containing numeric columns}
+
+\item{df2}{An optional second data frame for comparing correlation coefficients with.  Defaults to \code{NULL}.}
 
 \item{top_n}{The number of rows to print for summaries. Default \code{top_n = NULL} prints everything.}
 
@@ -19,6 +21,10 @@ Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \co
 \description{
 Report the Pearson's correlation coefficient for each pair of numeric columns
 }
+\details{
+When the second data frame \code{df2} is specified, correlations are tabulated for both data frames, and where a pair of numeric columns with the same names appear in both, a p-value is provided which test tests whether their correlations coefficients are equal.
+}
 \examples{
 report_cor(starwars)
+report_cor(starwars, starwars[1:10, ])
 }
