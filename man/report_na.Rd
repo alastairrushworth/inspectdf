@@ -4,10 +4,12 @@
 \alias{report_na}
 \title{Report the proportion of each column containing missing values}
 \usage{
-report_na(df, top_n = NULL, type = "df")
+report_na(df, df2 = NULL, top_n = NULL, type = "df")
 }
 \arguments{
 \item{df}{A data frame}
+
+\item{df2}{An optional second data frame for comparing missing values with.  Defaults to \code{NULL}.}
 
 \item{top_n}{The number of rows to print for summaries. Default \code{top_n = NULL} prints everything.}
 
@@ -18,6 +20,9 @@ Return a \code{tibble} containing the columns \code{col_name}, \code{count_na} a
 }
 \description{
 Report the proportion of each column containing missing values
+}
+\details{
+When the second data frame \code{df2} is specified, the missingness is tabulated for both data frames, and where a pair of columns are common to both data frames a p-value is calculated for the equivalence of the proportion of missing values.
 }
 \examples{
 report_na(starwars)
