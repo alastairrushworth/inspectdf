@@ -4,10 +4,12 @@
 \alias{report_types}
 \title{Report column types of a data frame}
 \usage{
-report_types(df, type = "df")
+report_types(df, df2 = NULL, type = "df")
 }
 \arguments{
-\item{df}{A data frame}
+\item{df}{A data frame to report column types}
+
+\item{df2}{An optional second data frame for comparing column types with.  Defaults to \code{NULL}.}
 
 \item{type}{Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.}
 }
@@ -16,6 +18,9 @@ Prints the proportion of columns with each type.
 }
 \description{
 Report column types of a data frame
+}
+\details{
+When the second data frame \code{df2} is specified, column types are tabulated for both data frames to enable comparison of contents.
 }
 \examples{
 report_types(starwars)
