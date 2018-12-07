@@ -4,12 +4,12 @@
 \alias{report_space}
 \title{Report the memory usage of a data frame}
 \usage{
-report_space(df, top_n = NULL)
+report_space(df, top = NULL)
 }
 \arguments{
 \item{df}{A data frame}
 
-\item{top_n}{The number of rows to print for summaries. Default \code{top_n = NULL} prints everything.}
+\item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
 }
 \value{
 Prints the proportion of overall memory used by each column and the total usage.

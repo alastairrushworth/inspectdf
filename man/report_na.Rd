@@ -4,14 +4,14 @@
 \alias{report_na}
 \title{Report the proportion of each column containing missing values}
 \usage{
-report_na(df, df2 = NULL, top_n = NULL, type = "df")
+report_na(df, df2 = NULL, top = NULL, type = "df")
 }
 \arguments{
 \item{df}{A data frame}
 
 \item{df2}{An optional second data frame for comparing missing values with.  Defaults to \code{NULL}.}
 
-\item{top_n}{The number of rows to print for summaries. Default \code{top_n = NULL} prints everything.}
+\item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
 
 \item{type}{Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.}
 }

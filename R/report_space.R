@@ -1,12 +1,12 @@
 #' Report the memory usage of a data frame
 #'
 #' @param df A data frame
-#' @param top_n The number of rows to print for summaries. Default \code{top_n = NULL} prints everything.
+#' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @return Prints the proportion of overall memory used by each column and the total usage.
 #' @examples
 #' report_space(starwars)
 #' 
-report_space <- function(df, top_n = NULL){
+report_space <- function(df, top = NULL){
   # perform basic column check on dataframe input
   check_df_cols(df)
   
@@ -30,7 +30,7 @@ report_space <- function(df, top_n = NULL){
   vec_to_tibble(col_space) %>% 
     dplyr::mutate(prop = n / sum(n)) %>%
     dplyr::arrange(desc(n)) %>%
-    dplyr::slice(1:min(top_n, nrow(.))) %>%
+    dplyr::slice(1:min(top, nrow(.))) %>%
     dot_bars_space
   
   # invisibly return the df for further summaries

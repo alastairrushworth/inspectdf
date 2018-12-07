@@ -2,14 +2,14 @@
 #'
 #' @param df A data frame
 #' @param df2 An optional second data frame for comparing missing values with.  Defaults to \code{NULL}.
-#' @param top_n The number of rows to print for summaries. Default \code{top_n = NULL} prints everything.
+#' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param type Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.
 #' @return Return a \code{tibble} containing the columns \code{col_name}, \code{count_na} and \code{percent_na}. 
 #' @details When the second data frame \code{df2} is specified, the missingness is tabulated for both data frames, and where a pair of columns are common to both data frames a p-value is calculated for the equivalence of the proportion of missing values.
 #' @examples
 #' report_na(starwars)
 
-report_na <- function(df, df2 = NULL, top_n = NULL, type = "df"){
+report_na <- function(df, df2 = NULL, top = NULL, type = "df"){
   # perform basic column check on dataframe input
   check_df_cols(df)
 
@@ -19,7 +19,7 @@ report_na <- function(df, df2 = NULL, top_n = NULL, type = "df"){
       dplyr::mutate(prop = n / nrow(df)) %>%
       # dplyr::filter(prop > 0) %>%  
       dplyr::arrange(desc(prop)) %>%
-      dplyr::slice(1:min(top_n, nrow(.))) 
+      dplyr::slice(1:min(top, nrow(.))) 
     
     # if any missing values then print out
     if(nrow(df_summary) > 0){
@@ -50,8 +50,8 @@ report_na <- function(df, df2 = NULL, top_n = NULL, type = "df"){
     }
     if(type == "console") invisible(df)
   } else {
-    s1 <- report_na(df,  top_n = top_n, type = type) %>% dplyr::rename(count_na_1 = count_na, percent_na_1 = percent_na)
-    s2 <- report_na(df2, top_n = top_n, type = type) %>% dplyr::rename(count_na_2 = count_na, percent_na_2 = percent_na)
+    s1 <- report_na(df,  top = top, type = type) %>% dplyr::rename(count_na_1 = count_na, percent_na_1 = percent_na)
+    s2 <- report_na(df2, top = top, type = type) %>% dplyr::rename(count_na_2 = count_na, percent_na_2 = percent_na)
     na_tab <- dplyr::full_join(s1, s2, by = "col_name")
     na_tab$p_value <- prop_test(na_1 = na_tab$count_na_1, na_2 = na_tab$count_na_2, n_1 = nrow(df), n_2 = nrow(df2))
     return(na_tab)
