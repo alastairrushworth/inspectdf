@@ -8,7 +8,7 @@
 #' @examples
 #' report_association(starwars)
 
-report_association <- function(df1, df2 = NULL, top = NULL, type = "df"){
+report_association <- function(df1, df2 = NULL, top = NULL, show_plot = F){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -30,31 +30,15 @@ report_association <- function(df1, df2 = NULL, top = NULL, type = "df"){
         dplyr::mutate(pair = paste(X1, X2, sep = " -> ")) %>%
         dplyr::select(col_1 = X1, col_2 = X2, pair, association = ass) 
       out <- ass_df %>% dplyr::slice(1:min(top, nrow(.))) 
-      # if user doesn't request dataframe output
-      if(type == "console"){
-        # print title text
-        console_title("Most associated categorical pairs")
-        # print console chart
-        out %>% select(-col_1, -col_2, ass = association, pair) %>% dot_bars_ass
-      } 
-      if(type == "df"){
-        # return dataframe of values
-        return(out  %>% rename(k_tau = association))
-      }
+      # return dataframe of values
+      return(out  %>% rename(k_tau = association))
     } else {
-      if(type == "console"){
-        # print title text
-        console_title("Most associated categorical pairs")
-        # print NULL message
-        cat(silver("    << Not applicable >>\n"))
-      } 
       if(type == "df"){
         # return empty dataframe of 
         return(tibble(col_1 = character(), col_2 = character(), 
                       pair = character(), k_tau = numeric()))
       }
     }
-    if(type == "console") invisible(df1)
   } else {
     s1 <- report_association(df1,   top = top, type = type) %>% dplyr::rename(k_tau_1 = association) %>% select(-col_1, -col_2)
     s2 <- report_association(df2,  top = top, type = type) %>% dplyr::rename(k_tau_2 = association) %>% select(-col_1, -col_2)

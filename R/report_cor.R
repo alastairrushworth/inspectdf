@@ -10,7 +10,7 @@
 #' report_cor(starwars)
 #' report_cor(starwars, starwars[1:10, ])
 
-report_cor <- function(df1, df2 = NULL, top = NULL, type = "df"){
+report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = F){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -32,29 +32,12 @@ report_cor <- function(df1, df2 = NULL, top = NULL, type = "df"){
         dplyr::mutate(pair = paste(X1, X2, sep = " & ")) %>%
         dplyr::select(col_1 = X1, col_2 = X2, pair, correlation = cor) 
       out <- cor_df %>% dplyr::slice(1:min(top, nrow(.))) 
-      # if user doesn't request dataframe output
-      if(type == "console"){
-        # print title text
-        console_title("Most correlated numeric pairs")
-        # print console chart
-        out %>% select(-col_1, -col_2, cor = correlation, pair) %>% dot_bars_cor 
-      } 
-      if(type == "df`"){
-        # return dataframe of correlations
-        return(out)
-      }
+      # return dataframe of correlations
+      return(out)
     } else {
-      if(type == "console"){
-        # print title text
-        console_title("Most correlated numeric pairs")
-        # print NULL message
-        cat(silver("    << Not applicable >>\n"))
-      } 
-      if(type == "df"){
-        # return empty dataframe of 
-        return(tibble(col_1 = character(), col_2 = character(), 
-                      pair = character(), correlation = numeric()))
-      }
+      # return empty dataframe of 
+      return(tibble(col_1 = character(), col_2 = character(), 
+                    pair = character(), correlation = numeric()))
     } 
   } else {
     s1 <- report_cor(df1,  top = top, type = type) %>% dplyr::rename(correlation_1 = correlation)
@@ -63,5 +46,4 @@ report_cor <- function(df1, df2 = NULL, top = NULL, type = "df"){
     cor_tab$p_value <- cor_test(cor_tab$correlation_1, cor_tab$correlation_2, n_1 = nrow(df1), n_2 = nrow(df2))
     return(cor_tab)
   }
-  if(type == "console") invisible(df1)
 }

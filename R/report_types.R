@@ -8,7 +8,7 @@
 #' @examples
 #' report_types(starwars)
 
-report_types <- function(df1, df2 = NULL, type = "df"){
+report_types <- function(df1, df2 = NULL, show_plot = F){
   # perform basic column check on dataframe input
   check_df_cols(df1)
   
@@ -30,17 +30,7 @@ report_types <- function(df1, df2 = NULL, type = "df"){
       mutate(prop = n / ncol(df1)) %>% 
       arrange(desc(prop))         %>% 
       filter(prop > 0)            
-    if(type == "df"){
-      return(out)
-    } 
-    if(type == "console"){
-      # print title text
-      console_title(paste(ncl, " columns composed of types:", sep = ""))
-      # print console chart
-      out %>% dot_bars_composition 
-      # invisibly return the df for further summaries
-      invisible(df1)
-    }
+    return(out)
   } else {
     s1 <- report_types(df1,  type = type) %>% dplyr::rename(n_1 = n, prop_1 = prop)
     s2 <- report_types(df2, type = type) %>% dplyr::rename(n_2 = n, prop_2 = prop)

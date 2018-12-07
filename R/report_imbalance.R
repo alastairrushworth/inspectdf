@@ -8,7 +8,7 @@
 #' @examples
 #' report_imbalance(starwars)
 
-report_imbalance <- function(df1, df2 = NULL, top = NULL, type = "df"){
+report_imbalance <- function(df1, df2 = NULL, top = NULL, show_plot = F){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -24,30 +24,12 @@ report_imbalance <- function(df1, df2 = NULL, top = NULL, type = "df"){
       imb_cols$names <- colnames(df_cat)
       # get top ten most imbalance by common class and pass to histogrammer
       out <- imb_cols %>% dplyr::arrange(desc(prop)) %>% dplyr::slice(1:min(top, nrow(.)))
-      
-      if(type == "console"){
-        # print console title text
-        console_title("Top most imbalanced features (exlc. numeric")
-        # print console chart
-        out %>% dot_bars_imbalance
-      }
-      if(type == "df"){
-        # return dataframe of values
-        return(out %>% select(col_name = names, value, percent_in_col = prop))
-      }
+      # return dataframe of values
+      return(out %>% select(col_name = names, value, percent_in_col = prop))
     } else {
-      if(type == "console"){
-        # print console title text
-        console_title("Top most imbalanced features (exlc. numeric")
-        # print console chart
-        cat(silver("    << Not applicable >>\n"))
-      } 
-      if(type == "df"){
-        # return empty dataframe of 
-        return(tibble(col_name = character(), value = character(), percent_in_col = numeric()))
-      }
+      # return empty dataframe of 
+      return(tibble(col_name = character(), value = character(), percent_in_col = numeric()))
     }
-    if(type == "console") invisible(df1)
   } else {
     s1 <- report_imbalance(df1,  top = top, type = type) %>% dplyr::rename(value_1 = value, percent_1 = percent_in_col)
     s2 <- report_imbalance(df2, top = top, type = type) %>% dplyr::rename(value_2 = value, percent_2 = percent_in_col)
