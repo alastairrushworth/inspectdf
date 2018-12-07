@@ -1,6 +1,6 @@
 #' Report the most commonly occuring value in each non-numeric column
 #'
-#' @param df A data frame
+#' @param df1 A data frame
 #' @param df2 An optional second data frame for comparing feature imbalance with.  Defaults to \code{NULL}.
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param type Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.
@@ -8,14 +8,14 @@
 #' @examples
 #' report_imbalance(starwars)
 
-report_imbalance <- function(df, df2 = NULL, top = NULL, type = "df"){
+report_imbalance <- function(df1, df2 = NULL, top = NULL, type = "df"){
   
   # perform basic column check on dataframe input
-  check_df_cols(df)
+  check_df_cols(df1)
   
   if(is.null(df2)){
     # pick out categorical columns
-    df_cat <- df %>% select_if(function(v) is.character(v) | is.factor(v))
+    df_cat <- df1 %>% select_if(function(v) is.character(v) | is.factor(v))
     # calculate imbalance if any columns available
     if(ncol(df_cat) > 0){
       cnames      <- colnames(df_cat)
@@ -47,12 +47,12 @@ report_imbalance <- function(df, df2 = NULL, top = NULL, type = "df"){
         return(tibble(col_name = character(), value = character(), percent_in_col = numeric()))
       }
     }
-    if(type == "console") invisible(df)
+    if(type == "console") invisible(df1)
   } else {
-    s1 <- report_imbalance(df,  top = top, type = type) %>% dplyr::rename(value_1 = value, percent_1 = percent_in_col)
+    s1 <- report_imbalance(df1,  top = top, type = type) %>% dplyr::rename(value_1 = value, percent_1 = percent_in_col)
     s2 <- report_imbalance(df2, top = top, type = type) %>% dplyr::rename(value_2 = value, percent_2 = percent_in_col)
     imbal_tab <- dplyr::full_join(s1, s2, by = "col_name") %>%
-      mutate(p_value = prop_test_imbalance(., n_1 = nrow(df), n_2 = nrow(df2)))
+      mutate(p_value = prop_test_imbalance(., n_1 = nrow(df1), n_2 = nrow(df2)))
     return(imbal_tab)
   }
 }

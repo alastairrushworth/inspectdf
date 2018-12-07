@@ -11,11 +11,11 @@
 report_levels <- function(df1, df2 = NULL, top = NULL){
   
   # perform basic column check on dataframe input
-  check_df_cols(df)
+  check_df_cols(df1)
   
   if(is.null(df2)){
     # pick out categorical columns
-    df_cat <- df %>% select_if(function(v) is.character(v) | is.factor(v))
+    df_cat <- df1 %>% select_if(function(v) is.character(v) | is.factor(v))
     
     # calculate association if categorical columns exist
     if(ncol(df_cat) > 1){
@@ -39,7 +39,7 @@ report_levels <- function(df1, df2 = NULL, top = NULL){
                       dom_level = character(), dom_percent = numeric(), levels = list()))
     }
   } else {
-    s1 <- report_levels(df, top = top)  %>% select(-contains("dom"), -n_levels)
+    s1 <- report_levels(df1, top = top)  %>% select(-contains("dom"), -n_levels)
     s2 <- report_levels(df2, top = top) %>% select(-contains("dom"), -n_levels)
     levels_tab <- dplyr::full_join(s1, s2, by = "col_name") %>% 
       mutate(diff_1_2 = n_in(levels.x, levels.y)) %>%
