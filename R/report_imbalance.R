@@ -13,17 +13,15 @@ report_imbalance <- function(df, df2 = NULL, top = NULL, type = "df"){
   # perform basic column check on dataframe input
   check_df_cols(df)
   
-  # exclude columns containing lists (or numeric if not specified)
-  col_exclude <- function(v) !(is.list(v) | is.numeric(v)) 
-  
   if(is.null(df2)){
-    gdf         <- df %>% dplyr::select_if(col_exclude)
+    # pick out categorical columns
+    df_cat <- df %>% select_if(function(v) is.character(v) | is.factor(v))
     # calculate imbalance if any columns available
-    if(ncol(gdf) > 0){
-      cnames      <- colnames(gdf)
+    if(ncol(df_cat) > 0){
+      cnames      <- colnames(df_cat)
       # function to find the percentage of the most common value in a vector
-      imb_cols       <- do.call("rbind", lapply(gdf, fast_table))
-      imb_cols$names <- colnames(gdf)
+      imb_cols       <- do.call("rbind", lapply(df_cat, fast_table))
+      imb_cols$names <- colnames(df_cat)
       # get top ten most imbalance by common class and pass to histogrammer
       out <- imb_cols %>% dplyr::arrange(desc(prop)) %>% dplyr::slice(1:min(top, nrow(.)))
       
