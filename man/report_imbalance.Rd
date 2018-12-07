@@ -4,17 +4,19 @@
 \alias{report_imbalance}
 \title{Report the most commonly occuring value in each non-numeric column}
 \usage{
-report_imbalance(df, top_n = NULL, type = "df")
+report_imbalance(df, df2 = NULL, top_n = NULL, type = "df")
 }
 \arguments{
 \item{df}{A data frame}
+
+\item{df2}{An optional second data frame for comparing feature imbalance with.  Defaults to \code{NULL}.}
 
 \item{top_n}{The number of rows to print for summaries. Default \code{top_n = NULL} prints everything.}
 
 \item{type}{Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.}
 }
 \value{
-Return a \code{tibble} containing the columns \code{col_name}, \code{value} and \code{percent_in_col}.  The \code{value} is the most frequently occuring category in each column and \code{percent_in_col} is the percentage frequency with which it occurs.
+Return a \code{tibble} containing the columns \code{col_name}, \code{value_1}, \code{percent_1}, \code{value_2}, \code{percent_2}.  The \code{value} is the most frequently occuring category in each column and \code{percent_in_col} is the percentage frequency with which it occurs.
 }
 \description{
 Report the most commonly occuring value in each non-numeric column
