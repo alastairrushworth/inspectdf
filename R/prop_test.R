@@ -9,3 +9,18 @@ prop_test <- function(na_1, na_2, n_1, n_2){
   }
   return(p_value)
 }
+
+
+
+
+prop_test_imbalance <- function(imbal_tab, n_1, n_2){
+  p_value <- vector("numeric", length = nrow(imbal_tab))
+  for(i in 1:nrow(imbal_tab)){
+    if((!(imbal_tab$value_1[i] == imbal_tab$value_2[i])) | (is.na(imbal_tab$percent_1[i])|is.na(imbal_tab$percent_2[i]))){
+      p_value[i] <- NA
+    } else {
+      p_value[i] <- suppressWarnings(prop.test(c(imbal_tab$percent_1[i] * n_1, imbal_tab$percent_2[i] * n_2), c(n_1, n_2))$p.value)
+    }
+  }
+  return(p_value)
+}
