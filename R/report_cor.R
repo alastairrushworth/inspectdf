@@ -1,6 +1,6 @@
 #' Report the Pearson's correlation coefficient for each pair of numeric columns
 #'
-#' @param df A data frame containing numeric columns
+#' @param df1 A data frame containing numeric columns
 #' @param df2 An optional second data frame for comparing correlation coefficients with.  Defaults to \code{NULL}.
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param type Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.
@@ -10,12 +10,12 @@
 #' report_cor(starwars)
 #' report_cor(starwars, starwars[1:10, ])
 
-report_cor <- function(df, df2 = NULL, top = NULL, type = "df"){
+report_cor <- function(df1, df2 = NULL, top = NULL, type = "df"){
   
   # perform basic column check on dataframe input
-  check_df_cols(df)
+  check_df_cols(df1)
   # filter to only the numeric variables
-  df_numeric <- df %>% select_if(is.numeric)
+  df_numeric <- df1 %>% select_if(is.numeric)
   # remove anything that is constant
   df_numeric <- df_numeric %>% select(-which(sapply(df_numeric, sd) == 0))
   
@@ -39,7 +39,7 @@ report_cor <- function(df, df2 = NULL, top = NULL, type = "df"){
         # print console chart
         out %>% select(-col_1, -col_2, cor = correlation, pair) %>% dot_bars_cor 
       } 
-      if(type == "df"){
+      if(type == "df`"){
         # return dataframe of correlations
         return(out)
       }
@@ -57,11 +57,11 @@ report_cor <- function(df, df2 = NULL, top = NULL, type = "df"){
       }
     } 
   } else {
-    s1 <- report_cor(df,  top = top, type = type) %>% dplyr::rename(correlation_1 = correlation)
+    s1 <- report_cor(df1,  top = top, type = type) %>% dplyr::rename(correlation_1 = correlation)
     s2 <- report_cor(df2, top = top, type = type) %>% dplyr::select(pair, correlation_2 = correlation)
     cor_tab <- dplyr::full_join(s1, s2, by = "pair")
-    cor_tab$p_value <- cor_test(cor_tab$correlation_1, cor_tab$correlation_2, n_1 = nrow(df), n_2 = nrow(df2))
+    cor_tab$p_value <- cor_test(cor_tab$correlation_1, cor_tab$correlation_2, n_1 = nrow(df1), n_2 = nrow(df2))
     return(cor_tab)
   }
-  if(type == "console") invisible(df)
+  if(type == "console") invisible(df1)
 }
