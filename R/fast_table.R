@@ -1,4 +1,4 @@
-fast_table <- function(v){
+fast_table <- function(v, show_all = F){
   vsort  <- sort(v, method = "quick")
   vals   <- unique(vsort)
   if(any(class(v) %in% c("integer", "numeric", "double", "factor"))){
@@ -8,7 +8,14 @@ fast_table <- function(v){
   } else {
     freq <- NA
   }
-  tibble(value = vals, prop = freq / length(v)) %>% 
-    dplyr::arrange(desc(prop)) %>% 
-    dplyr::slice(1)
+  if(!show_all){
+    tibble(value = vals, prop = freq / length(v)) %>% 
+      dplyr::arrange(desc(prop)) %>% 
+      dplyr::slice(1) %>%
+      return
+  } else {
+    tibble(value = vals, prop = freq / length(v)) %>% 
+      dplyr::arrange(desc(prop)) %>% 
+      return
+  }
 }
