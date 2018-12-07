@@ -4,12 +4,12 @@
 \alias{report}
 \title{Report summary statistics for a data frame}
 \usage{
-report(df, top_n = NULL)
+report(df, top = NULL)
 }
 \arguments{
 \item{df}{A data frame}
 
-\item{top_n}{The number of rows to print for summaries \code{report_na}, \code{report_cor}, \code{report_imbalance}, \code{report_association}, Default \code{NULL} prints everything.}
+\item{top}{The number of rows to print for summaries \code{report_na}, \code{report_cor}, \code{report_imbalance}, \code{report_association}, Default \code{NULL} prints everything.}
 }
 \value{
 Prints statistics to the console.
