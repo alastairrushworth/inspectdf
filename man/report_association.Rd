@@ -4,17 +4,19 @@
 \alias{report_association}
 \title{Report Goodman and Kruskal's tau for association between categorical features}
 \usage{
-report_association(df, top_n = NULL, type = "df")
+report_association(df, df2 = NULL, top_n = NULL, type = "df")
 }
 \arguments{
 \item{df}{A data frame}
+
+\item{df2}{An optional second data frame for comparing Kruskal's tau.  Defaults to \code{NULL}.}
 
 \item{top_n}{The number of rows to print for summaries. Default \code{top_n = NULL} prints everything.}
 
 \item{type}{Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.}
 }
 \value{
-Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \code{pair} and \code{association}.  The report contains only the upper triangle of the correlation matrix.
+Return a \code{tibble} containing the columns \code{col_1}, \code{col_2}, \code{pair} and \code{k_tau}.
 }
 \description{
 Report Goodman and Kruskal's tau for association between categorical features
