@@ -3,7 +3,7 @@
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for comparing categorical levels  Defaults to \code{NULL}.
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
-#' @param type Character specifying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.
+#' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @return If \code{df2 = NULL} then is a \code{tibble} containing the names of categorical columns (\code{col_name}), the number of levels within each (\code{n_levels}), the most common level (\code{dom_level}), the percentage occurence of the most common feature (\code{dom_percent}) and a list of tibbles containing the percentage appearance of each feature (\code{levels}).
 #' @examples
 #' report_levels(starwars)
@@ -38,8 +38,8 @@ report_levels <- function(df1, df2 = NULL, top = NULL, show_plot = F){
                       dom_level = character(), dom_percent = numeric(), levels = list()))
     }
   } else {
-    s1 <- report_levels(df1, top = top)  %>% select(-contains("dom"), -n_levels)
-    s2 <- report_levels(df2, top = top) %>% select(-contains("dom"), -n_levels)
+    s1 <- report_levels(df1, top = top, show_plot = F)  %>% select(-contains("dom"), -n_levels)
+    s2 <- report_levels(df2, top = top, show_plot = F) %>% select(-contains("dom"), -n_levels)
     levels_tab <- dplyr::full_join(s1, s2, by = "col_name") %>% 
       mutate(diff_1_2 = n_in(levels.x, levels.y)) %>%
       mutate(diff_2_1 = n_in(levels.y, levels.x)) %>%

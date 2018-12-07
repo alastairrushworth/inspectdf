@@ -4,10 +4,10 @@
 \alias{report_space}
 \title{Report the memory usage of a data frame}
 \usage{
-report_space(df, top = NULL)
+report_space(df1, df2 = NULL, top = NULL)
 }
 \arguments{
-\item{df}{A data frame}
+\item{df1}{A data frame}
 
 \item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
 }

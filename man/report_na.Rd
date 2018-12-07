@@ -4,16 +4,16 @@
 \alias{report_na}
 \title{Report the proportion of each column containing missing values}
 \usage{
-report_na(df, df2 = NULL, top = NULL, type = "df")
+report_na(df1, df2 = NULL, top = NULL, show_plot = F)
 }
 \arguments{
-\item{df}{A data frame}
+\item{df1}{A data frame}
 
 \item{df2}{An optional second data frame for comparing missing values with.  Defaults to \code{NULL}.}
 
 \item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
 
-\item{type}{Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.}
+\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
 Return a \code{tibble} containing the columns \code{col_name}, \code{count_na} and \code{percent_na}.

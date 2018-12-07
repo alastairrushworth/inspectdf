@@ -2,7 +2,7 @@
 #'
 #' @param df1 A data frame to report column types
 #' @param df2 An optional second data frame for comparing column types with.  Defaults to \code{NULL}.
-#' @param type Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.
+#' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @return Prints the proportion of columns with each type.
 #' @details When the second data frame \code{df2} is specified, column types are tabulated for both data frames to enable comparison of contents.
 #' @examples
@@ -32,8 +32,8 @@ report_types <- function(df1, df2 = NULL, show_plot = F){
       filter(prop > 0)            
     return(out)
   } else {
-    s1 <- report_types(df1,  type = type) %>% dplyr::rename(n_1 = n, prop_1 = prop)
-    s2 <- report_types(df2, type = type) %>% dplyr::rename(n_2 = n, prop_2 = prop)
+    s1 <- report_types(df1, show_plot = F) %>% dplyr::rename(n_1 = n, prop_1 = prop)
+    s2 <- report_types(df2, show_plot = F) %>% dplyr::rename(n_2 = n, prop_2 = prop)
     sjoin <- dplyr::full_join(s1, s2, by = "type") %>% 
       replace_na(list(n_1 = 0, n_2 = 0, prop_1 = 0, prop_2 = 0))
     return(sjoin)

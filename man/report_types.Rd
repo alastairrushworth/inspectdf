@@ -4,14 +4,14 @@
 \alias{report_types}
 \title{Report column types of a data frame}
 \usage{
-report_types(df, df2 = NULL, type = "df")
+report_types(df1, df2 = NULL, show_plot = F)
 }
 \arguments{
-\item{df}{A data frame to report column types}
+\item{df1}{A data frame to report column types}
 
 \item{df2}{An optional second data frame for comparing column types with.  Defaults to \code{NULL}.}
 
-\item{type}{Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.}
+\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
 Prints the proportion of columns with each type.
