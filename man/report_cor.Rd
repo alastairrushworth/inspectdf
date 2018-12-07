@@ -4,16 +4,16 @@
 \alias{report_cor}
 \title{Report the Pearson's correlation coefficient for each pair of numeric columns}
 \usage{
-report_cor(df, df2 = NULL, top = NULL, type = "df")
+report_cor(df1, df2 = NULL, top = NULL, show_plot = F)
 }
 \arguments{
-\item{df}{A data frame containing numeric columns}
+\item{df1}{A data frame containing numeric columns}
 
 \item{df2}{An optional second data frame for comparing correlation coefficients with.  Defaults to \code{NULL}.}
 
 \item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
 
-\item{type}{Character specificying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.}
+\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
 Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \code{pair} and \code{correlation}.  The report contains only the upper triangle of the correlation matrix.  The tibble is sorted by descending absolute value in the \code{correlation} column.

@@ -4,12 +4,14 @@
 \alias{report}
 \title{Report summary statistics for a data frame}
 \usage{
-report(df, top = NULL)
+report(df1, df2 = NULL, top = NULL, show_plot = F)
 }
 \arguments{
-\item{df}{A data frame}
-
 \item{top}{The number of rows to print for summaries \code{report_na}, \code{report_cor}, \code{report_imbalance}, \code{report_association}, Default \code{NULL} prints everything.}
+
+\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
+
+\item{df}{A data frame}
 }
 \value{
 Prints statistics to the console.

@@ -4,7 +4,7 @@
 \alias{report_levels}
 \title{Report and compare the levels within each categorical feature}
 \usage{
-report_levels(df1, df2 = NULL, top = NULL)
+report_levels(df1, df2 = NULL, top = NULL, show_plot = F)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -13,7 +13,7 @@ report_levels(df1, df2 = NULL, top = NULL)
 
 \item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
 
-\item{type}{Character specifying report output type.  Default \code{type = "df"} causes report to be returned as a tibble.   \code{type = "console"} causes report to be returned directly to the console.}
+\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
 If \code{df2 = NULL} then is a \code{tibble} containing the names of categorical columns (\code{col_name}), the number of levels within each (\code{n_levels}), the most common level (\code{dom_level}), the percentage occurence of the most common feature (\code{dom_percent}) and a list of tibbles containing the percentage appearance of each feature (\code{levels}).
