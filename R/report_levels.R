@@ -8,7 +8,7 @@
 #' @examples
 #' report_levels(starwars)
 
-report_levels <- function(df1, df2 = NULL, top = NULL){
+report_levels <- function(df1, df2 = NULL, top = NULL, show_plot = F){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -16,7 +16,6 @@ report_levels <- function(df1, df2 = NULL, top = NULL){
   if(is.null(df2)){
     # pick out categorical columns
     df_cat <- df1 %>% select_if(function(v) is.character(v) | is.factor(v))
-    
     # calculate association if categorical columns exist
     if(ncol(df_cat) > 1){
       # get the levels for each category

@@ -9,7 +9,7 @@
 #' @examples
 #' report_na(starwars)
 
-report_na <- function(df1, df2 = NULL, top = NULL, type = "df"){
+report_na <- function(df1, df2 = NULL, top = NULL, show_plot = F){
   # perform basic column check on dataframe input
   check_df_cols(df1)
 
@@ -20,33 +20,14 @@ report_na <- function(df1, df2 = NULL, top = NULL, type = "df"){
       # dplyr::filter(prop > 0) %>%  
       dplyr::arrange(desc(prop)) %>%
       dplyr::slice(1:min(top, nrow(.))) 
-    
     # if any missing values then print out
     if(nrow(df_summary) > 0){
-      # print to console
-      if(type == "console"){
-        # print title text
-        console_title("Columns sorted by % missing")
-        # print console chart
-        df_summary %>% dot_bars_na
-      }
-      # print dfs
-      if(type == "df"){
-        # return dataframe of values
-        colnames(df_summary) <- c("col_name", "count_na", "percent_na")
-        return(df_summary)
-      }
+      # return dataframe of values
+      colnames(df_summary) <- c("col_name", "count_na", "percent_na")
+      return(df_summary)
     } else {
-      if(type == "console"){
-        # print title text
-        console_title("Columns sorted by % missing")
-        # print console chart
-        cat(silver("    << Not applicable >>\n"))
-      } 
-      if(type == "df"){
-        # return dataframe of values
-        return(tibble(col_name = character(), count_na = integer(), percent_na = numeric()))
-      }
+      # return dataframe of values
+      return(tibble(col_name = character(), count_na = integer(), percent_na = numeric()))
     }
     if(type == "console") invisible(df1)
   } else {
