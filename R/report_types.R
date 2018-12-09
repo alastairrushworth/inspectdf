@@ -16,26 +16,26 @@ report_types <- function(df1, df2 = NULL, show_plot = F){
     # number of columns
     ncl         <- ncol(df1)
     # possible types to look out for
-    type_spine  <- tibble(type = c("logical", "integer", "numeric", "character", 
+    type_spine  <- tibble(col_type = c("logical", "integer", "numeric", "character", 
                                    "factor",  "list",    "matrix",  "data.frame", 
                                    "ordered factor"))
     classes     <- sapply(df1, class)
     classes     <- sapply(classes, paste, collapse = " ")
     types       <- table(classes)
-    type_tibble <- tibble(type = names(types), n = as.integer(types))
+    type_tibble <- tibble(col_type = names(types), count_type = as.integer(types))
     
     # summarise column types into df1
-    out <- left_join(type_spine, type_tibble, by = "type") %>%
-      replace_na(list(n = 0))     %>%
-      mutate(prop = n / ncol(df1)) %>% 
-      arrange(desc(prop))         %>% 
-      filter(prop > 0)            
+    out <- left_join(type_spine, type_tibble, by = "col_type") %>%
+      replace_na(list(count_type = 0))     %>%
+      mutate(percent = 100 * count_type / ncol(df1)) %>% 
+      arrange(desc(percent))         %>% 
+      filter(percent > 0)            
     return(out)
   } else {
-    s1 <- report_types(df1, show_plot = F) %>% dplyr::rename(n_1 = n, prop_1 = prop)
-    s2 <- report_types(df2, show_plot = F) %>% dplyr::rename(n_2 = n, prop_2 = prop)
-    sjoin <- dplyr::full_join(s1, s2, by = "type") %>% 
-      replace_na(list(n_1 = 0, n_2 = 0, prop_1 = 0, prop_2 = 0))
+    s1 <- report_types(df1, show_plot = F) %>% dplyr::rename(count_1 = count_type, percent_1 = percent)
+    s2 <- report_types(df2, show_plot = F) %>% dplyr::rename(count_2 = count_type, percent_2 = percent)
+    sjoin <- dplyr::full_join(s1, s2, by = "col_type") %>% 
+      replace_na(list(count_1 = 0, count_2 = 0, percent_1 = 0, percent_2 = 0))
     return(sjoin)
   }
 }
