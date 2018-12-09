@@ -23,12 +23,16 @@ report_imbalance <- function(df1, df2 = NULL, top = NULL, show_plot = F){
       imb_cols       <- do.call("rbind", lapply(df_cat, fast_table))
       imb_cols$names <- colnames(df_cat)
       # get top ten most imbalance by common class and pass to histogrammer
-      out <- imb_cols %>% dplyr::arrange(desc(prop)) %>% dplyr::slice(1:min(top, nrow(.)))
+      out <- imb_cols %>% 
+        dplyr::arrange(desc(prop)) %>% 
+        dplyr::slice(1:min(top, nrow(.))) %>% 
+        mutate(prop = 100 * prop) %>% 
+        select(col_name = names, value, percent = prop)
       # return dataframe of values
-      return(out %>% select(col_name = names, value, percent_in_col = prop))
+      return(out)
     } else {
       # return empty dataframe of 
-      return(tibble(col_name = character(), value = character(), percent_in_col = numeric()))
+      return(tibble(col_name = character(), value = character(), percent = numeric()))
     }
   } else {
     s1 <- report_imbalance(df1,  top = top, show_plot = F) %>% dplyr::rename(value_1 = value, percent_1 = percent_in_col)
