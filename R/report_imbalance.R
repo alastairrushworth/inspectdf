@@ -35,8 +35,8 @@ report_imbalance <- function(df1, df2 = NULL, top = NULL, show_plot = F){
       return(tibble(col_name = character(), value = character(), percent = numeric()))
     }
   } else {
-    s1 <- report_imbalance(df1,  top = top, show_plot = F) %>% dplyr::rename(value_1 = value, percent_1 = percent_in_col)
-    s2 <- report_imbalance(df2, top = top, show_plot = F) %>% dplyr::rename(value_2 = value, percent_2 = percent_in_col)
+    s1 <- report_imbalance(df1,  top = top, show_plot = F) %>% dplyr::rename(value_1 = value, percent_1 = percent)
+    s2 <- report_imbalance(df2, top = top, show_plot = F) %>% dplyr::rename(value_2 = value, percent_2 = percent)
     imbal_tab <- dplyr::full_join(s1, s2, by = "col_name") %>%
       mutate(p_value = prop_test_imbalance(., n_1 = nrow(df1), n_2 = nrow(df2)))
     return(imbal_tab)
