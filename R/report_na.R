@@ -31,7 +31,7 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = F){
     }
     if(type == "console") invisible(df1)
   } else {
-    s1 <- report_na(df1,  top = top, show_plot = F) %>% dplyr::rename(count_na_1 = count_na, percent_1 = percent)
+    s1 <- report_na(df1, top = top, show_plot = F) %>% dplyr::rename(count_na_1 = count_na, percent_1 = percent)
     s2 <- report_na(df2, top = top, show_plot = F) %>% dplyr::rename(count_na_2 = count_na, percent_2 = percent)
     na_tab <- dplyr::full_join(s1, s2, by = "col_name")
     na_tab$p_value <- prop_test(na_1 = na_tab$count_na_1, na_2 = na_tab$count_na_2, n_1 = nrow(df1), n_2 = nrow(df2))
