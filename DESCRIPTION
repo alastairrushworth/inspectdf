@@ -10,5 +10,6 @@ LazyLoad: yes
 ByteCompile: yes
 Depends: R (>= 3.1.0), crayon, dplyr, GoodmanKruskal, magrittr, pryr, Rcpp, stringr, tibble, tidyr
 Suggests:
+    testthat
 License: GPL-2
 RoxygenNote: 6.1.1
