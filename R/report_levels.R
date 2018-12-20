@@ -49,6 +49,7 @@ report_levels <- function(df1, df2 = NULL, top = NULL, show_plot = F){
       mutate(chisq = chisq(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       mutate(p_value = chisq_p(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       select(-levels.x, -levels.y, col_name, psi, chisq, p_value, contains("diff"))
+    
     return(levels_tab)
   }
 }
