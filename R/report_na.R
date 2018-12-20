@@ -23,7 +23,7 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = F){
     # if any missing values then print out
     if(nrow(df_summary) > 0){
       # return dataframe of values
-      colnames(df_summary) <- c("col_name", "count", "percent")
+      colnames(df_summary) <- c("col_name", "count_na", "percent")
       return(df_summary)
     } else {
       # return dataframe of values
