@@ -19,7 +19,7 @@ prop_test_imbalance <- function(imbal_tab, n_1, n_2){
     if((!(imbal_tab$value_1[i] == imbal_tab$value_2[i])) | (is.na(imbal_tab$percent_1[i])|is.na(imbal_tab$percent_2[i]))){
       p_value[i] <- NA
     } else {
-      p_value[i] <- suppressWarnings(prop.test(c(imbal_tab$percent_1[i] * n_1, imbal_tab$percent_2[i] * n_2), c(n_1, n_2))$p.value)
+      p_value[i] <- suppressWarnings(prop.test(c(imbal_tab$percent_1[i] * n_1 / 100, imbal_tab$percent_2[i] * n_2 / 100), c(n_1, n_2))$p.value)
     }
   }
   return(p_value)
