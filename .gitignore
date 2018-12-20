@@ -3,7 +3,6 @@
 .RData
 .Ruserdata
 data/
-tests/
 example.R
 plan.R
 .DS_Store
