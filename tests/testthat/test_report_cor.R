@@ -15,8 +15,50 @@ test_that("Output is a data frame", {
 test_that("Output with two identical df inputs data frame", {
   expect_is(report_cor(mtcars, mtcars), "data.frame")
   expect_is(report_cor(band_instruments, band_instruments), "data.frame")
-  expect_error(report_cor(nasa, nasa))
   expect_is(report_cor(starwars, starwars), "data.frame")
   expect_is(report_cor(storms, storms), "data.frame")
   expect_is(report_cor(airquality, airquality), "data.frame")
 })
+
+test_that("Output with two different inputs data frame", {
+  set.seed(10)
+  expect_is(report_cor(mtcars, mtcars %>% sample_n(100, replace = T)), "data.frame")
+  expect_is(report_cor(band_instruments, band_instruments %>% sample_n(100, replace = T)) , "data.frame")
+  expect_is(report_cor(starwars, starwars %>% sample_n(100, replace = T)), "data.frame")
+  expect_is(report_cor(storms, storms %>% sample_n(100, replace = T)), "data.frame")
+  expect_is(report_cor(airquality, airquality%>% sample_n(100, replace = T)), "data.frame")
+})
+
+test_correlatations <- function(data_input){
+  all_equal(data_input %>% report_cor %>% select(correlation), 
+            {x <- data_input %>% select_if(is.numeric)
+            x <- cor(x, use = "pairwise.complete.obs")
+            diag(x) <- NA
+            x %>% c %>% as_tibble %>% 
+              rename(correlation = value) %>% filter(!is.na(correlation)) %>%
+              distinct %>% arrange(desc(abs(correlation)))
+            }
+  )
+}
+
+test_that("Output correlations are correct", {
+  expect_true(test_correlatations(mtcars))
+  expect_true(test_correlatations(starwars))
+  expect_true(test_correlatations(storms))
+  expect_true(test_correlatations(airquality))
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
