@@ -68,3 +68,9 @@ chisq_p <- function(Mlist1, Mlist2, n_1, n_2){
   return(out_vec)
 }
 
+
+prop_value <- function(L){
+  props <- L$counts / sum(L$counts)
+  labs <- paste0("[", lag(L$breaks), " ", L$breaks, ")")[-1]
+  return(tibble(value = labs, prop = props))
+}
