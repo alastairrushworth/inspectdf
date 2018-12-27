@@ -1,7 +1,7 @@
 #' Report Goodman and Kruskal's tau for association between categorical features
 #'
-#' @param df1 A data frame
-#' @param df2 An optional second data frame for comparing Kruskal's tau.  Defaults to \code{NULL}.
+#' @param df1 A data frame.  
+#' @param df2 An optional second data frame for comparing with \code{df2}.  Defaults to \code{NULL}.
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @return Return a \code{tibble} containing the columns \code{col_1}, \code{col_2}, \code{pair} and \code{k_tau}.  
