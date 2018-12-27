@@ -23,5 +23,8 @@ Report column types of a data frame
 When the second data frame \code{df2} is specified, column types are tabulated for both data frames to enable comparison of contents.
 }
 \examples{
+# get tibble of column types for the starwars data
 report_types(starwars)
+# get column types and show as barplot
+report_types(starwars, show_plot = T)
 }
