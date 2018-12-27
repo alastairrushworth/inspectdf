@@ -85,8 +85,7 @@ report_types <- function(df1, df2 = NULL, show_plot = F){
         ggplot2::ggplot(ggplot2::aes(x = col_type, y = percent, fill = as.factor(df_input), label = count)) + 
         ggplot2::geom_bar(stat = "identity", position = "dodge") + 
         ggplot2::labs(x = "", y = "Percentage of columns (%)", title = ttl_plt, subtitle = paste0(sttl_plt1, sttl_plt2)) + 
-        ggplot2::scale_fill_discrete(name = "Data frame")# +
-        # ggplot2::geom_text(nudge_y = -3, color = "white")
+        ggplot2::scale_fill_discrete(name = "Data frame")
       print(plt)
     }
     

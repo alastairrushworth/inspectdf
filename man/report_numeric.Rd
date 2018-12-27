@@ -4,7 +4,8 @@
 \alias{report_numeric}
 \title{Report and compare the numeric variables within one or two data frames}
 \usage{
-report_numeric(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL)
+report_numeric(df1, df2 = NULL, top = NULL, show_plot = F,
+  breaks = NULL)
 }
 \arguments{
 \item{df1}{A data frame}

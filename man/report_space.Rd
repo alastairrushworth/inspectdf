@@ -4,7 +4,7 @@
 \alias{report_space}
 \title{Report the memory usage of a data frame}
 \usage{
-report_space(df1, df2 = NULL, top = NULL)
+report_space(df1, df2 = NULL, top = NULL, show_plot = F)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -18,6 +18,8 @@ Prints the proportion of overall memory used by each column and the total usage.
 Report the memory usage of a data frame
 }
 \examples{
+# get tibble of column memory usage for the starwars data
 report_space(starwars)
-
+# get column memory usage and show as barplot
+report_space(starwars, show_plot = T)
 }

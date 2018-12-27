@@ -7,9 +7,9 @@
 report_association(df1, df2 = NULL, top = NULL, show_plot = F)
 }
 \arguments{
-\item{df1}{A data frame}
+\item{df1}{A data frame.}
 
-\item{df2}{An optional second data frame for comparing Kruskal's tau.  Defaults to \code{NULL}.}
+\item{df2}{An optional second data frame for comparing with \code{df2}.  Defaults to \code{NULL}.}
 
 \item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
 
