@@ -28,3 +28,12 @@ test_that("Output with two different inputs data frame", {
   expect_is(report_types(storms, storms %>% sample_n(100, replace = T)), "data.frame")
   expect_is(report_types(airquality, airquality%>% sample_n(100, replace = T)), "data.frame")
 })
+
+test_that("Plot output works", {
+  set.seed(10)
+  expect_is(report_types(mtcars, mtcars %>% sample_n(100, replace = T), show_plot = T), "data.frame")
+  expect_is(report_types(band_instruments, band_instruments %>% sample_n(100, replace = T), show_plot = T) , "data.frame")
+  expect_is(report_types(starwars, starwars %>% sample_n(100, replace = T), show_plot = T), "data.frame")
+  expect_is(report_types(storms, storms %>% sample_n(100, replace = T), show_plot = T), "data.frame")
+  expect_is(report_types(airquality, airquality%>% sample_n(100, replace = T), show_plot = T), "data.frame")
+})
