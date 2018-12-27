@@ -10,8 +10,8 @@
 
 
 report <- function(df1, df2 = NULL, top = NULL, show_plot = F){
-  report_space(df1, df2, top = top)
   list(
+    report_space(df1, df2, top = top),
     report_types(df1, df2, show_plot = F),
     report_na(df1, df2, top = top, show_plot = F),
     report_cor(df1, df2, top = top, show_plot = F),
