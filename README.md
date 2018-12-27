@@ -14,7 +14,7 @@ Tools to explore and compare data frames.
 - `report_association` show non-numeric column pairs ranked by highest Goodman & Kruskal's tau
 
 
-__Package nstallation__ 
+__Package installation__ 
 
 ```r
 devtools::install_github("alastairrushworth/reporter")

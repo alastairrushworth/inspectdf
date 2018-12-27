@@ -1,15 +1,16 @@
 Package: reporter
-Title: Fast reports for dataframes and tibbles
-Version: 0.0.1
+Title: Tools for exploring and comparing data frames
+Version: 0.0.0.9000
 Date: 2018-12-07
 Author: person("Alastair", "Rushworth", email = "alastairmrushworth@gmail.com", role = c("aut", "cre"))
 Maintainer: Alastair Rushworth <alastairmrushworth@gmail.com>
-Description: Tools to explore and compare data frames
+Description: 
 LinkingTo: Rcpp
 LazyLoad: yes
 ByteCompile: yes
 Depends: R (>= 3.1.0), crayon, dplyr, GoodmanKruskal, magrittr, pryr, Rcpp, stringr, tibble, tidyr
-Suggests:
-    testthat
+Suggests: testthat
 License: GPL-2
+URL: http://github.com/alastairrushworth/reporter
+BugReports: http://github.com/alastairrushworth/reporter/issues
 RoxygenNote: 6.1.1

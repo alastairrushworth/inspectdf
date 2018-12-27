@@ -4,6 +4,5 @@
 .Ruserdata
 data/
 example.R
-plan.R
 .DS_Store
 reporter.Rproj
