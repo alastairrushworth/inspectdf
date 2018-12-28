@@ -12,7 +12,6 @@
 report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   # perform basic column check on dataframe input
   check_df_cols(df1)
-
   # capture the data frame names
   df_names <- get_df_names()
   
@@ -30,16 +29,19 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       
       if(show_plot){
         
-        ttl_plt <- paste0("Prevalance of missing values in df::", df_name)
-        sttl_plt <- paste0("df::", df_name,  " has ", ncol(df1), " columns, of which ", sum(df_summary$count_na > 0), " have missing values")
-        plt <- df_summary %>% 
-          dplyr::mutate(col_name = factor(col_name, levels = as.character(col_name))) %>%
+        df_summary <- df_summary %>% dplyr::mutate(col_name = factor(col_name, levels = as.character(col_name)))
+        
+        ttl_plt <- paste0("Prevalance of missing values in df::", df_names$df1)
+        sttl_plt <- paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, of which ", sum(df_summary$count_na > 0), " have missing values")
+        plt <-  df_summary %>%
           ggplot2::ggplot(ggplot2::aes(x = col_name, y = percent, fill = col_name, label = count_na)) + 
           ggplot2::geom_bar(stat = "identity") + 
           ggplot2::labs(x = "", y = "% of column that is NA", title = ttl_plt, subtitle = sttl_plt) + 
           ggplot2::guides(fill = FALSE) +
-          ggplot2::geom_text(nudge_y = -3, color = "white", angle = 90) +
           ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1))
+        # add text annotation to plot
+        plt <- add_annotation_to_bars(x = df_summary$col_name, y = df_summary$percent, z = df_summary$count_na, plt = plt)
+        
         print(plt)
       }
       

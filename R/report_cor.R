@@ -14,6 +14,8 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
+  # capture the data frame names
+  df_names <- get_df_names()
   # filter to only the numeric variables
   df_numeric <- df1 %>% select_if(is.numeric)
   # remove anything that is constant
@@ -32,6 +34,19 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
         dplyr::mutate(pair = paste(X1, X2, sep = " & ")) %>%
         dplyr::select(col_1 = X1, col_2 = X2, pair, correlation = cor) 
       out <- cor_df %>% dplyr::slice(1:min(top, nrow(.))) 
+      # return plot if requested
+      if(show_plot){
+        out_plot <- out %>% dplyr::mutate(pair = factor(pair, levels = as.character(pair)), 
+                                     sign = c("Negative", "Positive")[as.numeric(correlation > 0) + 1])
+        ttl_plt <- paste0("Pearson correlation of numeric columns in df::", df_names$df1)
+        plt <- out_plot %>%
+          ggplot2::ggplot(ggplot2::aes(x = pair, y = abs(correlation), fill = as.factor(sign))) + 
+          ggplot2::geom_bar(stat = "identity") + 
+          ggplot2::labs(x = "", y = bquote("Absolute correlation |\u03C1|"), title = ttl_plt) + 
+          ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+          ggplot2::scale_fill_discrete(name = "Coefficient direction")
+        print(plt)
+      }
       # return dataframe of correlations
       return(out)
     } else {

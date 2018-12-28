@@ -38,15 +38,19 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     
     # if plot requested then show barplot
     if(show_plot){
-      ttl_plt <- paste0("Column type composition of df::", df_name)
-      sttl_plt <- paste0("df::", df_name,  " contains ", ncol(df1), " columns.  Count of each type shown on bar.")
-      plt <- out %>% 
-        dplyr::mutate(col_type = factor(col_type, levels = as.character(col_type))) %>%
+      out_plot <- out %>% dplyr::mutate(col_type = factor(col_type, levels = as.character(col_type)))
+      ttl_plt <- paste0("Column type composition of df::", df_names$df1)
+      sttl_plt <- paste0("df::", df_names$df1,  " contains ", ncol(df1), " columns.  Count of each type shown on bar.")
+      plt <- out_plot %>%
         ggplot2::ggplot(ggplot2::aes(x = col_type, y = percent, fill = col_type, label = count_type)) + 
         ggplot2::geom_bar(stat = "identity") + 
         ggplot2::labs(x = "", y = "Percentage of columns (%)", title = ttl_plt, subtitle = sttl_plt) + 
-        ggplot2::scale_fill_discrete(name = "Column types") +
-        ggplot2::geom_text(nudge_y = -3, color = "white")
+        ggplot2::scale_fill_discrete(name = "Column types")
+        # ggplot2::geom_text(nudge_y = -3, color = "white")
+      # add text annotation to plot
+      plt <- add_annotation_to_bars(x = out_plot$col_type, y = out_plot$percent, z = out_plot$count_type, 
+                                    plt = plt, thresh = 0.1)
+      
       print(plt)
     }
     return(out)
