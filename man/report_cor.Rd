@@ -4,7 +4,7 @@
 \alias{report_cor}
 \title{Report the Pearson's correlation coefficient for each pair of numeric columns}
 \usage{
-report_cor(df1, df2 = NULL, top = NULL, show_plot = F)
+report_cor(df1, df2 = NULL, top = NULL, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame containing numeric columns}

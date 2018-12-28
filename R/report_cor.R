@@ -10,7 +10,7 @@
 #' report_cor(starwars)
 #' report_cor(starwars, starwars[1:10, ])
 
-report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = F){
+report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)

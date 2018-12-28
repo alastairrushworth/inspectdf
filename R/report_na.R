@@ -9,10 +9,15 @@
 #' @examples
 #' report_na(starwars)
 
-report_na <- function(df1, df2 = NULL, top = NULL, show_plot = F){
+report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   # perform basic column check on dataframe input
   check_df_cols(df1)
 
+  # capture the data frame name
+  df_name <- as.character(substitute(df1))
+  ee <- find_chain_parts()$lhs
+  if(!is.null(ee)) df_name <- deparse(ee)
+  
   if(is.null(df2)){
     # find the top 10 with most missingness
     df_summary <- vec_to_tibble(sapply(df1, sumna)) %>%
@@ -24,7 +29,25 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = F){
     if(nrow(df_summary) > 0){
       # return dataframe of values
       colnames(df_summary) <- c("col_name", "count_na", "percent")
+      
+      if(show_plot){
+        
+        ttl_plt <- paste0("Prevalance of missing values in df::", df_name)
+        sttl_plt <- paste0("df::", df_name,  " has ", ncol(df1), " columns, of which ", sum(df_summary$count_na > 0), " have missing values")
+        plt <- df_summary %>% 
+          dplyr::mutate(col_name = factor(col_name, levels = as.character(col_name))) %>%
+          ggplot2::ggplot(ggplot2::aes(x = col_name, y = percent, fill = col_name, label = count_na)) + 
+          ggplot2::geom_bar(stat = "identity") + 
+          ggplot2::labs(x = "", y = "% of column that is NA", title = ttl_plt, subtitle = sttl_plt) + 
+          ggplot2::guides(fill = FALSE) +
+          ggplot2::geom_text(nudge_y = -3, color = "white", angle = 90) +
+          ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1))
+        print(plt)
+      }
+      
+      
       return(df_summary)
+      
     } else {
       # return dataframe of values
       return(tibble(col_name = character(), count_na = integer(), percent = numeric()))

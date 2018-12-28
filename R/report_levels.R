@@ -8,7 +8,7 @@
 #' @examples
 #' report_levels(starwars)
 
-report_levels <- function(df1, df2 = NULL, top = NULL, show_plot = F){
+report_levels <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)

@@ -9,9 +9,9 @@
 #' # get tibble of column types for the starwars data
 #' report_types(starwars)
 #' # get column types and show as barplot
-#' report_types(starwars, show_plot = T)
+#' report_types(starwars, show_plot = TRUE)
 
-report_types <- function(df1, df2 = NULL, show_plot = F){
+report_types <- function(df1, df2 = NULL, show_plot = FALSE){
   # perform basic column check on dataframe input
   check_df_cols(df1)
   

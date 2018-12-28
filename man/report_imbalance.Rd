@@ -4,7 +4,7 @@
 \alias{report_imbalance}
 \title{Report the most commonly occuring value in each non-numeric column}
 \usage{
-report_imbalance(df1, df2 = NULL, top = NULL, show_plot = F)
+report_imbalance(df1, df2 = NULL, top = NULL, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame}

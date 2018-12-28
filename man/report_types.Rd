@@ -4,7 +4,7 @@
 \alias{report_types}
 \title{Report column types of a data frame}
 \usage{
-report_types(df1, df2 = NULL, show_plot = F)
+report_types(df1, df2 = NULL, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame to report column types}
@@ -26,5 +26,5 @@ When the second data frame \code{df2} is specified, column types are tabulated f
 # get tibble of column types for the starwars data
 report_types(starwars)
 # get column types and show as barplot
-report_types(starwars, show_plot = T)
+report_types(starwars, show_plot = TRUE)
 }

@@ -1,6 +1,7 @@
 #' Report summary statistics for a data frame 
 #'
-#' @param df A data frame
+#' @param df1 A data frame
+#' @param df2 An optional second data frame for making comparisons.  Defaults to \code{NULL}.
 #' @param top The number of rows to print for summaries \code{report_na}, \code{report_cor}, \code{report_imbalance}, \code{report_association}, Default \code{NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @return Prints statistics to the console.
@@ -9,7 +10,7 @@
 #' report(starwars)
 
 
-report <- function(df1, df2 = NULL, top = NULL, show_plot = F){
+report <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   list(
     report_space(df1, df2, top = top),
     report_types(df1, df2, show_plot = F),
