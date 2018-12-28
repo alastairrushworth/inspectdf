@@ -1,7 +1,9 @@
 #' Report the memory usage of a data frame
 #'
 #' @param df1 A data frame
+#' @param df2 An optional second data frame for comparing memory usage with.  Defaults to \code{NULL}.
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
+#' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @return Prints the proportion of overall memory used by each column and the total usage.
 #' @examples
 #' # get tibble of column memory usage for the starwars data

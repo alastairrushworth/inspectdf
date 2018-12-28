@@ -9,7 +9,11 @@ report_space(df1, df2 = NULL, top = NULL, show_plot = F)
 \arguments{
 \item{df1}{A data frame}
 
+\item{df2}{An optional second data frame for comparing memory usage with.  Defaults to \code{NULL}.}
+
 \item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
+
+\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
 Prints the proportion of overall memory used by each column and the total usage.
