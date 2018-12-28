@@ -13,10 +13,8 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   # perform basic column check on dataframe input
   check_df_cols(df1)
 
-  # capture the data frame name
-  df_name <- as.character(substitute(df1))
-  ee <- find_chain_parts()$lhs
-  if(!is.null(ee)) df_name <- deparse(ee)
+  # capture the data frame names
+  df_names <- get_df_names()
   
   if(is.null(df2)){
     # find the top 10 with most missingness

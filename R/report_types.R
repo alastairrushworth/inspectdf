@@ -15,10 +15,8 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
   # perform basic column check on dataframe input
   check_df_cols(df1)
   
-  # capture the data frame name
-  df_name <- as.character(substitute(df1))
-  ee <- find_chain_parts()$lhs
-  if(!is.null(ee)) df_name <- deparse(ee)
+  # capture the data frame names
+  df_names <- get_df_names()
   
   if(is.null(df2)){
     # number of columns
@@ -59,12 +57,6 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
       replace_na(list(count_1 = 0, count_2 = 0, percent_1 = 0, percent_2 = 0))
     
     if(show_plot){
-      # gather df names
-      df_name1 <- as.character(substitute(df1))
-      df_name2 <- as.character(substitute(df2))
-      if(length(df_name1) > 1) df_name1 <- df_name1[2]
-      if(length(df_name2) > 1) df_name2 <- df_name2[2]
-      if(df_name1 == df_name2) df_name2 <- paste0(df_name2, "_2")
       # convert to a tall df
       z1 <- sjoin %>% select(-contains("percent_")) %>% 
         gather(key = "df_input", value = "count", -col_type) %>% 
@@ -73,12 +65,12 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
         gather(key = "df_input", value = "percent", -col_type) %>% 
         mutate(df_input = gsub("percent_", "", df_input))
       z_tall <- z1 %>% left_join(z2, by = c("col_type", "df_input")) %>%
-        mutate(df_input = case_when(df_input == "1" ~ df_name1, TRUE ~ df_name2))
+        mutate(df_input = case_when(df_input == "1" ~ df_names$df1, TRUE ~ df_names$df2))
     
       # make axis names
-      ttl_plt <- paste0("Column type composition of df::", df_name1, " & ", "df::", df_name2)
-      sttl_plt1 <- paste0("df::", df_name1,  " contains ", ncol(df1), " columns & ")
-      sttl_plt2 <- paste0("df::", df_name2,  " contains ", ncol(df2), " columns.")
+      ttl_plt <- paste0("Column type composition of df::", df_names$df1, " & ", "df::", df_names$df2)
+      sttl_plt1 <- paste0("df::", df_names$df1,  " contains ", ncol(df1), " columns & ")
+      sttl_plt2 <- paste0("df::", df_names$df2,  " contains ", ncol(df2), " columns.")
       # plot the result
       plt <- z_tall %>%
         dplyr::mutate(col_type = factor(col_type, levels = sjoin$col_type)) %>%
