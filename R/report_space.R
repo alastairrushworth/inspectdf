@@ -9,8 +9,8 @@
 #' # get tibble of column memory usage for the starwars data
 #' report_space(starwars)
 #' # get column memory usage and show as barplot
-#' report_space(starwars, show_plot = T)
-report_space <- function(df1, df2 = NULL, top = NULL, show_plot = F){
+#' report_space(starwars, show_plot = TRUE)
+report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   # perform basic column check on dataframe input
   check_df_cols(df1)
   

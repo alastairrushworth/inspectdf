@@ -4,7 +4,7 @@
 \alias{report_space}
 \title{Report the memory usage of a data frame}
 \usage{
-report_space(df1, df2 = NULL, top = NULL, show_plot = F)
+report_space(df1, df2 = NULL, top = NULL, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -25,5 +25,5 @@ Report the memory usage of a data frame
 # get tibble of column memory usage for the starwars data
 report_space(starwars)
 # get column memory usage and show as barplot
-report_space(starwars, show_plot = T)
+report_space(starwars, show_plot = TRUE)
 }

@@ -4,7 +4,7 @@
 \alias{report_na}
 \title{Report the proportion of each column containing missing values}
 \usage{
-report_na(df1, df2 = NULL, top = NULL, show_plot = F)
+report_na(df1, df2 = NULL, top = NULL, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame}

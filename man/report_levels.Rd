@@ -4,7 +4,7 @@
 \alias{report_levels}
 \title{Report and compare the levels within each categorical feature}
 \usage{
-report_levels(df1, df2 = NULL, top = NULL, show_plot = F)
+report_levels(df1, df2 = NULL, top = NULL, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame}
