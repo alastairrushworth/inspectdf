@@ -14,10 +14,8 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   # perform basic column check on dataframe input
   check_df_cols(df1)
   
-  # capture the data frame name
-  df_name <- as.character(substitute(df1))
-  ee <- find_chain_parts()$lhs
-  if(!is.null(ee)) df_name <- deparse(ee)
+  # capture the data frame names
+  df_names <- get_df_names()
   
   if(is.null(df2)){
     # get column size
@@ -42,8 +40,8 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       dplyr::select(-n.x)
     # return plot if requested
     if(show_plot){
-      ttl_plt <- paste0("Column sizes in df::", df_name)
-      sttl_plt <- paste0("df::", df_name,  " has ", ncol(df1), " columns, ", nrow(df1), " rows and total memory usage of ", sz)
+      ttl_plt <- paste0("Column sizes in df::", df_names$df1)
+      sttl_plt <- paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, ", nrow(df1), " rows and total memory usage of ", sz)
       plt <- out %>%
         dplyr::mutate(col_names = factor(col_names, levels = as.character(col_names))) %>%
         ggplot2::ggplot(ggplot2::aes(x = col_names, y = percent_space, fill = col_names, label = size)) + 
@@ -58,21 +56,15 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     return(out)
     
   } else {
-    # gather df names
-    df_name1 <- as.character(substitute(df1))
-    df_name2 <- as.character(substitute(df2))
-    if(length(df_name1) > 1) df_name1 <- df_name1[2]
-    if(length(df_name2) > 1) df_name2 <- df_name2[2]
-    if(df_name1 == df_name2) df_name2 <- paste0(df_name2, "_2")
     # get the space report for both input dfs
     df1 <- report_space(df1, top = top, show_plot = F)
     df2 <- report_space(df2, top = top, show_plot = F)
     sjoin <- full_join(df1, df2, by = "col_names") %>%
       select(col_names, contains("size"), contains("percent"))
-    colnames(sjoin)[2] <- paste0("size_",  df_name1)
-    colnames(sjoin)[3] <- paste0("size_",  df_name2)
-    colnames(sjoin)[4] <- paste0("space_", df_name1)
-    colnames(sjoin)[5] <- paste0("space_", df_name2)
+    colnames(sjoin)[2] <- paste0("size_",  df_names$df1)
+    colnames(sjoin)[3] <- paste0("size_",  df_names$df2)
+    colnames(sjoin)[4] <- paste0("space_", df_names$df1)
+    colnames(sjoin)[5] <- paste0("space_", df_names$df2)
     # max size of both dfs
     sz1  <- size_up(df1, form = T)
     sz2  <- size_up(df2, form = T)
@@ -87,9 +79,9 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
         mutate(df_input = gsub("size_", "", df_input))
       z_tall <- z1 %>% left_join(z2, by = c("col_names", "df_input"))
       # make axis names
-      ttl_plt <- paste0("Column sizes in df::", df_name1, " & df::", df_name2)
-      sttl_plt1 <- paste0("df::", df_name1,  " has ", ncol(df1), " columns, ", nrow(df1), " rows and total memory usage of ", sz1)
-      sttl_plt2 <- paste0("df::", df_name2,  " has ", ncol(df2), " columns, ", nrow(df2), " rows and total memory usage of ", sz2)
+      ttl_plt <- paste0("Column sizes in df::", df_names$df1, " & df::", df_names$df2)
+      sttl_plt1 <- paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, ", nrow(df1), " rows and total memory usage of ", sz1)
+      sttl_plt2 <- paste0("df::", df_names$df2,  " has ", ncol(df2), " columns, ", nrow(df2), " rows and total memory usage of ", sz2)
       # plot the result
       plt <- z_tall %>%
         dplyr::mutate(col_type = factor(col_names, levels = sjoin$col_names)) %>%

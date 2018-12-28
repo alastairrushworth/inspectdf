@@ -12,12 +12,12 @@
 
 report <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   list(
-    report_space(df1, df2, top = top),
-    report_types(df1, df2, show_plot = F),
-    report_na(df1, df2, top = top, show_plot = F),
-    report_cor(df1, df2, top = top, show_plot = F),
-    report_imbalance(df1, df2, top = top, show_plot = F),
-    report_association(df1, df2, top = top, show_plot = F), 
-    report_numeric(df1, df2, top = top, show_plot = F)
+    report_space(df1 = df1, df2 = df2, top = top),
+    report_types(df1 = df1, df2 = df2, show_plot = F),
+    report_na(df1 = df1, df2 = df2, top = top, show_plot = F),
+    report_cor(df1 = df1, df2 = df2, top = top, show_plot = F),
+    report_imbalance(df1 = df1, df2 = df2, top = top, show_plot = F),
+    report_association(df1 = df1, df2 = df2, top = top, show_plot = F), 
+    report_numeric(df1 = df1, df2 = df2, top = top, show_plot = F)
   ) %>% return
 }
