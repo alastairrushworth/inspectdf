@@ -29,23 +29,22 @@ test_that("Output with two different inputs data frame", {
   expect_is(report_cor(airquality, airquality%>% sample_n(100, replace = T)), "data.frame")
 })
 
-test_correlatations <- function(data_input){
-  all_equal(data_input %>% report_cor %>% select(correlation), 
-            {x <- data_input %>% select_if(is.numeric)
-            x <- cor(x, use = "pairwise.complete.obs")
-            diag(x) <- NA
-            x %>% c %>% as_tibble %>% 
-              rename(correlation = value) %>% filter(!is.na(correlation)) %>%
-              distinct %>% arrange(desc(abs(correlation)))
-            }
-  )
+diff_correlatations <- function(data_input){
+  x1 <- data_input %>% report_cor %>% select(correlation)
+  x <- data_input %>% select_if(is.numeric)
+  x <- cor(x, use = "pairwise.complete.obs")
+  diag(x) <- NA
+  x2 <- x %>% c %>% as_tibble %>% 
+    rename(correlation = value) %>% filter(!is.na(correlation)) %>%
+    distinct %>% arrange(desc(abs(correlation)))
+  return(mean(unlist(abs(x1 - x2))))
 }
 
 test_that("Output correlations are correct", {
-  expect_true(test_correlatations(mtcars))
-  expect_true(test_correlatations(starwars))
-  expect_true(test_correlatations(storms))
-  expect_true(test_correlatations(airquality))
+  expect_lt(diff_correlatations(mtcars), 10^-15)
+  expect_lt(diff_correlatations(starwars), 10^-15)
+  expect_lt(diff_correlatations(storms), 10^-15)
+  expect_lt(diff_correlatations(airquality), 10^-15)
 })
 
 

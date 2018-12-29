@@ -40,18 +40,16 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       dplyr::select(-n.x)
     # return plot if requested
     if(show_plot){
+      # convert column names to factor
       out_plot <- out %>% dplyr::mutate(col_names = factor(col_names, levels = as.character(col_names)))
-      ttl_plt <- paste0("Column sizes in df::", df_names$df1)
-      sttl_plt <- paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, ", nrow(df1), " rows and total memory usage of ", sz)
-      plt <- out_plot %>%
-        ggplot2::ggplot(ggplot2::aes(x = col_names, y = percent_space, fill = col_names, label = size)) + 
-        ggplot2::geom_bar(stat = "identity") + 
-        ggplot2::labs(x = "", y = "Percentage of total space (%)", title = ttl_plt, subtitle = sttl_plt) + 
-        ggplot2::guides(fill = FALSE) +
-        ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1))
+      # construct bar plot of column memory usage
+      plt <- bar_plot(df_plot = out_plot, x = "col_names", y = "percent_space", fill = "col_names", label = "size", 
+                      ttl = paste0("Column sizes in df::", df_names$df1), 
+                      sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, ", nrow(df1), " rows and total memory usage of ", sz), 
+                      ylb = "Percentage of total space (%)", rotate = TRUE)
       # add text annotation to plot
-      plt <- add_annotation_to_bars(x = out_plot$col_names, y = out_plot$percent_space, z = out_plot$size, 
-                                    plt = plt, thresh = 0.2)
+      plt <- add_annotation_to_bars(x = out_plot$col_names, y = out_plot$percent_space, z = out_plot$size, plt = plt, thresh = 0.2)
+      # print plot
       print(plt)
     }
     # return tibble
