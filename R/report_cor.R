@@ -24,27 +24,29 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   if(is.null(df2)){
     # calculate correlation coefficients
     if(ncol(df_numeric) > 0){
-      cor_num_mat <- suppressWarnings(cor(df_numeric, use = "pairwise.complete.obs"))
-      cor_num_mat[lower.tri(cor_num_mat, diag = T)] <- NA
-      cor_df <- tibble::as.tibble(cor_num_mat)
-      cor_df$X1 <- colnames(cor_df)
-      cor_df    <- tidyr::gather(cor_df, key = "X2", value = "cor", -X1)
-      cor_df <- cor_df %>% dplyr::filter(!is.na(cor)) %>%
-        dplyr::arrange(desc(abs(cor))) %>%
-        dplyr::mutate(pair = paste(X1, X2, sep = " & ")) %>%
-        dplyr::select(col_1 = X1, col_2 = X2, pair, correlation = cor) 
+      # get correlation coefficients for numeric pairs
+      cor_df <- cor_test_1(df_numeric)
+      # return top strongest if requested
       out <- cor_df %>% dplyr::slice(1:min(top, nrow(.))) 
       # return plot if requested
       if(show_plot){
-        out_plot <- out %>% dplyr::mutate(pair = factor(pair, levels = as.character(pair)), 
-                                     sign = c("Negative", "Positive")[as.numeric(correlation > 0) + 1])
-        ttl_plt <- paste0("Pearson correlation of numeric columns in df::", df_names$df1)
-        plt <- out_plot %>%
-          ggplot2::ggplot(ggplot2::aes(x = pair, y = abs(correlation), fill = as.factor(sign))) + 
-          ggplot2::geom_bar(stat = "identity") + 
-          ggplot2::labs(x = "", y = bquote("Absolute correlation |\u03C1|"), title = ttl_plt) + 
-          ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-          ggplot2::scale_fill_discrete(name = "Coefficient direction")
+        # preprocess data a bit
+        out_plot <- out %>% dplyr::mutate(pair = factor(pair, levels = as.character(pair)),
+                                     sign = as.factor(c("Negative", "Positive")[as.numeric(correlation > 0) + 1]))
+        
+        # generate points and error bars for correlations
+        plt <- ggplot2::ggplot(out_plot, ggplot2::aes(x = pair, y = correlation, colour = sign)) +
+          ggplot2::geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
+          ggplot2::geom_errorbar(ggplot2::aes(ymin = lower, ymax = upper), colour = "black", width = .1) +
+          ggplot2::geom_point(size = 3.7, color = "black") + 
+          ggplot2::geom_point(size = 3) +
+          ggplot2::labs(x = "", y = bquote("Pearson correlation (\u03C1)"), 
+                        title =  paste0("Pearson correlation of numeric columns in df::", df_names$df1), 
+                        subtitle = bquote("Error bars show 95% confidence regions for \u03C1")) +
+          ggplot2::guides(colour = FALSE) +
+          ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+        # print plot
         print(plt)
       }
       # return dataframe of correlations

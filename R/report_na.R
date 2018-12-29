@@ -17,36 +17,29 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   
   if(is.null(df2)){
     # find the top 10 with most missingness
-    df_summary <- vec_to_tibble(sapply(df1, sumna)) %>%
+    out <- vec_to_tibble(sapply(df1, sumna)) %>%
       dplyr::mutate(prop = 100 * n / nrow(df1)) %>%
-      # dplyr::filter(prop > 0) %>%  
       dplyr::arrange(desc(prop)) %>%
       dplyr::slice(1:min(top, nrow(.))) 
     # if any missing values then print out
-    if(nrow(df_summary) > 0){
-      # return dataframe of values
-      colnames(df_summary) <- c("col_name", "count_na", "percent")
-      
+    if(nrow(out) > 0){
+      # rename columns
+      colnames(out) <- c("col_name", "count_na", "percent")
+      # print plot if requested
       if(show_plot){
-        
-        df_summary <- df_summary %>% dplyr::mutate(col_name = factor(col_name, levels = as.character(col_name)))
-        
-        ttl_plt <- paste0("Prevalance of missing values in df::", df_names$df1)
-        sttl_plt <- paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, of which ", sum(df_summary$count_na > 0), " have missing values")
-        plt <-  df_summary %>%
-          ggplot2::ggplot(ggplot2::aes(x = col_name, y = percent, fill = col_name, label = count_na)) + 
-          ggplot2::geom_bar(stat = "identity") + 
-          ggplot2::labs(x = "", y = "% of column that is NA", title = ttl_plt, subtitle = sttl_plt) + 
-          ggplot2::guides(fill = FALSE) +
-          ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1))
+        # convert col_name to factor
+        out_plot <- out %>% dplyr::mutate(col_name = factor(col_name, levels = as.character(col_name)))
+        # construct bar plot of missingess
+        plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "percent", fill = "col_name", label = "count_na", 
+                        ttl = paste0("Prevalance of missing values in df::", df_names$df1), 
+                        sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, of which ", sum(out_plot$count_na > 0), " have missing values"), 
+                        ylb = "% of column that is NA", rotate = TRUE)
         # add text annotation to plot
-        plt <- add_annotation_to_bars(x = df_summary$col_name, y = df_summary$percent, z = df_summary$count_na, plt = plt)
-        
+        plt <- add_annotation_to_bars(x = out_plot$col_name, y = out_plot$percent, z = out_plot$count_na, plt = plt)
         print(plt)
       }
-      
-      
-      return(df_summary)
+      # return summary tibble
+      return(out)
       
     } else {
       # return dataframe of values
