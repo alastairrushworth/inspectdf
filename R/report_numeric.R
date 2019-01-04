@@ -13,7 +13,8 @@ report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = 
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
-  
+  # capture the data frame names
+  df_names <- get_df_names()
   if(is.null(df2)){
     # pick out numeric features
     df_num <- df1 %>% select_if(is.numeric)
@@ -38,28 +39,52 @@ report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = 
       # loop over the breaks_tbl and generate histograms, suppress plotting
       for(i in 1:nrow(breaks_tbl)){
         breaks_tbl$hist[[i]] <- hist(unlist(df_num[breaks_tbl$col_name[i]]), plot = F, 
-                                     breaks = if(anyNA(breaks_tbl$breaks[[i]])) {"Sturges"} else {breaks_tbl$breaks[[i]]} )
+                                     breaks = if(anyNA(breaks_tbl$breaks[[i]])) {"FD"} else {breaks_tbl$breaks[[i]]})
       }
-      # join back to df_num_sum
-      df_num_sum <- left_join(df_num_sum, breaks_tbl, by = "col_name") %>% select(-breaks)
+      # extract basic info for constructing hist
+      breaks_tbl$hist <- lapply(breaks_tbl$hist, prop_value)
+      # ensure the histogram has a min and max breaks & join back to df_num_sum
+      out <- dplyr::left_join(df_num_sum, breaks_tbl, by = "col_name") %>% select(-breaks)
+      # if plot is requested
+      if(show_plot){
+        for(i in 1:length(out$hist)){
+          out$hist[[i]]$col_name <- out$col_name[i]
+          diff_nums <- lapply(strsplit(gsub("\\[|,|\\)", "", out$hist[[i]]$value), " "), function(v) diff(as.numeric(v))) %>% unlist %>% unique
+          out$hist[[i]]$mid <- lapply(strsplit(gsub("\\[|,|\\)", "", out$hist[[i]]$value), " "), function(v) diff(as.numeric(v))/2 + as.numeric(v)[1]) %>% unlist
+          if(is.nan(out$hist[[i]]$mid[1]) | is.infinite(out$hist[[i]]$mid[1])){
+            out$hist[[i]]$mid[1] <- out$hist[[i]]$mid[2] - (diff_nums[is.finite(diff_nums)])[1]
+          } 
+          last_n <- length(out$hist[[i]]$mid)
+          if(is.nan(out$hist[[i]]$mid[last_n]) | is.infinite(out$hist[[i]]$mid[last_n])){
+            out$hist[[i]]$mid[last_n] <- out$hist[[i]]$mid[last_n - 1] + (diff_nums[is.finite(diff_nums)])[1]
+          }
+        }
+        out_plot <- bind_rows(out$hist)
+        plt <- out_plot %>%
+          ggplot2::ggplot(ggplot2::aes(x = mid, y = prop)) + 
+          ggplot2::geom_col(fill = "blue") + 
+          ggplot2::facet_grid(. ~ col_name, scales = "free") + 
+          ggplot2::labs(x = "", y = "Probability", 
+                        title =  paste0("Histograms of numeric columns in df::", df_names$df1), 
+                        subtitle = "")
+        # print plot
+        print(plt)
+      }
       # return df
-      return(df_num_sum)
+      return(out)
     } else {
       return(tibble::tibble(col_name = character(), min = numeric(), q1 = numeric(), 
                     median = numeric(), mean = numeric(), q3 = numeric(),
-                    max = numeric(), sd = numeric(), hist = list()))
+                    max = numeric(), sd = numeric(), percent_na = numeric(), hist = list()))
     }
   } else {
     s1 <- report_numeric(df1, top = top, show_plot = F) %>% select(col_name, mean, sd, hist)
     # extract breaks from the above
-    breaks_table <- tibble::tibble(col_name = s1$col_name, breaks = lapply(s1$hist, function(L) L$breaks))
+    breaks_table <- tibble::tibble(col_name = s1$col_name, breaks = lapply(s1$hist, get_break))
     # get new histoggrams and summary stats using breaks from s1
     s2 <- report_numeric(df2, top = top, breaks = breaks_table, show_plot = F) %>% select(col_name, mean, sd, hist)
     numeric_tab <- dplyr::full_join(s1, s2, by = "col_name")
-    
     # calculate PSI
-    numeric_tab$hist.x <- lapply(numeric_tab$hist.x, prop_value)
-    numeric_tab$hist.y <- lapply(numeric_tab$hist.y, prop_value)
     levels_tab <- numeric_tab %>%
       mutate(psi = psi(hist.x, hist.y)) %>%
       mutate(chisq = chisq(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%

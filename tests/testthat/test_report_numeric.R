@@ -12,6 +12,14 @@ test_that("Output is a data frame", {
   expect_is(report_numeric(airquality), "data.frame")
 })
 
+test_that("Plotting works ok", {
+  expect_is(report_numeric(mtcars, show_plot = T), "data.frame")
+  expect_is(report_numeric(band_instruments, show_plot = T), "data.frame")
+  expect_is(report_numeric(starwars, show_plot = T), "data.frame")
+  expect_is(report_numeric(storms, show_plot = T), "data.frame")
+  expect_is(report_numeric(airquality, show_plot = T), "data.frame")
+})
+
 test_that("Output with two identical df inputs data frame", {
   expect_is(report_numeric(mtcars, mtcars), "data.frame")
   expect_is(report_numeric(band_instruments, band_instruments), "data.frame")
