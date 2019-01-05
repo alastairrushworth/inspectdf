@@ -1,3 +1,13 @@
+#' @importFrom dplyr anti_join
+#' @importFrom dplyr bind_rows
+#' @importFrom dplyr filter
+#' @importFrom dplyr full_join
+#' @importFrom dplyr mutate
+#' @importFrom dplyr select
+#' @importFrom dplyr summarise
+#' @importFrom tibble tibble
+#' @importFrom tidyr replace_na
+
 n_in <- function(v1, v2){
   if(length(v1) > 0){
     out_vec <- vector("numeric", length = length(v1))

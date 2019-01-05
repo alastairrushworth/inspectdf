@@ -1,7 +1,11 @@
 context("get_df_names")
 
 # load in some example data
-data(mtcars, band_instruments, nasa, starwars, storms, airquality)
+data("starwars", package = "dplyr")
+data("nasa", package = "dplyr")
+data("band_instruments", package = "dplyr")
+data("storms", package = "dplyr")
+data(mtcars, airquality)
 
 test_that("df names can be recovered from pipe", {
   expect_identical(mtcars %>% get_df_names_test(storms), list(df1 = "mtcars", df2 = "storms"))

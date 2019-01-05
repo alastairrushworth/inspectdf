@@ -8,6 +8,14 @@
 #' @details When the second data frame \code{df2} is specified, the missingness is tabulated for both data frames, and where a pair of columns are common to both data frames a p-value is calculated for the equivalence of the proportion of missing values.
 #' @examples
 #' report_na(starwars)
+#' @importFrom dplyr arrange
+#' @importFrom dplyr desc
+#' @importFrom dplyr full_join
+#' @importFrom dplyr mutate
+#' @importFrom dplyr rename
+#' @importFrom dplyr select
+#' @importFrom dplyr slice
+#' @importFrom tibble tibble
 
 report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   # perform basic column check on dataframe input
@@ -18,26 +26,26 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   if(is.null(df2)){
     # find the top 10 with most missingness
     out <- vec_to_tibble(sapply(df1, sumna)) %>%
-      dplyr::mutate(prop = 100 * n / nrow(df1)) %>%
-      dplyr::arrange(desc(prop)) %>%
-      dplyr::slice(1:min(top, nrow(.))) 
+      mutate(prop = 100 * n / nrow(df1)) %>%
+      arrange(desc(prop)) %>%
+      slice(1:min(top, nrow(.))) 
     # if any missing values then print out
     if(nrow(out) > 0){
       # rename columns
       colnames(out) <- c("col_name", "count_na", "percent")
       # print plot if requested
-      if(show_plot){
-        # convert col_name to factor
-        out_plot <- out %>% dplyr::mutate(col_name = factor(col_name, levels = as.character(col_name)))
-        # construct bar plot of missingess
-        plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "percent", fill = "col_name", label = "count_na", 
-                        ttl = paste0("Prevalance of missing values in df::", df_names$df1), 
-                        sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, of which ", sum(out_plot$count_na > 0), " have missing values"), 
-                        ylb = "% of column that is NA", rotate = TRUE)
-        # add text annotation to plot
-        plt <- add_annotation_to_bars(x = out_plot$col_name, y = out_plot$percent, z = out_plot$count_na, plt = plt)
-        print(plt)
-      }
+      # if(show_plot){
+      #   # convert col_name to factor
+      #   out_plot <- out %>% mutate(col_name = factor(col_name, levels = as.character(col_name)))
+      #   # construct bar plot of missingess
+      #   plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "percent", fill = "col_name", label = "count_na", 
+      #                   ttl = paste0("Prevalance of missing values in df::", df_names$df1), 
+      #                   sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, of which ", sum(out_plot$count_na > 0), " have missing values"), 
+      #                   ylb = "% of column that is NA", rotate = TRUE)
+      #   # add text annotation to plot
+      #   plt <- add_annotation_to_bars(x = out_plot$col_name, y = out_plot$percent, z = out_plot$count_na, plt = plt)
+      #   print(plt)
+      # }
       # return summary tibble
       return(out)
       
@@ -47,9 +55,9 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     }
     if(type == "console") invisible(df1)
   } else {
-    s1 <- report_na(df1, top = top, show_plot = F) %>% dplyr::rename(count_na_1 = count_na, percent_1 = percent)
-    s2 <- report_na(df2, top = top, show_plot = F) %>% dplyr::rename(count_na_2 = count_na, percent_2 = percent)
-    na_tab <- dplyr::full_join(s1, s2, by = "col_name")
+    s1 <- report_na(df1, top = top, show_plot = F) %>% rename(count_na_1 = count_na, percent_1 = percent)
+    s2 <- report_na(df2, top = top, show_plot = F) %>% rename(count_na_2 = count_na, percent_2 = percent)
+    na_tab <- full_join(s1, s2, by = "col_name")
     na_tab$p_value <- prop_test(na_1 = na_tab$count_na_1, na_2 = na_tab$count_na_2, n_1 = nrow(df1), n_2 = nrow(df2))
     return(na_tab)
   }
