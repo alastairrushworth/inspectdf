@@ -5,7 +5,9 @@
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @return If \code{df2 = NULL} then is a \code{tibble} containing the names of categorical columns (\code{col_name}), the number of levels within each (\code{n_levels}), the most common level (\code{dom_level}), the percentage occurence of the most common feature (\code{dom_percent}) and a list of tibbles containing the percentage appearance of each feature (\code{levels}).
+#' @export
 #' @examples
+#' data("starwars", package = "dplyr")
 #' report_levels(starwars)
 #' @importFrom tibble as_tibble
 #' @importFrom tibble tibble
@@ -17,7 +19,7 @@
 #' @importFrom dplyr select_if
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
-
+#' @importFrom magrittr %>%
 
 report_levels <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   
@@ -41,7 +43,7 @@ report_levels <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       # add the list of levels as a final column
       levels_df$levels <- levels_list
       # sort by alphabetical order & filter to max number of rows
-      levels_df %<>% arrange(col_name) %>% slice(1:min(top, nrow(.))) 
+      levels_df <- levels_df %>% arrange(col_name) %>% slice(1:min(top, nrow(.))) 
       # return df
       return(levels_df)
     } else {

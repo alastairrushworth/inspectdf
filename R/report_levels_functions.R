@@ -5,6 +5,8 @@
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
 #' @importFrom dplyr summarise
+#' @importFrom stats chisq.test
+#' @importFrom stats lag
 #' @importFrom tibble tibble
 #' @importFrom tidyr replace_na
 

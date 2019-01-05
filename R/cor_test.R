@@ -6,8 +6,11 @@
 #' @importFrom dplyr mutate
 #' @importFrom dplyr mutate_all
 #' @importFrom dplyr select_
+#' @importFrom magrittr %>%
 #' @importFrom tibble as_tibble
 #' @importFrom tibble tibble
+#' @importFrom stats pnorm
+#' @importFrom stats cor.test
 
 cor_test <- function(cor_1, cor_2, n_1, n_2){
   fisher_trans_1 <- 0.5 * log((1 + cor_1)/(1 - cor_1))

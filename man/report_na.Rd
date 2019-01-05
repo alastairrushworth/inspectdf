@@ -25,5 +25,6 @@ Report the proportion of each column containing missing values
 When the second data frame \code{df2} is specified, the missingness is tabulated for both data frames, and where a pair of columns are common to both data frames a p-value is calculated for the equivalence of the proportion of missing values.
 }
 \examples{
+data("starwars", package = "dplyr")
 report_na(starwars)
 }

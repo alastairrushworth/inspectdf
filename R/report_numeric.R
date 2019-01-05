@@ -6,7 +6,9 @@
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @param breaks Optional argument specifying the breaks to use when comparing numeric data frame features.
 #' @return If \code{df2 = NULL} then is a \code{tibble} containing the names of numericcolumns (\code{col_name}).
+#' @export
 #' @examples
+#' data("starwars", package = "dplyr")
 #' report_numeric(starwars)
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
@@ -26,7 +28,14 @@
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 theme
+#' @importFrom magrittr %>%
+#' @importFrom graphics hist
+#' @importFrom stats median
+#' @importFrom stats quantile
+#' @importFrom stats sd
 #' @importFrom tibble tibble
+#' @importFrom tidyr gather
+#' @importFrom utils tail
 
 report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL){
   

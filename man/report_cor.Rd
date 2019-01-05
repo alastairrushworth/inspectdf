@@ -25,6 +25,7 @@ Report the Pearson's correlation coefficient for each pair of numeric columns
 When the second data frame \code{df2} is specified, correlations are tabulated for both data frames, and where a pair of numeric columns with the same names appear in both, a p-value is provided which test tests whether their correlations coefficients are equal.
 }
 \examples{
+data("starwars", package = "dplyr")
 report_cor(starwars)
 report_cor(starwars, starwars[1:10, ])
 }

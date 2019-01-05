@@ -15,12 +15,12 @@ fast_table <- function(v, show_all = F){
   }
   if(!show_all){
     tibble(value = vals, prop = freq / length(v)) %>% 
-      dplyr::arrange(desc(prop)) %>% 
-      dplyr::slice(1) %>%
+      arrange(desc(prop)) %>% 
+      slice(1) %>%
       return
   } else {
     tibble(value = vals, prop = freq / length(v)) %>% 
-      dplyr::arrange(desc(prop)) %>% 
+      arrange(desc(prop)) %>% 
       return
   }
 }

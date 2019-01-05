@@ -4,8 +4,10 @@
 #' @param df2 An optional second data frame for comparing column types with.  Defaults to \code{NULL}.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @return Prints the proportion of columns with each type.
+#' @export
 #' @details When the second data frame \code{df2} is specified, column types are tabulated for both data frames to enable comparison of contents.
 #' @examples
+#' data("starwars", package = "dplyr")
 #' # get tibble of column types for the starwars data
 #' report_types(starwars)
 #' # get column types and show as barplot
@@ -30,6 +32,7 @@
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 scale_fill_discrete
 #' @importFrom ggplot2 theme
+#' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 #' @importFrom tidyr gather
 #' @importFrom tidyr replace_na
