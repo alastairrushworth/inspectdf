@@ -16,6 +16,15 @@ test_that("Output is a data frame", {
   expect_is(report_imbalance(airquality), "data.frame")
 })
 
+test_that("Plot is returned without error", {
+  expect_is(report_imbalance(mtcars, show_plot = T), "data.frame")
+  expect_is(report_imbalance(band_instruments, show_plot = T), "data.frame")
+  expect_error(report_imbalance(nasa, show_plot = T))
+  expect_is(report_imbalance(starwars, show_plot = T), "data.frame")
+  expect_is(report_imbalance(storms, show_plot = T), "data.frame")
+  expect_is(report_imbalance(airquality, show_plot = T), "data.frame")
+})
+
 test_that("Output with two identical df inputs data frame", {
   expect_is(report_imbalance(mtcars, mtcars), "data.frame")
   expect_is(report_imbalance(band_instruments, band_instruments), "data.frame")
