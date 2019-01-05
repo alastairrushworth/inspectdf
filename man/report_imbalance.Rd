@@ -22,5 +22,6 @@ Return a \code{tibble} containing the columns \code{col_name}, \code{value_1}, \
 Report the most commonly occuring value in each non-numeric column
 }
 \examples{
+data("starwars", package = "dplyr")
 report_imbalance(starwars)
 }

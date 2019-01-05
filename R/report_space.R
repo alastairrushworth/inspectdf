@@ -5,7 +5,9 @@
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @return Prints the proportion of overall memory used by each column and the total usage.
+#' @export
 #' @examples
+#' data("starwars", package = "dplyr")
 #' # get tibble of column memory usage for the starwars data
 #' report_space(starwars)
 #' # get column memory usage and show as barplot
@@ -28,6 +30,7 @@
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 scale_fill_discrete
 #' @importFrom ggplot2 theme
+#' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 
 report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){

@@ -3,7 +3,7 @@ Title: Tools for exploring and comparing data frames
 Version: 0.0.0.9000
 Author: person("Alastair", "Rushworth", email = "alastairmrushworth@gmail.com", role = c("aut", "cre"))
 Maintainer: Alastair Rushworth <alastairmrushworth@gmail.com>
-Description: Tools for exploring and comparing data frames
+Description: Tools for exploring and comparing data frames.
 LinkingTo: Rcpp
 LazyLoad: yes
 ByteCompile: yes

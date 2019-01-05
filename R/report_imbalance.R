@@ -5,7 +5,9 @@
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @return Return a \code{tibble} containing the columns \code{col_name}, \code{value_1}, \code{percent_1}, \code{value_2}, \code{percent_2}.  The \code{value} is the most frequently occuring category in each column and \code{percent_in_col} is the percentage frequency with which it occurs.
+#' @export
 #' @examples
+#' data("starwars", package = "dplyr")
 #' report_imbalance(starwars)
 #' @importFrom tibble tibble
 #' @importFrom dplyr arrange
@@ -17,6 +19,7 @@
 #' @importFrom dplyr select_if
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
+#' @importFrom magrittr %>%
 
 report_imbalance <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   

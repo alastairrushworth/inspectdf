@@ -22,6 +22,7 @@ Prints the proportion of overall memory used by each column and the total usage.
 Report the memory usage of a data frame
 }
 \examples{
+data("starwars", package = "dplyr")
 # get tibble of column memory usage for the starwars data
 report_space(starwars)
 # get column memory usage and show as barplot

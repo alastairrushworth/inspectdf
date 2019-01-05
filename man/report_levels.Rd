@@ -22,5 +22,6 @@ If \code{df2 = NULL} then is a \code{tibble} containing the names of categorical
 Report and compare the levels within each categorical feature
 }
 \examples{
+data("starwars", package = "dplyr")
 report_levels(starwars)
 }

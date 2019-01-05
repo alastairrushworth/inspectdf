@@ -22,5 +22,6 @@ Return a \code{tibble} containing the columns \code{col_1}, \code{col_2}, \code{
 Report Goodman and Kruskal's tau for association between categorical features
 }
 \examples{
+data("starwars", package = "dplyr")
 report_association(starwars)
 }

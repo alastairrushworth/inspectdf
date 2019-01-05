@@ -5,8 +5,10 @@
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @return Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \code{pair} and \code{correlation}.  The report contains only the upper triangle of the correlation matrix.  The tibble is sorted by descending absolute value in the \code{correlation} column.
+#' @export
 #' @details When the second data frame \code{df2} is specified, correlations are tabulated for both data frames, and where a pair of numeric columns with the same names appear in both, a p-value is provided which test tests whether their correlations coefficients are equal.
 #' @examples
+#' data("starwars", package = "dplyr")
 #' report_cor(starwars)
 #' report_cor(starwars, starwars[1:10, ])
 #' @importFrom dplyr arrange
@@ -29,8 +31,8 @@
 #' @importFrom ggplot2 guides
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 theme
+#' @importFrom magrittr %>%
 #' @importFrom tibble tibble
-
 
 report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   

@@ -25,5 +25,6 @@ If \code{df2 = NULL} then is a \code{tibble} containing the names of numericcolu
 Report and compare the numeric variables within one or two data frames
 }
 \examples{
+data("starwars", package = "dplyr")
 report_numeric(starwars)
 }

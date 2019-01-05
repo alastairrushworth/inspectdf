@@ -4,10 +4,13 @@
 #' @param df2 An optional second data frame for making comparisons.  Defaults to \code{NULL}.
 #' @param top The number of rows to print for summaries \code{report_na}, \code{report_cor}, \code{report_imbalance}, \code{report_association}, Default \code{NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
+#' @export report
 #' @return Prints statistics to the console.
 #' @details \code{report} is a wrapper for the all of the individual reporting functions \code{report_space}, \code{report_types}, \code{report_na}, \code{report_cor}, \code{report_imbalance}, \code{report_association}.
 #' @examples
+#' data("starwars", package = "dplyr")
 #' report(starwars)
+#' @useDynLib reporter
 
 
 report <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){

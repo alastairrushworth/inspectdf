@@ -5,8 +5,10 @@
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @return Return a \code{tibble} containing the columns \code{col_name}, \code{count_na} and \code{percent_na}. 
+#' @export
 #' @details When the second data frame \code{df2} is specified, the missingness is tabulated for both data frames, and where a pair of columns are common to both data frames a p-value is calculated for the equivalence of the proportion of missing values.
 #' @examples
+#' data("starwars", package = "dplyr")
 #' report_na(starwars)
 #' @importFrom dplyr arrange
 #' @importFrom dplyr desc
@@ -15,6 +17,7 @@
 #' @importFrom dplyr rename
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
+#' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 
 report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
