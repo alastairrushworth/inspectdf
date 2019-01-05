@@ -10,6 +10,26 @@
 #' report_space(starwars)
 #' # get column memory usage and show as barplot
 #' report_space(starwars, show_plot = TRUE)
+#' @importFrom dplyr arrange
+#' @importFrom dplyr contains
+#' @importFrom dplyr desc
+#' @importFrom dplyr full_join
+#' @importFrom dplyr left_join
+#' @importFrom dplyr mutate
+#' @importFrom dplyr rename
+#' @importFrom dplyr select_if
+#' @importFrom dplyr select
+#' @importFrom dplyr slice
+#' @importFrom dplyr ungroup
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 element_text
+#' @importFrom ggplot2 geom_bar
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 scale_fill_discrete
+#' @importFrom ggplot2 theme
+#' @importFrom tibble tibble
+
 report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -32,16 +52,16 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   
     # get top 10 largest columns by storage size, pass to the console histogrammer
     out <- vec_to_tibble(col_space) %>% 
-      dplyr::left_join(vec_to_tibble(col_space_ch), by = "names") %>%
-      dplyr::mutate(percent_space = 100 * n.x / sum(n.x)) %>%
-      dplyr::arrange(desc(percent_space)) %>%
-      dplyr::slice(1:min(top, nrow(.))) %>%
-      dplyr::rename(col_names = names, size = n.y) %>% 
-      dplyr::select(-n.x)
+      left_join(vec_to_tibble(col_space_ch), by = "names") %>%
+      mutate(percent_space = 100 * n.x / sum(n.x)) %>%
+      arrange(desc(percent_space)) %>%
+      slice(1:min(top, nrow(.))) %>%
+      rename(col_names = names, size = n.y) %>% 
+      select(-n.x)
     # return plot if requested
     if(show_plot){
       # convert column names to factor
-      out_plot <- out %>% dplyr::mutate(col_names = factor(col_names, levels = as.character(col_names)))
+      out_plot <- out %>% mutate(col_names = factor(col_names, levels = as.character(col_names)))
       # construct bar plot of column memory usage
       plt <- bar_plot(df_plot = out_plot, x = "col_names", y = "percent_space", fill = "col_names", label = "size", 
                       ttl = paste0("Column sizes in df::", df_names$df1), 
@@ -84,12 +104,12 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       sttl_plt2 <- paste0("df::", df_names$df2,  " has ", ncol(df2), " columns, ", nrow(df2), " rows and total memory usage of ", sz2)
       # plot the result
       plt <- z_tall %>%
-        dplyr::mutate(col_type = factor(col_names, levels = sjoin$col_names)) %>%
-        ggplot2::ggplot(ggplot2::aes(x = col_names, y = percent, fill = as.factor(df_input))) + 
-        ggplot2::geom_bar(stat = "identity", position = "dodge") + 
-        ggplot2::labs(x = "", y = "Percentage of total space (%)", title = ttl_plt, subtitle = paste0(sttl_plt1, "\n", sttl_plt2)) + 
-        ggplot2::scale_fill_discrete(name = "Data frame") +
-        ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1))
+        mutate(col_type = factor(col_names, levels = sjoin$col_names)) %>%
+        ggplot(aes(x = col_names, y = percent, fill = as.factor(df_input))) + 
+        geom_bar(stat = "identity", position = "dodge") + 
+        labs(x = "", y = "Percentage of total space (%)", title = ttl_plt, subtitle = paste0(sttl_plt1, "\n", sttl_plt2)) + 
+        scale_fill_discrete(name = "Data frame") +
+        theme(axis.text.x = element_text(angle = 45, hjust = 1))
       print(plt)
     }
     return(sjoin)

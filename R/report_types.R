@@ -10,6 +10,29 @@
 #' report_types(starwars)
 #' # get column types and show as barplot
 #' report_types(starwars, show_plot = TRUE)
+#' @importFrom dplyr arrange
+#' @importFrom dplyr case_when
+#' @importFrom dplyr contains
+#' @importFrom dplyr desc
+#' @importFrom dplyr filter
+#' @importFrom dplyr full_join
+#' @importFrom dplyr left_join
+#' @importFrom dplyr mutate
+#' @importFrom dplyr rename
+#' @importFrom dplyr select_if
+#' @importFrom dplyr select
+#' @importFrom dplyr slice
+#' @importFrom dplyr ungroup
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 element_text
+#' @importFrom ggplot2 geom_bar
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 scale_fill_discrete
+#' @importFrom ggplot2 theme
+#' @importFrom tibble tibble
+#' @importFrom tidyr gather
+#' @importFrom tidyr replace_na
 
 report_types <- function(df1, df2 = NULL, show_plot = FALSE){
   # perform basic column check on dataframe input
@@ -39,7 +62,7 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     # if plot requested then show barplot
     if(show_plot){
       # convert column names to factor
-      out_plot <- out %>% dplyr::mutate(col_type = factor(col_type, levels = as.character(col_type)))
+      out_plot <- out %>% mutate(col_type = factor(col_type, levels = as.character(col_type)))
       # construct bar plot of column types
       plt <- bar_plot(df_plot = out_plot, x = "col_type", y = "percent", fill = "col_type", label = "count_type", 
                ttl = paste0("Column type composition of df::", df_names$df1), 
@@ -53,9 +76,9 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     }
     return(out)
   } else {
-    s1 <- report_types(df1, show_plot = F) %>% dplyr::rename(count_1 = count_type, percent_1 = percent)
-    s2 <- report_types(df2, show_plot = F) %>% dplyr::rename(count_2 = count_type, percent_2 = percent)
-    sjoin <- dplyr::full_join(s1, s2, by = "col_type") %>% 
+    s1 <- report_types(df1, show_plot = F) %>% rename(count_1 = count_type, percent_1 = percent)
+    s2 <- report_types(df2, show_plot = F) %>% rename(count_2 = count_type, percent_2 = percent)
+    sjoin <- full_join(s1, s2, by = "col_type") %>% 
       replace_na(list(count_1 = 0, count_2 = 0, percent_1 = 0, percent_2 = 0))
     
     if(show_plot){
@@ -75,11 +98,11 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
       sttl_plt2 <- paste0("df::", df_names$df2,  " contains ", ncol(df2), " columns.")
       # plot the result
       plt <- z_tall %>%
-        dplyr::mutate(col_type = factor(col_type, levels = sjoin$col_type)) %>%
-        ggplot2::ggplot(ggplot2::aes(x = col_type, y = percent, fill = as.factor(df_input), label = count)) + 
-        ggplot2::geom_bar(stat = "identity", position = "dodge") + 
-        ggplot2::labs(x = "", y = "Percentage of columns (%)", title = ttl_plt, subtitle = paste0(sttl_plt1, sttl_plt2)) + 
-        ggplot2::scale_fill_discrete(name = "Data frame")
+        mutate(col_type = factor(col_type, levels = sjoin$col_type)) %>%
+        ggplot(aes(x = col_type, y = percent, fill = as.factor(df_input), label = count)) + 
+        geom_bar(stat = "identity", position = "dodge") + 
+        labs(x = "", y = "Percentage of columns (%)", title = ttl_plt, subtitle = paste0(sttl_plt1, sttl_plt2)) + 
+        scale_fill_discrete(name = "Data frame")
       print(plt)
     }
     

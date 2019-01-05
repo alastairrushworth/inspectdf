@@ -1,3 +1,8 @@
+#' @importFrom dplyr arrange
+#' @importFrom dplyr desc
+#' @importFrom dplyr slice
+#' @importFrom tibble tibble
+
 fast_table <- function(v, show_all = F){
   vsort  <- sort(v, method = "quick")
   vals   <- unique(vsort)

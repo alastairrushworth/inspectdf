@@ -6,3 +6,6 @@ data/
 example.R
 .DS_Store
 reporter.Rproj
+src/*.so
+src/*.o
+tests/testthat/*.pdf

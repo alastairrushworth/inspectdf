@@ -8,6 +8,25 @@
 #' @return If \code{df2 = NULL} then is a \code{tibble} containing the names of numericcolumns (\code{col_name}).
 #' @examples
 #' report_numeric(starwars)
+#' @importFrom dplyr arrange
+#' @importFrom dplyr contains
+#' @importFrom dplyr desc
+#' @importFrom dplyr full_join
+#' @importFrom dplyr group_by
+#' @importFrom dplyr left_join
+#' @importFrom dplyr mutate
+#' @importFrom dplyr rename
+#' @importFrom dplyr select_if
+#' @importFrom dplyr select
+#' @importFrom dplyr slice
+#' @importFrom dplyr ungroup
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 facet_grid
+#' @importFrom ggplot2 geom_col
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 theme
+#' @importFrom tibble tibble
 
 report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL){
   
@@ -44,7 +63,7 @@ report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = 
       # extract basic info for constructing hist
       breaks_tbl$hist <- lapply(breaks_tbl$hist, prop_value)
       # ensure the histogram has a min and max breaks & join back to df_num_sum
-      out <- dplyr::left_join(df_num_sum, breaks_tbl, by = "col_name") %>% select(-breaks)
+      out <- left_join(df_num_sum, breaks_tbl, by = "col_name") %>% select(-breaks)
       # if plot is requested
       if(show_plot){
         for(i in 1:length(out$hist)){
@@ -61,10 +80,10 @@ report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = 
         }
         out_plot <- bind_rows(out$hist)
         plt <- out_plot %>%
-          ggplot2::ggplot(ggplot2::aes(x = mid, y = prop)) + 
-          ggplot2::geom_col(fill = "blue") + 
-          ggplot2::facet_grid(. ~ col_name, scales = "free") + 
-          ggplot2::labs(x = "", y = "Probability", 
+          ggplot(aes(x = mid, y = prop)) + 
+          geom_col(fill = "blue") + 
+          facet_grid(. ~ col_name, scales = "free") + 
+          labs(x = "", y = "Probability", 
                         title =  paste0("Histograms of numeric columns in df::", df_names$df1), 
                         subtitle = "")
         # print plot
@@ -73,17 +92,17 @@ report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = 
       # return df
       return(out)
     } else {
-      return(tibble::tibble(col_name = character(), min = numeric(), q1 = numeric(), 
+      return(tibble(col_name = character(), min = numeric(), q1 = numeric(), 
                     median = numeric(), mean = numeric(), q3 = numeric(),
                     max = numeric(), sd = numeric(), percent_na = numeric(), hist = list()))
     }
   } else {
     s1 <- report_numeric(df1, top = top, show_plot = F) %>% select(col_name, mean, sd, hist)
     # extract breaks from the above
-    breaks_table <- tibble::tibble(col_name = s1$col_name, breaks = lapply(s1$hist, get_break))
+    breaks_table <- tibble(col_name = s1$col_name, breaks = lapply(s1$hist, get_break))
     # get new histoggrams and summary stats using breaks from s1
     s2 <- report_numeric(df2, top = top, breaks = breaks_table, show_plot = F) %>% select(col_name, mean, sd, hist)
-    numeric_tab <- dplyr::full_join(s1, s2, by = "col_name")
+    numeric_tab <- full_join(s1, s2, by = "col_name")
     # calculate PSI
     levels_tab <- numeric_tab %>%
       mutate(psi = psi(hist.x, hist.y)) %>%

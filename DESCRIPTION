@@ -7,8 +7,8 @@ Description: Tools for exploring and comparing data frames
 LinkingTo: Rcpp
 LazyLoad: yes
 ByteCompile: yes
-Depends: R (>= 3.1.0), dplyr, ggplot2, GoodmanKruskal, Rcpp, stringr, tibble, tidyr
-Imports: magrittr
+Depends: R (>= 3.1.0)
+Imports:  dplyr, ggplot2, GoodmanKruskal, magrittr, Rcpp, tibble, tidyr
 Suggests: testthat
 License: GPL-2
 URL: http://github.com/alastairrushworth/reporter
