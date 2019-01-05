@@ -33,7 +33,6 @@ report_imbalance <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     df_cat <- df1 %>% select_if(function(v) is.character(v) | is.factor(v))
     # calculate imbalance if any columns available
     if(ncol(df_cat) > 0){
-      cnames      <- colnames(df_cat)
       # function to find the percentage of the most common value in a vector
       imb_cols       <- do.call("rbind", lapply(df_cat, fast_table))
       imb_cols$names <- colnames(df_cat)
@@ -46,17 +45,18 @@ report_imbalance <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       # print plot if requested
       if(show_plot){
         # convert col_name to factor
-        out_plot <- out %>% mutate(col_name = factor(col_name, levels = as.character(col_name)))
+        out_plot <- out %>% 
+          mutate(col_name = factor(col_name, levels = as.character(col_name))) %>%
+          mutate(label = paste0(value, " - ", round(percent, 1), "%"))
         # construct bar plot of missingess
-        plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "percent", fill = "col_name", label = "count_na", 
-                        ttl = paste0("Prevalance of missing values in df::", df_names$df1), 
-                        sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, of which ", sum(out_plot$count_na > 0), " have missing values"), 
-                        ylb = "% of column that is NA", rotate = TRUE)
+        plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "percent", fill = "col_name", label = "label", 
+                        ttl = paste0("Categorical columns with single dominant levels in df::", df_names$df1), 
+                        sttl = "Names of dominant levels are shown next to columns",
+                        ylb = "% of column entries with single value", rotate = TRUE)
         # add text annotation to plot
-        plt <- add_annotation_to_bars(x = out_plot$col_name, y = out_plot$percent, z = out_plot$count_na, plt = plt)
+        plt <- add_annotation_to_bars(x = out_plot$col_name, y = out_plot$percent, z = out_plot$value, plt = plt, thresh = 0.5)
         print(plt)
       }
-      
       # return dataframe of values
       return(out)
     } else {
