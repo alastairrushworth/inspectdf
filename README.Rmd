@@ -1,0 +1,133 @@
+---
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  fig.path = "man/figures/README-"
+)
+```
+
+
+# reporter <img src="man/figures/hex.png" align="right" width="120" />
+
+
+[![Build Status](https://travis-ci.org/alastairrushworth/reporter.svg?branch=master)](https://travis-ci.org/alastairrushworth/reporter)
+
+Overview
+---
+
+`reporter` is a collection of functions for quickly summarising and comparing data frames.  The package has two aims:  
++ to speed up repetitive exploratory tasks typically undertaken when a new data frame is encountered  
++ to make it easier to compare data frames for differences and inconsistencies  
+
+Functions are provided to explore and compare column types, memory usage, missing values, distributions of categorical and numeric features, correlation and imbalance.  
+
+
+
+Installation 
+---
+
+To install the development version of the package, use the command
+```{r, eval = FALSE}
+devtools::install_github("alastairrushworth/reporter")
+```
+
+Then load the package and the `starwars` data.
+```{r}
+# load reporter
+library(reporter)
+
+# some example data
+data(starwars, package = "dplyr")
+```
+
+
+## Single data frame summaries
+
+#### Column types 
+
+To explore the column types in a data frame, use the function `report_types`.  The command returns a tibble summarising the percentage of columns with the a particular type.  A barplot is also returned when `show_plot = TRUE`.
+
+```{r}
+# return tibble and visualisation of columns types
+report_types(starwars, show_plot = T)
+```
+
+
+#### Memory usage
+
+To explore the memory usage of the columns in a data frame, use the function `report_space`.  The command returns a tibble containing the memory usage and percentage of total usage for each column in the data frame.  A barplot is also returned when `show_plot = TRUE`.
+
+```{r}
+report_space(starwars, show_plot = T)
+```
+
+#### Missing values
+
+`report_na` is used to report the number and proportion of missing values contained within each column in a data frame.  The command returns a tibble containing the count and overall percentage of missing values by column in the data frame.  A barplot is also returned when `show_plot` is set to `TRUE`.
+
+```{r}
+report_na(starwars, show_plot = T)
+```
+
+
+#### Correlation
+
+`report_cor` returns a tibble containing Pearson's correlation coefficient, confidence intervals and $p$-values between pairs of numeric columns in a data frame.  The function combines the functionality of `cor()` and `cor.test()` into a more useable wrapper.  An point and whiskers plot is also returned when `show_plot = TRUE`.
+
+```{r}
+report_cor(starwars, show_plot = T)
+```
+_Notes:_  
++ The tibble is sorted in descending order of the absolute coefficient.  
++ `report_cor` drops missing values prior to calculation of each correlation coefficient.  
++ The `p_value` column is associated with the null hypothesis $H_0: \rho = 0$.
+
+#### Feature imbalance
+
+Categorical features where each element is identical (or nearly) are often removed or scrutinised more closely.  The function `report_imbalance` helps to find categorical columns that are dominated by a single feature level and returns a tibble containing the columns: `col_name` the categorical column names; `value` the most frequently occurring categorical level in each column; `percent` the percentage frequency with which the value occurs.  The tibble is sorted in descending order of the `percent`.  A barplot is also returned when `show_plot` is set to `TRUE`.
+
+```{r}
+report_imbalance(starwars, show_plot = T)
+```
+
+
+#### Numeric summaries
+
+`report_numeric` generates statistical summaries of numeric columns contained in a data frame, combining some of the functionality of `summary` and `hist`.  The tibble returned contains standard numerical summaries (min, max, mean, median etc), but also the percentage of missing entries (`percent_na`) and a simple histogram (`hist`).  If `show_plot = TRUE` a histogram is generated for each numeric feature.
+
+```{r}
+report_numeric(starwars, show_plot = T)
+```
+
+The `hist` column is a list whose elements are tibbles each containing a simple histogram with the relative frequency of counts for each feature.  These tibbles are used to generae the histograms shown when `show_plot = TRUE`.  For example, the histogram for `starwars$birth_year` is
+
+```{r}
+report_numeric(starwars)$hist$birth_year
+```
+
+#### Categorical levels
+
+`report_levels` returns a tibble summarising categorical features in the data frame.  This combines the functionality of `report_imbalance` and the `table` function. The tibble generated contains the columns  
+
++ `col_name`  
++ `n_levels` the number of unique levels in the feature  
++ `dom_level` the most common level (see also `report_imbalance`)  
++ `dom_percent` the percentage occurrence of the most dominant level  
++ `levels` a list of tibbles each containing frequency tabulations of all levels  
+
+```{r}
+report_levels(starwars)
+```
+
+For example, the levels for the `hair_color` column are
+
+```{r}
+report_levels(starwars)$levels$hair_color
+```
+
+
+
+
+
