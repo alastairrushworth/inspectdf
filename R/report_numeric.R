@@ -77,19 +77,20 @@ report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = 
       names(out$hist) <-  as.character(out$col_name)
       # if plot is requested
       if(show_plot){
-        for(i in 1:length(out$hist)){
-          out$hist[[i]]$col_name <- out$col_name[i]
-          diff_nums <- lapply(strsplit(gsub("\\[|,|\\)", "", out$hist[[i]]$value), " "), function(v) diff(as.numeric(v))) %>% unlist %>% unique
-          out$hist[[i]]$mid <- lapply(strsplit(gsub("\\[|,|\\)", "", out$hist[[i]]$value), " "), function(v) diff(as.numeric(v))/2 + as.numeric(v)[1]) %>% unlist
-          if(is.nan(out$hist[[i]]$mid[1]) | is.infinite(out$hist[[i]]$mid[1])){
-            out$hist[[i]]$mid[1] <- out$hist[[i]]$mid[2] - (diff_nums[is.finite(diff_nums)])[1]
+        out_plot <- out
+        for(i in 1:length(out_plot$hist)){
+          out_plot$hist[[i]]$col_name <- out_plot$col_name[i]
+          diff_nums <- lapply(strsplit(gsub("\\[|,|\\)", "", out_plot$hist[[i]]$value), " "), function(v) diff(as.numeric(v))) %>% unlist %>% unique
+          out_plot$hist[[i]]$mid <- lapply(strsplit(gsub("\\[|,|\\)", "", out_plot$hist[[i]]$value), " "), function(v) diff(as.numeric(v))/2 + as.numeric(v)[1]) %>% unlist
+          if(is.nan(out_plot$hist[[i]]$mid[1]) | is.infinite(out_plot$hist[[i]]$mid[1])){
+            out_plot$hist[[i]]$mid[1] <- out_plot$hist[[i]]$mid[2] - (diff_nums[is.finite(diff_nums)])[1]
           } 
-          last_n <- length(out$hist[[i]]$mid)
-          if(is.nan(out$hist[[i]]$mid[last_n]) | is.infinite(out$hist[[i]]$mid[last_n])){
-            out$hist[[i]]$mid[last_n] <- out$hist[[i]]$mid[last_n - 1] + (diff_nums[is.finite(diff_nums)])[1]
+          last_n <- length(out_plot$hist[[i]]$mid)
+          if(is.nan(out_plot$hist[[i]]$mid[last_n]) | is.infinite(out_plot$hist[[i]]$mid[last_n])){
+            out_plot$hist[[i]]$mid[last_n] <- out_plot$hist[[i]]$mid[last_n - 1] + (diff_nums[is.finite(diff_nums)])[1]
           }
         }
-        out_plot <- bind_rows(out$hist)
+        out_plot <- bind_rows(out_plot$hist)
         plt <- out_plot %>%
           ggplot(aes(x = mid, y = prop)) + 
           geom_col(fill = "blue") + 
