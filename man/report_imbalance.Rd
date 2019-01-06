@@ -2,7 +2,7 @@
 % Please edit documentation in R/report_imbalance.R
 \name{report_imbalance}
 \alias{report_imbalance}
-\title{Report the most commonly occuring value in each non-numeric column}
+\title{Report the most commonly occurring value in each non-numeric column}
 \usage{
 report_imbalance(df1, df2 = NULL, top = NULL, show_plot = FALSE)
 }
@@ -16,10 +16,10 @@ report_imbalance(df1, df2 = NULL, top = NULL, show_plot = FALSE)
 \item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
-Return a \code{tibble} containing the columns \code{col_name}, \code{value_1}, \code{percent_1}, \code{value_2}, \code{percent_2}.  The \code{value} is the most frequently occuring category in each column and \code{percent_in_col} is the percentage frequency with which it occurs.
+Return a \code{tibble} containing the columns \code{col_name}, \code{value_1}, \code{percent_1}, \code{value_2}, \code{percent_2}.  The \code{value} is the most frequently occurring category in each column and \code{percent_in_col} is the percentage frequency with which it occurs.
 }
 \description{
-Report the most commonly occuring value in each non-numeric column
+Report the most commonly occurring value in each non-numeric column
 }
 \examples{
 data("starwars", package = "dplyr")

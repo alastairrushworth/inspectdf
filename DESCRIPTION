@@ -4,6 +4,7 @@ Version: 0.0.0.9000
 Author: person("Alastair", "Rushworth", email = "alastairmrushworth@gmail.com", role = c("aut", "cre"))
 Maintainer: Alastair Rushworth <alastairmrushworth@gmail.com>
 Description: Tools for exploring and comparing data frames.
+Language: en-GB
 LinkingTo: Rcpp
 LazyLoad: yes
 ByteCompile: yes

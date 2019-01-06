@@ -4,7 +4,7 @@
 #' @param df2 An optional second data frame for comparing categorical levels  Defaults to \code{NULL}.
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
-#' @return If \code{df2 = NULL} then is a \code{tibble} containing the names of categorical columns (\code{col_name}), the number of levels within each (\code{n_levels}), the most common level (\code{dom_level}), the percentage occurence of the most common feature (\code{dom_percent}) and a list of tibbles containing the percentage appearance of each feature (\code{levels}).
+#' @return If \code{df2 = NULL} then is a \code{tibble} containing the names of categorical columns (\code{col_name}), the number of levels within each (\code{n_levels}), the most common level (\code{dom_level}), the percentage occurrence of the most common feature (\code{dom_percent}) and a list of tibbles containing the percentage appearance of each feature (\code{levels}).
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")
