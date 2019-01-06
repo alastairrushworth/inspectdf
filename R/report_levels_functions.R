@@ -6,7 +6,6 @@
 #' @importFrom dplyr select
 #' @importFrom dplyr summarise
 #' @importFrom stats chisq.test
-#' @importFrom stats lag
 #' @importFrom tibble tibble
 #' @importFrom tidyr replace_na
 
@@ -78,23 +77,6 @@ chisq_p <- function(Mlist1, Mlist2, n_1, n_2){
     }
   }
   return(out_vec)
-}
-
-
-prop_value <- function(L){
-  # ensure -Inf is the first break 
-  if(!L$breaks[1] == -Inf){
-    L$breaks <- c(-Inf, L$breaks)
-    L$counts <- c(0, L$counts)
-  }
-  # ensure Inf is the last break
-  if(!tail(L$breaks, 1) == Inf){
-    L$breaks <- c(L$breaks, Inf)
-    L$counts <- c(L$counts, 0)
-  }
-  props <- L$counts / sum(L$counts)
-  labs <- paste0("[", lag(L$breaks), ", ", L$breaks, ")")[-1]
-  return(tibble(value = labs, prop = props))
 }
 
 get_break <- function(L){

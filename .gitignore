@@ -9,3 +9,4 @@ reporter.Rproj
 src/*.so
 src/*.o
 tests/testthat/*.pdf
+inst/
