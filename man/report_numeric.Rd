@@ -19,7 +19,7 @@ report_numeric(df1, df2 = NULL, top = NULL, show_plot = F,
 \item{breaks}{Optional argument specifying the breaks to use when comparing numeric data frame features.}
 }
 \value{
-If \code{df2 = NULL} then is a \code{tibble} containing the names of numericcolumns (\code{col_name}).
+If \code{df2 = NULL} then is a \code{tibble} containing the names of numeric columns (\code{col_name}).
 }
 \description{
 Report and compare the numeric variables within one or two data frames

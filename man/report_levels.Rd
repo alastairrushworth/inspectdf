@@ -16,7 +16,7 @@ report_levels(df1, df2 = NULL, top = NULL, show_plot = FALSE)
 \item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
-If \code{df2 = NULL} then is a \code{tibble} containing the names of categorical columns (\code{col_name}), the number of levels within each (\code{n_levels}), the most common level (\code{dom_level}), the percentage occurence of the most common feature (\code{dom_percent}) and a list of tibbles containing the percentage appearance of each feature (\code{levels}).
+If \code{df2 = NULL} then is a \code{tibble} containing the names of categorical columns (\code{col_name}), the number of levels within each (\code{n_levels}), the most common level (\code{dom_level}), the percentage occurrence of the most common feature (\code{dom_percent}) and a list of tibbles containing the percentage appearance of each feature (\code{levels}).
 }
 \description{
 Report and compare the levels within each categorical feature

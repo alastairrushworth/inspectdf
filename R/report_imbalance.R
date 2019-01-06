@@ -1,10 +1,10 @@
-#' Report the most commonly occuring value in each non-numeric column
+#' Report the most commonly occurring value in each non-numeric column
 #'
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for comparing feature imbalance with.  Defaults to \code{NULL}.
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
-#' @return Return a \code{tibble} containing the columns \code{col_name}, \code{value_1}, \code{percent_1}, \code{value_2}, \code{percent_2}.  The \code{value} is the most frequently occuring category in each column and \code{percent_in_col} is the percentage frequency with which it occurs.
+#' @return Return a \code{tibble} containing the columns \code{col_name}, \code{value_1}, \code{percent_1}, \code{value_2}, \code{percent_2}.  The \code{value} is the most frequently occurring category in each column and \code{percent_in_col} is the percentage frequency with which it occurs.
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")

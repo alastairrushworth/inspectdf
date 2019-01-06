@@ -5,7 +5,7 @@
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @param breaks Optional argument specifying the breaks to use when comparing numeric data frame features.
-#' @return If \code{df2 = NULL} then is a \code{tibble} containing the names of numericcolumns (\code{col_name}).
+#' @return If \code{df2 = NULL} then is a \code{tibble} containing the names of numeric columns (\code{col_name}).
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")
