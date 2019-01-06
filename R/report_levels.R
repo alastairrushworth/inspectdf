@@ -44,6 +44,8 @@ report_levels <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       levels_df$levels <- levels_list
       # sort by alphabetical order & filter to max number of rows
       levels_df <- levels_df %>% arrange(col_name) %>% slice(1:min(top, nrow(.))) 
+      # add names to the list
+      names(levels_df$levels) <- levels_df$col_name
       # return df
       return(levels_df)
     } else {
