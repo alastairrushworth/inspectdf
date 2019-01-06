@@ -73,6 +73,8 @@ report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = 
       breaks_tbl$hist <- lapply(breaks_tbl$hist, prop_value)
       # ensure the histogram has a min and max breaks & join back to df_num_sum
       out <- left_join(df_num_sum, breaks_tbl, by = "col_name") %>% select(-breaks)
+      # add feature names to the list
+      names(out$hist) <-  as.character(out$col_name)
       # if plot is requested
       if(show_plot){
         for(i in 1:length(out$hist)){
