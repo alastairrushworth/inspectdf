@@ -26,14 +26,17 @@ cor_test_1 <- function(df_input){
   c_nms <- colnames(df_input)
   c_cmbs <- expand.grid(col_1 =  c_nms, col_2 =  c_nms) %>%
     filter(as.numeric(col_1) > as.numeric(col_2), !col_1 == col_2) %>%
-    mutate_all(as.character) %>% mutate(pair = paste(col_1, col_2, sep = " & "))
+    mutate_all(as.character) %>% 
+    mutate(pair = paste(col_1, col_2, sep = " & "))
   # loop over rows and calculate correlation, p.value and cint
   out_cors <- vector("list", length = nrow(c_cmbs))
   for(i in 1:nrow(c_cmbs)){
     c_df <- df_input %>% select_(c_cmbs$col_1[i], c_cmbs$col_2[i])
-    c_test <- cor.test(c_df[, 1, drop = T], c_df[, 2, drop = T])
-    out_cors[[i]] <- tibble(correlation = c_test$estimate, p_value = c_test$p.value,
-                            lower = c_test$conf.int[1],  upper = c_test$conf.int[2]) 
+    c_test <- cor.test(c_df[, 1, drop = TRUE], c_df[, 2, drop = T])
+    out_cors[[i]] <- tibble(correlation = c_test$estimate, 
+                            p_value = c_test$p.value,
+                            lower = c_test$conf.int[1],
+                            upper = c_test$conf.int[2]) 
   }
   # combine into a single tibble
   cor_out <- bind_cols(c_cmbs, bind_rows(out_cors)) %>% 

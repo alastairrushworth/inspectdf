@@ -34,6 +34,7 @@
 #' @importFrom tibble tibble
 
 report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
+  
   # perform basic column check on dataframe input
   check_df_cols(df1)
   
@@ -59,19 +60,26 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       mutate(percent_space = 100 * n.x / sum(n.x)) %>%
       arrange(desc(percent_space)) %>%
       slice(1:min(top, nrow(.))) %>%
-      rename(col_names = names, size = n.y) %>% 
+      rename(col_name = names, size = n.y) %>% 
       select(-n.x)
     # return plot if requested
     if(show_plot){
       # convert column names to factor
-      out_plot <- out %>% mutate(col_names = factor(col_names, levels = as.character(col_names)))
+      out_plot <- out %>% 
+        mutate(col_name = factor(col_name, levels = as.character(col_name)))
       # construct bar plot of column memory usage
-      plt <- bar_plot(df_plot = out_plot, x = "col_names", y = "percent_space", fill = "col_names", label = "size", 
+      plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "percent_space", 
+                      fill = "col_name", label = "size", 
                       ttl = paste0("Column sizes in df::", df_names$df1), 
-                      sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, ", nrow(df1), " rows and total memory usage of ", sz), 
+                      sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), 
+                                    " columns, ", nrow(df1), 
+                                    " rows and total memory usage of ", sz), 
                       ylb = "Percentage of total space (%)", rotate = TRUE)
       # add text annotation to plot
-      plt <- add_annotation_to_bars(x = out_plot$col_names, y = out_plot$percent_space, z = out_plot$size, plt = plt, thresh = 0.2)
+      plt <- add_annotation_to_bars(x = out_plot$col_name, 
+                                    y = out_plot$percent_space, 
+                                    z = out_plot$size, 
+                                    plt = plt, thresh = 0.2)
       # print plot
       print(plt)
     }
@@ -82,8 +90,8 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     # get the space report for both input dfs
     df1 <- report_space(df1, top = top, show_plot = F)
     df2 <- report_space(df2, top = top, show_plot = F)
-    sjoin <- full_join(df1, df2, by = "col_names") %>%
-      select(col_names, contains("size"), contains("percent"))
+    sjoin <- full_join(df1, df2, by = "col_name") %>%
+      select(col_name, contains("size"), contains("percent"))
     colnames(sjoin)[2] <- paste0("size_",  df_names$df1)
     colnames(sjoin)[3] <- paste0("size_",  df_names$df2)
     colnames(sjoin)[4] <- paste0("space_", df_names$df1)
@@ -95,22 +103,29 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     if(show_plot){
       # convert to a tall df
       z1 <- sjoin %>% select(-contains("size")) %>% 
-        gather(key = "df_input", value = "percent", -col_names) %>% 
+        gather(key = "df_input", value = "percent", -col_name) %>% 
         mutate(df_input = gsub("space_", "", df_input))
       z2 <- sjoin %>% select(-contains("space")) %>% 
-        gather(key = "df_input", value = "size", -col_names) %>% 
+        gather(key = "df_input", value = "size", -col_name) %>% 
         mutate(df_input = gsub("size_", "", df_input))
-      z_tall <- z1 %>% left_join(z2, by = c("col_names", "df_input"))
+      z_tall <- z1 %>% left_join(z2, by = c("col_name", "df_input"))
       # make axis names
-      ttl_plt <- paste0("Column sizes in df::", df_names$df1, " & df::", df_names$df2)
-      sttl_plt1 <- paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, ", nrow(df1), " rows and total memory usage of ", sz1)
-      sttl_plt2 <- paste0("df::", df_names$df2,  " has ", ncol(df2), " columns, ", nrow(df2), " rows and total memory usage of ", sz2)
+      ttl_plt <- paste0("Column sizes in df::", df_names$df1, 
+                        " & df::", df_names$df2)
+      sttl_plt1 <- paste0("df::", df_names$df1,  " has ", ncol(df1), 
+                          " columns, ", nrow(df1), 
+                          " rows and total memory usage of ", sz1)
+      sttl_plt2 <- paste0("df::", df_names$df2,  " has ", ncol(df2), 
+                          " columns, ", nrow(df2), 
+                          " rows and total memory usage of ", sz2)
       # plot the result
       plt <- z_tall %>%
-        mutate(col_type = factor(col_names, levels = sjoin$col_names)) %>%
-        ggplot(aes(x = col_names, y = percent, fill = as.factor(df_input))) + 
+        mutate(col_type = factor(col_name, levels = sjoin$col_name)) %>%
+        ggplot(aes(x = col_name, y = percent, fill = as.factor(df_input))) + 
         geom_bar(stat = "identity", position = "dodge") + 
-        labs(x = "", y = "Percentage of total space (%)", title = ttl_plt, subtitle = paste0(sttl_plt1, "\n", sttl_plt2)) + 
+        labs(x = "", y = "Percentage of total space (%)", 
+             title = ttl_plt, 
+             subtitle = paste0(sttl_plt1, "\n", sttl_plt2)) + 
         scale_fill_discrete(name = "Data frame") +
         theme(axis.text.x = element_text(angle = 45, hjust = 1))
       print(plt)

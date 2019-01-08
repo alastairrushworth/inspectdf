@@ -38,7 +38,7 @@
 #' @importFrom utils tail
 
 report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL){
-  
+
   # perform basic column check on dataframe input
   check_df_cols(df1)
   # capture the data frame names

@@ -153,7 +153,7 @@ report_imbalance(starwars, show_plot = T)
 
 #### Numeric summaries
 
-`report_numeric` generates statistical summaries of numeric columns contained in a data frame, combining some of the functionality of `summary` and `hist`. The tibble returned contains standard numerical summaries (min, max, mean, median etc), but also the percentage of missing entries (`percent_na`) and a simple histogram (`hist`). If `show_plot = TRUE` a histogram is generated for each numeric feature.
+`report_numeric` generates statistical summaries of numeric columns contained in a data frame, combining some of the functionality of `summary` and `hist`. The tibble returned contains standard numerical summaries (min, max, mean, median etc.), but also the percentage of missing entries (`percent_na`) and a simple histogram (`hist`). If `show_plot = TRUE` a histogram is generated for each numeric feature.
 
 ``` r
 report_numeric(starwars, show_plot = T)
@@ -168,7 +168,7 @@ report_numeric(starwars, show_plot = T)
     ## 2 height       66 167      180 174.  191     264  34.8       6.90 <tibble …
     ## 3 mass         15  55.6     79  97.3  84.5  1358 169.       32.2  <tibble …
 
-The `hist` column is a list whose elements are tibbles each containing a simple histogram with the relative frequency of counts for each feature. These tibbles are used to generae the histograms shown when `show_plot = TRUE`. For example, the histogram for `starwars$birth_year` is
+The `hist` column is a list whose elements are tibbles each containing a simple histogram with the relative frequency of counts for each feature. These tibbles are used to generate the histograms shown when `show_plot = TRUE`. For example, the histogram for `starwars$birth_year` is
 
 ``` r
 report_numeric(starwars)$hist$birth_year
