@@ -1,4 +1,4 @@
-.onLoad <- function(libname = find.package("tidyRSS"), pkgname = "tidyRSS"){
+.onLoad <- function(libname = find.package("reporter"), pkgname = "reporter"){
   
   # CRAN Note avoidance
   if(getRversion() >= "2.15.1")
