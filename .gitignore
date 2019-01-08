@@ -10,3 +10,4 @@ src/*.so
 src/*.o
 tests/testthat/*.pdf
 inst/
+hex/

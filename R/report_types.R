@@ -38,6 +38,7 @@
 #' @importFrom tidyr replace_na
 
 report_types <- function(df1, df2 = NULL, show_plot = FALSE){
+  
   # perform basic column check on dataframe input
   check_df_cols(df1)
   
@@ -48,9 +49,11 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     # number of columns
     ncl         <- ncol(df1)
     # possible types to look out for
-    type_spine  <- tibble(col_type = c("logical", "integer", "numeric", "character", 
-                                   "factor",  "list",    "matrix",  "data.frame", 
-                                   "ordered factor"))
+    type_spine  <- tibble(col_type = c("logical", "integer", 
+                                       "numeric", "character", 
+                                       "factor",  "list",    
+                                       "matrix",  "data.frame", 
+                                       "ordered factor"))
     classes     <- sapply(df1, class)
     classes     <- sapply(classes, paste, collapse = " ")
     types       <- table(classes)
@@ -65,22 +68,29 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     # if plot requested then show barplot
     if(show_plot){
       # convert column names to factor
-      out_plot <- out %>% mutate(col_type = factor(col_type, levels = as.character(col_type)))
+      out_plot <- out %>% 
+        mutate(col_type = factor(col_type, levels = as.character(col_type)))
       # construct bar plot of column types
-      plt <- bar_plot(df_plot = out_plot, x = "col_type", y = "percent", fill = "col_type", label = "count_type", 
+      plt <- bar_plot(df_plot = out_plot, x = "col_type", y = "percent", 
+                      fill = "col_type", label = "count_type", 
                ttl = paste0("Column type composition of df::", df_names$df1), 
-               sttl = paste0("df::", df_names$df1,  " contains ", ncol(df1), " columns.  Count of each type shown on bar."), 
+               sttl = paste0("df::", df_names$df1,  " contains ", ncol(df1), 
+                             " columns.  Count of each type shown on bar."), 
                ylb = "Percentage of columns (%)", lgnd = "Column types")
       # add text annotation to plot
-      plt <- add_annotation_to_bars(x = out_plot$col_type, y = out_plot$percent, z = out_plot$count_type, 
+      plt <- add_annotation_to_bars(x = out_plot$col_type, 
+                                    y = out_plot$percent, 
+                                    z = out_plot$count_type, 
                                     plt = plt, thresh = 0.1)
       # print plot
       print(plt)
     }
     return(out)
   } else {
-    s1 <- report_types(df1, show_plot = F) %>% rename(count_1 = count_type, percent_1 = percent)
-    s2 <- report_types(df2, show_plot = F) %>% rename(count_2 = count_type, percent_2 = percent)
+    s1 <- report_types(df1, show_plot = F) %>% 
+      rename(count_1 = count_type, percent_1 = percent)
+    s2 <- report_types(df2, show_plot = F) %>% 
+      rename(count_2 = count_type, percent_2 = percent)
     sjoin <- full_join(s1, s2, by = "col_type") %>% 
       replace_na(list(count_1 = 0, count_2 = 0, percent_1 = 0, percent_2 = 0))
     
@@ -96,15 +106,20 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
         mutate(df_input = case_when(df_input == "1" ~ df_names$df1, TRUE ~ df_names$df2))
     
       # make axis names
-      ttl_plt <- paste0("Column type composition of df::", df_names$df1, " & ", "df::", df_names$df2)
-      sttl_plt1 <- paste0("df::", df_names$df1,  " contains ", ncol(df1), " columns & ")
-      sttl_plt2 <- paste0("df::", df_names$df2,  " contains ", ncol(df2), " columns.")
+      ttl_plt <- paste0("Column type composition of df::", 
+                        df_names$df1, " & ", "df::", df_names$df2)
+      sttl_plt1 <- paste0("df::", df_names$df1,  " contains ",
+                          ncol(df1), " columns & ")
+      sttl_plt2 <- paste0("df::", df_names$df2,  " contains ", 
+                          ncol(df2), " columns.")
       # plot the result
       plt <- z_tall %>%
         mutate(col_type = factor(col_type, levels = sjoin$col_type)) %>%
-        ggplot(aes(x = col_type, y = percent, fill = as.factor(df_input), label = count)) + 
+        ggplot(aes(x = col_type, y = percent, 
+                   fill = as.factor(df_input), label = count)) + 
         geom_bar(stat = "identity", position = "dodge") + 
-        labs(x = "", y = "Percentage of columns (%)", title = ttl_plt, subtitle = paste0(sttl_plt1, sttl_plt2)) + 
+        labs(x = "", y = "Percentage of columns (%)", title = ttl_plt, 
+             subtitle = paste0(sttl_plt1, sttl_plt2)) + 
         scale_fill_discrete(name = "Data frame")
       print(plt)
     }

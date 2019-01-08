@@ -55,8 +55,9 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       # return plot if requested
       if(show_plot){
         # preprocess data a bit
-        out_plot <- out %>% mutate(pair = factor(pair, levels = as.character(pair)),
-                                     sign = as.factor(c("Negative", "Positive")[as.numeric(correlation > 0) + 1]))
+        out_plot <- out %>% 
+          mutate(pair = factor(pair, levels = as.character(pair)),
+                 sign = as.factor(c("Negative", "Positive")[as.numeric(correlation > 0) + 1]))
         
         # generate points and error bars for correlations
         plt <- ggplot(out_plot, aes(x = pair, y = correlation, colour = sign)) +
@@ -81,10 +82,13 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
                     pair = character(), correlation = numeric()))
     } 
   } else {
-    s1 <- report_cor(df1, top = top, show_plot = F) %>% rename(correlation_1 = correlation)
-    s2 <- report_cor(df2, top = top, show_plot = F) %>% select(pair, correlation_2 = correlation)
+    s1 <- report_cor(df1, top = top, show_plot = F) %>% 
+      rename(correlation_1 = correlation)
+    s2 <- report_cor(df2, top = top, show_plot = F) %>% 
+      select(pair, correlation_2 = correlation)
     cor_tab <- full_join(s1, s2, by = "pair")
-    cor_tab$p_value <- cor_test(cor_tab$correlation_1, cor_tab$correlation_2, n_1 = nrow(df1), n_2 = nrow(df2))
+    cor_tab$p_value <- cor_test(cor_tab$correlation_1, cor_tab$correlation_2, 
+                                n_1 = nrow(df1), n_2 = nrow(df2))
     return(cor_tab)
   }
 }
