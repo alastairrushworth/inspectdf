@@ -2,24 +2,39 @@
 % Please edit documentation in R/report_space.R
 \name{report_space}
 \alias{report_space}
-\title{Report the memory usage of a data frame}
+\title{Report the memory usage of a data frame or compare usage in two data frames.}
 \usage{
 report_space(df1, df2 = NULL, top = NULL, show_plot = FALSE)
 }
 \arguments{
-\item{df1}{A data frame}
+\item{df1}{A data frame.}
 
-\item{df2}{An optional second data frame for comparing memory usage with.  Defaults to \code{NULL}.}
+\item{df2}{An optional second data frame for comparison.}
 
-\item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
+\item{top}{Postive integer specifiying the number of rows to print in the 
+output tibble.  Useful when the input data frame has many columns.  
+\code{top = NULL}, the default causes everything to be returned.}
 
-\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
+\item{show_plot}{Logical argument determining whether plot is generated 
+in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
-Prints the proportion of overall memory used by each column and the total usage.
+A tibble summarising the memory usage of each column
+ in one or two data frames.
 }
 \description{
-Report the memory usage of a data frame
+Report the memory usage of a data frame or compare usage in two data frames.
+}
+\details{
+When \code{df2 = NULL}, a tibble is returned with the columns: \code{col_name}
+the columns in \code{df1}, \code{size} and \code{pcnt} contain the memory usage 
+of each column in \code{df1}.  The tibble is sorted in descending order of \code{size}.
+
+When a second data frame \code{df2} is specified, column sizes are 
+tabulated for both data frames to enable comparison.  
+A full join is performed between size summary table for the two data frames: where
+a column exists in one but not the other, \code{size} and \code{pcnt} some 
+cells return \code{NA}.
 }
 \examples{
 data("starwars", package = "dplyr")
@@ -27,4 +42,6 @@ data("starwars", package = "dplyr")
 report_space(starwars)
 # get column memory usage and show as barplot
 report_space(starwars, show_plot = TRUE)
+# compare memory usage 
+report_space(starwars, starwars[1:10, -3])
 }
