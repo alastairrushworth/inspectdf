@@ -1,6 +1,6 @@
 #' Report column types in a data frame or compare types in two data frames.
 #'
-#' @param df1 A data frame to report column types.
+#' @param df1 A data frame.
 #' @param df2 An optional second data frame for comparison.  
 #' @param show_plot Logical argument determining whether plot is generated 
 #' in addition to tibble output.  Default is \code{FALSE}.  

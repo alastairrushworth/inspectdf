@@ -7,7 +7,7 @@
 report_types(df1, df2 = NULL, show_plot = FALSE)
 }
 \arguments{
-\item{df1}{A data frame to report column types.}
+\item{df1}{A data frame.}
 
 \item{df2}{An optional second data frame for comparison.}
 

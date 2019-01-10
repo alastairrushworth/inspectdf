@@ -1,17 +1,32 @@
-#' Report the memory usage of a data frame
+#' Report the memory usage of a data frame or compare usage in two data frames.
 #'
-#' @param df1 A data frame
-#' @param df2 An optional second data frame for comparing memory usage with.  Defaults to \code{NULL}.
-#' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
-#' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
-#' @return Prints the proportion of overall memory used by each column and the total usage.
-#' @export
+#' @param df1 A data frame.
+#' @param df2 An optional second data frame for comparison.
+#' @param top Postive integer specifiying the number of rows to print in the 
+#' output tibble.  Useful when the input data frame has many columns.  
+#' \code{top = NULL}, the default causes everything to be returned.
+#' @param show_plot Logical argument determining whether plot is generated 
+#' in addition to tibble output.  Default is \code{FALSE}.  
+#' @return A tibble summarising the memory usage of each column
+#'  in one or two data frames.
+#' @details When \code{df2 = NULL}, a tibble is returned with the columns: \code{col_name}
+#' the columns in \code{df1}, \code{size} and \code{pcnt} contain the memory usage 
+#' of each column in \code{df1}.  The tibble is sorted in descending order of \code{size}.
+#' 
+#' When a second data frame \code{df2} is specified, column sizes are 
+#' tabulated for both data frames to enable comparison.  
+#' A full join is performed between size summary table for the two data frames: where
+#' a column exists in one but not the other, \code{size} and \code{pcnt} some 
+#' cells return \code{NA}.
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # get tibble of column memory usage for the starwars data
 #' report_space(starwars)
 #' # get column memory usage and show as barplot
 #' report_space(starwars, show_plot = TRUE)
+#' # compare memory usage 
+#' report_space(starwars, starwars[1:10, -3])
+#' @export
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -57,8 +72,8 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     # get top 10 largest columns by storage size, pass to the console histogrammer
     out <- vec_to_tibble(col_space) %>% 
       left_join(vec_to_tibble(col_space_ch), by = "names") %>%
-      mutate(percent_space = 100 * n.x / sum(n.x)) %>%
-      arrange(desc(percent_space)) %>%
+      mutate(pcnt = 100 * n.x / sum(n.x)) %>%
+      arrange(desc(pcnt)) %>%
       slice(1:min(top, nrow(.))) %>%
       rename(col_name = names, size = n.y) %>% 
       select(-n.x)
@@ -68,7 +83,7 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       out_plot <- out %>% 
         mutate(col_name = factor(col_name, levels = as.character(col_name)))
       # construct bar plot of column memory usage
-      plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "percent_space", 
+      plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "pcnt", 
                       fill = "col_name", label = "size", 
                       ttl = paste0("Column sizes in df::", df_names$df1), 
                       sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), 
@@ -77,7 +92,7 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
                       ylb = "Percentage of total space (%)", rotate = TRUE)
       # add text annotation to plot
       plt <- add_annotation_to_bars(x = out_plot$col_name, 
-                                    y = out_plot$percent_space, 
+                                    y = out_plot$pcnt, 
                                     z = out_plot$size, 
                                     plt = plt, thresh = 0.2)
       # print plot
@@ -91,11 +106,11 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     df1 <- report_space(df1, top = top, show_plot = F)
     df2 <- report_space(df2, top = top, show_plot = F)
     sjoin <- full_join(df1, df2, by = "col_name") %>%
-      select(col_name, contains("size"), contains("percent"))
+      select(col_name, contains("size"), contains("pcnt"))
     colnames(sjoin)[2] <- paste0("size_",  df_names$df1)
     colnames(sjoin)[3] <- paste0("size_",  df_names$df2)
-    colnames(sjoin)[4] <- paste0("space_", df_names$df1)
-    colnames(sjoin)[5] <- paste0("space_", df_names$df2)
+    colnames(sjoin)[4] <- paste0("pcnt_",  df_names$df1)
+    colnames(sjoin)[5] <- paste0("pcnt_",  df_names$df2)
     # max size of both dfs
     sz1  <- size_up(df1, form = T)
     sz2  <- size_up(df2, form = T)
@@ -103,7 +118,7 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     if(show_plot){
       # convert to a tall df
       z1 <- sjoin %>% select(-contains("size")) %>% 
-        gather(key = "df_input", value = "percent", -col_name) %>% 
+        gather(key = "df_input", value = "pcnt", -col_name) %>% 
         mutate(df_input = gsub("space_", "", df_input))
       z2 <- sjoin %>% select(-contains("space")) %>% 
         gather(key = "df_input", value = "size", -col_name) %>% 
@@ -121,7 +136,7 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       # plot the result
       plt <- z_tall %>%
         mutate(col_type = factor(col_name, levels = sjoin$col_name)) %>%
-        ggplot(aes(x = col_name, y = percent, fill = as.factor(df_input))) + 
+        ggplot(aes(x = col_name, y = pcnt, fill = as.factor(df_input))) + 
         geom_bar(stat = "identity", position = "dodge") + 
         labs(x = "", y = "Percentage of total space (%)", 
              title = ttl_plt, 
