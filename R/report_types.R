@@ -1,17 +1,24 @@
-#' Report column types of a data frame 
+#' Report column types in a data frame or compare types in two data frames.
 #'
-#' @param df1 A data frame to report column types
-#' @param df2 An optional second data frame for comparing column types with.  Defaults to \code{NULL}.
-#' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
-#' @return Prints the proportion of columns with each type.
-#' @export
-#' @details When the second data frame \code{df2} is specified, column types are tabulated for both data frames to enable comparison of contents.
+#' @param df1 A data frame to report column types.
+#' @param df2 An optional second data frame for comparison.  
+#' @param show_plot Logical argument determining whether plot is generated 
+#' in addition to tibble output.  Default is \code{FALSE}.  
+#' @return A tibble summarising the count and percentage of different 
+#' column types in one or two data frames.
+#' @details When \code{df2 = NULL}, a tibble is returned with the columns: \code{col_type}
+#' the types contained in \code{df1}, \code{count} the number of columns with each type
+#' and \code{percent} the percentage of columns with each type.
+#' 
+#' When a second data frame \code{df2} is specified, column types are 
+#' tabulated for both data frames to enable comparison of contents.  
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # get tibble of column types for the starwars data
 #' report_types(starwars)
 #' # get column types and show as barplot
 #' report_types(starwars, show_plot = TRUE)
+#' @export
 #' @importFrom dplyr arrange
 #' @importFrom dplyr case_when
 #' @importFrom dplyr contains
@@ -87,12 +94,13 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     }
     return(out)
   } else {
-    s1 <- report_types(df1, show_plot = F) %>% 
-      rename(count_1 = count_type, percent_1 = percent)
-    s2 <- report_types(df2, show_plot = F) %>% 
-      rename(count_2 = count_type, percent_2 = percent)
-    sjoin <- full_join(s1, s2, by = "col_type") %>% 
-      replace_na(list(count_1 = 0, count_2 = 0, percent_1 = 0, percent_2 = 0))
+    s1 <- report_types(df1, show_plot = F)
+    colnames(s1) <- c("col_type", paste0("cnt_", df_names[1]), 
+                      paste0("pcnt_", df_names[1]))
+    s2 <- report_types(df2, show_plot = F)
+    colnames(s2) <- c("col_type", paste0("cnt_", df_names[2]), 
+                      paste0("pcnt_", df_names[2]))
+    sjoin <- full_join(s1, s2, by = "col_type") %>% replace(is.na(.), 0)
     
     if(show_plot){
       # convert to a tall df
