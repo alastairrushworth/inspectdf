@@ -2,25 +2,32 @@
 % Please edit documentation in R/report_types.R
 \name{report_types}
 \alias{report_types}
-\title{Report column types of a data frame}
+\title{Report column types in a data frame or compare types in two data frames.}
 \usage{
 report_types(df1, df2 = NULL, show_plot = FALSE)
 }
 \arguments{
-\item{df1}{A data frame to report column types}
+\item{df1}{A data frame to report column types.}
 
-\item{df2}{An optional second data frame for comparing column types with.  Defaults to \code{NULL}.}
+\item{df2}{An optional second data frame for comparison.}
 
-\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
+\item{show_plot}{Logical argument determining whether plot is generated 
+in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
-Prints the proportion of columns with each type.
+A tibble summarising the count and percentage of different 
+column types in one or two data frames.
 }
 \description{
-Report column types of a data frame
+Report column types in a data frame or compare types in two data frames.
 }
 \details{
-When the second data frame \code{df2} is specified, column types are tabulated for both data frames to enable comparison of contents.
+When \code{df2 = NULL}, a tibble is returned with the columns: \code{col_type}
+the types contained in \code{df1}, \code{count} the number of columns with each type
+and \code{percent} the percentage of columns with each type.
+
+When a second data frame \code{df2} is specified, column types are 
+tabulated for both data frames to enable comparison of contents.
 }
 \examples{
 data("starwars", package = "dplyr")
