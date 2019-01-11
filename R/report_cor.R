@@ -4,7 +4,7 @@
 #' @param df2 An optional second data frame for comparing correlation coefficients with.  Defaults to \code{NULL}.
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
-#' @return Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \code{pair} and \code{correlation}.  The report contains only the upper triangle of the correlation matrix.  The tibble is sorted by descending absolute value in the \code{correlation} column.
+#' @return Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \code{pair} and \code{corr}.  The report contains only the upper triangle of the correlation matrix.  The tibble is sorted by descending absolute value in the \code{corr} column.
 #' @export
 #' @details When the second data frame \code{df2} is specified, correlations are tabulated for both data frames, and where a pair of numeric columns with the same names appear in both, a p-value is provided which test tests whether their correlations coefficients are equal.
 #' @examples
@@ -22,19 +22,21 @@
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
 #' @importFrom ggplot2 aes
+#' @importFrom ggplot2 coord_flip
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 geom_errorbar
 #' @importFrom ggplot2 geom_hline
 #' @importFrom ggplot2 geom_point
 #' @importFrom ggplot2 geom_text
 #' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 guide_legend
 #' @importFrom ggplot2 guides
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 theme
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 
-report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
+report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, absolute = T){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -57,19 +59,34 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
         # preprocess data a bit
         out_plot <- out %>% 
           mutate(pair = factor(pair, levels = as.character(pair)),
-                 sign = as.factor(c("Negative", "Positive")[as.numeric(correlation > 0) + 1]))
+                 sign = as.factor(c("Negative", "Positive")[as.numeric(corr > 0) + 1]))
+        if(absolute){
+          out_plot$lower <- ifelse(out_plot$corr < 0, -out_plot$lower,
+                                   out_plot$lower)
+          out_plot$upper <- ifelse(out_plot$corr < 0, -out_plot$upper, out_plot$upper)
+          out_plot$corr <- ifelse(out_plot$corr < 0, -out_plot$corr, 
+                                         out_plot$corr)
+        }
         
         # generate points and error bars for correlations
-        plt <- ggplot(out_plot, aes(x = pair, y = correlation, colour = sign)) +
+        plt <- ggplot(out_plot, aes(x = pair, y = corr, colour = sign)) +
           geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
           geom_errorbar(aes(ymin = lower, ymax = upper), colour = "black", width = .1) +
           geom_point(size = 3.7, color = "black") + 
           geom_point(size = 3) +
-          labs(x = "", y = bquote("Pearson correlation (\u03C1)"), 
-                        title =  paste0("Pearson correlation of numeric columns in df::", df_names$df1), 
-                        subtitle = bquote("Error bars show 95% confidence regions for \u03C1")) +
-          guides(colour = FALSE) +
-          theme(axis.text.x = element_text(angle = 45, hjust = 1))
+          coord_flip() + 
+          labs(x = "", 
+               title =  paste0("Pearson correlation of numeric columns in df::", df_names$df1), 
+               subtitle = bquote("Error bars show 95% confidence regions for \u03C1"))
+        if(absolute){
+          plt <- plt + 
+            guides(colour = guide_legend(title = bquote("\u03C1 Sign"))) + 
+            labs(y = bquote("Absolute Pearson correlation (|\u03C1|)"), x = "")
+        } else {
+          plt <- plt + 
+            guides(colour = FALSE) +
+            labs(y = bquote("Pearson correlation (\u03C1)"), x = "")
+        }
 
         # print plot
         print(plt)
@@ -79,16 +96,55 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     } else {
       # return empty dataframe of 
       return(tibble(col_1 = character(), col_2 = character(), 
-                    pair = character(), correlation = numeric()))
+                    pair = character(), corr = numeric()))
     } 
   } else {
+    # stats for df1
     s1 <- report_cor(df1, top = top, show_plot = F) %>% 
-      rename(correlation_1 = correlation)
+      select(col_1, col_2, corr) %>% rename(corr_1 = corr)
+    # stats for df2
     s2 <- report_cor(df2, top = top, show_plot = F) %>% 
-      select(pair, correlation_2 = correlation)
-    cor_tab <- full_join(s1, s2, by = "pair")
-    cor_tab$p_value <- cor_test(cor_tab$correlation_1, cor_tab$correlation_2, 
+      select(col_1, col_2, corr) %>% rename(corr_2 = corr)
+    # join the two
+    cor_tab <- full_join(s1, s2, by = c("col_1", "col_2"))
+    # add p_value for test of difference between correlation coefficients
+    cor_tab$p_value <- cor_test(cor_tab$corr_1, cor_tab$corr_2, 
                                 n_1 = nrow(df1), n_2 = nrow(df2))
+    # generate plot if requested
+    if(show_plot){
+      cor_tab_plot <- cor_tab %>%
+        mutate(pair = paste(col_1, col_2, sep = " & ")) %>%
+        mutate(pair = factor(pair, levels = as.character(pair))) %>%
+        select(-col_1, -col_2) %>% 
+        gather(key = "data_frame", value = "corr", -pair, -p_value) %>%
+        mutate(sign = as.factor(c("Negative", "Positive")[as.numeric(corr > 0) + 1]))
+        # if only showing the absolute correlations
+      if(absolute){
+        # if showing absolute values, flip the sign of any negative values 
+        cor_tab_plot$corr <- ifelse(cor_tab_plot$corr < 0, -cor_tab_plot$corr, 
+                                    cor_tab_plot$corr)
+      }
+      # generate basic plot
+      plt <- ggplot(cor_tab_plot, aes(x = pair, y = corr, colour = sign, group = data_frame)) +
+        geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
+        geom_point(size = 3.7, color = "black") + 
+        geom_point(size = 3) +
+        coord_flip() + 
+        labs(x = "", 
+             title =  paste0("Correlation of numeric columns in df::", df_names$df1, " and ", df_names$df2),
+             subtitle = bquote(""))
+      # if absolute value requested then label accordingly
+      if(absolute){
+        plt <- plt + 
+          guides(colour = guide_legend(title = bquote("\u03C1 sign"))) + 
+          labs(y = bquote("Absolute Pearson correlation (|\u03C1|)"), x = "")
+      } else {
+        plt <- plt + 
+          guides(colour = FALSE) +
+          labs(y = bquote("Pearson correlation (\u03C1)"), x = "")
+      }
+      print(plt)
+    }
     return(cor_tab)
   }
 }
