@@ -34,13 +34,13 @@ test_that("Output with two different inputs data frame", {
 })
 
 diff_correlatations <- function(data_input){
-  x1 <- data_input %>% report_cor %>% dplyr::select(correlation)
+  x1 <- data_input %>% report_cor %>% dplyr::select(corr)
   x <- data_input %>% dplyr::select_if(is.numeric)
   x <- cor(x, use = "pairwise.complete.obs")
   diag(x) <- NA
   x2 <- x %>% c %>% tibble::as_tibble() %>% 
-    dplyr::rename(correlation = value) %>% dplyr::filter(!is.na(correlation)) %>%
-    dplyr::distinct() %>% dplyr::arrange(dplyr::desc(abs(correlation)))
+    dplyr::rename(corr = value) %>% dplyr::filter(!is.na(corr)) %>%
+    dplyr::distinct() %>% dplyr::arrange(dplyr::desc(abs(corr)))
   return(mean(unlist(abs(x1 - x2))))
 }
 
