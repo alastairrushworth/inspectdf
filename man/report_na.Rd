@@ -4,7 +4,8 @@
 \alias{report_na}
 \title{Report the proportion of each column containing missing values}
 \usage{
-report_na(df1, df2 = NULL, top = NULL, show_plot = FALSE)
+report_na(df1, df2 = NULL, top = NULL, show_plot = FALSE,
+  alpha = 0.05)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -14,9 +15,11 @@ report_na(df1, df2 = NULL, top = NULL, show_plot = FALSE)
 \item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
 
 \item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
+
+\item{alpha}{Alpha level for performing significance tests.  Defaults to 0.05.}
 }
 \value{
-Return a \code{tibble} containing the columns \code{col_name}, \code{count_na} and \code{percent_na}.
+Return a \code{tibble} containing the columns \code{col_name}, \code{cnt_na} and \code{pcnt_na}.
 }
 \description{
 Report the proportion of each column containing missing values
