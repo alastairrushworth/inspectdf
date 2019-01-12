@@ -5,7 +5,7 @@
 \title{Report the Pearson's correlation coefficient for each pair of numeric columns}
 \usage{
 report_cor(df1, df2 = NULL, top = NULL, show_plot = FALSE,
-  absolute = T)
+  alpha = 0.05, absolute = T)
 }
 \arguments{
 \item{df1}{A data frame containing numeric columns}
@@ -15,6 +15,10 @@ report_cor(df1, df2 = NULL, top = NULL, show_plot = FALSE,
 \item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
 
 \item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
+
+\item{alpha}{Alpha level for performing significance tests.  Defaults to 0.05.}
+
+\item{absolute}{Logical flag indicating whether to plot correlations on an absolute scale.  Note that this is just a display option and all tests and comparisons occur on the original scale regardless of this flag.}
 }
 \value{
 Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \code{pair} and \code{corr}.  The report contains only the upper triangle of the correlation matrix.  The tibble is sorted by descending absolute value in the \code{corr} column.
@@ -28,5 +32,5 @@ When the second data frame \code{df2} is specified, correlations are tabulated f
 \examples{
 data("starwars", package = "dplyr")
 report_cor(starwars)
-report_cor(starwars, starwars[1:10, ])
+report_cor(starwars, starwars[1:10, ], show_plot = T)
 }

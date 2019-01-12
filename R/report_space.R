@@ -2,7 +2,7 @@
 #'
 #' @param df1 A data frame.
 #' @param df2 An optional second data frame for comparison.
-#' @param top Postive integer specifiying the number of rows to print in the 
+#' @param top Positive integer specifying the number of rows to print in the 
 #' output tibble.  Useful when the input data frame has many columns.  
 #' \code{top = NULL}, the default causes everything to be returned.
 #' @param show_plot Logical argument determining whether plot is generated 
