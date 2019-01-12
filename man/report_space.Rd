@@ -11,7 +11,7 @@ report_space(df1, df2 = NULL, top = NULL, show_plot = FALSE)
 
 \item{df2}{An optional second data frame for comparison.}
 
-\item{top}{Postive integer specifiying the number of rows to print in the 
+\item{top}{Positive integer specifying the number of rows to print in the 
 output tibble.  Useful when the input data frame has many columns.  
 \code{top = NULL}, the default causes everything to be returned.}
 

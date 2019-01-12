@@ -10,6 +10,7 @@
                              "n_levels", "levels.x", "levels.y", "diff_1_2", 
                              "diff_2_1", "p_value", "n", "type", "count_na", 
                              "mid", "hist.x", "hist.y", "n.x", "percent_space", 
-                             "n.y", "df_input", "count_type", "count", "col_type"))
+                             "n.y", "df_input", "count_type", "count", "col_type", 
+                             "corr", "is_sig", "index", "data_frame", "pcnt"))
   invisible()
 }

@@ -4,13 +4,15 @@
 #' @param df2 An optional second data frame for comparing correlation coefficients with.  Defaults to \code{NULL}.
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
+#' @param alpha Alpha level for performing significance tests.  Defaults to 0.05.
+#' @param absolute Logical flag indicating whether to plot correlations on an absolute scale.  Note that this is just a display option and all tests and comparisons occur on the original scale regardless of this flag. 
 #' @return Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \code{pair} and \code{corr}.  The report contains only the upper triangle of the correlation matrix.  The tibble is sorted by descending absolute value in the \code{corr} column.
 #' @export
 #' @details When the second data frame \code{df2} is specified, correlations are tabulated for both data frames, and where a pair of numeric columns with the same names appear in both, a p-value is provided which test tests whether their correlations coefficients are equal.
 #' @examples
 #' data("starwars", package = "dplyr")
 #' report_cor(starwars)
-#' report_cor(starwars, starwars[1:10, ])
+#' report_cor(starwars, starwars[1:10, ], show_plot = T)
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -23,20 +25,24 @@
 #' @importFrom dplyr slice
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 coord_flip
+#' @importFrom ggplot2 element_blank
 #' @importFrom ggplot2 element_text
+#' @importFrom ggplot2 geom_blank
 #' @importFrom ggplot2 geom_errorbar
 #' @importFrom ggplot2 geom_hline
 #' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 geom_rect
 #' @importFrom ggplot2 geom_text
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 guide_legend
 #' @importFrom ggplot2 guides
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme_bw
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 
-report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, absolute = T){
+report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.05, absolute = T){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -124,15 +130,26 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, absolute 
         cor_tab_plot$corr <- ifelse(cor_tab_plot$corr < 0, -cor_tab_plot$corr, 
                                     cor_tab_plot$corr)
       }
+      p_val_tab <- cor_tab_plot %>% 
+        mutate(is_sig = as.integer(p_value < 0.05) + 1, index = 1:nrow(cor_tab_plot)) %>%
+        select(is_sig, index)
       # generate basic plot
-      plt <- ggplot(cor_tab_plot, aes(x = pair, y = corr, colour = sign, group = data_frame)) +
+      plt <- ggplot(cor_tab_plot, aes(x = as.factor(pair), y = corr, colour = sign, 
+                               group = data_frame)) +
+        geom_blank() + theme_bw() + 
+        theme(panel.border = element_blank(), panel.grid.major = element_blank()) +
+        geom_rect(
+          fill = c("darkorange2", "royalblue1")[p_val_tab$is_sig], alpha = 0.2,
+          xmin = p_val_tab$index - 0.4, xmax = p_val_tab$index + 0.4,
+          ymin = -2, ymax = 2, linetype = "blank") +
         geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
         geom_point(size = 3.7, color = "black") + 
         geom_point(size = 3) +
         coord_flip() + 
         labs(x = "", 
-             title =  paste0("Correlation of numeric columns in df::", df_names$df1, " and ", df_names$df2),
-             subtitle = bquote(""))
+             title =  paste0("Comparison of \u03C1 between df::", df_names$df1, 
+                             " and ", df_names$df2),
+             subtitle = bquote("Coloured stripes represent significance (blue) or not (orange) of test of equality at \u03B1 = 0.05"))
       # if absolute value requested then label accordingly
       if(absolute){
         plt <- plt + 
