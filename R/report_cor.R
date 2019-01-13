@@ -12,7 +12,7 @@
 #' @examples
 #' data("starwars", package = "dplyr")
 #' report_cor(starwars)
-#' report_cor(starwars, starwars[1:10, ], show_plot = T)
+#' report_cor(starwars, starwars[1:10, ], show_plot = TRUE)
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -42,7 +42,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 
-report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.05, absolute = T){
+report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.05, absolute = TRUE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
