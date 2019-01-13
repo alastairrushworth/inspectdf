@@ -5,7 +5,7 @@
 \title{Report the Pearson's correlation coefficient for each pair of numeric columns}
 \usage{
 report_cor(df1, df2 = NULL, top = NULL, show_plot = FALSE,
-  alpha = 0.05, absolute = T)
+  alpha = 0.05, absolute = TRUE)
 }
 \arguments{
 \item{df1}{A data frame containing numeric columns}
@@ -32,5 +32,5 @@ When the second data frame \code{df2} is specified, correlations are tabulated f
 \examples{
 data("starwars", package = "dplyr")
 report_cor(starwars)
-report_cor(starwars, starwars[1:10, ], show_plot = T)
+report_cor(starwars, starwars[1:10, ], show_plot = TRUE)
 }
