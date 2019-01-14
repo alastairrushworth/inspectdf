@@ -8,29 +8,45 @@ report_cor(df1, df2 = NULL, top = NULL, show_plot = FALSE,
   alpha = 0.05, absolute = TRUE)
 }
 \arguments{
-\item{df1}{A data frame containing numeric columns}
+\item{df1}{A data frame}
 
-\item{df2}{An optional second data frame for comparing correlation coefficients with.  Defaults to \code{NULL}.}
+\item{df2}{An optional second data frame for making comparisons of correlation coefficients.
+Defaults to \code{NULL}.}
 
-\item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
+\item{top}{The number of rows to print for summaries. Default \code{top = NULL} 
+prints everything.}
 
-\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
+\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.
+Default is \code{FALSE}.}
 
 \item{alpha}{Alpha level for performing significance tests.  Defaults to 0.05.}
 
-\item{absolute}{Logical flag indicating whether to plot correlations on an absolute scale.  Note that this is just a display option and all tests and comparisons occur on the original scale regardless of this flag.}
+\item{absolute}{Logical flag indicating whether to plot correlations on an absolute scale.
+Note that this is just a display option and all tests and comparisons occur on the original correlation 
+scale regardless of the value of this flag.}
 }
 \value{
-Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and \code{pair} and \code{corr}.  The report contains only the upper triangle of the correlation matrix.  The tibble is sorted by descending absolute value in the \code{corr} column.
+Return a \code{tibble} containing the columns \code{col_1}, \code{col_2} and 
+\code{pair}, \code{corr}, \code{p_value}, \code{lower} and \code{upper}.
 }
 \description{
 Report the Pearson's correlation coefficient for each pair of numeric columns
 }
 \details{
-When the second data frame \code{df2} is specified, correlations are tabulated for both data frames, and where a pair of numeric columns with the same names appear in both, a p-value is provided which test tests whether their correlations coefficients are equal.
+The tibble contains only the upper triangle of the correlation matrix.  The tibble is sorted by 
+descending absolute value in the \code{corr} column.  The \code{p_value} corresponds 
+to the null hypothesis that the correlation coefficient equals 0.  The \code{lower} 
+and \code{upper} columns correspond to the lower and upper bounds of a confidence 
+interval for the value in \code{corr} at the level specified by \code{alpha}.
+
+When the second data frame \code{df2} is specified, correlations are tabulated for both data frames.  
+Where a pair of numeric columns with the same names appear in both data frames, the entry in the 
+\code{p_value} column corresponds to the null hypothesis that the two coefficients are equal.
 }
 \examples{
 data("starwars", package = "dplyr")
+# correlations in numeric columns
 report_cor(starwars)
+# compare correlations with a different data frame
 report_cor(starwars, starwars[1:10, ], show_plot = TRUE)
 }
