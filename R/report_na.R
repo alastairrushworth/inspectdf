@@ -71,7 +71,7 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.
         mutate(data_frame = gsub("pcnt_", "", data_frame))
       na_tab_plot <- na_tab_plot[seq(dim(na_tab_plot)[1],1),]
       p_val_tab <- na_tab_plot %>% 
-        mutate(is_sig = as.integer(p_value < 0.05) + 2, index = 1:nrow(na_tab_plot)) %>%
+        mutate(is_sig = as.integer(p_value < alpha) + 2, index = 1:nrow(na_tab_plot)) %>%
         replace_na(list(is_sig = 1)) %>%
         select(is_sig, index) 
     
