@@ -4,3 +4,9 @@ language: R
 sudo: false
 cache: packages
 warnings_are_errors: false
+
+r_packages:
+  - covr
+
+after_success:
+  - Rscript -e 'library(covr); codecov(token = "613dba03-6687-4fe2-aab0-dc7319591344")'
