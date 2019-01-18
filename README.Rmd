@@ -12,7 +12,8 @@ knitr::opts_chunk$set(
 # reporter <img src="man/figures/hex.png" align="right" width="120" />
 
 
-[![Build Status](https://travis-ci.org/alastairrushworth/reporter.svg?branch=master)](https://travis-ci.org/alastairrushworth/reporter)
+[![Build Status](https://travis-ci.org/alastairrushworth/reporter.svg?branch=master)](https://travis-ci.org/alastairrushworth/reporter)  [![codecov](https://codecov.io/gh/alastairrushworth/reporter/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/reporter)
+
 
 Overview
 ---
