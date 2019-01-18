@@ -21,7 +21,7 @@ cor_test <- function(cor_1, cor_2, n_1, n_2){
 }
 
 # univariate correlation tests
-cor_test_1 <- function(df_input){
+cor_test_1 <- function(df_input, alpha = 0.05){
   # every combination of variables
   c_nms <- colnames(df_input)
   c_cmbs <- expand.grid(col_1 =  c_nms, col_2 =  c_nms) %>%
@@ -32,7 +32,10 @@ cor_test_1 <- function(df_input){
   out_cors <- vector("list", length = nrow(c_cmbs))
   for(i in 1:nrow(c_cmbs)){
     c_df   <- df_input %>% select_(c_cmbs$col_1[i], c_cmbs$col_2[i])
-    c_test <- try(cor.test(c_df[, 1, drop = TRUE], c_df[, 2, drop = T]), silent = TRUE)
+    c_test <- try(cor.test(c_df[, 1, drop = TRUE], 
+                           c_df[, 2, drop = T], 
+                           conf.level = 1 - alpha / 2), 
+                  silent = TRUE)
     if(!class(c_test) == "try-error"){
       out_cors[[i]] <- tibble(corr = c_test$estimate, 
                               p_value = c_test$p.value,

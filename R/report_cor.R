@@ -73,7 +73,7 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0
     # calculate correlation coefficients
     if(ncol(df_numeric) > 0){
       # get correlation coefficients for numeric pairs
-      cor_df <- cor_test_1(df_numeric)
+      cor_df <- cor_test_1(df_numeric, alpha = alpha)
       # return top strongest if requested
       out <- cor_df %>% slice(1:min(top, nrow(.))) 
       # return plot if requested
@@ -147,7 +147,7 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0
                                     cor_tab_plot$corr)
       }
       p_val_tab <- cor_tab_plot %>% 
-        mutate(is_sig = as.integer(p_value < 0.05) + 1, index = 1:nrow(cor_tab_plot)) %>%
+        mutate(is_sig = as.integer(p_value < alpha) + 1, index = 1:nrow(cor_tab_plot)) %>%
         select(is_sig, index)
       # generate basic plot
       plt <- ggplot(cor_tab_plot, aes(x = as.factor(pair), y = corr, colour = sign, 
