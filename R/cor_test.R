@@ -31,12 +31,20 @@ cor_test_1 <- function(df_input){
   # loop over rows and calculate correlation, p.value and cint
   out_cors <- vector("list", length = nrow(c_cmbs))
   for(i in 1:nrow(c_cmbs)){
-    c_df <- df_input %>% select_(c_cmbs$col_1[i], c_cmbs$col_2[i])
-    c_test <- cor.test(c_df[, 1, drop = TRUE], c_df[, 2, drop = T])
-    out_cors[[i]] <- tibble(corr = c_test$estimate, 
-                            p_value = c_test$p.value,
-                            lower = c_test$conf.int[1],
-                            upper = c_test$conf.int[2]) 
+    c_df   <- df_input %>% select_(c_cmbs$col_1[i], c_cmbs$col_2[i])
+    c_test <- try(cor.test(c_df[, 1, drop = TRUE], c_df[, 2, drop = T]), silent = TRUE)
+    if(!class(c_test) == "try-error"){
+      out_cors[[i]] <- tibble(corr = c_test$estimate, 
+                              p_value = c_test$p.value,
+                              lower = c_test$conf.int[1],
+                              upper = c_test$conf.int[2]) 
+    } else {
+      out_cors[[i]] <- tibble(corr = NA, 
+                              p_value = NA,
+                              lower = NA,
+                              upper = NA) 
+    }
+
   }
   # combine into a single tibble
   cor_out <- bind_cols(c_cmbs, bind_rows(out_cors)) %>% 

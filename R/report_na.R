@@ -75,7 +75,7 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.
         replace_na(list(is_sig = 1)) %>%
         select(is_sig, index) 
     
-      plt <- ggplot(na_tab_plot, aes(x = factor(col_name, levels = as.character(na_tab$col_name)), y = pcnt, colour = data_frame)) +
+      plt <- ggplot(na_tab_plot, aes(x = factor(col_name, levels = rev(as.character(na_tab$col_name))), y = pcnt, colour = data_frame)) +
         geom_blank() + theme_bw() + 
         theme(panel.border = element_blank(), panel.grid.major = element_blank()) +
         geom_rect(
@@ -85,13 +85,14 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.
         geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
         geom_point(size = 3.7, color = "black") + 
         geom_point(size = 3) +
-        coord_flip() + 
-        labs(x = "", 
-             title =  paste0("Comparison of % missingness between ",
-                           df_names$df1, " and ", df_names$df2),
-             subtitle = bquote("Coloured stripes represent evidence of inequality (blue) or equality (orange) of missingness at \u03B1 = 0.05")) + 
-        guides(colour = guide_legend(title = bquote("Data frame"))) + 
-        labs(y = "Percent missing", x = "")
+        coord_flip()
+      plt <- suppressWarnings(plt + labs(x = "", 
+                                         title =  paste0("Comparison of % missingness between ",
+                                                         df_names$df1, " and ", df_names$df2),
+                                         subtitle = bquote("Coloured stripes represent evidence of inequality (blue) or equality (orange) of missingness at \u03B1 = 0.05")) + 
+                                guides(colour = guide_legend(title = bquote("Data frame"))) + 
+                                labs(y = "Percent missing", x = ""))
+      
       print(plt)
     }
 
