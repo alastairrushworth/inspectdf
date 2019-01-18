@@ -1,16 +1,26 @@
-#' Report the proportion of each column containing missing values
+#' Report the rate of missingness in each column of a dataframe
 #'
 #' @param df1 A data frame
-#' @param df2 An optional second data frame for comparing missing values with.  Defaults to \code{NULL}.
-#' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
-#' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
+#' @param df2 An optional second data frame for making comparisons of missingness across columns.  
+#' Defaults to \code{NULL}.
+#' @param top The number of rows to print for summaries. Default \code{top = NULL} 
+#' prints everything.
+#' @param show_plot Logical determining whether to show a plot in addition to tibble output.  
+#' Default is \code{FALSE}.
 #' @param alpha Alpha level for performing significance tests.  Defaults to 0.05.
-#' @return Return a \code{tibble} containing the columns \code{col_name}, \code{cnt_na} and \code{pcnt_na}. 
-#' @export
-#' @details When the second data frame \code{df2} is specified, the missingness is tabulated for both data frames, and where a pair of columns are common to both data frames a p-value is calculated for the equivalence of the proportion of missing values.
+#' @return Return a \code{tibble} summarising columnwise missingness by presence of 
+#' \code{NA}.  Output contains the columns \code{col_name}, \code{cnt_na} and \code{pcnt}. 
+#' @details When a second data frame \code{df2} is specified, the tibble returned compares 
+#' missing for both dataframes.  The \code{p_value} results from a a chi-square test 
+#' of the null hypothesis that the rate of missingness is the same in in \code{df1} 
+#' and \code{df2}.
 #' @examples
 #' data("starwars", package = "dplyr")
+#' # missingness in starwars data
 #' report_na(starwars)
+#' report_na(starwars, show_plot = TRUE)
+#' # compare missingness 
+#' report_na(starwars, starwars[1:30, ])
 #' @importFrom dplyr arrange
 #' @importFrom dplyr desc
 #' @importFrom dplyr full_join
@@ -21,6 +31,7 @@
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
+#' @export
 
 report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.05){
   # perform basic column check on dataframe input
