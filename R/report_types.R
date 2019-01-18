@@ -43,6 +43,7 @@
 #' @importFrom tibble tibble
 #' @importFrom tidyr gather
 #' @importFrom tidyr replace_na
+#' @useDynLib reporter
 
 report_types <- function(df1, df2 = NULL, show_plot = FALSE){
   

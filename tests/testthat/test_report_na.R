@@ -18,11 +18,16 @@ test_that("Output is a data frame", {
 
 test_that("Plot is returned without error", {
   expect_is(report_na(mtcars, show_plot = T), "data.frame")
+  expect_is(report_na(mtcars, mtcars[1:30, ], show_plot = T), "data.frame")
+  expect_is(report_na(band_instruments, band_instruments[1:2, ], show_plot = T), "data.frame")
   expect_is(report_na(band_instruments, show_plot = T), "data.frame")
   expect_error(report_na(nasa, show_plot = T))
   expect_is(report_na(starwars, show_plot = T), "data.frame")
+  expect_is(report_na(starwars, starwars[1:30, ], show_plot = T), "data.frame")
   expect_is(report_na(storms, show_plot = T), "data.frame")
+  expect_is(report_na(storms, storms[1:200,], show_plot = T), "data.frame")
   expect_is(report_na(airquality, show_plot = T), "data.frame")
+  expect_is(report_na(airquality, airquality[1:30,], show_plot = T), "data.frame")
 })
 
 test_that("Output with two identical df inputs data frame", {
