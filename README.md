@@ -2,7 +2,7 @@
 reporter <img src="man/figures/hex.png" align="right" width="120" />
 ====================================================================
 
-[![Build Status](https://travis-ci.org/alastairrushworth/reporter.svg?branch=master)](https://travis-ci.org/alastairrushworth/reporter)
+[![Build Status](https://travis-ci.org/alastairrushworth/reporter.svg?branch=master)](https://travis-ci.org/alastairrushworth/reporter) [![codecov](https://codecov.io/gh/alastairrushworth/reporter/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/reporter)
 
 Overview
 --------
@@ -65,21 +65,21 @@ report_space(starwars, show_plot = T)
 ![](man/figures/README-unnamed-chunk-5-1.png)
 
     ## # A tibble: 13 x 3
-    ##    col_names  size      percent_space
-    ##    <chr>      <chr>             <dbl>
-    ##  1 films      19.54 Kb         36.5  
-    ##  2 starships  7.27 Kb          13.6  
-    ##  3 name       6.13 Kb          11.5  
-    ##  4 vehicles   5.8 Kb           10.8  
-    ##  5 homeworld  3.52 Kb           6.58 
-    ##  6 species    2.88 Kb           5.39 
-    ##  7 skin_color 2.59 Kb           4.85 
-    ##  8 eye_color  1.57 Kb           2.93 
-    ##  9 hair_color 1.41 Kb           2.63 
-    ## 10 gender     976 bytes         1.78 
-    ## 11 mass       744 bytes         1.36 
-    ## 12 birth_year 744 bytes         1.36 
-    ## 13 height     400 bytes         0.730
+    ##    col_name   size        pcnt
+    ##    <chr>      <chr>      <dbl>
+    ##  1 films      19.54 Kb  36.5  
+    ##  2 starships  7.27 Kb   13.6  
+    ##  3 name       6.13 Kb   11.5  
+    ##  4 vehicles   5.8 Kb    10.8  
+    ##  5 homeworld  3.52 Kb    6.58 
+    ##  6 species    2.88 Kb    5.39 
+    ##  7 skin_color 2.59 Kb    4.85 
+    ##  8 eye_color  1.57 Kb    2.93 
+    ##  9 hair_color 1.41 Kb    2.63 
+    ## 10 gender     976 bytes  1.78 
+    ## 11 mass       744 bytes  1.36 
+    ## 12 birth_year 744 bytes  1.36 
+    ## 13 height     400 bytes  0.730
 
 #### Missing values
 
@@ -92,21 +92,21 @@ report_na(starwars, show_plot = T)
 ![](man/figures/README-unnamed-chunk-6-1.png)
 
     ## # A tibble: 13 x 3
-    ##    col_name   count_na percent
-    ##    <chr>         <int>   <dbl>
-    ##  1 birth_year       44   50.6 
-    ##  2 mass             28   32.2 
-    ##  3 homeworld        10   11.5 
-    ##  4 height            6    6.90
-    ##  5 hair_color        5    5.75
-    ##  6 species           5    5.75
-    ##  7 gender            3    3.45
-    ##  8 name              0    0   
-    ##  9 skin_color        0    0   
-    ## 10 eye_color         0    0   
-    ## 11 films             0    0   
-    ## 12 vehicles          0    0   
-    ## 13 starships         0    0
+    ##    col_name   cnt_na  pcnt
+    ##    <chr>       <int> <dbl>
+    ##  1 birth_year     44 50.6 
+    ##  2 mass           28 32.2 
+    ##  3 homeworld      10 11.5 
+    ##  4 height          6  6.90
+    ##  5 hair_color      5  5.75
+    ##  6 species         5  5.75
+    ##  7 gender          3  3.45
+    ##  8 name            0  0   
+    ##  9 skin_color      0  0   
+    ## 10 eye_color       0  0   
+    ## 11 films           0  0   
+    ## 12 vehicles        0  0   
+    ## 13 starships       0  0
 
 #### Correlation
 
@@ -119,11 +119,11 @@ report_cor(starwars, show_plot = T)
 ![](man/figures/README-unnamed-chunk-7-1.png)
 
     ## # A tibble: 3 x 7
-    ##   col_1      col_2  pair                correlation p_value  lower  upper
-    ##   <chr>      <chr>  <chr>                     <dbl>   <dbl>  <dbl>  <dbl>
-    ## 1 birth_year mass   birth_year & mass         0.478 0.00318  0.177  0.697
-    ## 2 birth_year height birth_year & height      -0.400 0.00789 -0.625 -0.113
-    ## 3 mass       height mass & height             0.134 0.312   -0.127  0.377
+    ##   col_1      col_2  pair                  corr p_value  lower  upper
+    ##   <chr>      <chr>  <chr>                <dbl>   <dbl>  <dbl>  <dbl>
+    ## 1 birth_year mass   birth_year & mass    0.478 0.00318  0.177  0.697
+    ## 2 birth_year height birth_year & height -0.400 0.00789 -0.625 -0.113
+    ## 3 mass       height mass & height        0.134 0.312   -0.127  0.377
 
 \_<Notes:_>
 + The tibble is sorted in descending order of the absolute coefficient.
