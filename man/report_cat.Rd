@@ -32,5 +32,5 @@ Report and compare the levels within each categorical feature
 data("starwars", package = "dplyr")
 report_cat(starwars)
 # return a visualisation too
-report_cat(starwars, show_plot = T)
+report_cat(starwars, show_plot = TRUE)
 }
