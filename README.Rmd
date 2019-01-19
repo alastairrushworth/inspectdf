@@ -128,7 +128,7 @@ For example, the levels for the `hair_color` column are
 report_cat(starwars)$levels$hair_color
 ```
 
-Note that by default, if `NA` values are present, they are counted as a distict categorical level.
+Note that by default, if `NA` values are present, they are counted as a distinct categorical level.
 
 
 
