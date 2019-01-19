@@ -17,7 +17,7 @@
 #' data("starwars", package = "dplyr")
 #' report_cat(starwars)
 #' # return a visualisation too
-#' report_cat(starwars, show_plot = T)
+#' report_cat(starwars, show_plot = TRUE)
 #' @importFrom tibble as_tibble
 #' @importFrom tibble tibble
 #' @importFrom dplyr arrange
