@@ -239,4 +239,4 @@ report_cat(starwars)$levels$hair_color
     ## 12 unknown       0.0115
     ## 13 <NA>          0.0575
 
-Note that by default, if `NA` values are present, they are counted as a distict categorical level.
+Note that by default, if `NA` values are present, they are counted as a distinct categorical level.
