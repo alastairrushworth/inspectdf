@@ -119,11 +119,11 @@ report_cor(starwars, show_plot = T)
 ![](man/figures/README-unnamed-chunk-7-1.png)
 
     ## # A tibble: 3 x 7
-    ##   col_1      col_2  pair                  corr p_value  lower  upper
-    ##   <chr>      <chr>  <chr>                <dbl>   <dbl>  <dbl>  <dbl>
-    ## 1 birth_year mass   birth_year & mass    0.478 0.00318  0.177  0.697
-    ## 2 birth_year height birth_year & height -0.400 0.00789 -0.625 -0.113
-    ## 3 mass       height mass & height        0.134 0.312   -0.127  0.377
+    ##   col_1      col_2  pair                  corr p_value  lower   upper
+    ##   <chr>      <chr>  <chr>                <dbl>   <dbl>  <dbl>   <dbl>
+    ## 1 birth_year mass   birth_year & mass    0.478 0.00318  0.130  0.721 
+    ## 2 birth_year height birth_year & height -0.400 0.00789 -0.651 -0.0690
+    ## 3 mass       height mass & height        0.134 0.312   -0.163  0.409
 
 \_<Notes:_>
 + The tibble is sorted in descending order of the absolute coefficient.
@@ -191,36 +191,38 @@ report_numeric(starwars)$hist$birth_year
 
 #### Categorical levels
 
-`report_levels` returns a tibble summarising categorical features in the data frame. This combines the functionality of `report_imbalance` and the `table` function. The tibble generated contains the columns
+`report_cat` returns a tibble summarising categorical features in the data frame. This combines the functionality of `report_imbalance` and the `table` function. If `show_plot = TRUE` a barplot is generated showing the relative split. The tibble generated contains the columns
 
 -   `col_name`
--   `n_levels` the number of unique levels in the feature
--   `dom_level` the most common level (see also `report_imbalance`)
--   `dom_percent` the percentage occurrence of the most dominant level
--   `levels` a list of tibbles each containing frequency tabulations of all levels
+-   `n_lvl` the number of unique levels in the feature
+-   `cmn_lvl` the most common level (see also `report_imbalance`)
+-   `cmn_pcnt` the percentage occurrence of the most dominant level
+-   `levels` a list of tibbles each containing frequency tabulations of all levels.
 
 ``` r
-report_levels(starwars)
+report_cat(starwars, show_plot = T)
 ```
 
+![](man/figures/README-unnamed-chunk-11-1.png)
+
     ## # A tibble: 7 x 5
-    ##   col_name   n_levels dom_level dom_percent levels           
-    ##   <chr>         <int> <chr>           <dbl> <list>           
-    ## 1 eye_color        15 brown           24.1  <tibble [15 × 2]>
-    ## 2 gender            4 male            71.3  <tibble [4 × 2]> 
-    ## 3 hair_color       12 none            42.5  <tibble [12 × 2]>
-    ## 4 homeworld        48 Naboo           12.6  <tibble [48 × 2]>
-    ## 5 name             87 Ackbar           1.15 <tibble [87 × 2]>
-    ## 6 skin_color       31 fair            19.5  <tibble [31 × 2]>
-    ## 7 species          37 Human           40.2  <tibble [37 × 2]>
+    ##   col_name   n_lvl cmn_lvl cmn_pcnt levels           
+    ##   <chr>      <int> <chr>      <dbl> <list>           
+    ## 1 eye_color     15 brown      24.1  <tibble [15 × 2]>
+    ## 2 gender         5 male       71.3  <tibble [5 × 2]> 
+    ## 3 hair_color    13 none       42.5  <tibble [13 × 2]>
+    ## 4 homeworld     49 Naboo      12.6  <tibble [49 × 2]>
+    ## 5 name          87 Ackbar      1.15 <tibble [87 × 2]>
+    ## 6 skin_color    31 fair       19.5  <tibble [31 × 2]>
+    ## 7 species       38 Human      40.2  <tibble [38 × 2]>
 
 For example, the levels for the `hair_color` column are
 
 ``` r
-report_levels(starwars)$levels$hair_color
+report_cat(starwars)$levels$hair_color
 ```
 
-    ## # A tibble: 12 x 2
+    ## # A tibble: 13 x 2
     ##    value           prop
     ##    <chr>          <dbl>
     ##  1 none          0.425 
@@ -235,3 +237,6 @@ report_levels(starwars)$levels$hair_color
     ## 10 brown, grey   0.0115
     ## 11 grey          0.0115
     ## 12 unknown       0.0115
+    ## 13 <NA>          0.0575
+
+Note that by default, if `NA` values are present, they are counted as a distict categorical level.
