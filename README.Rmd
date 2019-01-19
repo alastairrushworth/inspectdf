@@ -110,25 +110,25 @@ report_numeric(starwars)$hist$birth_year
 
 #### Categorical levels
 
-`report_levels` returns a tibble summarising categorical features in the data frame.  This combines the functionality of `report_imbalance` and the `table` function. The tibble generated contains the columns  
+`report_cat` returns a tibble summarising categorical features in the data frame.  This combines the functionality of `report_imbalance` and the `table` function. If `show_plot = TRUE` a barplot is generated showing the relative split.  The tibble generated contains the columns  
 
 + `col_name`  
-+ `n_levels` the number of unique levels in the feature  
-+ `dom_level` the most common level (see also `report_imbalance`)  
-+ `dom_percent` the percentage occurrence of the most dominant level  
-+ `levels` a list of tibbles each containing frequency tabulations of all levels  
++ `n_lvl` the number of unique levels in the feature  
++ `cmn_lvl` the most common level (see also `report_imbalance`)  
++ `cmn_pcnt` the percentage occurrence of the most dominant level  
++ `levels` a list of tibbles each containing frequency tabulations of all levels. 
 
 ```{r}
-report_levels(starwars)
+report_cat(starwars, show_plot = T)
 ```
 
 For example, the levels for the `hair_color` column are
 
 ```{r}
-report_levels(starwars)$levels$hair_color
+report_cat(starwars)$levels$hair_color
 ```
 
-
+Note that by default, if `NA` values are present, they are counted as a distict categorical level.
 
 
 

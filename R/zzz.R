@@ -11,6 +11,7 @@
                              "diff_2_1", "p_value", "n", "type", "count_na", 
                              "mid", "hist.x", "hist.y", "n.x", "percent_space", 
                              "n.y", "df_input", "count_type", "count", "col_type", 
-                             "corr", "is_sig", "index", "data_frame", "pcnt"))
+                             "corr", "is_sig", "index", "data_frame", "pcnt", 
+                             "n_lvl", "level_key"))
   invisible()
 }
