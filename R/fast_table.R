@@ -1,9 +1,10 @@
 #' @importFrom dplyr arrange
+#' @importFrom dplyr bind_rows
 #' @importFrom dplyr desc
 #' @importFrom dplyr slice
 #' @importFrom tibble tibble
 
-fast_table <- function(v, show_all = F){
+fast_table <- function(v, show_na = TRUE){
   vsort  <- sort(v, method = "quick")
   vals   <- unique(vsort)
   if(any(class(v) %in% c("integer", "numeric", "double", "factor"))){
@@ -13,14 +14,14 @@ fast_table <- function(v, show_all = F){
   } else {
     freq <- NA
   }
-  if(!show_all){
-    tibble(value = vals, prop = freq / length(v)) %>% 
-      arrange(desc(prop)) %>% 
-      slice(1) %>%
-      return
-  } else {
-    tibble(value = vals, prop = freq / length(v)) %>% 
-      arrange(desc(prop)) %>% 
-      return
+  # recombine levels with frequencies
+  tbl_freq <-  tibble(value = vals, prop = freq / length(v)) %>% 
+    arrange(desc(prop))
+  # if there are NAs then add NA level
+  if(sum(tbl_freq$prop) < 1){
+    tbl_freq <- tbl_freq %>% 
+      bind_rows(tibble(value = NA, prop = 1 - sum(.$prop)))
   }
+  # return frequency table
+  return(tbl_freq)
 }
