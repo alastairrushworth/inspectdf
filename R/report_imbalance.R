@@ -34,14 +34,15 @@ report_imbalance <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     # calculate imbalance if any columns available
     if(ncol(df_cat) > 0){
       # function to find the percentage of the most common value in a vector
-      imb_cols       <- do.call("rbind", lapply(df_cat, fast_table))
-      imb_cols$names <- colnames(df_cat)
+      imb_cols       <- suppressWarnings(bind_rows(lapply(df_cat, fast_table), .id = "col_name"))
       # get top ten most imbalance by common class and pass to histogrammer
       out <- imb_cols %>% 
+        group_by(col_name) %>%
         arrange(desc(prop)) %>% 
-        slice(1:min(top, nrow(.))) %>% 
-        mutate(prop = 100 * prop) %>% 
-        select(col_name = names, value, percent = prop)
+        slice(1) %>% ungroup %>%
+        mutate(prop = 100 * prop) %>%
+        arrange(desc(prop)) %>% 
+        select(col_name, value, percent = prop)
       # print plot if requested
       if(show_plot){
         # convert col_name to factor
