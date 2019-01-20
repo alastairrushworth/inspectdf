@@ -7,17 +7,23 @@
 #' Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  
 #' Default is \code{FALSE}.
-#' @return If \code{df2 = NULL} then is a \code{tibble} containing the names of 
+#' @return A \code{tibble} containing the names of 
 #' categorical columns (\code{col_name}), the number of levels within each (\code{n_lvl}), 
 #' the most common level (\code{cmn_lvl}), the percentage occurrence of the most common 
 #' feature (\code{cmn_pcnt}) and a list of tibbles containing the percentage appearance 
 #' of each feature (\code{levels}).
+#' @details If \code{df2} is specified, the tibble returned compares the common columns
+#' in both data frames.  The population stability index \code{psi}, chi-squared statistic
+#' \code{chisq} are returned.  The \code{p_value} associated with the null hypothesis 
+#' that counts of each level in each column shared by the two data frames is the same.
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")
 #' report_cat(starwars)
 #' # return a visualisation too
 #' report_cat(starwars, show_plot = TRUE)
+#' # compare the levels in two data frames
+#' report_cat(starwars, starwars[1:20, ])
 #' @importFrom tibble as_tibble
 #' @importFrom tibble tibble
 #' @importFrom dplyr arrange
@@ -130,14 +136,12 @@ report_cat <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     s1 <- report_cat(df1, top = top, show_plot = FALSE)  %>% select(-contains("dom"), -n_lvl)
     s2 <- report_cat(df2, top = top, show_plot = FALSE) %>% select(-contains("dom"), -n_lvl)
     levels_tab <- full_join(s1, s2, by = "col_name") %>% 
-      mutate(diff_1_2 = n_in(levels.x, levels.y)) %>%
-      mutate(diff_2_1 = n_in(levels.y, levels.x)) %>%
-      mutate(diff_all = diff_1_2 + diff_2_1) %>%
-      mutate(diff_df  = get_newlevel_tibble(levels.x, levels.y)) %>%
       mutate(psi = psi(levels.x, levels.y)) %>%
       mutate(chisq = chisq(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       mutate(p_value = chisq_p(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
-      select(-levels.x, -levels.y, col_name, psi, chisq, p_value, contains("diff"))
+      select(col_name, psi, chisq, p_value, levels.x, levels.y)
+    colnames(levels_tab)[5:6] <- paste0("lvls_", df_names)
+    # return the comparison table
     return(levels_tab)
   }
 }

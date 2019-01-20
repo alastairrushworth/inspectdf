@@ -53,12 +53,16 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.
         # convert col_name to factor
         out_plot <- out %>% mutate(col_name = factor(col_name, levels = as.character(col_name)))
         # construct bar plot of missingess
-        plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "pcnt", fill = "col_name", label = "cnt_na",
+        plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "pcnt", 
+                        fill = "col_name", label = "cnt_na",
                         ttl = paste0("Prevalance of missing values in df::", df_names$df1),
-                        sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), " columns, of which ", sum(out_plot$cnt_na > 0), " have missing values"),
+                        sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), 
+                                      " columns, of which ", sum(out_plot$cnt_na > 0), 
+                                      " have missing values"),
                         ylb = "% of column that is NA", rotate = TRUE)
         # add text annotation to plot
-        plt <- add_annotation_to_bars(x = out_plot$col_name, y = out_plot$pcnt, z = out_plot$cnt_na, plt = plt)
+        plt <- add_annotation_to_bars(x = out_plot$col_name, y = out_plot$pcnt, 
+                                      z = out_plot$cnt_na, plt = plt)
         print(plt)
       }
       # return summary tibble
@@ -72,7 +76,8 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.
     s1 <- report_na(df1, top = top, show_plot = F) 
     s2 <- report_na(df2, top = top, show_plot = F)
     na_tab <- full_join(s1, s2, by = "col_name")
-    na_tab$p_value <- prop_test(na_1 = na_tab$cnt_na.x, na_2 = na_tab$cnt_na.y, n_1 = nrow(df1), n_2 = nrow(df2))
+    na_tab$p_value <- prop_test(na_1 = na_tab$cnt_na.x, na_2 = na_tab$cnt_na.y, 
+                                n_1 = nrow(df1), n_2 = nrow(df2))
     colnames(na_tab)[c(3, 5)] <- paste0("pcnt_", df_names)
     colnames(na_tab)[c(2, 4)] <- paste0("cnt_", df_names)
     if(show_plot){
@@ -86,7 +91,9 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.
         replace_na(list(is_sig = 1)) %>%
         select(is_sig, index) 
     
-      plt <- ggplot(na_tab_plot, aes(x = factor(col_name, levels = rev(as.character(na_tab$col_name))), y = pcnt, colour = data_frame)) +
+      plt <- ggplot(na_tab_plot, aes(x = factor(col_name, 
+                                                levels = rev(as.character(na_tab$col_name))), 
+                                     y = pcnt, colour = data_frame)) +
         geom_blank() + theme_bw() + 
         theme(panel.border = element_blank(), panel.grid.major = element_blank()) +
         geom_rect(
@@ -97,17 +104,15 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.
         geom_point(size = 3.7, color = "black") + 
         geom_point(size = 3) +
         coord_flip()
-      plt <- suppressWarnings(plt + labs(x = "", 
-                                         title =  paste0("Comparison of % missingness between ",
-                                                         df_names$df1, " and ", df_names$df2),
-                                         subtitle = bquote("Coloured stripes represent evidence of inequality (blue) or equality (orange) of missingness at \u03B1 = 0.05")) + 
-                                guides(colour = guide_legend(title = bquote("Data frame"))) + 
-                                labs(y = "Percent missing", x = ""))
+      plt <- plt + labs(x = "", 
+                        title =  paste0("Comparison of % missingness between ",
+                                        df_names$df1, " and ", df_names$df2),
+                        subtitle = bquote("Coloured stripes represent evidence of inequality (blue) or equality (orange) of missingness at \u03B1 = 0.05")) + 
+        guides(colour = guide_legend(title = bquote("Data frame"))) + 
+        labs(y = "Percent missing", x = "") %>% suppressWarnings()
       
       print(plt)
     }
-
-    
     return(na_tab)
   }
 }
