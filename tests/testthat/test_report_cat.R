@@ -32,3 +32,12 @@ test_that("Output with two different inputs data frame", {
   expect_is(report_cat(storms, storms %>% dplyr::sample_n(100, replace = T)), "data.frame")
   expect_is(report_cat(airquality, airquality%>% dplyr::sample_n(100, replace = T)), "data.frame")
 })
+
+test_that("Output with different columns", {
+  set.seed(10)
+  expect_is(report_cat(mtcars %>% dplyr::select(-1), mtcars %>% dplyr::select(-2)), "data.frame")
+  expect_is(report_cat(band_instruments %>% dplyr::select(-1), band_instruments %>% dplyr::sample_n(100, replace = T)) , "data.frame")
+  expect_is(report_cat(starwars%>% dplyr::select(-1), starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(report_cat(storms, storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(report_cat(airquality, airquality %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)), "data.frame")
+})

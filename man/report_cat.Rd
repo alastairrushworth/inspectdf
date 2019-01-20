@@ -19,7 +19,7 @@ Default \code{top = NULL} prints everything.}
 Default is \code{FALSE}.}
 }
 \value{
-If \code{df2 = NULL} then is a \code{tibble} containing the names of 
+A \code{tibble} containing the names of 
 categorical columns (\code{col_name}), the number of levels within each (\code{n_lvl}), 
 the most common level (\code{cmn_lvl}), the percentage occurrence of the most common 
 feature (\code{cmn_pcnt}) and a list of tibbles containing the percentage appearance 
@@ -28,9 +28,17 @@ of each feature (\code{levels}).
 \description{
 Report and compare the levels within each categorical feature
 }
+\details{
+If \code{df2} is specified, the tibble returned compares the common columns
+in both data frames.  The population stability index \code{psi}, chi-squared statistic
+\code{chisq} are returned.  The \code{p_value} associated with the null hypothesis 
+that counts of each level in each column shared by the two data frames is the same.
+}
 \examples{
 data("starwars", package = "dplyr")
 report_cat(starwars)
 # return a visualisation too
 report_cat(starwars, show_plot = TRUE)
+# compare the levels in two data frames
+report_cat(starwars, starwars[1:20, ])
 }
