@@ -70,78 +70,44 @@ report_cat <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       levels_df <- levels_df %>% arrange(col_name) %>% slice(1:min(top, nrow(.))) 
       # add names to the list
       names(levels_df$levels) <- levels_df$col_name
+      # if plot is requested
       if(show_plot){
-        # plotting pallete
-        b <- colorRampPalette(c("tomato3", "white"))
-        zcols <- b(1001)
-        put_na_top <- function(dfb){
-          if(anyNA(dfb$value)){
-            na_row <- which(is.na(dfb$value))[1]
-            return(bind_rows(dfb[na_row, ], dfb[-na_row, ]))
-          } else {
-            return(dfb)
-          }
-          
-        }
-        lvl_df <- suppressWarnings(bind_rows(levels_df$levels, .id = 'col_name')) %>% 
-          group_by(col_name) %>%
-          arrange(col_name, desc(prop), desc(value)) %>%
-          mutate(colval = cumsum(prop)) %>% ungroup %>%
-          arrange(col_name, prop, value) %>%
-          mutate(level_key = paste0(value, col_name))
-        lvl_df <- lvl_df %>% 
-          group_by(col_name) %>%
-          do(put_na_top(.)) %>% ungroup %>% arrange(col_name, prop, value)
-        plt <- lvl_df %>% 
-          mutate(level_key = factor(level_key, levels = unique(level_key))) %>%
-          ggplot(aes(x = col_name, y = prop, fill = level_key)) + 
-          geom_bar(position = "stack", stat = "identity", colour = "black", 
-                   size = 0.2) +
-          scale_fill_manual(
-            values = ifelse(is.na(lvl_df$value), "gray65", 
-                            zcols[round(lvl_df$colval * 1000, 0)])) +
-          coord_flip() +
-          guides(fill = FALSE) + 
-          theme(axis.title.y = element_blank(), panel.background = element_blank(),
-                axis.ticks.y = element_blank(), panel.border = element_blank(), 
-                panel.grid.major = element_blank()) +
-          labs(x = "", y = "",
-               title =  paste0("Frequency of levels in categorical columns of df::", 
-                               df_names$df1), 
-               subtitle = bquote("Gray segments correspond to missing values"))
-        
-        
-        # two different label series
-        annts <- lvl_df %>% 
-          mutate(col_num = as.integer(factor(col_name, levels = levels_df$col_name)))
-        annts$value[annts$prop < 0.15] <- NA
-        col_vec <- ifelse((annts$colval > 0.7) & (annts$prop < 0.7), 2, 1)
-        # add a white series to the bigger bars
-        plt <- plt + geom_text(aes(x = annts$col_num, 
-                            y = annts$colval - (annts$prop/2), 
-                            label = annts$value), 
-                        color = c("white", "gray70")[col_vec], inherit.aes = FALSE, na.rm = T)
-        
-      # return the plot
-       print(plt) 
+        # plot the categories using stacked bars
+        plt <- plot_cat(levels_df, df_names)
+        # return the plot
+        print(plt) 
       }
-      
       # return df
       return(levels_df)
     } else {
         return(tibble(col_name = character(), n_lvl = integer(), 
-                      cmn_lvl = character(), cmn_pcnt = numeric(), levels = list()))
+                      cmn_lvl = character(), cmn_pcnt = numeric(), 
+                      levels = list()))
     }
   } else {
-    s1 <- report_cat(df1, top = top, show_plot = FALSE)  %>% select(-contains("dom"), -n_lvl)
-    s2 <- report_cat(df2, top = top, show_plot = FALSE) %>% select(-contains("dom"), -n_lvl)
-    levels_tab <- full_join(s1, s2, by = "col_name") %>% 
+    # levels for df1
+    s1 <- report_cat(df1, top = top, show_plot = FALSE)  %>% 
+      select(-contains("dom"), -n_lvl)
+    # levels for df2
+    s2 <- report_cat(df2, top = top, show_plot = FALSE) %>% 
+      select(-contains("dom"), -n_lvl)
+    # combine and clean up levels
+    levels_df <- full_join(s1, s2, by = "col_name") %>% 
       mutate(psi = psi(levels.x, levels.y)) %>%
       mutate(chisq = chisq(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       mutate(p_value = chisq_p(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       select(col_name, psi, chisq, p_value, levels.x, levels.y)
-    colnames(levels_tab)[5:6] <- paste0("lvls_", df_names)
+    colnames(levels_df)[5:6] <- paste0("lvls_", df_names)
+    # ensure the list names are retained
+    names(levels_df[[5]]) <- names(levels_df[[6]]) <- names(s2$levels)
+    # if plot is requested
+    if(show_plot){
+      # plot the categories using stacked bars
+      plt <- plot_cat(levels_df, df_names)
+      # return the plot
+      print(plt) 
+    }
     # return the comparison table
-    return(levels_tab)
+    return(levels_df)
   }
 }
