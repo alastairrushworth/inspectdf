@@ -83,7 +83,7 @@ report_space(starwars, show_plot = T)
 
 #### Missing values
 
-`report_na` is used to report the number and proportion of missing values contained within each column in a data frame. The command returns a tibble containing the count and overall percentage of missing values by column in the data frame. A barplot is also returned when `show_plot` is set to `TRUE`.
+`report_na` is used to report the number and proportion of missing values contained within each column in a data frame. The command returns a tibble containing the count (`cnt_na`) and the overall percentage (`pcnt_na`) of missing values by column in the data frame. A barplot is also returned when `show_plot` is set to `TRUE`.
 
 ``` r
 report_na(starwars, show_plot = T)
@@ -125,10 +125,11 @@ report_cor(starwars, show_plot = T)
     ## 2 birth_year height birth_year & height -0.400 0.00789 -0.651 -0.0690
     ## 3 mass       height mass & height        0.134 0.312   -0.163  0.409
 
-\_<Notes:_>
-+ The tibble is sorted in descending order of the absolute coefficient.
-+ `report_cor` drops missing values prior to calculation of each correlation coefficient.
-+ The `p_value` column is associated with the null hypothesis *H*<sub>0</sub> : *ρ* = 0.
+**Notes**
+
+-   The tibble is sorted in descending order of the absolute coefficient.
+-   `report_cor` drops missing values prior to calculation of each correlation coefficient.
+-   The `p_value` column is associated with the null hypothesis *H*<sub>0</sub> : *ρ* = 0.
 
 #### Feature imbalance
 
@@ -193,7 +194,7 @@ report_numeric(starwars)$hist$birth_year
 
 `report_cat` returns a tibble summarising categorical features in the data frame. This combines the functionality of `report_imbalance` and the `table` function. If `show_plot = TRUE` a barplot is generated showing the relative split. The tibble generated contains the columns
 
--   `col_name`
+-   `col_name` name of the column
 -   `n_lvl` the number of unique levels in the feature
 -   `cmn_lvl` the most common level (see also `report_imbalance`)
 -   `cmn_pcnt` the percentage occurrence of the most dominant level

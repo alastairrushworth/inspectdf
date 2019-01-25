@@ -30,9 +30,9 @@ Report and compare the levels within each categorical feature
 }
 \details{
 If \code{df2} is specified, the tibble returned compares the common columns
-in both data frames.  The population stability index \code{psi}, chi-squared statistic
-\code{chisq} are returned.  The \code{p_value} associated with the null hypothesis 
-that counts of each level in each column shared by the two data frames is the same.
+in both data frames.  The population stability index (\code{psi}), chi-squared statistic
+(\code{chisq}) are returned.  The \code{p_value} column provides evidence against the null 
+hypothesis that level distribution in each pair of columns is the same.
 }
 \examples{
 data("starwars", package = "dplyr")
