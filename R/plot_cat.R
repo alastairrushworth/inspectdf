@@ -28,22 +28,27 @@ plot_cat <- function(levels_df, df_names){
 
   # ensure that NA levels are places in the first row
   plt <- lvl_df %>% 
-    group_by(col_name, dfi) %>%
-    # do(put_na_top(.)) %>% 
+    # group_by(col_name) %>%
+    # do(put_na_top(.)) %>%
     arrange(col_name, prop, value) %>%
-    ungroup %>% 
-    mutate(level_key = factor(level_key, levels = unique(level_key))) %>%
-    ggplot(aes(x = col_name,  y = prop, fill = level_key)) + 
+    # ungroup %>%
+    mutate(new_level_key = paste0(level_key, "-", dfi)) %>%
+    mutate(new_level_key = factor(new_level_key, levels = unique(new_level_key))) %>%
+    ggplot(aes(x = col_name, y = prop, 
+               fill = factor(level_key, levels = unique(level_key)))) +
+               # fill = new_level_key,
+               # group = dfi)) +
     geom_bar(position = "stack", stat = "identity", colour = "black", 
              size = 0.2) +
     scale_fill_manual(
       values = ifelse(is.na(lvl_df$value), "gray65", 
-                      zcols[round(lvl_df$colval * 1000, 0)])) +
+                      zcols[round(lvl_df$colvalstretch * 1000, 0)])) +
     coord_flip() +
     guides(fill = FALSE) + 
     theme(axis.title.y = element_blank(), panel.background = element_blank(),
           axis.ticks.y = element_blank(), panel.border = element_blank(), 
-          panel.grid.major = element_blank()) +
+          panel.grid.major = element_blank(), axis.title.x = element_blank(), 
+          axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
     labs(x = "", y = "", 
          subtitle = bquote("Gray segments correspond to missing values")) 
   
@@ -61,17 +66,17 @@ plot_cat <- function(levels_df, df_names){
                           df_names$df1, " and df:: ", df_names$df1))
   }
 
-  # two different label series
+  # label bars with category name if bar is long enough
   annts <- lvl_df %>% 
-    mutate(col_num = as.integer(factor(col_name, levels = levels_df$col_name)))
+    mutate(col_num = as.integer(factor(col_name, levels = sort(unique(col_name)))))
   annts$value[annts$prop < 0.15] <- NA
-  col_vec <- ifelse((annts$colval > 0.7) & (annts$prop < 0.7), 2, 1)
-  # add a white series to the bigger bars
+  col_vec <- ifelse((annts$colvalstretch > 0.7), 2, 1)
+  # if bars are dark, label white, otherwise gray
   plt <- plt + geom_text(aes(x = annts$col_num, 
                              y = annts$colval - (annts$prop/2), 
                              label = annts$value), 
-                         color = c("white", "gray70")[col_vec], 
-                         inherit.aes = FALSE, na.rm = T)
+                         color = c("white", "gray55")[col_vec], 
+                         inherit.aes = FALSE, na.rm = T, hjust = 0.5)
   return(plt)
 }
 
@@ -81,7 +86,9 @@ collapse_levels <- function(list_col){
   suppressWarnings(bind_rows(list_col, .id = 'col_name')) %>% 
     group_by(col_name) %>%
     arrange(col_name, desc(prop), desc(value)) %>%
-    mutate(colval = cumsum(prop)) %>% ungroup %>%
+    mutate(colval = cumsum(prop)) %>% 
+    mutate(colvalstretch = (colval - min(colval) + 0.001)/(max(colval) - min(colval) + 0.001)) %>%
+    ungroup %>%
     arrange(col_name, prop, value) %>%
     mutate(level_key = paste0(value, "-", col_name)) %>% return()
 }

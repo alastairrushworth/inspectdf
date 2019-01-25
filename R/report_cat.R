@@ -13,9 +13,9 @@
 #' feature (\code{cmn_pcnt}) and a list of tibbles containing the percentage appearance 
 #' of each feature (\code{levels}).
 #' @details If \code{df2} is specified, the tibble returned compares the common columns
-#' in both data frames.  The population stability index \code{psi}, chi-squared statistic
-#' \code{chisq} are returned.  The \code{p_value} associated with the null hypothesis 
-#' that counts of each level in each column shared by the two data frames is the same.
+#' in both data frames.  The population stability index (\code{psi}), chi-squared statistic
+#' (\code{chisq}) are returned.  The \code{p_value} column provides evidence against the null 
+#' hypothesis that level distribution in each pair of columns is the same.
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")
@@ -57,17 +57,25 @@ report_cat <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     if(ncol(df_cat) > 1){
       # get the levels for each category
       levels_list <- lapply(df_cat, fast_table, show_na = TRUE)
-      # get the top levels
-      levels_top  <- lapply(levels_list, function(M) M[1, ]) %>% do.call("rbind", .) %>% mutate(col_name = colnames(df_cat))
+      # get the most common level
+      levels_top  <- lapply(levels_list, function(M) M[1, ]) %>% 
+        do.call("rbind", .) %>% 
+        mutate(col_name = colnames(df_cat))
       # get the unique levels
-      levels_unique <- lapply(levels_list, nrow) %>% do.call("rbind", .) %>% as_tibble(rownames = "col_name")
+      levels_unique <- lapply(levels_list, nrow) %>% 
+        do.call("rbind", .) %>% 
+        as_tibble(rownames = "col_name")
       # combine the above tables
-      levels_df <- levels_unique %>% left_join(levels_top, by = "col_name") %>% mutate(prop = prop * 100) %>%
+      levels_df <- levels_unique %>% 
+        left_join(levels_top, by = "col_name") %>% 
+        mutate(prop = prop * 100) %>%
         rename(n_lvl = V1, cmn_lvl = value, cmn_pcnt = prop)
       # add the list of levels as a final column
       levels_df$levels <- levels_list
       # sort by alphabetical order & filter to max number of rows
-      levels_df <- levels_df %>% arrange(col_name) %>% slice(1:min(top, nrow(.))) 
+      levels_df <- levels_df %>% 
+        arrange(col_name) %>% 
+        slice(1:min(top, nrow(.))) 
       # add names to the list
       names(levels_df$levels) <- levels_df$col_name
       # if plot is requested
