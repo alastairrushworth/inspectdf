@@ -56,10 +56,10 @@ report_types(starwars, show_plot = T)
 
 #### Memory usage
 
-To explore the memory usage of the columns in a data frame, use the function `report_space`. The command returns a tibble containing the memory usage and percentage of total usage for each column in the data frame. A barplot is also returned when `show_plot = TRUE`.
+To explore the memory usage of the columns in a data frame, use the function `report_mem`. The command returns a tibble containing the memory usage and percentage of total usage for each column in the data frame. A barplot is also returned when `show_plot = TRUE`.
 
 ``` r
-report_space(starwars, show_plot = T)
+report_mem(starwars, show_plot = T)
 ```
 
 ![](man/figures/README-unnamed-chunk-5-1.png)
@@ -154,10 +154,10 @@ report_imbalance(starwars, show_plot = T)
 
 #### Numeric summaries
 
-`report_numeric` generates statistical summaries of numeric columns contained in a data frame, combining some of the functionality of `summary` and `hist`. The tibble returned contains standard numerical summaries (min, max, mean, median etc.), but also the percentage of missing entries (`percent_na`) and a simple histogram (`hist`). If `show_plot = TRUE` a histogram is generated for each numeric feature.
+`report_num` generates statistical summaries of numeric columns contained in a data frame, combining some of the functionality of `summary` and `hist`. The tibble returned contains standard numerical summaries (min, max, mean, median etc.), but also the percentage of missing entries (`percent_na`) and a simple histogram (`hist`). If `show_plot = TRUE` a histogram is generated for each numeric feature.
 
 ``` r
-report_numeric(starwars, show_plot = T)
+report_num(starwars, show_plot = T)
 ```
 
 ![](man/figures/README-unnamed-chunk-9-1.png)
@@ -172,7 +172,7 @@ report_numeric(starwars, show_plot = T)
 The `hist` column is a list whose elements are tibbles each containing a simple histogram with the relative frequency of counts for each feature. These tibbles are used to generate the histograms shown when `show_plot = TRUE`. For example, the histogram for `starwars$birth_year` is
 
 ``` r
-report_numeric(starwars)$hist$birth_year
+report_num(starwars)$hist$birth_year
 ```
 
     ## # A tibble: 47 x 2
