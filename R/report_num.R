@@ -9,7 +9,7 @@
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")
-#' report_numeric(starwars)
+#' report_num(starwars)
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -37,7 +37,7 @@
 #' @importFrom tidyr gather
 #' @importFrom utils tail
 
-report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL){
+report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL){
 
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -109,11 +109,11 @@ report_numeric <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = 
                     max = numeric(), sd = numeric(), percent_na = numeric(), hist = list()))
     }
   } else {
-    s1 <- report_numeric(df1, top = top, show_plot = F) %>% select(col_name, mean, sd, hist)
+    s1 <- report_num(df1, top = top, show_plot = F) %>% select(col_name, mean, sd, hist)
     # extract breaks from the above
     breaks_table <- tibble(col_name = s1$col_name, breaks = lapply(s1$hist, get_break))
     # get new histoggrams and summary stats using breaks from s1
-    s2 <- report_numeric(df2, top = top, breaks = breaks_table, show_plot = F) %>% select(col_name, mean, sd, hist)
+    s2 <- report_num(df2, top = top, breaks = breaks_table, show_plot = F) %>% select(col_name, mean, sd, hist)
     numeric_tab <- full_join(s1, s2, by = "col_name")
     # calculate PSI
     levels_tab <- numeric_tab %>%
