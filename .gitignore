@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+deprecated/
 data/
 example.R
 .DS_Store
