@@ -58,10 +58,10 @@ report_types(starwars, show_plot = T)
 
 #### Memory usage
 
-To explore the memory usage of the columns in a data frame, use the function `report_space`.  The command returns a tibble containing the memory usage and percentage of total usage for each column in the data frame.  A barplot is also returned when `show_plot = TRUE`.
+To explore the memory usage of the columns in a data frame, use the function `report_mem`.  The command returns a tibble containing the memory usage and percentage of total usage for each column in the data frame.  A barplot is also returned when `show_plot = TRUE`.
 
 ```{r}
-report_space(starwars, show_plot = T)
+report_mem(starwars, show_plot = T)
 ```
 
 #### Missing values
