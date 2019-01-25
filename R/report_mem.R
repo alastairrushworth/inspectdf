@@ -21,12 +21,11 @@
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # get tibble of column memory usage for the starwars data
-#' report_space(starwars)
+#' report_mem(starwars)
 #' # get column memory usage and show as barplot
-#' report_space(starwars, show_plot = TRUE)
+#' report_mem(starwars, show_plot = TRUE)
 #' # compare memory usage 
 #' report_space(starwars, starwars[1:10, -3])
-#' @export
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -47,8 +46,9 @@
 #' @importFrom ggplot2 theme
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
+#' @export
 
-report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
+report_mem <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -103,8 +103,8 @@ report_space <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     
   } else {
     # get the space report for both input dfs
-    df1 <- report_space(df1, top = top, show_plot = F)
-    df2 <- report_space(df2, top = top, show_plot = F)
+    df1 <- report_mem(df1, top = top, show_plot = F)
+    df2 <- report_mem(df2, top = top, show_plot = F)
     sjoin <- full_join(df1, df2, by = "col_name") %>%
       select(col_name, contains("size"), contains("pcnt"))
     colnames(sjoin)[2] <- paste0("size_",  df_names$df1)
