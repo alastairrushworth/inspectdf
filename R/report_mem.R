@@ -25,7 +25,7 @@
 #' # get column memory usage and show as barplot
 #' report_mem(starwars, show_plot = TRUE)
 #' # compare memory usage 
-#' report_space(starwars, starwars[1:10, -3])
+#' report_mem(starwars, starwars[1:10, -3])
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
