@@ -65,17 +65,17 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0
   # capture the data frame names
   df_names <- get_df_names()
   # filter to only the numeric variables
-  df_numeric <- df1 %>% select_if(is.numeric)
-  # remove anything that is constant
-  df_numeric <- df_numeric %>% select(-which(sapply(df_numeric, sd) == 0))
+  df_numeric <- df1 %>% 
+    select_if(is.numeric)
   
   if(is.null(df2)){
     # calculate correlation coefficients
-    if(ncol(df_numeric) > 0){
+    if(ncol(df_numeric) > 1){
       # get correlation coefficients for numeric pairs
-      cor_df <- cor_test_1(df_numeric, alpha = alpha)
+      suppressWarnings(cor_df <- cor_test_1(df_numeric, alpha = alpha))
       # return top strongest if requested
-      out <- cor_df %>% slice(1:min(top, nrow(.))) 
+      out <- cor_df %>% 
+        slice(1:min(top, nrow(.))) 
       # return plot if requested
       if(show_plot){
         # preprocess data a bit
@@ -114,19 +114,21 @@ report_cor <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0
         print(plt)
       }
       # return dataframe of correlations
-      return(out)
+      return(out %>% select(-pair))
     } else {
       # return empty dataframe of 
       return(tibble(col_1 = character(), col_2 = character(), 
-                    pair = character(), corr = numeric()))
+                    corr = numeric()))
     } 
   } else {
     # stats for df1
     s1 <- report_cor(df1, top = top, show_plot = F) %>% 
-      select(col_1, col_2, corr) %>% rename(corr_1 = corr)
+      select(col_1, col_2, corr) %>% 
+      rename(corr_1 = corr)
     # stats for df2
     s2 <- report_cor(df2, top = top, show_plot = F) %>% 
-      select(col_1, col_2, corr) %>% rename(corr_2 = corr)
+      select(col_1, col_2, corr) %>% 
+      rename(corr_2 = corr)
     # join the two
     cor_tab <- full_join(s1, s2, by = c("col_1", "col_2"))
     # add p_value for test of difference between correlation coefficients
