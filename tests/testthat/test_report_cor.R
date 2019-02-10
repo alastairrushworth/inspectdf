@@ -67,10 +67,13 @@ test_that("Output correlations are correct", {
   expect_lt(diff_correlatations(airquality), 10^-15)
 })
 
+test_that("Single column returns empty df", {
+  expect_equal(nrow(report_cor(mtcars %>% select(1))), 0)
+})
 
-
-
-
+test_that("Constant columns return NA", {
+  expect_equal(sum(is.na(report_cor(data.frame(z = 1:10, y = rep(1, 10)))$corr)), 1)
+})
 
 
 
