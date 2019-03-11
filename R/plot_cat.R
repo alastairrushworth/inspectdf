@@ -33,7 +33,8 @@ plot_cat <- function(levels_df, df_names){
     arrange(col_name, prop, value) %>%
     # ungroup %>%
     mutate(new_level_key = paste0(level_key, "-", dfi)) %>%
-    mutate(new_level_key = factor(new_level_key, levels = unique(new_level_key))) %>%
+    mutate(new_level_key = factor(new_level_key, 
+                                  levels = unique(new_level_key))) %>%
     ggplot(aes(x = col_name, y = prop, 
                fill = factor(level_key, levels = unique(level_key)))) +
                # fill = new_level_key,
@@ -68,7 +69,8 @@ plot_cat <- function(levels_df, df_names){
 
   # label bars with category name if bar is long enough
   annts <- lvl_df %>% 
-    mutate(col_num = as.integer(factor(col_name, levels = sort(unique(col_name)))))
+    mutate(col_num = as.integer(factor(col_name, 
+                                       levels = sort(unique(col_name)))))
   annts$value[annts$prop < 0.15] <- NA
   col_vec <- ifelse((annts$colvalstretch > 0.7), 2, 1)
   # if bars are dark, label white, otherwise gray

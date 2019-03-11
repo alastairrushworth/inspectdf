@@ -1,7 +1,7 @@
 #' @importFrom dplyr full_join
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
-#' @importFrom stats chisq.test
+#' @importFrom stats fisher.test
 #' @importFrom tidyr replace_na
 
 fisher <- function(Mlist1, Mlist2, n_1, n_2){

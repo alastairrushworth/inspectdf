@@ -24,9 +24,12 @@
 #' @importFrom dplyr ungroup
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 facet_grid
+#' @importFrom ggplot2 facet_wrap
 #' @importFrom ggplot2 geom_col
+#' @importFrom ggplot2 geom_tile
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 labs
+#' @importFrom ggplot2 scale_fill_gradient
 #' @importFrom ggplot2 theme
 #' @importFrom magrittr %>%
 #' @importFrom graphics hist
@@ -120,12 +123,58 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL
     # get new histoggrams and summary stats using breaks from s1
     s2 <- report_num(df2, top = top, breaks = breaks_table, show_plot = F) %>% select(col_name, mean, sd, hist)
     s12 <- full_join(s1, s2, by = "col_name")
-    # calculate PSI
+    # calculate psi and fisher p-value
     levels_tab <- s12 %>%
       mutate(psi = psi(hist.x, hist.y)) %>%
       mutate(fisher_p = fisher(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       rename(levels.x = hist.x, levels.y = hist.y) %>%
       select(-contains("mean"), -contains("sd"))
+    if(show_plot){
+      out_plot <- levels_tab %>% 
+        select(-psi, -fisher_p) 
+      # add the variable name to the histograms as an extra column
+      for(i in 1:nrow(out_plot)) out_plot$levels.x[[i]]$cname <- out_plot$col_name[i] 
+      for(i in 1:nrow(out_plot)) out_plot$levels.y[[i]]$cname <- out_plot$col_name[i] 
+      # combine the histograms
+      trns_plot <- bind_rows(bind_rows(out_plot$levels.x), 
+                            bind_rows(out_plot$levels.y))
+      trns_plot$dfn <- rep(unlist(df_names), each = nrow(trns_plot) / 2)
+      # drop rows where both dfs are zero
+      zro_drop <- trns_plot %>%
+        group_by(cname, value) %>%
+        summarise(zs = as.integer(sum(prop == 0) == 2)) %>%
+        ungroup
+      trns_plot <- left_join(trns_plot, zro_drop, 
+                             by = c("cname", "value")) %>%
+        filter(zs == 0)
+      # apply an ordering to the categories
+      get_num <- function(st) as.integer(gsub("\\[|\\(", "", unlist(strsplit(st, ","))[1]))
+      get_numV <- Vectorize(get_num)
+      ord_vals <- trns_plot %>%
+        select(value) %>%
+        distinct() %>%
+        mutate(first_num = get_numV(value)) %>%
+        arrange(first_num)
+      # generate a heatplot
+      plt <- trns_plot %>%
+        ggplot(aes(x = dfn, y = factor(value, levels = ord_vals$value), fill = prop)) + 
+        geom_tile(colour = "white") + 
+        geom_text(aes(label = round(prop * 100, 1)), col = "gray30") + 
+        scale_fill_gradient(low = "white", high = "steelblue") + 
+        theme(legend.position = "none") +
+        labs(x = "", y = "") + 
+        facet_wrap(~ cname, scales = "free", ncol = 4)
+      print(plt)
+    }
     return(levels_tab)
   }
 }
+
+
+
+
+
+
+
+
+
