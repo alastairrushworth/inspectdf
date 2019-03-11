@@ -37,7 +37,7 @@
 #' @importFrom tidyr gather
 #' @importFrom utils tail
 
-report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL){
+report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL, histfn = "FD"){
 
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -51,9 +51,14 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL
       # use the summary function to sweep out statistics
       df_num_sum <- df_num %>% gather(key = "col_name", value = "value") %>%
         group_by(col_name) %>% 
-        summarise(min = min(value, na.rm = T), q1 = quantile(value, 0.25, na.rm = T), median = median(value, na.rm = T), 
-                  mean = mean(value, na.rm = T), q3 = quantile(value, 0.75, na.rm = T), max = max(value, na.rm = T), 
-                  sd = sd(value, na.rm = T), percent_na = 100 * mean(is.na(value))) %>%
+        summarise(min = min(value, na.rm = T), 
+                  q1 = quantile(value, 0.25, na.rm = T),
+                  median = median(value, na.rm = T), 
+                  mean = mean(value, na.rm = T), 
+                  q3 = quantile(value, 0.75, na.rm = T), 
+                  max = max(value, na.rm = T), 
+                  sd = sd(value, na.rm = T), 
+                  percent_na = 100 * mean(is.na(value))) %>%
         ungroup
       # tibble determining breaks to use
       breaks_tbl <- tibble(col_name = colnames(df_num)) 
@@ -67,7 +72,7 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL
       # loop over the breaks_tbl and generate histograms, suppress plotting
       for(i in 1:nrow(breaks_tbl)){
         breaks_tbl$hist[[i]] <- hist(unlist(df_num[breaks_tbl$col_name[i]]), plot = F, 
-                                     breaks = if(anyNA(breaks_tbl$breaks[[i]])) {"FD"} else {breaks_tbl$breaks[[i]]})
+                                     breaks = if(anyNA(breaks_tbl$breaks[[i]])) {histfn} else {breaks_tbl$breaks[[i]]})
       }
       # extract basic info for constructing hist
       breaks_tbl$hist <- lapply(breaks_tbl$hist, prop_value)
@@ -114,12 +119,11 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL
     breaks_table <- tibble(col_name = s1$col_name, breaks = lapply(s1$hist, get_break))
     # get new histoggrams and summary stats using breaks from s1
     s2 <- report_num(df2, top = top, breaks = breaks_table, show_plot = F) %>% select(col_name, mean, sd, hist)
-    numeric_tab <- full_join(s1, s2, by = "col_name")
+    s12 <- full_join(s1, s2, by = "col_name")
     # calculate PSI
-    levels_tab <- numeric_tab %>%
+    levels_tab <- s12 %>%
       mutate(psi = psi(hist.x, hist.y)) %>%
-      mutate(chisq = chisq(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
-      mutate(p_value = chisq_p(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
+      mutate(fisher_p = fisher(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       rename(levels.x = hist.x, levels.y = hist.y) %>%
       select(-contains("mean"), -contains("sd"))
     return(levels_tab)
