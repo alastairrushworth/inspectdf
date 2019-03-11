@@ -5,7 +5,7 @@
 \title{Report and compare the numeric variables within one or two data frames}
 \usage{
 report_num(df1, df2 = NULL, top = NULL, show_plot = F,
-  breaks = NULL)
+  breaks = NULL, histfn = "FD")
 }
 \arguments{
 \item{df1}{A data frame}
