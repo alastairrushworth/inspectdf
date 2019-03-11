@@ -102,18 +102,17 @@ report_cat <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     # combine and clean up levels
     levels_df <- full_join(s1, s2, by = "col_name") %>% 
       mutate(psi = psi(levels.x, levels.y)) %>%
-      mutate(chisq = chisq(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
-      mutate(p_value = chisq_p(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
-      select(col_name, psi, chisq, p_value, levels.x, levels.y)
-    colnames(levels_df)[5:6] <- paste0("lvls_", df_names)
+      mutate(fisher_p = fisher(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
+        select(col_name, psi, fisher_p, levels.x, levels.y)
+    colnames(levels_df)[4:5] <- paste0("lvls_", df_names)
     # ensure the list names are retained
-    names(levels_df[[5]]) <- names(levels_df[[6]]) <- names(s2$levels)
+    names(levels_df[[4]]) <- names(levels_df[[5]]) <- names(s2$levels)
     # if plot is requested
     if(show_plot){
       # plot the categories using stacked bars
       plt <- plot_cat(levels_df, df_names)
       # return the plot
-      print(plt) 
+      print(plt)
     }
     # return the comparison table
     return(levels_df)
