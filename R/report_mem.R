@@ -56,6 +56,12 @@ report_mem <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   # capture the data frame names
   df_names <- get_df_names()
   
+  # max size of both dfs
+  sizes <- list(sz_1  = size_up(df1, form = T), 
+                sz_2  = size_up(df2, form = T), 
+                ncl_1 = ncol(df1), ncl_2 = ncol(df2), 
+                nrw_1 = ncol(df2), ncl_2 = ncol(df2))
+  
   if(is.null(df2)){
     # get column size
     col_space     <- sapply(df1, size_up, form = F)
@@ -67,7 +73,6 @@ report_mem <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     # get ncols, nrows, and storage size of the data
     ncl <- format(ncol(df1), big.mark = ",")
     nrw <- format(nrow(df1), big.mark = ",")
-    sz  <- size_up(df1, form = T)
   
     # get top 10 largest columns by storage size, pass to the console histogrammer
     out <- vec_to_tibble(col_space) %>% 
@@ -78,29 +83,9 @@ report_mem <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       rename(col_name = names, size = n.y) %>% 
       select(-n.x)
     # return plot if requested
-    if(show_plot){
-      # convert column names to factor
-      out_plot <- out %>% 
-        mutate(col_name = factor(col_name, levels = as.character(col_name)))
-      # construct bar plot of column memory usage
-      plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "pcnt", 
-                      fill = "col_name", label = "size", 
-                      ttl = paste0("Column sizes in df::", df_names$df1), 
-                      sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), 
-                                    " columns, ", nrow(df1), 
-                                    " rows and total memory usage of ", sz), 
-                      ylb = "Percentage of total space (%)", rotate = TRUE)
-      # add text annotation to plot
-      plt <- add_annotation_to_bars(x = out_plot$col_name, 
-                                    y = out_plot$pcnt, 
-                                    z = out_plot$size, 
-                                    plt = plt, thresh = 0.2)
-      # print plot
-      print(plt)
-    }
+    if(show_plot) plot_mem_1(out, df_names = df_names, sizes = sizes)
     # return tibble
     return(out)
-    
   } else {
     # get the space report for both input dfs
     df1 <- report_mem(df1, top = top, show_plot = F)
@@ -111,40 +96,9 @@ report_mem <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     colnames(sjoin)[3] <- paste0("size_",  df_names$df2)
     colnames(sjoin)[4] <- paste0("pcnt_",  df_names$df1)
     colnames(sjoin)[5] <- paste0("pcnt_",  df_names$df2)
-    # max size of both dfs
-    sz1  <- size_up(df1, form = T)
-    sz2  <- size_up(df2, form = T)
-    
-    if(show_plot){
-      # convert to a tall df
-      z1 <- sjoin %>% select(-contains("size")) %>% 
-        gather(key = "df_input", value = "pcnt", -col_name) %>% 
-        mutate(df_input = gsub("space_", "", df_input))
-      z2 <- sjoin %>% select(-contains("space")) %>% 
-        gather(key = "df_input", value = "size", -col_name) %>% 
-        mutate(df_input = gsub("size_", "", df_input))
-      z_tall <- z1 %>% left_join(z2, by = c("col_name", "df_input"))
-      # make axis names
-      ttl_plt <- paste0("Column sizes in df::", df_names$df1, 
-                        " & df::", df_names$df2)
-      sttl_plt1 <- paste0("df::", df_names$df1,  " has ", ncol(df1), 
-                          " columns, ", nrow(df1), 
-                          " rows and total memory usage of ", sz1)
-      sttl_plt2 <- paste0("df::", df_names$df2,  " has ", ncol(df2), 
-                          " columns, ", nrow(df2), 
-                          " rows and total memory usage of ", sz2)
-      # plot the result
-      plt <- z_tall %>%
-        mutate(col_type = factor(col_name, levels = sjoin$col_name)) %>%
-        ggplot(aes(x = col_name, y = pcnt, fill = as.factor(df_input))) + 
-        geom_bar(stat = "identity", position = "dodge") + 
-        labs(x = "", y = "Percentage of total space (%)", 
-             title = ttl_plt, 
-             subtitle = paste0(sttl_plt1, "\n", sttl_plt2)) + 
-        scale_fill_discrete(name = "Data frame") +
-        theme(axis.text.x = element_text(angle = 45, hjust = 1))
-      print(plt)
-    }
+    # if plot is requested
+    if(show_plot) plot_mem_2(sjoin, df_names = df_names, sizes = sizes)
+    # return dataframe
     return(sjoin)
   }
 }

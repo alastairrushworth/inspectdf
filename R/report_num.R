@@ -5,6 +5,7 @@
 #' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
 #' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
 #' @param breaks Optional argument specifying the breaks to use when comparing numeric data frame features.
+#' @param histfn Optional charatcer argument specifiying the histogram algorithm used by the \code{hist} function.
 #' @return If \code{df2 = NULL} then is a \code{tibble} containing the names of numeric columns (\code{col_name}).
 #' @export
 #' @examples
@@ -84,31 +85,7 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL
       # add feature names to the list
       names(out$hist) <-  as.character(out$col_name)
       # if plot is requested
-      if(show_plot){
-        out_plot <- out
-        for(i in 1:length(out_plot$hist)){
-          out_plot$hist[[i]]$col_name <- out_plot$col_name[i]
-          diff_nums <- lapply(strsplit(gsub("\\[|,|\\)", "", out_plot$hist[[i]]$value), " "), function(v) diff(as.numeric(v))) %>% unlist %>% unique
-          out_plot$hist[[i]]$mid <- lapply(strsplit(gsub("\\[|,|\\)", "", out_plot$hist[[i]]$value), " "), function(v) diff(as.numeric(v))/2 + as.numeric(v)[1]) %>% unlist
-          if(is.nan(out_plot$hist[[i]]$mid[1]) | is.infinite(out_plot$hist[[i]]$mid[1])){
-            out_plot$hist[[i]]$mid[1] <- out_plot$hist[[i]]$mid[2] - (diff_nums[is.finite(diff_nums)])[1]
-          } 
-          last_n <- length(out_plot$hist[[i]]$mid)
-          if(is.nan(out_plot$hist[[i]]$mid[last_n]) | is.infinite(out_plot$hist[[i]]$mid[last_n])){
-            out_plot$hist[[i]]$mid[last_n] <- out_plot$hist[[i]]$mid[last_n - 1] + (diff_nums[is.finite(diff_nums)])[1]
-          }
-        }
-        out_plot <- bind_rows(out_plot$hist)
-        plt <- out_plot %>%
-          ggplot(aes(x = mid, y = prop)) + 
-          geom_col(fill = "blue") + 
-          facet_grid(. ~ col_name, scales = "free") + 
-          labs(x = "", y = "Probability", 
-                        title =  paste0("Histograms of numeric columns in df::", df_names$df1), 
-                        subtitle = "")
-        # print plot
-        print(plt)
-      }
+      if(show_plot) plot_num_1(out, df_names = df_names)
       # return df
       return(out)
     } else {
@@ -129,43 +106,9 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL
       mutate(fisher_p = fisher(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       rename(levels.x = hist.x, levels.y = hist.y) %>%
       select(-contains("mean"), -contains("sd"))
-    if(show_plot){
-      out_plot <- levels_tab %>% 
-        select(-psi, -fisher_p) 
-      # add the variable name to the histograms as an extra column
-      for(i in 1:nrow(out_plot)) out_plot$levels.x[[i]]$cname <- out_plot$col_name[i] 
-      for(i in 1:nrow(out_plot)) out_plot$levels.y[[i]]$cname <- out_plot$col_name[i] 
-      # combine the histograms
-      trns_plot <- bind_rows(bind_rows(out_plot$levels.x), 
-                            bind_rows(out_plot$levels.y))
-      trns_plot$dfn <- rep(unlist(df_names), each = nrow(trns_plot) / 2)
-      # drop rows where both dfs are zero
-      zro_drop <- trns_plot %>%
-        group_by(cname, value) %>%
-        summarise(zs = as.integer(sum(prop == 0) == 2)) %>%
-        ungroup
-      trns_plot <- left_join(trns_plot, zro_drop, 
-                             by = c("cname", "value")) %>%
-        filter(zs == 0)
-      # apply an ordering to the categories
-      get_num <- function(st) as.integer(gsub("\\[|\\(", "", unlist(strsplit(st, ","))[1]))
-      get_numV <- Vectorize(get_num)
-      ord_vals <- trns_plot %>%
-        select(value) %>%
-        distinct() %>%
-        mutate(first_num = get_numV(value)) %>%
-        arrange(first_num)
-      # generate a heatplot
-      plt <- trns_plot %>%
-        ggplot(aes(x = dfn, y = factor(value, levels = ord_vals$value), fill = prop)) + 
-        geom_tile(colour = "white") + 
-        geom_text(aes(label = round(prop * 100, 1)), col = "gray30") + 
-        scale_fill_gradient(low = "white", high = "steelblue") + 
-        theme(legend.position = "none") +
-        labs(x = "", y = "") + 
-        facet_wrap(~ cname, scales = "free", ncol = 4)
-      print(plt)
-    }
+    # if plot is requested
+    if(show_plot) plot_num_2(levels_tab, df_names = df_names)
+    # return dataframe
     return(levels_tab)
   }
 }
