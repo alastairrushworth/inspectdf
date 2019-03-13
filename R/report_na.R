@@ -49,22 +49,7 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.
     # if any missing values then print out
     if(nrow(out) > 0){
       # print plot if requested
-      if(show_plot){
-        # convert col_name to factor
-        out_plot <- out %>% mutate(col_name = factor(col_name, levels = as.character(col_name)))
-        # construct bar plot of missingess
-        plt <- bar_plot(df_plot = out_plot, x = "col_name", y = "pcnt", 
-                        fill = "col_name", label = "cnt_na",
-                        ttl = paste0("Prevalance of missing values in df::", df_names$df1),
-                        sttl = paste0("df::", df_names$df1,  " has ", ncol(df1), 
-                                      " columns, of which ", sum(out_plot$cnt_na > 0), 
-                                      " have missing values"),
-                        ylb = "% of column that is NA", rotate = TRUE)
-        # add text annotation to plot
-        plt <- add_annotation_to_bars(x = out_plot$col_name, y = out_plot$pcnt, 
-                                      z = out_plot$cnt_na, plt = plt)
-        print(plt)
-      }
+      if(show_plot) plot_na_1(out, df_names = df_names)
       # return summary tibble
       return(out)
     } else {
@@ -80,39 +65,9 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.
                                 n_1 = nrow(df1), n_2 = nrow(df2))
     colnames(na_tab)[c(3, 5)] <- paste0("pcnt_", df_names)
     colnames(na_tab)[c(2, 4)] <- paste0("cnt_", df_names)
-    if(show_plot){
-      na_tab_plot <- na_tab %>% 
-        select(-starts_with("cnt")) %>% 
-        gather(key = "data_frame", value = "pcnt", -col_name, -p_value) %>%
-        mutate(data_frame = gsub("pcnt_", "", data_frame))
-      na_tab_plot <- na_tab_plot[seq(dim(na_tab_plot)[1],1),]
-      p_val_tab <- na_tab_plot %>% 
-        mutate(is_sig = as.integer(p_value < alpha) + 2, index = 1:nrow(na_tab_plot)) %>%
-        replace_na(list(is_sig = 1)) %>%
-        select(is_sig, index) 
-    
-      plt <- ggplot(na_tab_plot, aes(x = factor(col_name, 
-                                                levels = rev(as.character(na_tab$col_name))), 
-                                     y = pcnt, colour = data_frame)) +
-        geom_blank() + theme_bw() + 
-        theme(panel.border = element_blank(), panel.grid.major = element_blank()) +
-        geom_rect(
-          fill = c("grey85", "darkorange2", "royalblue1")[p_val_tab$is_sig], alpha = 0.2,
-          xmin = p_val_tab$index - 0.4, xmax = p_val_tab$index + 0.4,
-          ymin = -100, ymax = 200, linetype = "blank") +
-        geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
-        geom_point(size = 3.7, color = "black") + 
-        geom_point(size = 3) +
-        coord_flip()
-      plt <- plt + labs(x = "", 
-                        title =  paste0("Comparison of % missingness between ",
-                                        df_names$df1, " and ", df_names$df2),
-                        subtitle = bquote("Coloured stripes represent evidence of inequality (blue) or equality (orange) of missingness at \u03B1 = 0.05")) + 
-        guides(colour = guide_legend(title = bquote("Data frame"))) + 
-        labs(y = "Percent missing", x = "") %>% suppressWarnings()
-      
-      print(plt)
-    }
+    # print a plot if requested
+    if(show_plot) plot_na_2(na_tab, df_names = df_names, alpha = alpha)
+    # return dataframe
     return(na_tab)
   }
 }
