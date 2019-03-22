@@ -37,10 +37,6 @@
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
 #' @importFrom dplyr ungroup
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 ylim
-#' @importFrom ggplot2 scale_fill_manual
-#' @importFrom grDevices colorRampPalette
 #' @importFrom magrittr %>%
 
 report_cat <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
