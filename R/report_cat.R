@@ -52,9 +52,10 @@ report_cat <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   
   if(is.null(df2)){
     # pick out categorical columns
-    df_cat <- df1 %>% select_if(function(v) is.character(v) | is.factor(v))
+    df_cat <- df1 %>% select_if(function(v) is.character(v) | is.factor(v) | 
+                                  any(c("Date", "datetime") %in% class(v)))
     # calculate association if categorical columns exist
-    if(ncol(df_cat) > 1){
+    if(ncol(df_cat) > 0){
       # get the levels for each category
       levels_list <- lapply(df_cat, fast_table, show_na = TRUE)
       # get the most common level
@@ -69,7 +70,7 @@ report_cat <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       levels_df <- levels_unique %>% 
         left_join(levels_top, by = "col_name") %>% 
         mutate(prop = prop * 100) %>%
-        rename(n_lvl = V1, cmn_lvl = value, cmn_pcnt = prop)
+        rename(cnt = V1, common = value, common_pcnt = prop)
       # add the list of levels as a final column
       levels_df$levels <- levels_list
       # sort by alphabetical order & filter to max number of rows
@@ -88,17 +89,17 @@ report_cat <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       # return df
       return(levels_df)
     } else {
-        return(tibble(col_name = character(), n_lvl = integer(), 
-                      cmn_lvl = character(), cmn_pcnt = numeric(), 
+        return(tibble(col_name = character(), cnt = integer(), 
+                      common = character(), common_pcnt = numeric(), 
                       levels = list()))
     }
   } else {
     # levels for df1
     s1 <- report_cat(df1, top = top, show_plot = FALSE)  %>% 
-      select(-contains("dom"), -n_lvl)
+      select(-contains("common"), -cnt)
     # levels for df2
     s2 <- report_cat(df2, top = top, show_plot = FALSE) %>% 
-      select(-contains("dom"), -n_lvl)
+      select(-contains("common"), -cnt)
     # combine and clean up levels
     levels_df <- full_join(s1, s2, by = "col_name") %>% 
       mutate(psi = psi(levels.x, levels.y)) %>%
