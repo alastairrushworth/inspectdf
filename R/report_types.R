@@ -32,13 +32,6 @@
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
 #' @importFrom dplyr ungroup
-#' @importFrom ggplot2 aes
-#' @importFrom ggplot2 element_text
-#' @importFrom ggplot2 geom_bar
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 labs
-#' @importFrom ggplot2 scale_fill_discrete
-#' @importFrom ggplot2 theme
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 #' @importFrom tidyr gather
@@ -58,33 +51,41 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     ncl         <- ncol(df1)
     # summarise the types
     classes     <- sapply(df1, class)
+    # more than one class - append them
+    classes     <- unlist(lapply(classes, function(v) paste(v, collapse = " ")))
+    # get column names by type
+    nms_cls     <- tibble(nms = names(df1), cls = classes) %>% arrange(cls)
+    nms_lst     <- split(nms_cls$nms, nms_cls$cls)
+    nms_df      <- tibble(type = names(nms_lst), col_names = nms_lst) 
+    # combine with type frequencies
     classes     <- sapply(classes, paste, collapse = " ")
     types       <- table(classes)
-    type_tibble <- tibble(col_type = names(types), count_type = as.integer(types))
+    type_tibble <- tibble(type = names(types), cnt = as.integer(types)) 
     # summarise column types into df1
     out <- type_tibble %>%
-      replace_na(list(count_type = 0))  %>%
-      mutate(percent = 100 * count_type / ncol(df1)) %>% 
-      arrange(desc(percent))  %>% 
-      filter(percent > 0) 
+      replace_na(list(cnt = 0)) %>%
+      mutate(pcnt = 100 * cnt / ncol(df1)) %>% 
+      arrange(desc(pcnt))  %>% 
+      left_join(nms_df, by = "type") %>%
+      filter(pcnt > 0) 
     
     # if plot requested then show barplot
     if(show_plot) plot_types_1(out, df_names = df_names)
     # return dataframe
     return(out)
   } else {
-    s1 <- report_types(df1, show_plot = F)
-    colnames(s1) <- c("col_type", paste0("cnt_", df_names[1]), 
-                      paste0("pcnt_", df_names[1]))
-    s2 <- report_types(df2, show_plot = F)
-    colnames(s2) <- c("col_type", paste0("cnt_", df_names[2]), 
-                      paste0("pcnt_", df_names[2]))
-    sjoin <- full_join(s1, s2, by = "col_type") %>% 
+    s1 <- report_types(df1, show_plot = F) %>% select(-col_names)
+    colnames(s1)[2:3] <- c(paste0("cnt_",  df_names[1]), 
+                           paste0("pcnt_", df_names[1]))
+    s2 <- report_types(df2, show_plot = F) %>% select(-col_names)
+    colnames(s2)[2:3] <- c(paste0("cnt_",  df_names[2]), 
+                           paste0("pcnt_", df_names[2]))
+    out <- full_join(s1, s2, by = "type") %>% 
       replace(is.na(.), 0)
     # show plot if requested
-    if(show_plot) plot_types_2(sjoin, df_names = df_names)
+    if(show_plot) plot_types_2(out, df_names = df_names)
     # return dataframe
-    return(sjoin)
+    return(out)
   }
 }
 
