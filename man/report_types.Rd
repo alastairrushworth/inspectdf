@@ -27,7 +27,7 @@ When \code{df2 = NULL}, a tibble is returned with the columns
   \item \code{type} the column types contained in \code{df1}
   \item \code{cnt} the number of columns with each type
   \item \code{pcnt} the percentage of columns with each type
-  \item \code{col_names} the names of columns with a specific type
+  \item \code{col_name} the names of columns with a specific type
 }
 When a second data frame \code{df2} is specified, column type summaries 
 are tabulated for both data frames to enable comparison of contents. 

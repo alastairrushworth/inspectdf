@@ -11,10 +11,21 @@
 #' histograms to use when comparing numeric data frame features.  
 #' This takes the same values as \code{hist(..., breaks)}.  See \code{?hist} 
 #' for more details. 
-#' @param breakseq For internal use.  Argument that accepts a pre-specified set of 
+#' @param breakseq For internal use only.  Argument that accepts a pre-specified set of 
 #' break points, default is \code{NULL}.
 #' @return A \code{tibble} containing statistical summaries of the numeric 
 #' columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
+#' @details 
+#' If only \code{df1} is specified, then the tibble returned will have the following columns:
+#' \itemize{
+#'   \item \code{col_name} the columns contained in \code{df1}
+#'   \item \code{min}, \code{q1}, \code{median}, \code{mean}, \code{q3}, \code{max} and \code{sd}: 
+#'  the minimum, lower quartile, median, mean, upper quartile, maximum and standard deviation 
+#'  for each numeric column.
+#'   \item \code{pcnt_na} the percentage of each numeric feature that is missing
+#'   \item \code{hist} a list of tibbles containing the relative frequency of values in a 
+#'   set of discrete bins for each column.
+#' }
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")
@@ -23,7 +34,7 @@
 #' # show a visualisation too - limit number of bins
 #' report_num(starwars, breaks = 10)
 #' # compare two data frames
-#' report_num(starwars, starwars[-c(1:10), ], breaks = 10, show_plot = T)
+#' report_num(starwars, starwars[-c(1:10), ], breaks = 10, show_plot = TRUE)
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -76,7 +87,7 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F,
                   q3 = quantile(value, 0.75, na.rm = T), 
                   max = max(value, na.rm = T), 
                   sd = sd(value, na.rm = T), 
-                  percent_na = 100 * mean(is.na(value))) %>%
+                  pcnt_na = 100 * mean(is.na(value))) %>%
         ungroup
       # tibble determining breaks to use
       breaks_tbl <- tibble(col_name = colnames(df_num)) 
@@ -97,7 +108,8 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F,
       # extract basic info for constructing hist
       breaks_tbl$hist <- lapply(breaks_tbl$hist, prop_value)
       # ensure the histogram has a min and max breaks & join back to df_num_sum
-      out <- left_join(df_num_sum, breaks_tbl, by = "col_name") %>% select(-breaks)
+      out <- left_join(df_num_sum, breaks_tbl, by = "col_name") %>% 
+        select(-breaks)
       # add feature names to the list
       names(out$hist) <-  as.character(out$col_name)
       # if plot is requested
@@ -109,7 +121,7 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F,
                     q1 = numeric(), median = numeric(), 
                     mean = numeric(), q3 = numeric(),
                     max = numeric(), sd = numeric(), 
-                    percent_na = numeric(), hist = list()))
+                    pcnt_na = numeric(), hist = list()))
     }
   } else {
     # get histogram and summaries for first df
@@ -126,8 +138,8 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F,
     levels_tab <- s12 %>%
       mutate(psi = psi(hist.x, hist.y)) %>%
       mutate(fisher_p = fisher(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
-      rename(levels.x = hist.x, levels.y = hist.y) %>%
       select(-contains("mean"), -contains("sd"))
+    colnames(levels_tab)[2:3] <- paste0("hist_", unlist(df_names))
     # if plot is requested
     if(show_plot) plot_num_2(levels_tab, df_names = df_names)
     # return dataframe

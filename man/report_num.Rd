@@ -19,7 +19,7 @@ Default \code{top = NULL} prints everything.}
 \item{show_plot}{Logical determining whether to show a plot in addition 
 to tibble output.  Default is \code{FALSE}.}
 
-\item{breakseq}{For internal use.  Argument that accepts a pre-specified set of 
+\item{breakseq}{For internal use only.  Argument that accepts a pre-specified set of 
 break points, default is \code{NULL}.}
 
 \item{breaks}{Optional argument determining how breaks are constructed for 
@@ -34,6 +34,18 @@ columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
 \description{
 Report and compare the numeric variables within one or two data frames
 }
+\details{
+If only \code{df1} is specified, then the tibble returned will have the following columns:
+\itemize{
+  \item \code{col_name} the columns contained in \code{df1}
+  \item \code{min}, \code{q1}, \code{median}, \code{mean}, \code{q3}, \code{max} and \code{sd}: 
+ the minimum, lower quartile, median, mean, upper quartile, maximum and standard deviation 
+ for each numeric column.
+  \item \code{pcnt_na} the percentage of each numeric feature that is missing
+  \item \code{hist} a list of tibbles containing the relative frequency of values in a 
+  set of discrete bins for each column.
+}
+}
 \examples{
 data("starwars", package = "dplyr")
 # show summary statistics for starwars
@@ -41,5 +53,5 @@ report_num(starwars)
 # show a visualisation too - limit number of bins
 report_num(starwars, breaks = 10)
 # compare two data frames
-report_num(starwars, starwars[-c(1:10), ], breaks = 10, show_plot = T)
+report_num(starwars, starwars[-c(1:10), ], breaks = 10, show_plot = TRUE)
 }
