@@ -6,6 +6,10 @@ data("nasa", package = "dplyr")
 data("band_instruments", package = "dplyr")
 data("storms", package = "dplyr")
 data(mtcars, airquality)
+# exampe df with dates
+x = data.frame(dat  = as.Date("01/10/2017", "%d/%m/%Y") + 1:10, 
+               ch   = letters[1:10], 
+               nm   = 1:10)
 
 test_that("Output is a data frame", {
   expect_is(report_cat(mtcars), "data.frame")
@@ -14,6 +18,7 @@ test_that("Output is a data frame", {
   expect_is(report_cat(starwars), "data.frame")
   expect_is(report_cat(storms), "data.frame")
   expect_is(report_cat(airquality), "data.frame")
+  expect_is(report_cat(x), "data.frame")
 })
 
 test_that("Output with two identical df inputs data frame", {

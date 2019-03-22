@@ -22,6 +22,10 @@ fast_table <- function(v, show_na = TRUE){
     tbl_freq <- tbl_freq %>% 
       bind_rows(tibble(value = NA, prop = 1 - sum(.$prop)))
   }
+  # if the values column is not numeric, then coerce to character
+  if(!any("numeric" %in% class(tbl_freq$value))){
+    tbl_freq$value <- as.character(tbl_freq$value)
+  }
   # return frequency table
   return(tbl_freq)
 }
