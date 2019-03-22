@@ -1,4 +1,8 @@
 #' @importFrom dplyr pull
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 ylim
+#' @importFrom ggplot2 scale_fill_manual
+#' @importFrom grDevices colorRampPalette
 #' @importFrom ggplot2 scale_x_discrete
 plot_cat <- function(levels_df, df_names){
   # plotting pallete
@@ -26,24 +30,23 @@ plot_cat <- function(levels_df, df_names){
       mutate(col_name = paste0(col_name, ": ", dfi))
   }
 
-  # ensure that NA levels are places in the first row
-  plt <- lvl_df %>% 
-    # group_by(col_name) %>%
-    # do(put_na_top(.)) %>%
+  # add new keys and arrange
+  lvl_df2 <- lvl_df %>% 
     arrange(col_name, prop, value) %>%
-    # ungroup %>%
     mutate(new_level_key = paste0(level_key, "-", dfi)) %>%
     mutate(new_level_key = factor(new_level_key, 
                                   levels = unique(new_level_key))) %>%
-    ggplot(aes(x = col_name, y = prop, 
-               fill = factor(level_key, levels = unique(level_key)))) +
-               # fill = new_level_key,
-               # group = dfi)) +
-    geom_bar(position = "stack", stat = "identity", colour = "black", 
-             size = 0.2) +
+    mutate(level_key = factor(level_key, levels = unique(level_key))) %>%
+    mutate(col_name = factor(col_name, levels = rev(sort(unique(col_name)))))
+
+  # generate plot
+  plt <- lvl_df2 %>%
+    ggplot(aes(x = col_name, y = prop, fill = new_level_key)) +
+    geom_bar(position = "stack", stat = "identity", 
+             colour = "black", size = 0.2) +
     scale_fill_manual(
-      values = ifelse(is.na(lvl_df$value), "gray65", 
-                      zcols[round(lvl_df$colvalstretch * 1000, 0)])) +
+      values = ifelse(is.na(lvl_df2$value), "gray65", 
+                      zcols[round(lvl_df2$colvalstretch * 1000, 0)])) +
     coord_flip() +
     guides(fill = FALSE) + 
     theme(axis.title.y = element_blank(), panel.background = element_blank(),
@@ -59,8 +62,8 @@ plot_cat <- function(levels_df, df_names){
       labs(title = paste0("Frequency of levels in categorical columns of df::", 
                           df_names$df1))
   } else {
-    split_labs <- strsplit(sort(unique(lvl_df$col_name)), ": ")
-    new_labs  <- lapply(split_labs, function(v) paste(rev(v), collapse = ": "))
+    split_labs <- strsplit(levels(lvl_df2$col_name), ": ")
+    new_labs   <- sapply(split_labs, function(v) paste(rev(v), collapse = ": "))
     plt <- plt + 
       scale_x_discrete(labels = new_labs) + 
       labs(title = paste0("Comparison of levels in categorical columns of df::", 
@@ -68,9 +71,10 @@ plot_cat <- function(levels_df, df_names){
   }
 
   # label bars with category name if bar is long enough
-  annts <- lvl_df %>% 
-    mutate(col_num = as.integer(factor(col_name, 
-                                       levels = sort(unique(col_name)))))
+  annts <- lvl_df2 %>% 
+    mutate(col_num = as.integer(col_name))
+    # mutate(col_num = as.integer(factor(col_name, 
+                                       # levels = sort(unique(col_name)))))
   annts$value[annts$prop < 0.15] <- NA
   col_vec <- ifelse((annts$colvalstretch > 0.7), 2, 1)
   # if bars are dark, label white, otherwise gray
