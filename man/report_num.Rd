@@ -17,6 +17,8 @@ report_num(df1, df2 = NULL, top = NULL, show_plot = F,
 \item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
 
 \item{breaks}{Optional argument specifying the breaks to use when comparing numeric data frame features.}
+
+\item{histfn}{Optional charatcer argument specifiying the histogram algorithm used by the \code{hist} function.}
 }
 \value{
 If \code{df2 = NULL} then is a \code{tibble} containing the names of numeric columns (\code{col_name}).

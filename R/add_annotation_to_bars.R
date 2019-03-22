@@ -12,7 +12,8 @@
 add_annotation_to_bars <- function(x, y, z, plt, thresh = 0.05, 
                                    nudge = 1, angle = 90, 
                                    hjust = c("left", "right"), 
-                                   size = 4){
+                                   size = 4, inherit.aes = FALSE, 
+                                   position = "identity"){
   # two different label series
   z_white <- z_grey <- z
   z_white[y < (thresh * max(y))] <- NA
@@ -21,14 +22,14 @@ add_annotation_to_bars <- function(x, y, z, plt, thresh = 0.05,
   plt <- plt + geom_text(aes(x = x, y = y, label = z_white),
                          nudge_y = -nudge, color = "white",
                          angle = angle, 
-                         hjust = hjust[2], inherit.aes = FALSE, 
+                         hjust = hjust[2], inherit.aes = inherit.aes, 
                          na.rm = TRUE, size = size)
   # add a grey series to the smaller bars
   plt <- plt + geom_text(aes(x = x, y = y, label = z_grey),
                          nudge_y = nudge, 
                          color = "lightsteelblue4", 
                          angle = angle, 
-                         hjust = hjust[1], inherit.aes = FALSE, 
+                         hjust = hjust[1], inherit.aes = inherit.aes, 
                          na.rm = TRUE, size = size)
   # return the plot
   return(plt)
