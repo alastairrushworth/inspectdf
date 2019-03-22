@@ -29,20 +29,12 @@ plot_num_2 <- function(df_plot, df_names){
   df_plot <- df_plot %>% 
     select(-psi, -fisher_p) 
   # add the variable name to the histograms as an extra column
-  for(i in 1:nrow(df_plot)) df_plot$levels.x[[i]]$cname <- df_plot$col_name[i] 
-  for(i in 1:nrow(df_plot)) df_plot$levels.y[[i]]$cname <- df_plot$col_name[i] 
+  for(i in 1:nrow(df_plot)) df_plot[[2]][[i]]$cname <- df_plot$col_name[i] 
+  for(i in 1:nrow(df_plot)) df_plot[[3]][[i]]$cname <- df_plot$col_name[i] 
   # combine the histograms
-  trns_plot <- bind_rows(bind_rows(df_plot$levels.x), 
-                         bind_rows(df_plot$levels.y))
+  trns_plot <- bind_rows(bind_rows(df_plot[[2]]), 
+                         bind_rows(df_plot[[3]]))
   trns_plot$dfn <- rep(unlist(df_names), each = nrow(trns_plot) / 2)
-  # drop rows where both dfs are zero
-  zro_drop <- trns_plot %>%
-    group_by(cname, value) %>%
-    summarise(zs = as.integer(sum(prop == 0) == 2)) %>%
-    ungroup
-  trns_plot <- left_join(trns_plot, zro_drop, 
-                         by = c("cname", "value")) %>%
-    filter(zs == 0)
   # apply an ordering to the categories
   get_num <- function(st) as.integer(gsub("\\[|\\(", "", unlist(strsplit(st, ","))[1]))
   get_numV <- Vectorize(get_num)
