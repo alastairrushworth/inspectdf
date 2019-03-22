@@ -10,10 +10,28 @@
 #' @param alpha Alpha level for performing significance tests.  Defaults to 0.05.
 #' @return Return a \code{tibble} summarising columnwise missingness by presence of 
 #' \code{NA}.  Output contains the columns \code{col_name}, \code{cnt_na} and \code{pcnt}. 
-#' @details When a second data frame \code{df2} is specified, the tibble returned compares 
-#' missing for both dataframes.  The \code{p_value} results from a a chi-square test 
-#' of the null hypothesis that the rate of missingness is the same in in \code{df1} 
-#' and \code{df2}.
+#' @details When a single data frame is specified, the tibble returned contains the count
+#' and percentage of missing values within in each column.  The tibble has columns:
+#' \itemize{
+#'   \item \code{col_name} the name of the columns in \code{df1}
+#'   \item \code{cnt} the number of missing values in each column of \code{df1}
+#'   \item \code{pcnt} the percentage of each column with missing values
+#' }
+#' 
+#' When a second data frame \code{df2} is specified, the tibble returned compares 
+#' missingness for both data frames, and performs a statistical test for the null
+#' hypothesis that the rate of missingness is the same for the same named column
+#' in both data frames.
+#' \itemize{
+#'    \item \code{col_name} the name of the columns occurring in either \code{df1}
+#'   \item \code{cnt_...} pair of columns containing number of missing entries
+#'   for the same column in \code{df1} and \code{df2} - the data frame name are appended.
+#'   \item \code{pcnt_...} pair of columns containing number of missing entries
+#'   for the same column in \code{df1} and \code{df2} - the data frame name are appended.
+#' }
+#' 
+#' 
+#' 
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # missingness in starwars data
@@ -43,7 +61,7 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.
     # find the top 10 with most missingness
     out <- vec_to_tibble(sapply(df1, sumna)) %>%
       mutate(pcnt = 100 * n / nrow(df1)) %>%
-      select(col_name = names, cnt_na = n, pcnt) %>%
+      select(col_name = names, cnt = n, pcnt) %>%
       arrange(desc(pcnt)) %>%
       slice(1:min(top, nrow(.)))
     # if any missing values then print out
@@ -54,15 +72,17 @@ report_na <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE, alpha = 0.
       return(out)
     } else {
       # return dataframe of values
-      return(tibble(col_name = character(), cnt_na = integer(), pcnt = numeric()))
+      return(tibble(col_name = character(), cnt = integer(), pcnt = numeric()))
     }
     if(type == "console") invisible(df1)
   } else {
     s1 <- report_na(df1, top = top, show_plot = F) 
     s2 <- report_na(df2, top = top, show_plot = F)
     na_tab <- full_join(s1, s2, by = "col_name")
-    na_tab$p_value <- prop_test(na_1 = na_tab$cnt_na.x, na_2 = na_tab$cnt_na.y, 
-                                n_1 = nrow(df1), n_2 = nrow(df2))
+    na_tab$p_value <- prop_test(na_1 = na_tab$cnt.x, 
+                                na_2 = na_tab$cnt.y, 
+                                n_1 = nrow(df1), 
+                                n_2 = nrow(df2))
     colnames(na_tab)[c(3, 5)] <- paste0("pcnt_", df_names)
     colnames(na_tab)[c(2, 4)] <- paste0("cnt_", df_names)
     # print a plot if requested

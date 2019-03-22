@@ -29,10 +29,25 @@ Return a \code{tibble} summarising columnwise missingness by presence of
 Report the rate of missingness in each column of a dataframe
 }
 \details{
+When a single data frame is specified, the tibble returned contains the count
+and percentage of missing values within in each column.  The tibble has columns:
+\itemize{
+  \item \code{col_name} the name of the columns in \code{df1}
+  \item \code{cnt} the number of missing values in each column of \code{df1}
+  \item \code{pcnt} the percentage of each column with missing values
+}
+
 When a second data frame \code{df2} is specified, the tibble returned compares 
-missing for both dataframes.  The \code{p_value} results from a a chi-square test 
-of the null hypothesis that the rate of missingness is the same in in \code{df1} 
-and \code{df2}.
+missingness for both data frames, and performs a statistical test for the null
+hypothesis that the rate of missingness is the same for the same named column
+in both data frames.
+\itemize{
+   \item \code{col_name} the name of the columns occurring in either \code{df1}
+  \item \code{cnt_...} pair of columns containing number of missing entries
+  for the same column in \code{df1} and \code{df2} - the data frame name are appended.
+  \item \code{pcnt_...} pair of columns containing number of missing entries
+  for the same column in \code{df1} and \code{df2} - the data frame name are appended.
+}
 }
 \examples{
 data("starwars", package = "dplyr")
