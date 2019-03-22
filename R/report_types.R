@@ -5,13 +5,24 @@
 #' @param show_plot Logical argument determining whether plot is generated 
 #' in addition to tibble output.  Default is \code{FALSE}.  
 #' @return A tibble summarising the count and percentage of different 
-#' column types in one or two data frames.
-#' @details When \code{df2 = NULL}, a tibble is returned with the columns: \code{col_type}
-#' the types contained in \code{df1}, \code{count} the number of columns with each type
-#' and \code{percent} the percentage of columns with each type.
-#' 
-#' When a second data frame \code{df2} is specified, column types are 
-#' tabulated for both data frames to enable comparison of contents.  
+#' column types for one or a pair of data frames.
+#' @details When \code{df2 = NULL}, a tibble is returned with the columns
+#' \itemize{
+#'   \item \code{type} the column types contained in \code{df1}
+#'   \item \code{cnt} the number of columns with each type
+#'   \item \code{pcnt} the percentage of columns with each type
+#'   \item \code{col_name} the names of columns with a specific type
+#' }
+#' When a second data frame \code{df2} is specified, column type summaries 
+#' are tabulated for both data frames to enable comparison of contents. 
+#' The resulting tibble has the columns
+#' \itemize{
+#'   \item \code{type} column types present in either data frame
+#'   \item \code{cnt_...} pair of columns containing count of columns with 
+#'   each type - the data frame name are appended.
+#'   \item \code{pcnt_...} pair of columns containing the percentage of 
+#'   columns with each type - the data frame name are appended.
+#' }
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # get tibble of column types for the starwars data
@@ -56,7 +67,7 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     # get column names by type
     nms_cls     <- tibble(nms = names(df1), cls = classes) %>% arrange(cls)
     nms_lst     <- split(nms_cls$nms, nms_cls$cls)
-    nms_df      <- tibble(type = names(nms_lst), col_names = nms_lst) 
+    nms_df      <- tibble(type = names(nms_lst), col_name = nms_lst) 
     # combine with type frequencies
     classes     <- sapply(classes, paste, collapse = " ")
     types       <- table(classes)
@@ -74,10 +85,10 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     # return dataframe
     return(out)
   } else {
-    s1 <- report_types(df1, show_plot = F) %>% select(-col_names)
+    s1 <- report_types(df1, show_plot = F) %>% select(-col_name)
     colnames(s1)[2:3] <- c(paste0("cnt_",  df_names[1]), 
                            paste0("pcnt_", df_names[1]))
-    s2 <- report_types(df2, show_plot = F) %>% select(-col_names)
+    s2 <- report_types(df2, show_plot = F) %>% select(-col_name)
     colnames(s2)[2:3] <- c(paste0("cnt_",  df_names[2]), 
                            paste0("pcnt_", df_names[2]))
     out <- full_join(s1, s2, by = "type") %>% 

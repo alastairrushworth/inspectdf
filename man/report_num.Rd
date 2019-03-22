@@ -5,28 +5,41 @@
 \title{Report and compare the numeric variables within one or two data frames}
 \usage{
 report_num(df1, df2 = NULL, top = NULL, show_plot = F,
-  breaks = NULL, histfn = "FD")
+  breakseq = NULL, breaks = 20)
 }
 \arguments{
 \item{df1}{A data frame}
 
-\item{df2}{An optional second data frame for comparing categorical levels  Defaults to \code{NULL}.}
+\item{df2}{An optional second data frame for comparing categorical levels.
+Defaults to \code{NULL}.}
 
-\item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
+\item{top}{The number of rows to print for summaries. 
+Default \code{top = NULL} prints everything.}
 
-\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
+\item{show_plot}{Logical determining whether to show a plot in addition 
+to tibble output.  Default is \code{FALSE}.}
 
-\item{breaks}{Optional argument specifying the breaks to use when comparing numeric data frame features.}
+\item{breakseq}{For internal use.  Argument that accepts a pre-specified set of 
+break points, default is \code{NULL}.}
 
-\item{histfn}{Optional charatcer argument specifiying the histogram algorithm used by the \code{hist} function.}
+\item{breaks}{Optional argument determining how breaks are constructed for 
+histograms to use when comparing numeric data frame features.  
+This takes the same values as \code{hist(..., breaks)}.  See \code{?hist} 
+for more details.}
 }
 \value{
-If \code{df2 = NULL} then is a \code{tibble} containing the names of numeric columns (\code{col_name}).
+A \code{tibble} containing statistical summaries of the numeric 
+columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
 }
 \description{
 Report and compare the numeric variables within one or two data frames
 }
 \examples{
 data("starwars", package = "dplyr")
+# show summary statistics for starwars
 report_num(starwars)
+# show a visualisation too - limit number of bins
+report_num(starwars, breaks = 10)
+# compare two data frames
+report_num(starwars, starwars[-c(1:10), ], breaks = 10, show_plot = T)
 }

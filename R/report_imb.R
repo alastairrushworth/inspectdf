@@ -8,7 +8,7 @@
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")
-#' report_imbalance(starwars)
+#' report_imb(starwars)
 #' @importFrom tibble tibble
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
@@ -21,7 +21,7 @@
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
 
-report_imbalance <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
+report_imb <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -52,8 +52,8 @@ report_imbalance <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       return(tibble(col_name = character(), value = character(), percent = numeric()))
     }
   } else {
-    s1 <- report_imbalance(df1,  top = top, show_plot = F) %>% rename(value_1 = value, percent_1 = percent)
-    s2 <- report_imbalance(df2,  top = top, show_plot = F) %>% rename(value_2 = value, percent_2 = percent)
+    s1 <- report_imb(df1,  top = top, show_plot = F) %>% rename(value_1 = value, percent_1 = percent)
+    s2 <- report_imb(df2,  top = top, show_plot = F) %>% rename(value_2 = value, percent_2 = percent)
     imbal_tab <- full_join(s1, s2, by = c("col_name")) %>%
       mutate(p_value = prop_test_imbalance(., n_1 = nrow(df1), n_2 = nrow(df2)))
     return(imbal_tab)

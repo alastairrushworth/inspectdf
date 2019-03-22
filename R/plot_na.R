@@ -4,15 +4,15 @@ plot_na_1 <- function(df_plot, df_names){
     mutate(col_name = factor(col_name, levels = as.character(col_name)))
   # construct bar plot of missingess
   plt <- bar_plot(df_plot = df_plot, x = "col_name", y = "pcnt", 
-                  fill = "col_name", label = "cnt_na",
+                  fill = "col_name", label = "cnt",
                   ttl = paste0("Prevalance of missing values in df::", df_names$df1),
                   sttl = paste0("df::", df_names$df1,  " has ", nrow(df_plot), 
-                                " columns, of which ", sum(df_plot$cnt_na > 0), 
+                                " columns, of which ", sum(df_plot$cnt > 0), 
                                 " have missing values"),
                   ylb = "% of column that is NA", rotate = TRUE)
   # add text annotation to plot
   plt <- add_annotation_to_bars(x = df_plot$col_name, y = df_plot$pcnt, 
-                                z = df_plot$cnt_na, plt = plt)
+                                z = df_plot$cnt, plt = plt)
   print(plt)
 }
 

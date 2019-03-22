@@ -16,18 +16,29 @@ in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
 A tibble summarising the count and percentage of different 
-column types in one or two data frames.
+column types for one or a pair of data frames.
 }
 \description{
 Report column types in a data frame or compare types in two data frames.
 }
 \details{
-When \code{df2 = NULL}, a tibble is returned with the columns: \code{col_type}
-the types contained in \code{df1}, \code{count} the number of columns with each type
-and \code{percent} the percentage of columns with each type.
-
-When a second data frame \code{df2} is specified, column types are 
-tabulated for both data frames to enable comparison of contents.
+When \code{df2 = NULL}, a tibble is returned with the columns
+\itemize{
+  \item \code{type} the column types contained in \code{df1}
+  \item \code{cnt} the number of columns with each type
+  \item \code{pcnt} the percentage of columns with each type
+  \item \code{col_names} the names of columns with a specific type
+}
+When a second data frame \code{df2} is specified, column type summaries 
+are tabulated for both data frames to enable comparison of contents. 
+The resulting tibble has the columns
+\itemize{
+  \item \code{type} column types present in either data frame
+  \item \code{cnt_...} pair of columns containing count of columns with 
+  each type - the data frame name are appended.
+  \item \code{pcnt_...} pair of columns containing the percentage of 
+  columns with each type - the data frame name are appended.
+}
 }
 \examples{
 data("starwars", package = "dplyr")

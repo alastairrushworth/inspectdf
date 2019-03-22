@@ -1,16 +1,29 @@
 #' Report and compare the numeric variables within one or two data frames
 #'
 #' @param df1 A data frame
-#' @param df2 An optional second data frame for comparing categorical levels  Defaults to \code{NULL}.
-#' @param top The number of rows to print for summaries. Default \code{top = NULL} prints everything.
-#' @param show_plot Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.
-#' @param breaks Optional argument specifying the breaks to use when comparing numeric data frame features.
-#' @param histfn Optional charatcer argument specifiying the histogram algorithm used by the \code{hist} function.
-#' @return If \code{df2 = NULL} then is a \code{tibble} containing the names of numeric columns (\code{col_name}).
+#' @param df2 An optional second data frame for comparing categorical levels.  
+#' Defaults to \code{NULL}.
+#' @param top The number of rows to print for summaries. 
+#' Default \code{top = NULL} prints everything.
+#' @param show_plot Logical determining whether to show a plot in addition 
+#' to tibble output.  Default is \code{FALSE}.
+#' @param breaks Optional argument determining how breaks are constructed for 
+#' histograms to use when comparing numeric data frame features.  
+#' This takes the same values as \code{hist(..., breaks)}.  See \code{?hist} 
+#' for more details. 
+#' @param breakseq For internal use.  Argument that accepts a pre-specified set of 
+#' break points, default is \code{NULL}.
+#' @return A \code{tibble} containing statistical summaries of the numeric 
+#' columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")
+#' # show summary statistics for starwars
 #' report_num(starwars)
+#' # show a visualisation too - limit number of bins
+#' report_num(starwars, breaks = 10)
+#' # compare two data frames
+#' report_num(starwars, starwars[-c(1:10), ], breaks = 10, show_plot = T)
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -41,7 +54,8 @@
 #' @importFrom tidyr gather
 #' @importFrom utils tail
 
-report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL, histfn = "FD"){
+report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, 
+                       breakseq = NULL, breaks = 20){
 
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -51,7 +65,7 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL
     # pick out numeric features
     df_num <- df1 %>% select_if(is.numeric)
     # calculate summary statistics for each
-    if(ncol(df_num) > 1){
+    if(ncol(df_num) > 0){
       # use the summary function to sweep out statistics
       df_num_sum <- df_num %>% gather(key = "col_name", value = "value") %>%
         group_by(col_name) %>% 
@@ -67,16 +81,18 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL
       # tibble determining breaks to use
       breaks_tbl <- tibble(col_name = colnames(df_num)) 
       # join to the breaks argument if supplied
-      if(!is.null(breaks)){
-        breaks_tbl <- left_join(breaks_tbl, breaks, by = "col_name")
+      if(!is.null(breakseq)){
+        breaks_tbl <- left_join(breaks_tbl, breakseq, by = "col_name")
       } else {
         breaks_tbl$breaks <- as.list(rep(NA, nrow(breaks_tbl)))
       }
       breaks_tbl$hist <- vector("list", length = ncol(df_num))
       # loop over the breaks_tbl and generate histograms, suppress plotting
       for(i in 1:nrow(breaks_tbl)){
+        brks_na <- anyNA(breaks_tbl$breaks[[i]])
         breaks_tbl$hist[[i]] <- hist(unlist(df_num[breaks_tbl$col_name[i]]), plot = F, 
-                                     breaks = if(anyNA(breaks_tbl$breaks[[i]])) {histfn} else {breaks_tbl$breaks[[i]]})
+                                     breaks = if(brks_na) breaks else {breaks_tbl$breaks[[i]]}, 
+                                     right = FALSE)
       }
       # extract basic info for constructing hist
       breaks_tbl$hist <- lapply(breaks_tbl$hist, prop_value)
@@ -89,16 +105,22 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, breaks = NULL
       # return df
       return(out)
     } else {
-      return(tibble(col_name = character(), min = numeric(), q1 = numeric(), 
-                    median = numeric(), mean = numeric(), q3 = numeric(),
-                    max = numeric(), sd = numeric(), percent_na = numeric(), hist = list()))
+      return(tibble(col_name = character(), min = numeric(), 
+                    q1 = numeric(), median = numeric(), 
+                    mean = numeric(), q3 = numeric(),
+                    max = numeric(), sd = numeric(), 
+                    percent_na = numeric(), hist = list()))
     }
   } else {
-    s1 <- report_num(df1, top = top, show_plot = F) %>% select(col_name, mean, sd, hist)
+    # get histogram and summaries for first df
+    s1 <- report_num(df1, top = top, show_plot = F, breaks = breaks) %>% 
+      select(col_name, mean, sd, hist)
     # extract breaks from the above
-    breaks_table <- tibble(col_name = s1$col_name, breaks = lapply(s1$hist, get_break))
+    breaks_table <- tibble(col_name = s1$col_name, 
+                           breaks = lapply(s1$hist, get_break))
     # get new histoggrams and summary stats using breaks from s1
-    s2 <- report_num(df2, top = top, breaks = breaks_table, show_plot = F) %>% select(col_name, mean, sd, hist)
+    s2 <- report_num(df2, top = top, breakseq = breaks_table, show_plot = F) %>% 
+      select(col_name, mean, sd, hist)
     s12 <- full_join(s1, s2, by = "col_name")
     # calculate psi and fisher p-value
     levels_tab <- s12 %>%

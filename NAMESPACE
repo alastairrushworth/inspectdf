@@ -2,7 +2,7 @@
 
 export(report_cat)
 export(report_cor)
-export(report_imbalance)
+export(report_imb)
 export(report_mem)
 export(report_na)
 export(report_num)
