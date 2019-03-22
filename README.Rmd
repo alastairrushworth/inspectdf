@@ -92,7 +92,7 @@ __Notes__
 Categorical features where each element is identical (or nearly) are often removed or scrutinised more closely.  The function `report_imbalance` helps to find categorical columns that are dominated by a single feature level and returns a tibble containing the columns: `col_name` the categorical column names; `value` the most frequently occurring categorical level in each column; `percent` the percentage frequency with which the value occurs.  The tibble is sorted in descending order of the `percent`.  A barplot is also returned when `show_plot` is set to `TRUE`.
 
 ```{r}
-report_imbalance(starwars, show_plot = T)
+report_imb(starwars, show_plot = T)
 ```
 
 
@@ -101,7 +101,7 @@ report_imbalance(starwars, show_plot = T)
 `report_num` generates statistical summaries of numeric columns contained in a data frame, combining some of the functionality of `summary` and `hist`.  The tibble returned contains standard numerical summaries (min, max, mean, median etc.), but also the percentage of missing entries (`percent_na`) and a simple histogram (`hist`).  If `show_plot = TRUE` a histogram is generated for each numeric feature.
 
 ```{r}
-report_num(starwars, show_plot = T)
+report_num(starwars, show_plot = T, breaks = 10)
 ```
 
 The `hist` column is a list whose elements are tibbles each containing a simple histogram with the relative frequency of counts for each feature.  These tibbles are used to generate the histograms shown when `show_plot = TRUE`.  For example, the histogram for `starwars$birth_year` is
@@ -115,9 +115,9 @@ report_num(starwars)$hist$birth_year
 `report_cat` returns a tibble summarising categorical features in the data frame.  This combines the functionality of `report_imbalance` and the `table` function. If `show_plot = TRUE` a barplot is generated showing the relative split.  The tibble generated contains the columns  
 
 + `col_name` name of the column
-+ `n_lvl` the number of unique levels in the feature  
-+ `cmn_lvl` the most common level (see also `report_imbalance`)  
-+ `cmn_pcnt` the percentage occurrence of the most dominant level  
++ `cnt` the number of unique levels in the feature  
++ `common` the most common level (see also `report_imb`)  
++ `common_pcnt` the percentage occurrence of the most dominant level  
 + `levels` a list of tibbles each containing frequency tabulations of all levels. 
 
 ```{r}
@@ -132,5 +132,29 @@ report_cat(starwars)$levels$hair_color
 
 Note that by default, if `NA` values are present, they are counted as a distinct categorical level.
 
+
+## Comparing data frames
+
+In addition to printing summaries for a single data frame, each `report_` function can accept two dataframe objects and produces statistics and plots comparing the two dataframes.
+
+#### Example
+
+To keep things simple, suppose we take the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+star_1 <- starwars %>% sample_n(50)
+star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+```
+
+#### Comparing column types
+
+When a second dataframe is provided, `report_types` will create a dataframe comparing the count and percentage of each column type.  To enable an easy comparison, the dataframe names are embedded into the column names.    
+
+```{r}
+report_types(star_1, star_2, show_plot = T)
+```
+
++ Comparison of column types between the two data frames 
 
 
