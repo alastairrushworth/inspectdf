@@ -6,7 +6,7 @@
                              "correlation", "prop", "psi_vals", "X1", "X2", 
                              "ass", "pair", "association", "k_tau", 
                              "k_tau_1", "k_tau_2", "tau_diff", "lower", 
-                             "upper", "value", "col_name", "percent", "V1", 
+                             "upper", "value", "col_name", "V1", 
                              "n_levels", "levels.x", "levels.y", "diff_1_2", 
                              "diff_2_1", "p_value", "n", "type",
                              "mid", "hist.x", "hist.y", "n.x", "percent_space", 
@@ -15,6 +15,6 @@
                              "level_key", "dfi", "colval", "fisher_p", 
                              "cname", "first_num", "new_level_key", "zs", "dfn", 
                              "cnt", "col_names", "white_labs", "black_labs", 
-                             "cls"))
+                             "cls", "alpha"))
   invisible()
 }

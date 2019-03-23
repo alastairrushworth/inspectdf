@@ -34,7 +34,8 @@ report_imb <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     # calculate imbalance if any columns available
     if(ncol(df_cat) > 0){
       # function to find the percentage of the most common value in a vector
-      imb_cols       <- suppressWarnings(bind_rows(lapply(df_cat, fast_table), .id = "col_name"))
+      freq_tabs      <- lapply(df_cat, fast_table, show_cnt = TRUE)
+      imb_cols       <- suppressWarnings(bind_rows(freq_tabs, .id = "col_name"))
       # get top ten most imbalance by common class and pass to histogrammer
       out <- imb_cols %>% 
         group_by(col_name) %>%
@@ -42,20 +43,31 @@ report_imb <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
         slice(1) %>% ungroup %>%
         mutate(prop = 100 * prop) %>%
         arrange(desc(prop)) %>% 
-        select(col_name, value, percent = prop)
+        select(col_name, value, pcnt = prop, cnt)
       # print plot if requested
       if(show_plot) plot_imb_1(out, df_names = df_names)
       # return dataframe of values
       return(out)
     } else {
-      # return empty dataframe of 
-      return(tibble(col_name = character(), value = character(), percent = numeric()))
+      # return empty dataframe if no categorical columns 
+      return(tibble(col_name = character(), 
+                    value = character(), 
+                    pcnt = numeric(), 
+                    cnt = integer()))
     }
   } else {
-    s1 <- report_imb(df1,  top = top, show_plot = F) %>% rename(value_1 = value, percent_1 = percent)
-    s2 <- report_imb(df2,  top = top, show_plot = F) %>% rename(value_2 = value, percent_2 = percent)
-    imbal_tab <- full_join(s1, s2, by = c("col_name")) %>%
-      mutate(p_value = prop_test_imbalance(., n_1 = nrow(df1), n_2 = nrow(df2)))
-    return(imbal_tab)
+    # summary of df1
+    s1 <- report_imb(df1,  top = top, show_plot = F) %>% 
+      rename(pcnt_1 = pcnt, cnt_1 = cnt)
+    # summary of df2
+    s2 <- report_imb(df2,  top = top, show_plot = F) %>% 
+      rename(pcnt_2 = pcnt, cnt_2 = cnt)
+    # left join summaries together
+    out <- left_join(s1, s2, by = c("col_name", "value")) %>%
+      mutate(p_value = prop_test_imb(., n_1 = nrow(df1), n_2 = nrow(df2)))
+    # print plot if requested
+    if(show_plot) plot_imb_2(out, df_names = df_names, alpha = alpha)
+    # return combined data frame
+    return(out)
   }
 }

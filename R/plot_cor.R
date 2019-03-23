@@ -2,7 +2,8 @@ plot_cor_1 <- function(df_plot, absolute = F, df_names){
   # preprocess data a bit
   df_plot <- df_plot %>% 
     mutate(pair = factor(pair, levels = as.character(pair)),
-           sign = as.factor(c("Negative", "Positive")[as.numeric(corr > 0) + 1]))
+           sign = as.factor(c("Negative", 
+                              "Positive")[as.numeric(corr > 0) + 1]))
   if(absolute){
     df_plot$lower <- ifelse(df_plot$corr < 0, -df_plot$lower,
                              df_plot$lower)
