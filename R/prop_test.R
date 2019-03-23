@@ -17,14 +17,17 @@ prop_test <- function(na_1, na_2, n_1, n_2){
 
 
 
-prop_test_imbalance <- function(imbal_tab, n_1, n_2){
+prop_test_imb <- function(imbal_tab, n_1, n_2){
   p_value <- vector("numeric", length = nrow(imbal_tab))
   if(length(p_value) > 0){
     for(i in 1:nrow(imbal_tab)){
-      if((!(imbal_tab$value_1[i] == imbal_tab$value_2[i])) | (is.na(imbal_tab$percent_1[i])|is.na(imbal_tab$percent_2[i]))){
+      cnt_1 <- imbal_tab$cnt_1[i]
+      cnt_2 <- imbal_tab$cnt_2[i]
+      if(is.na(cnt_1) | is.na(cnt_2)){
         p_value[i] <- NA
       } else {
-        p_value[i] <- suppressWarnings(prop.test(c(imbal_tab$percent_1[i] * n_1 / 100, imbal_tab$percent_2[i] * n_2 / 100), c(n_1, n_2))$p.value)
+        ptst  <- suppressWarnings(prop.test(c(cnt_1, cnt_2), c(n_1, n_2)))
+        p_value[i] <- ptst$p.value
       }
     }
   }

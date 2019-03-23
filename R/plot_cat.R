@@ -58,23 +58,22 @@ plot_cat <- function(levels_df, df_names){
   
   # if this is a comparison, then add x-axis labels and descriptive title
   if(is_onedf){
-    plt <- plt + 
-      labs(title = paste0("Frequency of levels in categorical columns of df::", 
-                          df_names$df1))
+    ttl <- paste0("Frequency of levels in categorical columns of df::", 
+                  df_names$df1)
   } else {
     split_labs <- strsplit(levels(lvl_df2$col_name), ": ")
-    new_labs   <- sapply(split_labs, function(v) paste(rev(v), collapse = ": "))
+    newlabs   <- sapply(split_labs, function(v) paste(rev(v), collapse = ": "))
+    ttl <- paste0("Comparison of levels in categorical columns of df::", 
+                  df_names$df1, " and df:: ", df_names$df1)
     plt <- plt + 
-      scale_x_discrete(labels = new_labs) + 
-      labs(title = paste0("Comparison of levels in categorical columns of df::", 
-                          df_names$df1, " and df:: ", df_names$df1))
+      scale_x_discrete(labels = newlabs)
   }
-
+  # add title
+  plt <- plt + labs(title = ttl)
+  
   # label bars with category name if bar is long enough
   annts <- lvl_df2 %>% 
     mutate(col_num = as.integer(col_name))
-    # mutate(col_num = as.integer(factor(col_name, 
-                                       # levels = sort(unique(col_name)))))
   annts$value[annts$prop < 0.15] <- NA
   col_vec <- ifelse((annts$colvalstretch > 0.7), 2, 1)
   # if bars are dark, label white, otherwise gray
@@ -93,7 +92,8 @@ collapse_levels <- function(list_col){
     group_by(col_name) %>%
     arrange(col_name, desc(prop), desc(value)) %>%
     mutate(colval = cumsum(prop)) %>% 
-    mutate(colvalstretch = (colval - min(colval) + 0.001)/(max(colval) - min(colval) + 0.001)) %>%
+    mutate(colvalstretch = (colval - min(colval) + 0.001)/
+             (max(colval) - min(colval) + 0.001)) %>%
     ungroup %>%
     arrange(col_name, prop, value) %>%
     mutate(level_key = paste0(value, "-", col_name)) %>% return()

@@ -12,3 +12,4 @@ src/*.o
 tests/testthat/*.pdf
 inst/
 hex/
+checks.R

@@ -11,6 +11,9 @@
 #' histograms to use when comparing numeric data frame features.  
 #' This takes the same values as \code{hist(..., breaks)}.  See \code{?hist} 
 #' for more details. 
+#' @param plot_layout 2 dimensional vector specifying the number of rows and columns 
+#' in the plotting grid.  For example a grid with 3 rows and 2 columns would be 
+#' specified as \code{plot_layout = c(3, 2)}.
 #' @param breakseq For internal use only.  Argument that accepts a pre-specified set of 
 #' break points, default is \code{NULL}.
 #' @return A \code{tibble} containing statistical summaries of the numeric 
@@ -66,7 +69,7 @@
 #' @importFrom utils tail
 
 report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F, 
-                       breakseq = NULL, breaks = 20){
+                       breaks = 20, plot_layout = NULL, breakseq = NULL){
 
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -113,7 +116,11 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F,
       # add feature names to the list
       names(out$hist) <-  as.character(out$col_name)
       # if plot is requested
-      if(show_plot) plot_num_1(out, df_names = df_names)
+      if(show_plot){
+        plot_num_1(out, 
+                   df_names = df_names, 
+                   plot_layout = plot_layout)
+      }
       # return df
       return(out)
     } else {
@@ -141,7 +148,11 @@ report_num <- function(df1, df2 = NULL, top = NULL, show_plot = F,
       select(-contains("mean"), -contains("sd"))
     colnames(levels_tab)[2:3] <- paste0("hist_", unlist(df_names))
     # if plot is requested
-    if(show_plot) plot_num_2(levels_tab, df_names = df_names)
+    if(show_plot){
+      plot_num_2(levels_tab, 
+                 df_names = df_names, 
+                 plot_layout = plot_layout)
+    }
     # return dataframe
     return(levels_tab)
   }

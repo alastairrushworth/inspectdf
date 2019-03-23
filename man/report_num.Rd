@@ -4,8 +4,8 @@
 \alias{report_num}
 \title{Report and compare the numeric variables within one or two data frames}
 \usage{
-report_num(df1, df2 = NULL, top = NULL, show_plot = F,
-  breakseq = NULL, breaks = 20)
+report_num(df1, df2 = NULL, top = NULL, show_plot = F, breaks = 20,
+  plot_layout = NULL, breakseq = NULL)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -19,13 +19,17 @@ Default \code{top = NULL} prints everything.}
 \item{show_plot}{Logical determining whether to show a plot in addition 
 to tibble output.  Default is \code{FALSE}.}
 
-\item{breakseq}{For internal use only.  Argument that accepts a pre-specified set of 
-break points, default is \code{NULL}.}
-
 \item{breaks}{Optional argument determining how breaks are constructed for 
 histograms to use when comparing numeric data frame features.  
 This takes the same values as \code{hist(..., breaks)}.  See \code{?hist} 
 for more details.}
+
+\item{plot_layout}{2 dimensional vector specifying the number of rows and columns 
+in the plotting grid.  For example a grid with 3 rows and 2 columns would be 
+specified as \code{plot_layout = c(3, 2)}.}
+
+\item{breakseq}{For internal use only.  Argument that accepts a pre-specified set of 
+break points, default is \code{NULL}.}
 }
 \value{
 A \code{tibble} containing statistical summaries of the numeric 

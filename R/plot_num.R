@@ -1,4 +1,7 @@
-plot_num_1 <- function(df_plot, df_names){
+plot_num_1 <- function(df_plot, df_names, plot_layout){
+  # set the plot_layout if not specified
+  if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
+  # get bin midpoints for plotting
   for(i in 1:length(df_plot$hist)){
     df_plot$hist[[i]]$col_name <- df_plot$col_name[i]
     diff_nums <- lapply(strsplit(gsub("\\[|,|\\)", "", df_plot$hist[[i]]$value), " "), function(v) diff(as.numeric(v))) %>% unlist %>% unique
@@ -12,20 +15,26 @@ plot_num_1 <- function(df_plot, df_names){
     }
   }
   df_plot <- bind_rows(df_plot$hist)
+  # generate plot
   plt <- df_plot %>%
     ggplot(aes(x = mid, y = prop)) + 
     geom_col(fill = "blue") + 
-    facet_grid(. ~ col_name, scales = "free") + 
     labs(x = "", y = "Probability", 
          title =  paste0("Histograms of numeric columns in df::", df_names$df1), 
-         subtitle = "")
+         subtitle = "") +
+    facet_wrap(~ col_name, scales = "free", 
+               nrow = plot_layout[[1]], 
+               ncol = plot_layout[[2]])
   # print plot
   print(plt)
 }
 
 
 
-plot_num_2 <- function(df_plot, df_names){
+plot_num_2 <- function(df_plot, df_names, plot_layout){
+  # set the plot_layout if not specified
+  if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
+  # chop stuff off
   df_plot <- df_plot %>% 
     select(-psi, -fisher_p) 
   # add the variable name to the histograms as an extra column
@@ -41,7 +50,7 @@ plot_num_2 <- function(df_plot, df_names){
   ord_vals <- trns_plot %>%
     select(value) %>%
     distinct() %>%
-    mutate(first_num = get_numV(value)) %>%
+    mutate(first_num = suppressWarnings(get_numV(value))) %>%
     arrange(first_num)
   # generate a heatplot
   plt <- trns_plot %>%
@@ -51,6 +60,8 @@ plot_num_2 <- function(df_plot, df_names){
     scale_fill_gradient(low = "white", high = "steelblue") + 
     theme(legend.position = "none") +
     labs(x = "", y = "") + 
-    facet_wrap(~ cname, scales = "free", ncol = 4)
+    facet_wrap(~ cname, scales = "free", 
+               nrow = plot_layout[[1]], 
+               ncol = plot_layout[[2]])  
   print(plt)
 }
