@@ -36,9 +36,9 @@ Rows are sorted in descending order of size as they appear in \code{df1}:
 \itemize{
   \item \code{col_name} character vector containing column names of \code{df1}
   and \code{df2}.
-  \item \code{size_} character vector containing memory usage of each column in
+  \item \code{size_1}, \code{size_2} character vector containing memory usage of each column in
   each of \code{df1} and \code{df2}.
-  \item \code{pcnt_} the percentage of total memory usage of each column within 
+  \item \code{pcnt_1}, \code{pcnt_2} the percentage of total memory usage of each column within 
   each of \code{df1} and \code{df2}.
 }
 }

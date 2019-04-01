@@ -39,9 +39,9 @@ columns occurring in both data frames.  A test of the null hypothesis that the r
 of missingness is the same across the same column in either dataframe.
 \itemize{
   \item \code{col_name} the name of the columns occurring in either \code{df1}
-  \item \code{cnt_...} pair of integer vectors containing counts of missing entries
+  \item \code{cnt_1}, \code{cnt_2} pair of integer vectors containing counts of missing entries
   for each column in \code{df1} and \code{df2}.
-  \item \code{pcnt_...} pair of columns containing percentage of missing entries
+  \item \code{pcnt_1}, \code{pcnt_2} pair of columns containing percentage of missing entries
   for each column in \code{df1} and \code{df2}.
   \item \code{p_value} p-value associated with test of the rates of missingness.  Small 
   values indicate evidence that the rate of missingness differs for a column occurring 

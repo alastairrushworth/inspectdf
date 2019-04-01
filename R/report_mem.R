@@ -20,9 +20,9 @@
 #' \itemize{
 #'   \item \code{col_name} character vector containing column names of \code{df1}
 #'   and \code{df2}.
-#'   \item \code{size_} character vector containing memory usage of each column in
+#'   \item \code{size_1}, \code{size_2} character vector containing memory usage of each column in
 #'   each of \code{df1} and \code{df2}.
-#'   \item \code{pcnt_} the percentage of total memory usage of each column within 
+#'   \item \code{pcnt_1}, \code{pcnt_2} the percentage of total memory usage of each column within 
 #'   each of \code{df1} and \code{df2}.
 #' }
 #' @examples
@@ -97,10 +97,8 @@ report_mem <- function(df1, df2 = NULL, show_plot = FALSE){
     df2 <- report_mem(df2, show_plot = F)
     sjoin <- full_join(df1, df2, by = "col_name") %>%
       select(col_name, contains("size"), contains("pcnt"))
-    colnames(sjoin)[2] <- paste0("size_",  df_names$df1)
-    colnames(sjoin)[3] <- paste0("size_",  df_names$df2)
-    colnames(sjoin)[4] <- paste0("pcnt_",  df_names$df1)
-    colnames(sjoin)[5] <- paste0("pcnt_",  df_names$df2)
+    colnames(sjoin)[2:3] <- paste0("size_",  1:2)
+    colnames(sjoin)[4:5] <- paste0("pcnt_",  1:2)
     # if plot is requested
     if(show_plot) plot_mem_2(sjoin, df_names = df_names, sizes = sizes)
     # return dataframe

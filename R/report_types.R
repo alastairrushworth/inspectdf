@@ -19,9 +19,9 @@
 #' \itemize{
 #'   \item \code{type} character vector containing the column types in 
 #'   \code{df1} and \code{df2}.
-#'   \item \code{cnt_} pair of integer columns containing counts of each type - 
+#'   \item \code{cnt_1}, \code{cnt_2} pair of integer columns containing counts of each type - 
 #'   in each of \code{df1} and \code{df2}.
-#'   \item \code{pcnt_} pair of columns containing the percentage of 
+#'   \item \code{pcnt_1}, \code{pcnt_2} pair of columns containing the percentage of 
 #'   columns with each type - the data frame name are appended.
 #' }
 #' @examples
@@ -88,11 +88,9 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     return(out)
   } else {
     s1 <- report_types(df1, show_plot = F) %>% select(-col_name)
-    colnames(s1)[2:3] <- c(paste0("cnt_",  df_names[1]), 
-                           paste0("pcnt_", df_names[1]))
+    colnames(s1)[2:3] <- paste0(c("cnt_", "pcnt_"), 1)
     s2 <- report_types(df2, show_plot = F) %>% select(-col_name)
-    colnames(s2)[2:3] <- c(paste0("cnt_",  df_names[2]), 
-                           paste0("pcnt_", df_names[2]))
+    colnames(s2)[2:3] <- paste0(c("cnt_", "pcnt_"), 2)
     out <- full_join(s1, s2, by = "type") %>% 
       replace(is.na(.), 0)
     # show plot if requested

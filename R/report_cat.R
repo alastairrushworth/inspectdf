@@ -30,7 +30,7 @@
 #'   representing moderate and low evidence of a change.
 #'   \item{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
 #'   evidence that the the two sets of relative frequencies are actually different.
-#'   \item \code{lvls_} relative frequency of levels in each of \code{df1} and \code{df2}.
+#'   \item \code{lvls_1}, \code{lvls_2} relative frequency of levels in each of \code{df1} and \code{df2}.
 #' }
 #' @export
 #' @examples
@@ -120,7 +120,7 @@ report_cat <- function(df1, df2 = NULL, show_plot = FALSE){
       mutate(psi = psi(levels.x, levels.y)) %>%
       mutate(fisher_p = fisher(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
         select(col_name, psi, fisher_p, levels.x, levels.y)
-    colnames(levels_df)[4:5] <- paste0("lvls_", df_names)
+    colnames(levels_df)[4:5] <- paste0("lvls_", 1:2)
     # ensure the list names are retained
     names(levels_df[[4]]) <- names(levels_df[[5]]) <- names(s2$levels)
     # if plot is requested

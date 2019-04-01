@@ -46,7 +46,7 @@ exact test are performed as part of the comparison.
   representing moderate and low evidence of a change.
   \item{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
   evidence that the the two sets of relative frequencies are actually different.
-  \item \code{lvls_} relative frequency of levels in each of \code{df1} and \code{df2}.
+  \item \code{lvls_1}, \code{lvls_2} relative frequency of levels in each of \code{df1} and \code{df2}.
 }
 }
 \examples{
