@@ -48,7 +48,7 @@ report_types(starwars, show_plot = T)
 
     ## # A tibble: 4 x 4
     ##   type        cnt  pcnt col_name 
-    ##   <chr>     <dbl> <dbl> <list>   
+    ##   <chr>     <int> <dbl> <list>   
     ## 1 character     7 53.8  <chr [7]>
     ## 2 list          3 23.1  <chr [3]>
     ## 3 numeric       2 15.4  <chr [2]>
@@ -141,16 +141,16 @@ report_imb(starwars, show_plot = T)
 
 ![](man/figures/README-unnamed-chunk-8-1.png)
 
-    ## # A tibble: 7 x 3
-    ##   col_name   value  percent
-    ##   <chr>      <chr>    <dbl>
-    ## 1 gender     male     71.3 
-    ## 2 hair_color none     42.5 
-    ## 3 species    Human    40.2 
-    ## 4 eye_color  brown    24.1 
-    ## 5 skin_color fair     19.5 
-    ## 6 homeworld  Naboo    12.6 
-    ## 7 name       Ackbar    1.15
+    ## # A tibble: 7 x 4
+    ##   col_name   value   pcnt   cnt
+    ##   <chr>      <chr>  <dbl> <int>
+    ## 1 gender     male   71.3     19
+    ## 2 hair_color none   42.5      1
+    ## 3 species    Human  40.2      1
+    ## 4 eye_color  brown  24.1     10
+    ## 5 skin_color fair   19.5      2
+    ## 6 homeworld  Naboo  12.6      3
+    ## 7 name       Ackbar  1.15     1
 
 #### Numeric summaries
 
@@ -238,16 +238,16 @@ report_cat(starwars)$levels$hair_color
     ##  1 none          0.425 
     ##  2 brown         0.207 
     ##  3 black         0.149 
-    ##  4 white         0.0460
-    ##  5 blond         0.0345
-    ##  6 auburn        0.0115
-    ##  7 auburn, grey  0.0115
-    ##  8 auburn, white 0.0115
-    ##  9 blonde        0.0115
-    ## 10 brown, grey   0.0115
-    ## 11 grey          0.0115
-    ## 12 unknown       0.0115
-    ## 13 <NA>          0.0575
+    ##  4 <NA>          0.0575
+    ##  5 white         0.0460
+    ##  6 blond         0.0345
+    ##  7 auburn        0.0115
+    ##  8 auburn, grey  0.0115
+    ##  9 auburn, white 0.0115
+    ## 10 blonde        0.0115
+    ## 11 brown, grey   0.0115
+    ## 12 grey          0.0115
+    ## 13 unknown       0.0115
 
 Note that by default, if `NA` values are present, they are counted as a distinct categorical level.
 
@@ -277,11 +277,11 @@ report_types(star_1, star_2, show_plot = T)
 ![](man/figures/README-unnamed-chunk-14-1.png)
 
     ## # A tibble: 4 x 5
-    ##   type      cnt_star_1 pcnt_star_1 cnt_star_2 pcnt_star_2
-    ##   <chr>          <dbl>       <dbl>      <dbl>       <dbl>
-    ## 1 character          7       53.8           6        54.5
-    ## 2 list               3       23.1           3        27.3
-    ## 3 numeric            2       15.4           2        18.2
-    ## 4 integer            1        7.69          0         0
+    ##   type      cnt_1 pcnt_1 cnt_2 pcnt_2
+    ##   <chr>     <int>  <dbl> <dbl>  <dbl>
+    ## 1 character     7  53.8      6   54.5
+    ## 2 list          3  23.1      3   27.3
+    ## 3 numeric       2  15.4      2   18.2
+    ## 4 integer       1   7.69     0    0
 
 -   Comparison of column types between the two data frames
