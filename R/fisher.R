@@ -23,7 +23,9 @@ fisher <- function(Mlist1, Mlist2, n_1, n_2){
             # convert to a matrix and transpose to a pair of row vectors
             as.matrix %>% t %>%
             # apply fisher's exact test and extract the statistic
-            fisher.test(., simulate.p.value = TRUE, B = 10000) %>% .$p.value)
+            fisher.test(., simulate.p.value = TRUE, B = 10000) %>% 
+            .$p.value
+          )
       }
     }
   }

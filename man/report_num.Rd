@@ -2,9 +2,9 @@
 % Please edit documentation in R/report_num.R
 \name{report_num}
 \alias{report_num}
-\title{Report and compare the numeric variables within one or two data frames}
+\title{Report and compare the numeric variables within one or two dataframes}
 \usage{
-report_num(df1, df2 = NULL, top = NULL, show_plot = F, breaks = 20,
+report_num(df1, df2 = NULL, show_plot = F, breaks = 20,
   plot_layout = NULL, breakseq = NULL)
 }
 \arguments{
@@ -13,20 +13,16 @@ report_num(df1, df2 = NULL, top = NULL, show_plot = F, breaks = 20,
 \item{df2}{An optional second data frame for comparing categorical levels.
 Defaults to \code{NULL}.}
 
-\item{top}{The number of rows to print for summaries. 
-Default \code{top = NULL} prints everything.}
-
 \item{show_plot}{Logical determining whether to show a plot in addition 
 to tibble output.  Default is \code{FALSE}.}
 
 \item{breaks}{Optional argument determining how breaks are constructed for 
-histograms to use when comparing numeric data frame features.  
-This takes the same values as \code{hist(..., breaks)}.  See \code{?hist} 
-for more details.}
+histograms when comparing numeric data frame features.  This is passed to 
+\code{hist(..., breaks)}.  See \code{?hist} for more details.}
 
-\item{plot_layout}{2 dimensional vector specifying the number of rows and columns 
-in the plotting grid.  For example a grid with 3 rows and 2 columns would be 
-specified as \code{plot_layout = c(3, 2)}.}
+\item{plot_layout}{Vector specifying the number of rows and columns 
+in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
+\code{plot_layout = c(3, 2)}.}
 
 \item{breakseq}{For internal use only.  Argument that accepts a pre-specified set of 
 break points, default is \code{NULL}.}
@@ -36,25 +32,41 @@ A \code{tibble} containing statistical summaries of the numeric
 columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
 }
 \description{
-Report and compare the numeric variables within one or two data frames
+Report and compare the numeric variables within one or two dataframes
 }
 \details{
-If only \code{df1} is specified, then the tibble returned will have the following columns:
+If only \code{df1} is specified, \code{report_num} returns a tibble with columns
 \itemize{
-  \item \code{col_name} the columns contained in \code{df1}
-  \item \code{min}, \code{q1}, \code{median}, \code{mean}, \code{q3}, \code{max} and \code{sd}: 
- the minimum, lower quartile, median, mean, upper quartile, maximum and standard deviation 
- for each numeric column.
+  \item \code{col_name} character vector containing the column names in \code{df1}
+  and \code{df2}
+  \item \code{min}, \code{q1}, \code{median}, \code{mean}, \code{q3}, \code{max} and 
+  \code{sd}: the minimum, lower quartile, median, mean, upper quartile, maximum and 
+  standard deviation for each numeric column.
   \item \code{pcnt_na} the percentage of each numeric feature that is missing
   \item \code{hist} a list of tibbles containing the relative frequency of values in a 
   set of discrete bins for each column.
+}
+If both \code{df1} and \code{df2} are specified, the tibble has columns
+\itemize{
+  \item \code{col_name} character vector containing the column names in \code{df1}
+  and \code{df2}
+  \item \code{hist_} list column for histograms of each of \code{df1} and \code{df2}.
+  Where a column appears in both dataframe, the bins used for \code{df1} are reused to 
+  calculate histograms for \code{df2}.
+  \item{psi} numeric column containing the 
+  \href{https://www.quora.com/What-is-population-stability-index}{population stability index}.  
+  This measures the change in distribution of two numeric features.  Conventionally, values
+  exceeding 0.25 indicate strong evidence of a change, with values below 0.25 and 0.1 
+  representing moderate and low evidence of a change.
+  \item{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
+  evidence that the the two histograms are actually different.
 }
 }
 \examples{
 data("starwars", package = "dplyr")
 # show summary statistics for starwars
 report_num(starwars)
-# show a visualisation too - limit number of bins
+# with a visualisation too - try to limit number of bins
 report_num(starwars, breaks = 10)
 # compare two data frames
 report_num(starwars, starwars[-c(1:10), ], breaks = 10, show_plot = TRUE)

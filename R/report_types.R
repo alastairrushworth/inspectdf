@@ -1,4 +1,4 @@
-#' Report column types in a data frame or compare types in two data frames.
+#' Report and compare column types in one or two dataframes.
 #'
 #' @param df1 A data frame.
 #' @param df2 An optional second data frame for comparison.  
@@ -8,19 +8,20 @@
 #' column types for one or a pair of data frames.
 #' @details When \code{df2 = NULL}, a tibble is returned with the columns
 #' \itemize{
-#'   \item \code{type} the column types contained in \code{df1}
-#'   \item \code{cnt} the number of columns with each type
-#'   \item \code{pcnt} the percentage of columns with each type
-#'   \item \code{col_name} the names of columns with a specific type
+#'   \item \code{type} character vector containing the column types in \code{df1}.
+#'   \item \code{cnt} integer counts of each type.
+#'   \item \code{pcnt} the percentage of all columns with each type.
+#'   \item \code{col_name} the names of columns with each type.
 #' }
 #' When a second data frame \code{df2} is specified, column type summaries 
 #' are tabulated for both data frames to enable comparison of contents. 
 #' The resulting tibble has the columns
 #' \itemize{
-#'   \item \code{type} column types present in either data frame
-#'   \item \code{cnt_...} pair of columns containing count of columns with 
-#'   each type - the data frame name are appended.
-#'   \item \code{pcnt_...} pair of columns containing the percentage of 
+#'   \item \code{type} character vector containing the column types in 
+#'   \code{df1} and \code{df2}.
+#'   \item \code{cnt_} pair of integer columns containing counts of each type - 
+#'   in each of \code{df1} and \code{df2}.
+#'   \item \code{pcnt_} pair of columns containing the percentage of 
 #'   columns with each type - the data frame name are appended.
 #' }
 #' @examples
@@ -29,6 +30,8 @@
 #' report_types(starwars)
 #' # get column types and show as barplot
 #' report_types(starwars, show_plot = TRUE)
+#' # compare two data frames
+#' report_types(starwars, starwars[, -1], show_plot = TRUE)
 #' @export
 #' @importFrom dplyr arrange
 #' @importFrom dplyr case_when
@@ -74,7 +77,6 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     type_tibble <- tibble(type = names(types), cnt = as.integer(types)) 
     # summarise column types into df1
     out <- type_tibble %>%
-      replace_na(list(cnt = 0)) %>%
       mutate(pcnt = 100 * cnt / ncol(df1)) %>% 
       arrange(desc(pcnt))  %>% 
       left_join(nms_df, by = "type") %>%
