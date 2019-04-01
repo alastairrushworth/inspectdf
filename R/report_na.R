@@ -22,9 +22,9 @@
 #' of missingness is the same across the same column in either dataframe.
 #' \itemize{
 #'   \item \code{col_name} the name of the columns occurring in either \code{df1}
-#'   \item \code{cnt_...} pair of integer vectors containing counts of missing entries
+#'   \item \code{cnt_1}, \code{cnt_2} pair of integer vectors containing counts of missing entries
 #'   for each column in \code{df1} and \code{df2}.
-#'   \item \code{pcnt_...} pair of columns containing percentage of missing entries
+#'   \item \code{pcnt_1}, \code{pcnt_2} pair of columns containing percentage of missing entries
 #'   for each column in \code{df1} and \code{df2}.
 #'   \item \code{p_value} p-value associated with test of the rates of missingness.  Small 
 #'   values indicate evidence that the rate of missingness differs for a column occurring 
@@ -84,8 +84,8 @@ report_na <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05){
                                 na_2 = na_tab$cnt.y, 
                                 n_1 = nrow(df1), 
                                 n_2 = nrow(df2))
-    colnames(na_tab)[c(3, 5)] <- paste0("pcnt_", df_names)
-    colnames(na_tab)[c(2, 4)] <- paste0("cnt_", df_names)
+    colnames(na_tab)[c(3, 5)] <- paste0("pcnt_", 1:2)
+    colnames(na_tab)[c(2, 4)] <- paste0("cnt_", 1:2)
     # print a plot if requested
     if(show_plot) plot_na_2(na_tab, df_names = df_names, alpha = alpha)
     # return dataframe

@@ -35,9 +35,9 @@ The resulting tibble has the columns
 \itemize{
   \item \code{type} character vector containing the column types in 
   \code{df1} and \code{df2}.
-  \item \code{cnt_} pair of integer columns containing counts of each type - 
+  \item \code{cnt_1}, \code{cnt_2} pair of integer columns containing counts of each type - 
   in each of \code{df1} and \code{df2}.
-  \item \code{pcnt_} pair of columns containing the percentage of 
+  \item \code{pcnt_1}, \code{pcnt_2} pair of columns containing the percentage of 
   columns with each type - the data frame name are appended.
 }
 }

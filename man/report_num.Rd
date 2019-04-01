@@ -50,7 +50,7 @@ If both \code{df1} and \code{df2} are specified, the tibble has columns
 \itemize{
   \item \code{col_name} character vector containing the column names in \code{df1}
   and \code{df2}
-  \item \code{hist_} list column for histograms of each of \code{df1} and \code{df2}.
+  \item \code{hist_1}, \code{hist_2} list column for histograms of each of \code{df1} and \code{df2}.
   Where a column appears in both dataframe, the bins used for \code{df1} are reused to 
   calculate histograms for \code{df2}.
   \item{psi} numeric column containing the 

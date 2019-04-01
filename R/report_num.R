@@ -31,7 +31,7 @@
 #' \itemize{
 #'   \item \code{col_name} character vector containing the column names in \code{df1}
 #'   and \code{df2}
-#'   \item \code{hist_} list column for histograms of each of \code{df1} and \code{df2}.
+#'   \item \code{hist_1}, \code{hist_2} list column for histograms of each of \code{df1} and \code{df2}.
 #'   Where a column appears in both dataframe, the bins used for \code{df1} are reused to 
 #'   calculate histograms for \code{df2}.
 #'   \item{psi} numeric column containing the 
@@ -159,7 +159,7 @@ report_num <- function(df1, df2 = NULL, show_plot = F,
       mutate(psi = psi(hist.x, hist.y)) %>%
       mutate(fisher_p = fisher(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       select(-contains("mean"), -contains("sd"))
-    colnames(levels_tab)[2:3] <- paste0("hist_", unlist(df_names))
+    colnames(levels_tab)[2:3] <- paste0("hist_", 1:2)
     # if plot is requested
     if(show_plot){
       plot_num_2(levels_tab, 
