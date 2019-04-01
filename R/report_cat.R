@@ -1,21 +1,37 @@
-#' Report and compare the levels within each categorical feature
+#' Report and compare the levels within each categorical feature in one or two dataframes.
 #'
-#' @param df1 A data frame
-#' @param df2 An optional second data frame for comparing categorical features.  
+#' @param df1 A dataframe
+#' @param df2 An optional second data frame for comparing categorical levels.  
 #' Defaults to \code{NULL}.
-#' @param top The number of rows to print for summaries. 
-#' Default \code{top = NULL} prints everything.
-#' @param show_plot Logical determining whether to show a plot in addition to tibble output.  
-#' Default is \code{FALSE}.
-#' @return A \code{tibble} containing the names of 
-#' categorical columns (\code{col_name}), the number of levels within each (\code{n_lvl}), 
-#' the most common level (\code{cmn_lvl}), the percentage occurrence of the most common 
-#' feature (\code{cmn_pcnt}) and a list of tibbles containing the percentage appearance 
-#' of each feature (\code{levels}).
-#' @details If \code{df2} is specified, the tibble returned compares the common columns
-#' in both data frames.  The population stability index (\code{psi}), chi-squared statistic
-#' (\code{chisq}) are returned.  The \code{p_value} column provides evidence against the null 
-#' hypothesis that level distribution in each pair of columns is the same.
+#' @param show_plot Logical argument determining whether plot is returned
+#' in addition to tibble output.  Default is \code{FALSE}.
+#' @return A tibble summarising and comparing the categorical features 
+#' in one or a pair of data frames.
+#' @details When only \code{df1} is specified, a tibble is returned which 
+#' contains summaries of the categorical levels in \code{df1}.
+#' \itemize{
+#'   \item \code{col_name} character vector containing column names of \code{df1}.
+#'   \item \code{cnt} integer column containing count of unique levels found in each column 
+#'   (including \code{NA}).
+#'   \item \code{common} character column containing the name of the most common level.
+#'   \item \code{common_pcnt} percentage of each column occupied by the most common level shown in 
+#'   \code{common}.
+#'   \item \code{levels} relative frequency of levels in each column.
+#' }
+#' When both \code{df1} and \code{df2} are specified, the relative frequencies of levels across columns
+#' common both dataframes are compared.  In particular, the population stability index, and Fisher's 
+#' exact test are performed as part of the comparison.
+#' \itemize{
+#'   \item \code{col_name} character vector containing column names of \code{df1} and \code{df2}.
+#'   \item{psi} numeric column containing the 
+#'   \href{https://www.quora.com/What-is-population-stability-index}{population stability index}.  
+#'   This measures the difference in the distribution of two categorical features.  Conventionally, 
+#'   values exceeding 0.25 indicate strong evidence of a change, with values below 0.25 and 0.1 
+#'   representing moderate and low evidence of a change.
+#'   \item{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
+#'   evidence that the the two sets of relative frequencies are actually different.
+#'   \item \code{lvls_} relative frequency of levels in each of \code{df1} and \code{df2}.
+#' }
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")
@@ -39,7 +55,7 @@
 #' @importFrom dplyr ungroup
 #' @importFrom magrittr %>%
 
-report_cat <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
+report_cat <- function(df1, df2 = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -71,8 +87,7 @@ report_cat <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
       levels_df$levels <- levels_list
       # sort by alphabetical order & filter to max number of rows
       levels_df <- levels_df %>% 
-        arrange(col_name) %>% 
-        slice(1:min(top, nrow(.))) 
+        arrange(col_name)
       # add names to the list
       names(levels_df$levels) <- levels_df$col_name
       # if plot is requested
@@ -91,10 +106,10 @@ report_cat <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     }
   } else {
     # levels for df1
-    s1 <- report_cat(df1, top = top, show_plot = FALSE)  %>% 
+    s1 <- report_cat(df1, show_plot = FALSE)  %>% 
       select(-contains("common"), -cnt)
     # levels for df2
-    s2 <- report_cat(df2, top = top, show_plot = FALSE) %>% 
+    s2 <- report_cat(df2, show_plot = FALSE) %>% 
       select(-contains("common"), -cnt)
     # combine and clean up levels
     levels_df <- full_join(s1, s2, by = "col_name") %>% 

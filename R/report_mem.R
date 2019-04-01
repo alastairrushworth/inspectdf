@@ -1,23 +1,30 @@
-#' Report the memory usage of a data frame or compare usage in two data frames.
+#' Report and compare the memory usage in one or two dataframes.
 #'
 #' @param df1 A data frame.
-#' @param df2 An optional second data frame for comparison.
-#' @param top Positive integer specifying the number of rows to print in the 
-#' output tibble.  Useful when the input data frame has many columns.  
-#' \code{top = NULL}, the default causes everything to be returned.
-#' @param show_plot Logical argument determining whether plot is generated 
+#' @param df2 An optional second data frame for comparing column sizes.  
+#' Defaults to \code{NULL}.
+#' @param show_plot Logical argument determining whether plot is returned
 #' in addition to tibble output.  Default is \code{FALSE}.  
-#' @return A tibble summarising the memory usage of each column
-#'  in one or two data frames.
-#' @details When \code{df2 = NULL}, a tibble is returned with the columns: \code{col_name}
-#' the columns in \code{df1}, \code{size} and \code{pcnt} contain the memory usage 
-#' of each column in \code{df1}.  The tibble is sorted in descending order of \code{size}.
-#' 
-#' When a second data frame \code{df2} is specified, column sizes are 
-#' tabulated for both data frames to enable comparison.  
-#' A full join is performed between size summary table for the two data frames: where
-#' a column exists in one but not the other, \code{size} and \code{pcnt} some 
-#' cells return \code{NA}.
+#' @return A tibble summarising and comparing the columnwise memory usage 
+#' for one or a pair of data frames.
+#' @details When a single data frame is specified, a tibble is returned which 
+#' contains columnwise memory usage in descending order of size:
+#' \itemize{
+#'   \item \code{col_name} character vector containing column names of \code{df1}.
+#'   \item \code{size} character vector containing memory usage of each column.
+#'   \item \code{pcnt} the percentage of total memory usage used by each column.
+#' }
+#' When both \code{df1} and \code{df2} are specified, column sizes are jointly 
+#' tabulated for both data frames, by performing a full join by \code{col_name}.  
+#' Rows are sorted in descending order of size as they appear in \code{df1}:
+#' \itemize{
+#'   \item \code{col_name} character vector containing column names of \code{df1}
+#'   and \code{df2}.
+#'   \item \code{size_} character vector containing memory usage of each column in
+#'   each of \code{df1} and \code{df2}.
+#'   \item \code{pcnt_} the percentage of total memory usage of each column within 
+#'   each of \code{df1} and \code{df2}.
+#' }
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # get tibble of column memory usage for the starwars data
@@ -48,7 +55,7 @@
 #' @importFrom tibble tibble
 #' @export
 
-report_mem <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
+report_mem <- function(df1, df2 = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -74,12 +81,10 @@ report_mem <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     ncl <- format(ncol(df1), big.mark = ",")
     nrw <- format(nrow(df1), big.mark = ",")
   
-    # get top 10 largest columns by storage size, pass to the console histogrammer
     out <- vec_to_tibble(col_space) %>% 
       left_join(vec_to_tibble(col_space_ch), by = "names") %>%
       mutate(pcnt = 100 * n.x / sum(n.x)) %>%
       arrange(desc(pcnt)) %>%
-      slice(1:min(top, nrow(.))) %>%
       rename(col_name = names, size = n.y) %>% 
       select(-n.x)
     # return plot if requested
@@ -88,8 +93,8 @@ report_mem <- function(df1, df2 = NULL, top = NULL, show_plot = FALSE){
     return(out)
   } else {
     # get the space report for both input dfs
-    df1 <- report_mem(df1, top = top, show_plot = F)
-    df2 <- report_mem(df2, top = top, show_plot = F)
+    df1 <- report_mem(df1, show_plot = F)
+    df2 <- report_mem(df2, show_plot = F)
     sjoin <- full_join(df1, df2, by = "col_name") %>%
       select(col_name, contains("size"), contains("pcnt"))
     colnames(sjoin)[2] <- paste0("size_",  df_names$df1)

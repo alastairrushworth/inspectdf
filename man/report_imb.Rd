@@ -2,26 +2,60 @@
 % Please edit documentation in R/report_imb.R
 \name{report_imb}
 \alias{report_imb}
-\title{Report the most commonly occurring value in each non-numeric column}
+\title{Report and compare columnwise imbalance for non-numeric columns in one or two dataframes.}
 \usage{
-report_imb(df1, df2 = NULL, top = NULL, show_plot = FALSE)
+report_imb(df1, df2 = NULL, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame}
 
-\item{df2}{An optional second data frame for comparing feature imbalance with.  Defaults to \code{NULL}.}
+\item{df2}{An optional second data frame for comparing columnwise imbalance.
+Defaults to \code{NULL}.}
 
-\item{top}{The number of rows to print for summaries. Default \code{top = NULL} prints everything.}
-
-\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.  Default is \code{FALSE}.}
+\item{show_plot}{Logical argument determining whether plot is returned
+in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
-Return a \code{tibble} containing the columns \code{col_name}, \code{value_1}, \code{percent_1}, \code{value_2}, \code{percent_2}.  The \code{value} is the most frequently occurring category in each column and \code{percent_in_col} is the percentage frequency with which it occurs.
+A tibble summarising and comparing the imbalance for each non-numeric column 
+in one or a pair of data frames.
 }
 \description{
-Report the most commonly occurring value in each non-numeric column
+Report and compare columnwise imbalance for non-numeric columns in one or two dataframes.
+}
+\details{
+When a single data frame is specified, a tibble is returned which 
+contains columnwise imbalance, with columns
+\itemize{
+  \item \code{col_name} character vector containing column names of \code{df1}.
+  \item \code{value} character vector containing the most common categorical level 
+  in each column of \code{df1}.
+  \item \code{pcnt} the percentage of each column's entries occupied by the level in
+  \code{value} column.
+  \item \code{cnt} the number of occurrences of the most common categorical level in each
+  column of \code{df1}.
+}
+When both \code{df1} and \code{df2} are specified, the most common levels in \code{df1} 
+are compared to columns in \code{df2}.  If a categorical column appears in
+both dataframes, a simple test is performed to test the null hypothesis that the rate of 
+occurrence of the common level in \code{df1} is the same in both dataframes.  
+The resulting tibble has columns
+\itemize{
+  \item \code{col_name} character vector containing column names of \code{df1} and 
+  \code{df2}.
+  \item \code{value} character vector containing the most common categorical level 
+  in each column of \code{df1}.  
+  \item \code{pcnt_} the percentage of each column's entries occupied by the level in
+  \code{value} column.
+  \item \code{cnt_} the number of occurrences of the most common categorical level in each
+  column of \code{df1} and \code{df2}.
+}
 }
 \examples{
 data("starwars", package = "dplyr")
+# get tibble of most common levels
 report_imb(starwars)
+# get most common levels and show as barplot
+report_imb(starwars, show_plot = TRUE)
+# compare memory usage 
+report_imb(starwars, starwars[1:10, -3])
 }

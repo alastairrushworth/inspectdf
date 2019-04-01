@@ -2,37 +2,52 @@
 % Please edit documentation in R/report_cat.R
 \name{report_cat}
 \alias{report_cat}
-\title{Report and compare the levels within each categorical feature}
+\title{Report and compare the levels within each categorical feature in one or two dataframes.}
 \usage{
-report_cat(df1, df2 = NULL, top = NULL, show_plot = FALSE)
+report_cat(df1, df2 = NULL, show_plot = FALSE)
 }
 \arguments{
-\item{df1}{A data frame}
+\item{df1}{A dataframe}
 
-\item{df2}{An optional second data frame for comparing categorical features.
+\item{df2}{An optional second data frame for comparing categorical levels.
 Defaults to \code{NULL}.}
 
-\item{top}{The number of rows to print for summaries. 
-Default \code{top = NULL} prints everything.}
-
-\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.
-Default is \code{FALSE}.}
+\item{show_plot}{Logical argument determining whether plot is returned
+in addition to tibble output.  Default is \code{FALSE}.}
 }
 \value{
-A \code{tibble} containing the names of 
-categorical columns (\code{col_name}), the number of levels within each (\code{n_lvl}), 
-the most common level (\code{cmn_lvl}), the percentage occurrence of the most common 
-feature (\code{cmn_pcnt}) and a list of tibbles containing the percentage appearance 
-of each feature (\code{levels}).
+A tibble summarising and comparing the categorical features 
+in one or a pair of data frames.
 }
 \description{
-Report and compare the levels within each categorical feature
+Report and compare the levels within each categorical feature in one or two dataframes.
 }
 \details{
-If \code{df2} is specified, the tibble returned compares the common columns
-in both data frames.  The population stability index (\code{psi}), chi-squared statistic
-(\code{chisq}) are returned.  The \code{p_value} column provides evidence against the null 
-hypothesis that level distribution in each pair of columns is the same.
+When only \code{df1} is specified, a tibble is returned which 
+contains summaries of the categorical levels in \code{df1}.
+\itemize{
+  \item \code{col_name} character vector containing column names of \code{df1}.
+  \item \code{cnt} integer column containing count of unique levels found in each column 
+  (including \code{NA}).
+  \item \code{common} character column containing the name of the most common level.
+  \item \code{common_pcnt} percentage of each column occupied by the most common level shown in 
+  \code{common}.
+  \item \code{levels} relative frequency of levels in each column.
+}
+When both \code{df1} and \code{df2} are specified, the relative frequencies of levels across columns
+common both dataframes are compared.  In particular, the population stability index, and Fisher's 
+exact test are performed as part of the comparison.
+\itemize{
+  \item \code{col_name} character vector containing column names of \code{df1} and \code{df2}.
+  \item{psi} numeric column containing the 
+  \href{https://www.quora.com/What-is-population-stability-index}{population stability index}.  
+  This measures the difference in the distribution of two categorical features.  Conventionally, 
+  values exceeding 0.25 indicate strong evidence of a change, with values below 0.25 and 0.1 
+  representing moderate and low evidence of a change.
+  \item{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
+  evidence that the the two sets of relative frequencies are actually different.
+  \item \code{lvls_} relative frequency of levels in each of \code{df1} and \code{df2}.
+}
 }
 \examples{
 data("starwars", package = "dplyr")

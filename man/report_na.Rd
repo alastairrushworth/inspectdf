@@ -2,58 +2,58 @@
 % Please edit documentation in R/report_na.R
 \name{report_na}
 \alias{report_na}
-\title{Report the rate of missingness in each column of a dataframe}
+\title{Report and compare the rate of missingness in one or two dataframes.}
 \usage{
-report_na(df1, df2 = NULL, top = NULL, show_plot = FALSE,
-  alpha = 0.05)
+report_na(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05)
 }
 \arguments{
 \item{df1}{A data frame}
 
-\item{df2}{An optional second data frame for making comparisons of missingness across columns.
+\item{df2}{An optional second data frame for making columnwise comparison of missingness.
 Defaults to \code{NULL}.}
 
-\item{top}{The number of rows to print for summaries. Default \code{top = NULL} 
-prints everything.}
-
-\item{show_plot}{Logical determining whether to show a plot in addition to tibble output.
+\item{show_plot}{Logical determining whether to return a plot in addition to tibble.
 Default is \code{FALSE}.}
 
 \item{alpha}{Alpha level for performing significance tests.  Defaults to 0.05.}
 }
 \value{
-Return a \code{tibble} summarising columnwise missingness by presence of 
-\code{NA}.  Output contains the columns \code{col_name}, \code{cnt_na} and \code{pcnt}.
+A tibble summarising the count and percentage of columnwise missingness 
+for one or a pair of data frames.
 }
 \description{
-Report the rate of missingness in each column of a dataframe
+Report and compare the rate of missingness in one or two dataframes.
 }
 \details{
-When a single data frame is specified, the tibble returned contains the count
-and percentage of missing values within in each column.  The tibble has columns:
+When a single data frame is specified, the a tibble is returned which 
+contains the count and percentage of missing values, with column names
 \itemize{
-  \item \code{col_name} the name of the columns in \code{df1}
-  \item \code{cnt} the number of missing values in each column of \code{df1}
+  \item \code{col_name} character vector containing column names of \code{df1}.
+  \item \code{cnt} integer vector containing the number of missing values by 
+  column.
   \item \code{pcnt} the percentage of each column with missing values
 }
 
-When a second data frame \code{df2} is specified, the tibble returned compares 
-missingness for both data frames, and performs a statistical test for the null
-hypothesis that the rate of missingness is the same for the same named column
-in both data frames.
+When both \code{df1} and \code{df2} are specified, missingness is compared across 
+columns occurring in both data frames.  A test of the null hypothesis that the rate 
+of missingness is the same across the same column in either dataframe.
 \itemize{
-   \item \code{col_name} the name of the columns occurring in either \code{df1}
-  \item \code{cnt_...} pair of columns containing number of missing entries
-  for the same column in \code{df1} and \code{df2} - the data frame name are appended.
-  \item \code{pcnt_...} pair of columns containing number of missing entries
-  for the same column in \code{df1} and \code{df2} - the data frame name are appended.
+  \item \code{col_name} the name of the columns occurring in either \code{df1}
+  \item \code{cnt_...} pair of integer vectors containing counts of missing entries
+  for each column in \code{df1} and \code{df2}.
+  \item \code{pcnt_...} pair of columns containing percentage of missing entries
+  for each column in \code{df1} and \code{df2}.
+  \item \code{p_value} p-value associated with test of the rates of missingness.  Small 
+  values indicate evidence that the rate of missingness differs for a column occurring 
+  in both \code{df1} and \code{df2}.
 }
 }
 \examples{
 data("starwars", package = "dplyr")
-# missingness in starwars data
+# report missingness in starwars data
 report_na(starwars)
+# show the result as a barplot
 report_na(starwars, show_plot = TRUE)
-# compare missingness 
+# compare two dataframes
 report_na(starwars, starwars[1:30, ])
 }
