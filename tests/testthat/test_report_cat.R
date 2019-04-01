@@ -46,3 +46,8 @@ test_that("Output with different columns", {
   expect_is(report_cat(storms, storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)), "data.frame")
   expect_is(report_cat(airquality, airquality %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)), "data.frame")
 })
+
+test_that("Majority NA in standard dataframes does not throw error", {
+  expect_is(report_cat(data.frame(misst = c("a", "b", NA, NA))), "data.frame")
+})
+

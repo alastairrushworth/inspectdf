@@ -48,6 +48,7 @@
 #' @importFrom dplyr group_by
 #' @importFrom dplyr left_join
 #' @importFrom dplyr mutate
+#' @importFrom dplyr mutate_if
 #' @importFrom dplyr rename
 #' @importFrom dplyr select_if
 #' @importFrom dplyr select
@@ -64,8 +65,11 @@ report_cat <- function(df1, df2 = NULL, show_plot = FALSE){
   
   if(is.null(df2)){
     # pick out categorical columns
-    df_cat <- df1 %>% select_if(function(v) is.character(v) | is.factor(v) | 
-                                  any(c("Date", "datetime") %in% class(v)))
+    df_cat <- df1 %>% 
+      select_if(function(v) is.character(v) | is.factor(v) | 
+                  any(c("Date", "datetime") %in% class(v))) %>%
+      mutate_if(is.factor, as.character)
+  
     # calculate association if categorical columns exist
     if(ncol(df_cat) > 0){
       # get the levels for each category
