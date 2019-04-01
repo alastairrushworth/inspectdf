@@ -24,6 +24,11 @@ test_that("Plotting works ok", {
   expect_is(report_num(airquality, show_plot = T), "data.frame")
 })
 
+test_that("Multiple plot layouts", {
+  expect_is(report_num(storms, show_plot = T, plot_layout = c(4, 3)), "data.frame")
+  expect_is(report_num(storms, storms, show_plot = T, plot_layout = c(4, 3)), "data.frame")
+})
+
 test_that("Output with two identical df inputs data frame", {
   expect_is(report_num(mtcars, mtcars), "data.frame")
   expect_is(report_num(band_instruments, band_instruments), "data.frame")
