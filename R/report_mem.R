@@ -67,7 +67,7 @@ report_mem <- function(df1, df2 = NULL, show_plot = FALSE){
   sizes <- list(sz_1  = size_up(df1, form = T), 
                 sz_2  = size_up(df2, form = T), 
                 ncl_1 = ncol(df1), ncl_2 = ncol(df2), 
-                nrw_1 = ncol(df2), ncl_2 = ncol(df2))
+                nrw_1 = nrow(df1), nrw_2 = nrow(df2))
   
   if(is.null(df2)){
     # get column size

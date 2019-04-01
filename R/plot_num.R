@@ -58,8 +58,10 @@ plot_num_2 <- function(df_plot, df_names, plot_layout){
     geom_tile(colour = "white") + 
     geom_text(aes(label = round(prop * 100, 1)), col = "gray30") + 
     scale_fill_gradient(low = "white", high = "steelblue") + 
-    theme(legend.position = "none") +
-    labs(x = "", y = "") + 
+    theme(legend.position = "none", 
+          axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(x = "", y = "", 
+         title =  paste0("Heat plot comparison of numeric columns")) + 
     facet_wrap(~ cname, scales = "free", 
                nrow = plot_layout[[1]], 
                ncol = plot_layout[[2]])  

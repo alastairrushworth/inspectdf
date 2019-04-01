@@ -20,8 +20,8 @@ plot_cor_1 <- function(df_plot, absolute = F, df_names){
     geom_point(size = 3) +
     coord_flip() + 
     labs(x = "", 
-         title =  paste0("Pearson correlation of numeric columns in df::", df_names$df1), 
-         subtitle = bquote("Error bars show 95% confidence regions for \u03C1"))
+         title =  paste0("Correlation of columns in df::", df_names$df1), 
+         subtitle = bquote("Whiskers show 95% confidence regions"))
   if(absolute){
     plt <- plt + 
       guides(colour = guide_legend(title = bquote("\u03C1 Sign"))) + 
@@ -69,7 +69,7 @@ plot_cor_2 <- function(df_plot, absolute = F, alpha, df_names){
     labs(x = "", 
          title =  paste0("Comparison of \u03C1 between df::", df_names$df1, 
                          " and ", df_names$df2),
-         subtitle = bquote("Coloured stripes represent significance (blue) or not (orange) of test of equality at \u03B1 = 0.05"))
+         subtitle = bquote("Blue/orange stripes represent inequality/equality of \u03C1"))
   # if absolute value requested then label accordingly
   if(absolute){
     plt <- plt + 

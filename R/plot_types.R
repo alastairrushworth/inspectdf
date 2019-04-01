@@ -14,9 +14,9 @@ plot_types_1 <- function(df_plot, df_names){
   # construct bar plot of column types
   plt <- bar_plot(df_plot = df_plot, x = "type", y = "cnt", 
                   fill = "type", label = "cnt", 
-                  ttl = paste0("Column type composition of df::", df_names$df1), 
-                  sttl = paste0("df::", df_names$df1,  " contains ", sum(df_plot$cnt), 
-                                " columns.  Count of each type shown on bar."), 
+                  ttl = paste0("df::", df_names$df1), " column types",
+                  sttl = paste0("df::", df_names$df1,  " has ", sum(df_plot$cnt), 
+                                " columns."), 
                   ylb = "Number of columns", lgnd = "Column types")
   # add text annotation to plot
   plt <- add_annotation_to_bars(x = df_plot$type, 
@@ -35,13 +35,12 @@ plot_types_2 <- function(df_plot, df_names){
   z_tall <- bind_rows(d1, d2)
 
   # make axis names
-  ttl_plt <- paste0("Column type composition of ", 
-                    df_names$df1, " & ", df_names$df2)
+  ttl_plt <- paste0(df_names$df1, " & ", df_names$df2, " column types.")
   # if same number of columns, print different subtitle
   if(sum(d1$cnt) == sum(d2$cnt)){
-    sttl <- paste0("Both dfs contain ",  sum(d1$cnt), " columns")
+    sttl <- paste0("Both have ",  sum(d1$cnt), " columns")
   } else {
-    sttl <- paste(paste0(unlist(df_names), " contains ", 
+    sttl <- paste(paste0(unlist(df_names), " has ", 
                    c(sum(d1$cnt), sum(d2$cnt)), " columns"), 
                   collapse = " & ")
   }

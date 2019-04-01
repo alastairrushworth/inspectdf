@@ -4,13 +4,12 @@ plot_imb_1 <- function(df_plot, df_names){
     mutate(col_name = factor(col_name, levels = as.character(col_name))) %>%
     mutate(label = paste0(value, " - ", round(pcnt, 1), "%"))
   # title & subtitle
-  ttl <- paste0("Most common categorical values by column: ", df_names$df1)
-  sttl <- "Value shown in column"
+  ttl <- paste0("df::", df_names$df1, " most common levels by column")
   # construct bar plot of missingess
   plt <- bar_plot(df_plot = df_plot, x = "col_name", 
                   y = "pcnt", fill = "col_name", 
-                  label = "label", ttl = ttl, sttl = sttl,
-                  ylb = "% of column with value", rotate = TRUE)
+                  label = "label", ttl = ttl,
+                  ylb = "% of values", rotate = TRUE)
   # add text annotation to plot
   plt <- add_annotation_to_bars(x = df_plot$col_name, 
                                 y = df_plot$pcnt, 
@@ -67,7 +66,7 @@ plot_imb_2 <- function(df_plot, df_names, alpha){
   plt <- plt + 
     labs(x = "", title = ttl, subtitle = sttl) + 
     guides(colour = guide_legend(title = bquote("Data frame"))) + 
-    labs(y = "% of feature", x = "") %>% 
+    labs(y = "% of values", x = "") %>% 
     suppressWarnings()
   
   # return the plot 
