@@ -10,9 +10,7 @@ plot_cat <- function(levels_df, df_names){
   zcols <- b(1001)
 
   # select levels columns
-  lvl_df <- levels_df %>% 
-    select_if(is.list)
-  
+  lvl_df <- levels_df %>% select_if(is.list) 
   # either there are one or two columns
   # if there are two then need an extra column
   is_onedf <- ncol(lvl_df) == 1
@@ -20,6 +18,10 @@ plot_cat <- function(levels_df, df_names){
     lvl_df <- pull_collapse(lvl_df, 1)
     lvl_df$dfi <- df_names[[1]]
   } else {
+    # first remove column
+    levels_df <- levels_df %>%
+      filter(!is.na(psi))
+    lvl_df <- levels_df %>% select_if(is.list) 
     a1 <- pull_collapse(lvl_df, 1)
     a2 <- pull_collapse(lvl_df, 2)
     a1$dfi <- df_names[[1]]
@@ -54,17 +56,17 @@ plot_cat <- function(levels_df, df_names){
           panel.grid.major = element_blank(), axis.title.x = element_blank(), 
           axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
     labs(x = "", y = "", 
-         subtitle = bquote("Gray segments correspond to missing values")) 
+         subtitle = bquote("Gray segments are missing values")) 
   
   # if this is a comparison, then add x-axis labels and descriptive title
   if(is_onedf){
-    ttl <- paste0("Frequency of levels in categorical columns of df::", 
+    ttl <- paste0("Frequency of categorical levels in df::", 
                   df_names$df1)
   } else {
     split_labs <- strsplit(levels(lvl_df2$col_name), ": ")
     newlabs   <- sapply(split_labs, function(v) paste(rev(v), collapse = ": "))
-    ttl <- paste0("Comparison of levels in categorical columns of df::", 
-                  df_names$df1, " and df:: ", df_names$df1)
+    ttl <- paste0("Categorical levels in df::", 
+                  df_names$df1, " vs. df:: ", df_names$df1)
     plt <- plt + 
       scale_x_discrete(labels = newlabs)
   }

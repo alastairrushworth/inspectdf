@@ -1,3 +1,5 @@
+#' @importFrom ggplot2 scale_color_discrete
+
 plot_na_1 <- function(df_plot, df_names){
   # convert col_name to factor
   df_plot <- df_plot %>% 
@@ -5,7 +7,7 @@ plot_na_1 <- function(df_plot, df_names){
   # construct bar plot of missingess
   plt <- bar_plot(df_plot = df_plot, x = "col_name", y = "pcnt", 
                   fill = "col_name", label = "cnt",
-                  ttl = paste0("Prevalance of missing values in df::", df_names$df1),
+                  ttl = paste0("Prevalance of NAs in df::", df_names$df1),
                   sttl = paste0("df::", df_names$df1,  " has ", nrow(df_plot), 
                                 " columns, of which ", sum(df_plot$cnt > 0), 
                                 " have missing values"),
@@ -17,6 +19,7 @@ plot_na_1 <- function(df_plot, df_names){
 }
 
 plot_na_2 <- function(df_plot, df_names, alpha){
+  leg_text <- as.character(unlist(df_names))
   na_tab  <- df_plot
   df_plot <- df_plot %>% 
     select(-starts_with("cnt")) %>% 
@@ -30,7 +33,7 @@ plot_na_2 <- function(df_plot, df_names, alpha){
   
   plt <- ggplot(df_plot, aes(x = factor(col_name, 
                                             levels = rev(as.character(na_tab$col_name))), 
-                                 y = pcnt, colour = data_frame)) +
+                                 y = pcnt, color = as.factor(data_frame))) +
     geom_blank() + theme_bw() + 
     theme(panel.border = element_blank(), panel.grid.major = element_blank()) +
     geom_rect(
@@ -42,10 +45,9 @@ plot_na_2 <- function(df_plot, df_names, alpha){
     geom_point(size = 3) +
     coord_flip()
   plt <- plt + labs(x = "", 
-                    title =  paste0("Comparison of % missingness between ",
-                                    df_names$df1, " and ", df_names$df2),
-                    subtitle = bquote("Coloured stripes represent evidence of inequality (blue) or equality (orange) of missingness at \u03B1 = 0.05")) + 
-    guides(colour = guide_legend(title = bquote("Data frame"))) + 
+                    title =  paste0("% NA in df::", df_names$df1, " and df::", df_names$df2),
+                    subtitle = bquote("Blue/orange stripes represent inequality/equality of % NA")) + 
+    scale_color_discrete(name = "Data frame", labels = leg_text) + 
     labs(y = "Percent missing", x = "") %>% suppressWarnings()
   
   print(plt)

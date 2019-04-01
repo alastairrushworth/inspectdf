@@ -99,7 +99,7 @@ report_imb <- function(df1, df2 = NULL, show_plot = FALSE){
     out <- left_join(s1, s2, by = c("col_name", "value")) %>%
       mutate(p_value = prop_test_imb(., n_1 = nrow(df1), n_2 = nrow(df2)))
     # print plot if requested
-    if(show_plot) plot_imb_2(out, df_names = df_names, alpha = alpha)
+    if(show_plot) plot_imb_2(out, df_names = df_names, alpha = 0.05)
     # return combined data frame
     return(out)
   }
