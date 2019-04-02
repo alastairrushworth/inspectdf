@@ -122,7 +122,7 @@ report_cat <- function(df1, df2 = NULL, show_plot = FALSE){
         select(col_name, psi, fisher_p, levels.x, levels.y)
     colnames(levels_df)[4:5] <- paste0("lvls_", 1:2)
     # ensure the list names are retained
-    names(levels_df[[4]]) <- names(levels_df[[5]]) <- names(s2$levels)
+    names(levels_df[[4]]) <- names(levels_df[[5]]) <- as.character(levels_df$col_name)
     # if plot is requested
     if(show_plot){
       # plot the categories using stacked bars
