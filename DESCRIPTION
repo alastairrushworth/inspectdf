@@ -4,6 +4,7 @@ Version: 0.0.0.9000
 Authors@R: person("Alastair", "Rushworth", email = "alastairmrushworth@gmail.com", role = c("aut", "cre"))
 Maintainer: Alastair Rushworth <alastairmrushworth@gmail.com>
 Description: A collection of utilities for columnwise summary, comparison and visualisation of data frames.  Functions report missingness, categorical levels, numeric distribution, correlation, column types and memory usage.
+Language: en_GB
 LinkingTo: Rcpp
 LazyLoad: yes
 ByteCompile: yes
