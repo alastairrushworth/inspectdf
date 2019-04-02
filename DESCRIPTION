@@ -1,10 +1,9 @@
 Package: reporter
-Title: Tools for exploring and comparing data frames
+Title: Tools for Exploring and Comparing Data Frames
 Version: 0.0.0.9000
-Author: person("Alastair", "Rushworth", email = "alastairmrushworth@gmail.com", role = c("aut", "cre"))
+Authors@R: person("Alastair", "Rushworth", email = "alastairmrushworth@gmail.com", role = c("aut", "cre"))
 Maintainer: Alastair Rushworth <alastairmrushworth@gmail.com>
-Description: Tools for exploring and comparing data frames.
-Language: en-GB
+Description: A collection of utilities for columnwise summary, comparison and visualisation of data frames.  Functions report missingness, categorical levels, numeric distribution, correlation, column types and memory usage.
 LinkingTo: Rcpp
 LazyLoad: yes
 ByteCompile: yes
