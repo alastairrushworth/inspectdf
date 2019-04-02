@@ -7,11 +7,11 @@ reporter <img src="man/figures/hex.png" align="right" width="120" />
 Overview
 --------
 
-`reporter` is a collection of functions for quickly summarising and comparing data frames. The package has two aims:
-+ to speed up repetitive exploratory tasks typically undertaken when a new data frame is encountered
-+ to make it easier to compare data frames for differences and inconsistencies
+`reporter` is collection of utilities for columnwise summary, comparison and visualisation of data frames. Functions are provided to report missingness, categorical levels, numeric distribution, correlation, column types and memory usage.
 
-Functions are provided to explore and compare column types, memory usage, missing values, distributions of categorical and numeric features, correlation and imbalance.
+The package has three aims:
++ to speed up repetitive checking and exploratory tasks for data frames + to make it easier to compare data frames for differences and inconsistencies
++ to support quick visualisation of data frames
 
 Installation
 ------------
