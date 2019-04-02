@@ -21,7 +21,7 @@ Overview
 `reporter` is collection of utilities for columnwise summary, comparison and visualisation of data frames.  Functions are provided to report missingness, categorical levels, numeric distribution, correlation, column types and memory usage.  
 
 The package has three aims:  
-+ to speed up repetitive checking and exploratory tasks for data frames
++ to speed up repetitive checking and exploratory tasks for data frames  
 + to make it easier to compare data frames for differences and inconsistencies  
 + to support quick visualisation of data frames
 
