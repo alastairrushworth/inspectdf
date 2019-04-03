@@ -56,7 +56,9 @@ plot_types_2 <- function(df_plot, df_names){
     ggplot(aes(x = type, y = cnt)) + 
     geom_bar(stat = "identity", position = "dodge", 
              aes(x = type, y = cnt, 
-                 fill = as.factor(df_input), group = as.factor(df_input))) + 
+                 fill = as.factor(df_input), 
+                 group = as.factor(df_input)), 
+             na.rm = TRUE) + 
     # add the black labels to small bars
     geom_text(
       aes(x = type, y = cnt, label = black_labs, 

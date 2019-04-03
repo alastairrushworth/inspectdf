@@ -44,7 +44,7 @@ plot_mem_2 <- function(df_plot, df_names, sizes){
   plt <- z_tall %>%
     mutate(col_type = factor(col_name, levels = df_plot$col_name)) %>%
     ggplot(aes(x = col_name, y = pcnt, fill = df_input)) + 
-    geom_bar(stat = "identity", position = "dodge") + 
+    geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) + 
     labs(x = "", y = "Percentage of total space (%)", 
          title = ttl_plt, 
          subtitle = paste0(sttl_plt1, "\n", sttl_plt2)) + 
