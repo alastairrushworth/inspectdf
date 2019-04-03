@@ -63,8 +63,8 @@ plot_cor_2 <- function(df_plot, absolute = F, alpha, df_names){
       xmin = p_val_tab$index - 0.4, xmax = p_val_tab$index + 0.4,
       ymin = -2, ymax = 2, linetype = "blank") +
     geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
-    geom_point(size = 3.7, color = "black") + 
-    geom_point(size = 3) +
+    geom_point(size = 3.7, color = "black", na.rm = TRUE) + 
+    geom_point(size = 3, na.rm = TRUE) +
     coord_flip() + 
     labs(x = "", 
          title =  paste0("Comparison of \u03C1 between df::", df_names$df1, 
