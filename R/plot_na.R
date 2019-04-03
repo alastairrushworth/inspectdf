@@ -41,8 +41,8 @@ plot_na_2 <- function(df_plot, df_names, alpha){
       xmin = p_val_tab$index - 0.4, xmax = p_val_tab$index + 0.4,
       ymin = -100, ymax = 200, linetype = "blank") +
     geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
-    geom_point(size = 3.7, color = "black") + 
-    geom_point(size = 3) +
+    geom_point(size = 3.7, color = "black", na.rm = TRUE) + 
+    geom_point(size = 3, na.rm = TRUE) +
     coord_flip()
   plt <- plt + labs(x = "", 
                     title =  paste0("% NA in df::", df_names$df1, " and df::", df_names$df2),
