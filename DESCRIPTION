@@ -13,6 +13,6 @@ Depends: R (>= 3.1.0)
 Imports:  dplyr, ggplot2, magrittr, Rcpp, tibble, tidyr
 Suggests: testthat
 License: GPL-2
-URL: http://github.com/alastairrushworth/reporter
-BugReports: http://github.com/alastairrushworth/reporter/issues
+URL: http://github.com/alastairrushworth/inspectdf
+BugReports: http://github.com/alastairrushworth/inspectdf/issues
 RoxygenNote: 6.1.1
