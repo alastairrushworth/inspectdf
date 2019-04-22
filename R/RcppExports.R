@@ -2,26 +2,26 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 count_levels_num <- function(x) {
-    .Call('_reporter_count_levels_num', PACKAGE = 'reporter', x)
+    .Call('_inspectdf_count_levels_num', PACKAGE = 'inspectdf', x)
 }
 
 count_levels_char <- function(x) {
-    .Call('_reporter_count_levels_char', PACKAGE = 'reporter', x)
+    .Call('_inspectdf_count_levels_char', PACKAGE = 'inspectdf', x)
 }
 
 na_numeric <- function(x) {
-    .Call('_reporter_na_numeric', PACKAGE = 'reporter', x)
+    .Call('_inspectdf_na_numeric', PACKAGE = 'inspectdf', x)
 }
 
 na_character <- function(x) {
-    .Call('_reporter_na_character', PACKAGE = 'reporter', x)
+    .Call('_inspectdf_na_character', PACKAGE = 'inspectdf', x)
 }
 
 na_logical <- function(x) {
-    .Call('_reporter_na_logical', PACKAGE = 'reporter', x)
+    .Call('_inspectdf_na_logical', PACKAGE = 'inspectdf', x)
 }
 
 na_integer <- function(x) {
-    .Call('_reporter_na_integer', PACKAGE = 'reporter', x)
+    .Call('_inspectdf_na_integer', PACKAGE = 'inspectdf', x)
 }
 

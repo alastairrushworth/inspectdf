@@ -1,4 +1,4 @@
-#' Report and compare column types in one or two dataframes.
+#' Summarise and compare column types in one or two dataframes.
 #'
 #' @param df1 A data frame.
 #' @param df2 An optional second data frame for comparison.  
@@ -27,11 +27,11 @@
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # get tibble of column types for the starwars data
-#' report_types(starwars)
+#' inspect_types(starwars)
 #' # get column types and show as barplot
-#' report_types(starwars, show_plot = TRUE)
+#' inspect_types(starwars, show_plot = TRUE)
 #' # compare two data frames
-#' report_types(starwars, starwars[, -1], show_plot = TRUE)
+#' inspect_types(starwars, starwars[, -1], show_plot = TRUE)
 #' @export
 #' @importFrom dplyr arrange
 #' @importFrom dplyr case_when
@@ -50,9 +50,9 @@
 #' @importFrom tibble tibble
 #' @importFrom tidyr gather
 #' @importFrom tidyr replace_na
-#' @useDynLib reporter
+#' @useDynLib inspectdf
 
-report_types <- function(df1, df2 = NULL, show_plot = FALSE){
+inspect_types <- function(df1, df2 = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -87,9 +87,9 @@ report_types <- function(df1, df2 = NULL, show_plot = FALSE){
     # return dataframe
     return(out)
   } else {
-    s1 <- report_types(df1, show_plot = F) %>% select(-col_name)
+    s1 <- inspect_types(df1, show_plot = F) %>% select(-col_name)
     colnames(s1)[2:3] <- paste0(c("cnt_", "pcnt_"), 1)
-    s2 <- report_types(df2, show_plot = F) %>% select(-col_name)
+    s2 <- inspect_types(df2, show_plot = F) %>% select(-col_name)
     colnames(s2)[2:3] <- paste0(c("cnt_", "pcnt_"), 2)
     out <- full_join(s1, s2, by = "type") %>% 
       replace(is.na(.), 0)

@@ -1,4 +1,4 @@
-#' Report and compare the levels within each categorical feature in one or two dataframes.
+#' Summarise and compare the levels within each categorical feature in one or two dataframes.
 #'
 #' @param df1 A dataframe
 #' @param df2 An optional second data frame for comparing categorical levels.  
@@ -35,11 +35,11 @@
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")
-#' report_cat(starwars)
+#' inspect_cat(starwars)
 #' # return a visualisation too
-#' report_cat(starwars, show_plot = TRUE)
+#' inspect_cat(starwars, show_plot = TRUE)
 #' # compare the levels in two data frames
-#' report_cat(starwars, starwars[1:20, ])
+#' inspect_cat(starwars, starwars[1:20, ])
 #' @importFrom tibble as_tibble
 #' @importFrom tibble tibble
 #' @importFrom dplyr arrange
@@ -56,7 +56,7 @@
 #' @importFrom dplyr ungroup
 #' @importFrom magrittr %>%
 
-report_cat <- function(df1, df2 = NULL, show_plot = FALSE){
+inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -79,9 +79,9 @@ report_cat <- function(df1, df2 = NULL, show_plot = FALSE){
         do.call("rbind", .) %>% 
         mutate(col_name = colnames(df_cat))
       # get the unique levels
-      levels_unique <- lapply(levels_list, nrow) %>% 
+      levels_unique <- suppressWarnings(lapply(levels_list, nrow) %>% 
         do.call("rbind", .) %>% 
-        as_tibble(rownames = "col_name")
+        as_tibble(rownames = "col_name"))
       # combine the above tables
       levels_df <- levels_unique %>% 
         left_join(levels_top, by = "col_name") %>% 
@@ -110,10 +110,10 @@ report_cat <- function(df1, df2 = NULL, show_plot = FALSE){
     }
   } else {
     # levels for df1
-    s1 <- report_cat(df1, show_plot = FALSE)  %>% 
+    s1 <- inspect_cat(df1, show_plot = FALSE)  %>% 
       select(-contains("common"), -cnt)
     # levels for df2
-    s2 <- report_cat(df2, show_plot = FALSE) %>% 
+    s2 <- inspect_cat(df2, show_plot = FALSE) %>% 
       select(-contains("common"), -cnt)
     # combine and clean up levels
     levels_df <- full_join(s1, s2, by = "col_name") %>% 

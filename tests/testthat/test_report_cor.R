@@ -1,4 +1,4 @@
-context("report_cor")
+context("inspect_cor")
 
 # load in some example data
 data("starwars", package = "dplyr")
@@ -8,55 +8,55 @@ data("storms", package = "dplyr")
 data(mtcars, airquality)
 
 test_that("Output is a data frame", {
-  expect_is(report_cor(mtcars), "data.frame")
-  expect_is(report_cor(band_instruments), "data.frame")
-  expect_error(report_cor(nasa))
-  expect_is(report_cor(starwars), "data.frame")
-  expect_is(report_cor(storms), "data.frame")
-  expect_is(report_cor(airquality), "data.frame")
+  expect_is(inspect_cor(mtcars), "data.frame")
+  expect_is(inspect_cor(band_instruments), "data.frame")
+  expect_error(inspect_cor(nasa))
+  expect_is(inspect_cor(starwars), "data.frame")
+  expect_is(inspect_cor(storms), "data.frame")
+  expect_is(inspect_cor(airquality), "data.frame")
 })
 
 test_that("Single data frame plot output", {
-  expect_is(suppressWarnings(report_cor(mtcars, show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(report_cor(band_instruments, show_plot = T)), "data.frame")
-  expect_error(suppressWarnings(report_cor(nasa, show_plot = T)))
-  expect_is(suppressWarnings(report_cor(starwars, show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(report_cor(storms, show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(report_cor(airquality, show_plot = T)), "data.frame")
+  expect_is(suppressWarnings(inspect_cor(mtcars, show_plot = T)), "data.frame")
+  expect_is(suppressWarnings(inspect_cor(band_instruments, show_plot = T)), "data.frame")
+  expect_error(suppressWarnings(inspect_cor(nasa, show_plot = T)))
+  expect_is(suppressWarnings(inspect_cor(starwars, show_plot = T)), "data.frame")
+  expect_is(suppressWarnings(inspect_cor(storms, show_plot = T)), "data.frame")
+  expect_is(suppressWarnings(inspect_cor(airquality, show_plot = T)), "data.frame")
 })
 
 test_that("Pair of data frames plot output", {
-  expect_is(suppressWarnings(report_cor(mtcars, mtcars[1:30, ], show_plot = T)), "data.frame")
-  expect_error(suppressWarnings(report_cor(nasa, nasa[1:30, ], show_plot = T)))
-  expect_is(suppressWarnings(report_cor(starwars, starwars[1:30, ], show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(report_cor(storms, storms[1:1000, ], show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(report_cor(airquality, airquality[1:30, ], show_plot = T)), "data.frame")
+  expect_is(suppressWarnings(inspect_cor(mtcars, mtcars[1:30, ], show_plot = T)), "data.frame")
+  expect_error(suppressWarnings(inspect_cor(nasa, nasa[1:30, ], show_plot = T)))
+  expect_is(suppressWarnings(inspect_cor(starwars, starwars[1:30, ], show_plot = T)), "data.frame")
+  expect_is(suppressWarnings(inspect_cor(storms, storms[1:1000, ], show_plot = T)), "data.frame")
+  expect_is(suppressWarnings(inspect_cor(airquality, airquality[1:30, ], show_plot = T)), "data.frame")
 })
 
 test_that("Output with two identical df inputs data frame", {
-  expect_is(report_cor(mtcars, mtcars), "data.frame")
-  expect_is(report_cor(starwars, starwars), "data.frame")
-  expect_is(report_cor(storms, storms), "data.frame")
-  expect_is(report_cor(airquality, airquality), "data.frame")
+  expect_is(inspect_cor(mtcars, mtcars), "data.frame")
+  expect_is(inspect_cor(starwars, starwars), "data.frame")
+  expect_is(inspect_cor(storms, storms), "data.frame")
+  expect_is(inspect_cor(airquality, airquality), "data.frame")
 })
 
 test_that("Output with two different inputs data frame", {
   set.seed(10)
-  expect_is(report_cor(mtcars, mtcars %>% dplyr::sample_n(100, replace = T)), "data.frame")
-  expect_is(report_cor(band_instruments, band_instruments %>% dplyr::sample_n(100, replace = T)) , "data.frame")
-  expect_is(report_cor(starwars, starwars %>% dplyr::sample_n(100, replace = T)), "data.frame")
-  expect_is(report_cor(storms, storms %>% dplyr::sample_n(100, replace = T)), "data.frame")
-  expect_is(report_cor(airquality, airquality%>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(inspect_cor(mtcars, mtcars %>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(inspect_cor(band_instruments, band_instruments %>% dplyr::sample_n(100, replace = T)) , "data.frame")
+  expect_is(inspect_cor(starwars, starwars %>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(inspect_cor(storms, storms %>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(inspect_cor(airquality, airquality%>% dplyr::sample_n(100, replace = T)), "data.frame")
 })
 
 diff_correlatations <- function(data_input){
-  x1 <- data_input %>% report_cor %>% dplyr::select(corr)
+  x1 <- data_input %>% inspect_cor %>% dplyr::select(corr)
   x <- data_input %>% dplyr::select_if(is.numeric)
   x <- cor(x, use = "pairwise.complete.obs")
   diag(x) <- NA
-  x2 <- x %>% c %>% tibble::as_tibble() %>% 
+  x2 <- suppressWarnings(x %>% c %>% tibble::as_tibble() %>% 
     dplyr::rename(corr = value) %>% dplyr::filter(!is.na(corr)) %>%
-    dplyr::distinct() %>% dplyr::arrange(dplyr::desc(abs(corr)))
+    dplyr::distinct() %>% dplyr::arrange(dplyr::desc(abs(corr))))
   return(mean(unlist(abs(x1 - x2))))
 }
 
@@ -68,11 +68,11 @@ test_that("Output correlations are correct", {
 })
 
 test_that("Single column returns empty df", {
-  expect_equal(nrow(report_cor(mtcars %>% select(1))), 0)
+  expect_equal(nrow(inspect_cor(mtcars %>% select(1))), 0)
 })
 
 test_that("Constant columns return NA", {
-  expect_equal(sum(is.na(report_cor(data.frame(z = 1:10, y = rep(1, 10)))$corr)), 1)
+  expect_equal(sum(is.na(inspect_cor(data.frame(z = 1:10, y = rep(1, 10)))$corr)), 1)
 })
 
 

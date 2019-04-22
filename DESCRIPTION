@@ -1,5 +1,5 @@
-Package: reporter
-Title: Tools for Exploring and Comparing Data Frames
+Package: inspectdf
+Title: Inspection, Comparison and Visualisation of Data Frames
 Version: 0.0.0.9000
 Authors@R: person("Alastair", "Rushworth", email = "alastairmrushworth@gmail.com", role = c("aut", "cre"))
 Maintainer: Alastair Rushworth <alastairmrushworth@gmail.com>

@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // count_levels_num
 IntegerVector count_levels_num(NumericVector x);
-RcppExport SEXP _reporter_count_levels_num(SEXP xSEXP) {
+RcppExport SEXP _inspectdf_count_levels_num(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -18,7 +18,7 @@ END_RCPP
 }
 // count_levels_char
 IntegerVector count_levels_char(CharacterVector x);
-RcppExport SEXP _reporter_count_levels_char(SEXP xSEXP) {
+RcppExport SEXP _inspectdf_count_levels_char(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -29,7 +29,7 @@ END_RCPP
 }
 // na_numeric
 int na_numeric(NumericVector x);
-RcppExport SEXP _reporter_na_numeric(SEXP xSEXP) {
+RcppExport SEXP _inspectdf_na_numeric(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -40,7 +40,7 @@ END_RCPP
 }
 // na_character
 int na_character(CharacterVector x);
-RcppExport SEXP _reporter_na_character(SEXP xSEXP) {
+RcppExport SEXP _inspectdf_na_character(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -51,7 +51,7 @@ END_RCPP
 }
 // na_logical
 int na_logical(LogicalVector x);
-RcppExport SEXP _reporter_na_logical(SEXP xSEXP) {
+RcppExport SEXP _inspectdf_na_logical(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -62,7 +62,7 @@ END_RCPP
 }
 // na_integer
 int na_integer(IntegerVector x);
-RcppExport SEXP _reporter_na_integer(SEXP xSEXP) {
+RcppExport SEXP _inspectdf_na_integer(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -73,16 +73,16 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_reporter_count_levels_num", (DL_FUNC) &_reporter_count_levels_num, 1},
-    {"_reporter_count_levels_char", (DL_FUNC) &_reporter_count_levels_char, 1},
-    {"_reporter_na_numeric", (DL_FUNC) &_reporter_na_numeric, 1},
-    {"_reporter_na_character", (DL_FUNC) &_reporter_na_character, 1},
-    {"_reporter_na_logical", (DL_FUNC) &_reporter_na_logical, 1},
-    {"_reporter_na_integer", (DL_FUNC) &_reporter_na_integer, 1},
+    {"_inspectdf_count_levels_num", (DL_FUNC) &_inspectdf_count_levels_num, 1},
+    {"_inspectdf_count_levels_char", (DL_FUNC) &_inspectdf_count_levels_char, 1},
+    {"_inspectdf_na_numeric", (DL_FUNC) &_inspectdf_na_numeric, 1},
+    {"_inspectdf_na_character", (DL_FUNC) &_inspectdf_na_character, 1},
+    {"_inspectdf_na_logical", (DL_FUNC) &_inspectdf_na_logical, 1},
+    {"_inspectdf_na_integer", (DL_FUNC) &_inspectdf_na_integer, 1},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_reporter(DllInfo *dll) {
+RcppExport void R_init_inspectdf(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
