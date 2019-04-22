@@ -1,4 +1,4 @@
-.onLoad <- function(libname = find.package("reporter"), pkgname = "reporter"){
+.onLoad <- function(libname = find.package("inspectdf"), pkgname = "inspectdf"){
   
   # CRAN Note avoidance
   if(getRversion() >= "2.15.1")

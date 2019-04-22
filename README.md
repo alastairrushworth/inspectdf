@@ -2,7 +2,7 @@
 inspectdf <img src="man/figures/hex.png" align="right" width="120" />
 =====================================================================
 
-[![Build Status](https://travis-ci.org/alastairrushworth/reporter.svg?branch=master)](https://travis-ci.org/alastairrushworth/reporter) [![codecov](https://codecov.io/gh/alastairrushworth/reporter/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/reporter)
+[![Build Status](https://travis-ci.org/alastairrushworth/inspectdf.svg?branch=master)](https://travis-ci.org/alastairrushworth/inspectdf) [![codecov](https://codecov.io/gh/alastairrushworth/inspectdf/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/inspectdf)
 
 Overview
 --------
@@ -136,19 +136,19 @@ inspect_mem(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 13 x 5
     ##    col_name   size_1    size_2    pcnt_1 pcnt_2
     ##    <chr>      <chr>     <chr>      <dbl>  <dbl>
-    ##  1 films      11.15 Kb  11.56 Kb  34.2    39.9 
-    ##  2 starships  4.49 Kb   4.28 Kb   13.8    14.8 
-    ##  3 name       3.6 Kb    <NA>      11.1    NA   
-    ##  4 vehicles   3.47 Kb   3.56 Kb   10.7    12.3 
-    ##  5 homeworld  2.27 Kb   2.27 Kb    6.96    7.81
-    ##  6 skin_color 1.87 Kb   2 Kb       5.73    6.90
-    ##  7 species    1.77 Kb   1.78 Kb    5.44    6.14
-    ##  8 hair_color 1.12 Kb   968 bytes  3.43    3.26
-    ##  9 eye_color  1.05 Kb   1.05 Kb    3.24    3.64
-    ## 10 gender     680 bytes 680 bytes  2.04    2.29
-    ## 11 mass       448 bytes 448 bytes  1.34    1.51
-    ## 12 birth_year 448 bytes 448 bytes  1.34    1.51
-    ## 13 height     248 bytes <NA>       0.744  NA
+    ##  1 films      11.2 Kb   11.82 Kb  34.6    40.5 
+    ##  2 starships  4.53 Kb   4.7 Kb    14.0    16.1 
+    ##  3 name       3.55 Kb   <NA>      11.0    NA   
+    ##  4 vehicles   3.41 Kb   3.39 Kb   10.5    11.6 
+    ##  5 homeworld  2.3 Kb    2.12 Kb    7.11    7.26
+    ##  6 species    1.82 Kb   1.82 Kb    5.63    6.24
+    ##  7 skin_color 1.76 Kb   1.79 Kb    5.44    6.13
+    ##  8 eye_color  1.1 Kb    1.05 Kb    3.41    3.62
+    ##  9 hair_color 960 bytes 1 Kb       2.90    3.43
+    ## 10 gender     616 bytes 624 bytes  1.86    2.09
+    ## 11 mass       448 bytes 448 bytes  1.35    1.50
+    ## 12 birth_year 448 bytes 448 bytes  1.35    1.50
+    ## 13 height     248 bytes <NA>       0.749  NA
 
 #### Missing values
 
@@ -192,13 +192,13 @@ inspect_na(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 13 x 6
     ##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
     ##    <chr>      <int>  <dbl> <int>  <dbl>   <dbl>
-    ##  1 birth_year    24     48    24     48   1    
-    ##  2 mass          14     28    18     36   0.520
-    ##  3 homeworld      4      8     6     12   0.739
-    ##  4 height         3      6    NA     NA  NA    
-    ##  5 hair_color     2      4     2      4   1    
-    ##  6 gender         1      2     1      2   1    
-    ##  7 species        1      2     4      8   0.359
+    ##  1 birth_year    26     52    24     48   0.841
+    ##  2 mass          19     38    14     28   0.395
+    ##  3 homeworld      6     12     2      4   0.269
+    ##  4 height         4      8    NA     NA  NA    
+    ##  5 hair_color     3      6     4      8   1.000
+    ##  6 species        3      6     2      4   1.000
+    ##  7 gender         2      4     2      4   1    
     ##  8 name           0      0    NA     NA  NA    
     ##  9 skin_color     0      0     0      0  NA    
     ## 10 eye_color      0      0     0      0  NA    
@@ -252,9 +252,9 @@ inspect_cor(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 3 x 5
     ##   col_1      col_2  corr_1 corr_2   p_value
     ##   <chr>      <chr>   <dbl>  <dbl>     <dbl>
-    ## 1 birth_year mass    0.949  0.466  1.91e-10
-    ## 2 birth_year height  0.143 NA     NA       
-    ## 3 mass       height  0.107 NA     NA
+    ## 1 mass       height  0.801 NA     NA       
+    ## 2 birth_year height -0.572 NA     NA       
+    ## 3 birth_year mass   -0.421  0.986  8.03e-46
 
 Notes:
 
@@ -296,15 +296,15 @@ inspect_imb(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-15-1.png)
 
     ## # A tibble: 7 x 7
-    ##   col_name   value    pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
-    ##   <chr>      <chr>     <dbl> <int>  <dbl> <int>   <dbl>
-    ## 1 gender     male        74     10     70    12   0.809
-    ## 2 species    Human       46      1     42     1   1    
-    ## 3 hair_color none        38      1     42     1   1    
-    ## 4 eye_color  blue        28.     4     26     4   1    
-    ## 5 skin_color fair        24      1     24     1   1    
-    ## 6 homeworld  Tatooine    12      2     NA    NA  NA    
-    ## 7 name       Ackbar       2      1     NA    NA  NA
+    ##   col_name   value            pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
+    ##   <chr>      <chr>             <dbl> <int>  <dbl> <int>   <dbl>
+    ## 1 gender     male                72     10     72    11   1.000
+    ## 2 hair_color none                40      1     44     1   1    
+    ## 3 species    Human               40      1     42     1   1    
+    ## 4 eye_color  brown               24      8     NA    NA  NA    
+    ## 5 skin_color fair                24      1     20     2   1    
+    ## 6 homeworld  Tatooine            14.     2     16     1   1    
+    ## 7 name       Anakin Skywalker     2      1     NA    NA  NA
 
 -   Smaller `p_value` indicates stronger evidence against the null hypothesis that the true frequency of the most common values is the same.
 -   The visualisation illustrates the significance of the difference using a coloured bar overlay. Orange bars indicate evidence of equality of the imbalance, while blue bars indicate inequality. If a `p_value` cannot be calculated, no coloured bar is shown.

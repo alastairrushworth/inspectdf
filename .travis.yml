@@ -3,10 +3,10 @@
 language: R
 sudo: false
 cache: packages
-warnings_are_errors: false
+warnings_are_errors: true
 
 r_packages:
   - covr
 
 after_success:
-  - Rscript -e 'library(covr); codecov(token = "613dba03-6687-4fe2-aab0-dc7319591344")'
+  - Rscript -e 'library(covr); codecov(token = "780be628-6f7e-42da-b4f5-34cf308a43f8")'

@@ -1,4 +1,4 @@
 library(testthat)
-library(reporter)
+library(inspectdf)
 
-test_check("reporter")
+test_check("inspectdf")
