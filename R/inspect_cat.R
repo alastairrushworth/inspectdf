@@ -67,7 +67,7 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE){
     # pick out categorical columns
     df_cat <- df1 %>% 
       select_if(function(v) is.character(v) | is.factor(v) | 
-                  any(c("Date", "datetime") %in% class(v))) %>%
+                  is.logical(v) | any(c("Date", "datetime") %in% class(v))) %>%
       mutate_if(is.factor, as.character)
   
     # calculate association if categorical columns exist

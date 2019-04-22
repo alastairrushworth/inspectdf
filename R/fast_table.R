@@ -9,7 +9,7 @@ fast_table <- function(v, show_na = TRUE, show_cnt = FALSE){
   vals   <- unique(vsort)
   if(any(class(v) %in% c("integer", "numeric", "double", "factor"))){
     freq   <- count_levels_num(vsort)
-  } else if(any(class(v) %in% c("character", "Date", "POSIXt"))){
+  } else if(any(class(v) %in% c("logical", "character", "Date", "POSIXt"))){
     freq   <- count_levels_char(vsort)
   } else {
     freq <- NA
