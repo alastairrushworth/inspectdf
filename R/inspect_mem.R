@@ -1,4 +1,4 @@
-#' Report and compare the memory usage in one or two dataframes.
+#' Summarise and compare the memory usage in one or two dataframes.
 #'
 #' @param df1 A data frame.
 #' @param df2 An optional second data frame for comparing column sizes.  
@@ -28,11 +28,11 @@
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # get tibble of column memory usage for the starwars data
-#' report_mem(starwars)
+#' inspect_mem(starwars)
 #' # get column memory usage and show as barplot
-#' report_mem(starwars, show_plot = TRUE)
+#' inspect_mem(starwars, show_plot = TRUE)
 #' # compare memory usage 
-#' report_mem(starwars, starwars[1:10, -3])
+#' inspect_mem(starwars, starwars[1:10, -3])
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -55,7 +55,7 @@
 #' @importFrom tibble tibble
 #' @export
 
-report_mem <- function(df1, df2 = NULL, show_plot = FALSE){
+inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -93,8 +93,8 @@ report_mem <- function(df1, df2 = NULL, show_plot = FALSE){
     return(out)
   } else {
     # get the space report for both input dfs
-    df1 <- report_mem(df1, show_plot = F)
-    df2 <- report_mem(df2, show_plot = F)
+    df1 <- inspect_mem(df1, show_plot = F)
+    df2 <- inspect_mem(df2, show_plot = F)
     sjoin <- full_join(df1, df2, by = "col_name") %>%
       select(col_name, contains("size"), contains("pcnt"))
     colnames(sjoin)[2:3] <- paste0("size_",  1:2)

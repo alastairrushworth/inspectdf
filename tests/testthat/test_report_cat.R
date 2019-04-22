@@ -1,4 +1,4 @@
-context("report_cat")
+context("inspect_cat")
 
 # load in some example data
 data("starwars", package = "dplyr")
@@ -12,42 +12,42 @@ x = data.frame(dat  = as.Date("01/10/2017", "%d/%m/%Y") + 1:10,
                nm   = 1:10)
 
 test_that("Output is a data frame", {
-  expect_is(report_cat(mtcars), "data.frame")
-  expect_is(report_cat(band_instruments), "data.frame")
-  expect_error(report_cat(nasa))
-  expect_is(report_cat(starwars), "data.frame")
-  expect_is(report_cat(storms), "data.frame")
-  expect_is(report_cat(airquality), "data.frame")
-  expect_is(report_cat(x), "data.frame")
+  expect_is(inspect_cat(mtcars), "data.frame")
+  expect_is(inspect_cat(band_instruments), "data.frame")
+  expect_error(inspect_cat(nasa))
+  expect_is(inspect_cat(starwars), "data.frame")
+  expect_is(inspect_cat(storms), "data.frame")
+  expect_is(inspect_cat(airquality), "data.frame")
+  expect_is(inspect_cat(x), "data.frame")
 })
 
 test_that("Output with two identical df inputs data frame", {
-  expect_is(report_cat(mtcars, mtcars), "data.frame")
-  expect_is(report_cat(band_instruments, band_instruments), "data.frame")
-  expect_is(report_cat(starwars, starwars), "data.frame")
-  expect_is(report_cat(storms, storms), "data.frame")
-  expect_is(report_cat(airquality, airquality), "data.frame")
+  expect_is(inspect_cat(mtcars, mtcars), "data.frame")
+  expect_is(inspect_cat(band_instruments, band_instruments), "data.frame")
+  expect_is(inspect_cat(starwars, starwars), "data.frame")
+  expect_is(inspect_cat(storms, storms), "data.frame")
+  expect_is(inspect_cat(airquality, airquality), "data.frame")
 })
 
 test_that("Output with two different inputs data frame", {
   set.seed(10)
-  expect_is(report_cat(mtcars, mtcars %>% dplyr::sample_n(100, replace = T)), "data.frame")
-  expect_is(report_cat(band_instruments, band_instruments %>% dplyr::sample_n(100, replace = T)) , "data.frame")
-  expect_is(report_cat(starwars, starwars %>% dplyr::sample_n(100, replace = T)), "data.frame")
-  expect_is(report_cat(storms, storms %>% dplyr::sample_n(100, replace = T)), "data.frame")
-  expect_is(report_cat(airquality, airquality%>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(inspect_cat(mtcars, mtcars %>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(inspect_cat(band_instruments, band_instruments %>% dplyr::sample_n(100, replace = T)) , "data.frame")
+  expect_is(inspect_cat(starwars, starwars %>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(inspect_cat(storms, storms %>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(inspect_cat(airquality, airquality%>% dplyr::sample_n(100, replace = T)), "data.frame")
 })
 
 test_that("Output with different columns", {
   set.seed(10)
-  expect_is(report_cat(mtcars %>% dplyr::select(-1), mtcars %>% dplyr::select(-2)), "data.frame")
-  expect_is(report_cat(band_instruments %>% dplyr::select(-1), band_instruments %>% dplyr::sample_n(100, replace = T)) , "data.frame")
-  expect_is(report_cat(starwars%>% dplyr::select(-1), starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)), "data.frame")
-  expect_is(report_cat(storms, storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)), "data.frame")
-  expect_is(report_cat(airquality, airquality %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(inspect_cat(mtcars %>% dplyr::select(-1), mtcars %>% dplyr::select(-2)), "data.frame")
+  expect_is(inspect_cat(band_instruments %>% dplyr::select(-1), band_instruments %>% dplyr::sample_n(100, replace = T)) , "data.frame")
+  expect_is(inspect_cat(starwars%>% dplyr::select(-1), starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(inspect_cat(storms, storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)), "data.frame")
+  expect_is(inspect_cat(airquality, airquality %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)), "data.frame")
 })
 
 test_that("Majority NA in standard dataframes does not throw error", {
-  expect_is(report_cat(data.frame(misst = c("a", "b", NA, NA))), "data.frame")
+  expect_is(inspect_cat(data.frame(misst = c("a", "b", NA, NA))), "data.frame")
 })
 

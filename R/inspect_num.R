@@ -1,4 +1,4 @@
-#' Report and compare the numeric variables within one or two dataframes
+#' Summarise and compare the numeric variables within one or two dataframes
 #'
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for comparing categorical levels.  
@@ -16,7 +16,7 @@
 #' @return A \code{tibble} containing statistical summaries of the numeric 
 #' columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
 #' @details 
-#' If only \code{df1} is specified, \code{report_num} returns a tibble with columns
+#' If only \code{df1} is specified, \code{inspect_num} returns a tibble with columns
 #' \itemize{
 #'   \item \code{col_name} character vector containing the column names in \code{df1}
 #'   and \code{df2}
@@ -46,11 +46,11 @@
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # show summary statistics for starwars
-#' report_num(starwars)
+#' inspect_num(starwars)
 #' # with a visualisation too - try to limit number of bins
-#' report_num(starwars, breaks = 10)
+#' inspect_num(starwars, breaks = 10)
 #' # compare two data frames
-#' report_num(starwars, starwars[-c(1:10), ], breaks = 10, show_plot = TRUE)
+#' inspect_num(starwars, starwars[-c(1:10), ], breaks = 10, show_plot = TRUE)
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -81,7 +81,7 @@
 #' @importFrom tidyr gather
 #' @importFrom utils tail
 
-report_num <- function(df1, df2 = NULL, show_plot = F, 
+inspect_num <- function(df1, df2 = NULL, show_plot = F, 
                        breaks = 20, plot_layout = NULL, breakseq = NULL){
 
   # perform basic column check on dataframe input
@@ -145,13 +145,13 @@ report_num <- function(df1, df2 = NULL, show_plot = F,
     }
   } else {
     # get histogram and summaries for first df
-    s1 <- report_num(df1, show_plot = F, breaks = breaks) %>% 
+    s1 <- inspect_num(df1, show_plot = F, breaks = breaks) %>% 
       select(col_name, mean, sd, hist)
     # extract breaks from the above
     breaks_table <- tibble(col_name = s1$col_name, 
                            breaks = lapply(s1$hist, get_break))
     # get new histoggrams and summary stats using breaks from s1
-    s2 <- report_num(df2, breakseq = breaks_table, show_plot = F) %>% 
+    s2 <- inspect_num(df2, breakseq = breaks_table, show_plot = F) %>% 
       select(col_name, mean, sd, hist)
     s12 <- full_join(s1, s2, by = "col_name")
     # calculate psi and fisher p-value

@@ -1,4 +1,4 @@
-#' Report and compare the rate of missingness in one or two dataframes.
+#' Summarise and compare the rate of missingness in one or two dataframes.
 #'
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for making columnwise comparison of missingness.  
@@ -35,12 +35,12 @@
 #' 
 #' @examples
 #' data("starwars", package = "dplyr")
-#' # report missingness in starwars data
-#' report_na(starwars)
+#' # inspect missingness in starwars data
+#' inspect_na(starwars)
 #' # show the result as a barplot
-#' report_na(starwars, show_plot = TRUE)
+#' inspect_na(starwars, show_plot = TRUE)
 #' # compare two dataframes
-#' report_na(starwars, starwars[1:30, ])
+#' inspect_na(starwars, starwars[1:30, ])
 #' @importFrom dplyr arrange
 #' @importFrom dplyr desc
 #' @importFrom dplyr full_join
@@ -53,12 +53,12 @@
 #' @importFrom tibble tibble
 #' @export
 
-report_na <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05){
+inspect_na <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05){
   # perform basic column check on dataframe input
   check_df_cols(df1)
   # capture the data frame names
   df_names <- get_df_names()
-  # if ony one df input then report na content
+  # if ony one df input then inspect na content
   if(is.null(df2)){
     # find the  10 with most missingness
     out <- vec_to_tibble(sapply(df1, sumna)) %>%
@@ -77,8 +77,8 @@ report_na <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05){
     }
     if(type == "console") invisible(df1)
   } else {
-    s1 <- report_na(df1, show_plot = F) 
-    s2 <- report_na(df2, show_plot = F)
+    s1 <- inspect_na(df1, show_plot = F) 
+    s2 <- inspect_na(df2, show_plot = F)
     na_tab <- full_join(s1, s2, by = "col_name")
     na_tab$p_value <- prop_test(na_1 = na_tab$cnt.x, 
                                 na_2 = na_tab$cnt.y, 

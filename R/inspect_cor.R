@@ -1,4 +1,4 @@
-#' Report and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.
+#' Summarise and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.
 #'
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for comparing correlation 
@@ -36,11 +36,11 @@
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # correlations in numeric columns
-#' report_cor(starwars)
+#' inspect_cor(starwars)
 #' # get visualisation with confidence bands
-#' report_cor(starwars, show_plot = TRUE)
+#' inspect_cor(starwars, show_plot = TRUE)
 #' # compare correlations with a different data frame
-#' report_cor(starwars, starwars[1:10, ], show_plot = TRUE)
+#' inspect_cor(starwars, starwars[1:10, ], show_plot = TRUE)
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -70,7 +70,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 
-report_cor <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05, 
+inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05, 
                        absolute = TRUE){
   
   # perform basic column check on dataframe input
@@ -101,11 +101,11 @@ report_cor <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
     } 
   } else {
     # stats for df1
-    s1 <- report_cor(df1, show_plot = F) %>% 
+    s1 <- inspect_cor(df1, show_plot = F) %>% 
       select(col_1, col_2, corr) %>% 
       rename(corr_1 = corr)
     # stats for df2
-    s2 <- report_cor(df2, show_plot = F) %>% 
+    s2 <- inspect_cor(df2, show_plot = F) %>% 
       select(col_1, col_2, corr) %>% 
       rename(corr_2 = corr)
     # join the two

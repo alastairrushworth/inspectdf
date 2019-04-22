@@ -1,4 +1,4 @@
-#' Report and compare columnwise imbalance for non-numeric columns in one or two dataframes.
+#' Summarise and compare columnwise imbalance for non-numeric columns in one or two dataframes.
 #'
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for comparing columnwise imbalance.  
@@ -37,11 +37,11 @@
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # get tibble of most common levels
-#' report_imb(starwars)
+#' inspect_imb(starwars)
 #' # get most common levels and show as barplot
-#' report_imb(starwars, show_plot = TRUE)
+#' inspect_imb(starwars, show_plot = TRUE)
 #' # compare memory usage 
-#' report_imb(starwars, starwars[1:10, -3])
+#' inspect_imb(starwars, starwars[1:10, -3])
 #' @importFrom tibble tibble
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
@@ -54,7 +54,7 @@
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
 
-report_imb <- function(df1, df2 = NULL, show_plot = FALSE){
+inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -90,10 +90,10 @@ report_imb <- function(df1, df2 = NULL, show_plot = FALSE){
     }
   } else {
     # summary of df1
-    s1 <- report_imb(df1, show_plot = F) %>% 
+    s1 <- inspect_imb(df1, show_plot = F) %>% 
       rename(pcnt_1 = pcnt, cnt_1 = cnt)
     # summary of df2
-    s2 <- report_imb(df2, show_plot = F) %>% 
+    s2 <- inspect_imb(df2, show_plot = F) %>% 
       rename(pcnt_2 = pcnt, cnt_2 = cnt)
     # left join summaries together
     out <- left_join(s1, s2, by = c("col_name", "value")) %>%
