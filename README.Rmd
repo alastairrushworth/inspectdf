@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 [![Build Status](https://travis-ci.org/alastairrushworth/inspectdf.svg?branch=master)](https://travis-ci.org/alastairrushworth/inspectdf)  
 [![codecov](https://codecov.io/gh/alastairrushworth/inspectdf/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/inspectdf)
 [![CRAN status](https://www.r-pkg.org/badges/version/inspectdf)](https://cran.r-project.org/package=inspectdf)
+<!-- [![](https://cranlogs.r-pkg.org/badges/inspectdf)](https://cran.r-project.org/package=inspectdf) -->
 
 Overview
 ---
@@ -22,21 +23,26 @@ Overview
 `inspectdf` is collection of utilities for columnwise summary, comparison and visualisation of data frames.  Functions are provided to summarise missingness, categorical levels, numeric distribution, correlation, column types and memory usage.  
 
 The package has three aims:  
+
 + to speed up repetitive checking and exploratory tasks for data frames  
-+ to make it easier to compare data frames for differences and inconsistencies  
++ to make it easier to compare data frames for differences and inconsistencies
 + to support quick visualisation of data frames
 
 
 Key functions
 ---  
 
-+ `inspect_types()` summary of column types
-+ `inspect_mem()` summary of memory usage of columns
-+ `inspect_na()` columnwise prevalence of missing values
-+ `inspect_cor()` correlation coefficients of numeric columns
-+ `inspect_imb()` feature imbalance of categorical columns
-+ `inspect_num()` summaries of numeric columns
-+ `inspect_cat()` summaries of categorical columns
+
+
+
+
++ [`inspect_types()`](#column-types) summary of column types
++ [`inspect_mem()`](#memory-usage) summary of memory usage of columns
++ [`inspect_na()`](#missing-values) columnwise prevalence of missing values
++ [`inspect_cor()`](#correlation) correlation coefficients of numeric columns
++ [`inspect_imb()`](#feature-imbalance) feature imbalance of categorical columns
++ [`inspect_num()`](#numeric-summaries) summaries of numeric columns
++ [`inspect_cat()`](#categorical-levels) summaries of categorical columns
 
 
 
