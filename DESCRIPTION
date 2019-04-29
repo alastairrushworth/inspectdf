@@ -1,6 +1,6 @@
 Package: inspectdf
 Title: Inspection, Comparison and Visualisation of Data Frames
-Version: 0.0.0.9000
+Version: 0.0.1.9000
 Authors@R: person("Alastair", "Rushworth", email = "alastairmrushworth@gmail.com", role = c("aut", "cre"))
 Maintainer: Alastair Rushworth <alastairmrushworth@gmail.com>
 Description: A collection of utilities for columnwise summary, comparison and visualisation of data frames.  Functions report missingness, categorical levels, numeric distribution, correlation, column types and memory usage.

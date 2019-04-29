@@ -1,32 +1,37 @@
 
-inspectdf <img src="man/figures/hex.png" align="right" width="120" />
-=====================================================================
+# inspectdf <img src="man/figures/hex.png" align="right" width="120" />
 
-[![Build Status](https://travis-ci.org/alastairrushworth/inspectdf.svg?branch=master)](https://travis-ci.org/alastairrushworth/inspectdf) [![codecov](https://codecov.io/gh/alastairrushworth/inspectdf/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/inspectdf)
+[![Build
+Status](https://travis-ci.org/alastairrushworth/inspectdf.svg?branch=master)](https://travis-ci.org/alastairrushworth/inspectdf)  
+[![codecov](https://codecov.io/gh/alastairrushworth/inspectdf/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/inspectdf)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/inspectdf)](https://cran.r-project.org/package=inspectdf)
 
-Overview
---------
+## Overview
 
-`inspectdf` is collection of utilities for columnwise summary, comparison and visualisation of data frames. Functions are provided to summarise missingness, categorical levels, numeric distribution, correlation, column types and memory usage.
+`inspectdf` is collection of utilities for columnwise summary,
+comparison and visualisation of data frames. Functions are provided to
+summarise missingness, categorical levels, numeric distribution,
+correlation, column types and memory usage.
 
-The package has three aims:
-+ to speed up repetitive checking and exploratory tasks for data frames
-+ to make it easier to compare data frames for differences and inconsistencies
-+ to support quick visualisation of data frames
+The package has three aims:  
+\+ to speed up repetitive checking and exploratory tasks for data
+frames  
+\+ to make it easier to compare data frames for differences and
+inconsistencies  
+\+ to support quick visualisation of data frames
 
-Key functions
--------------
+## Key functions
 
--   `inspect_types()` summary of column types
--   `inspect_mem()` summary of memory usage of columns
--   `inspect_na()` columnwise prevalence of missing values
--   `inspect_cor()` correlation coefficients of numeric columns
--   `inspect_imb()` feature imbalance of categorical columns
--   `inspect_num()` summaries of numeric columns
--   `inspect_cat()` summaries of categorical columns
+  - `inspect_types()` summary of column types
+  - `inspect_mem()` summary of memory usage of columns
+  - `inspect_na()` columnwise prevalence of missing values
+  - `inspect_cor()` correlation coefficients of numeric columns
+  - `inspect_imb()` feature imbalance of categorical columns
+  - `inspect_num()` summaries of numeric columns
+  - `inspect_cat()` summaries of categorical columns
 
-Installation
-------------
+## Installation
 
 To install the development version of the package, use
 
@@ -37,17 +42,19 @@ devtools::install_github("alastairrushworth/inspectdf")
 library(inspectdf)
 ```
 
-Illustrative data: `starwars`
------------------------------
+## Illustrative data: `starwars`
 
-The examples below make use of the `starwars` data from the `dplyr` package
+The examples below make use of the `starwars` data from the `dplyr`
+package
 
 ``` r
 # some example data
 data(starwars, package = "dplyr")
 ```
 
-For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+For illustrating comparisons of dataframes, use the `starwars` data and
+produce two new dataframes `star_1` and `star_2` that randomly sample
+the rows of the original and drop a couple of columns.
 
 ``` r
 library(dplyr)
@@ -59,14 +66,17 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 
 ##### `inspect_types()` for a single dataframe
 
-To explore the column types in a data frame, use the function `inspect_types()`. The command returns a `tibble` summarising the counts and percentages of columns with particular types. A barplot is also returned when `show_plot = TRUE`.
+To explore the column types in a data frame, use the function
+`inspect_types()`. The command returns a `tibble` summarising the counts
+and percentages of columns with particular types. A barplot is also
+returned when `show_plot = TRUE`.
 
 ``` r
 # return tibble and visualisation of columns types
 inspect_types(starwars, show_plot = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-6-1.png)
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
     ## # A tibble: 4 x 4
     ##   type        cnt  pcnt col_name 
@@ -78,13 +88,17 @@ inspect_types(starwars, show_plot = TRUE)
 
 ##### `inspect_types()` for two dataframes
 
-When a second dataframe is provided, `inspect_types()` will create a dataframe comparing the count and percentage of each column type for each of the input dataframes. The summaries for the first and second dataframes are show in columns with names appended with `_1` and `_2`, respectively.
+When a second dataframe is provided, `inspect_types()` will create a
+dataframe comparing the count and percentage of each column type for
+each of the input dataframes. The summaries for the first and second
+dataframes are show in columns with names appended with `_1` and `_2`,
+respectively.
 
 ``` r
 inspect_types(star_1, star_2, show_plot = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-7-1.png)
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
     ## # A tibble: 4 x 5
     ##   type      cnt_1 pcnt_1 cnt_2 pcnt_2
@@ -98,13 +112,16 @@ inspect_types(star_1, star_2, show_plot = TRUE)
 
 ##### `inspect_mem()` for a single dataframe
 
-To explore the memory usage of the columns in a data frame, use `inspect_mem()`. The command returns a `tibble` containing the size of each column in the dataframe. A barplot is also returned when `show_plot = TRUE`.
+To explore the memory usage of the columns in a data frame, use
+`inspect_mem()`. The command returns a `tibble` containing the size of
+each column in the dataframe. A barplot is also returned when `show_plot
+= TRUE`.
 
 ``` r
 inspect_mem(starwars, show_plot = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-8-1.png)
+![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
 
     ## # A tibble: 13 x 3
     ##    col_name   size        pcnt
@@ -125,42 +142,48 @@ inspect_mem(starwars, show_plot = TRUE)
 
 ##### `inspect_mem()` for two dataframes
 
-When a second dataframe is provided, `inspect_mem()` will create a dataframe comparing the size of each column for both input dataframes. The summaries for the first and second dataframes are show in columns with names appended with `_1` and `_2`, respectively.
+When a second dataframe is provided, `inspect_mem()` will create a
+dataframe comparing the size of each column for both input dataframes.
+The summaries for the first and second dataframes are show in columns
+with names appended with `_1` and `_2`, respectively.
 
 ``` r
 inspect_mem(star_1, star_2, show_plot = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-9-1.png)
+![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
 
     ## # A tibble: 13 x 5
     ##    col_name   size_1    size_2    pcnt_1 pcnt_2
     ##    <chr>      <chr>     <chr>      <dbl>  <dbl>
-    ##  1 films      11.2 Kb   11.82 Kb  34.6    40.5 
-    ##  2 starships  4.53 Kb   4.7 Kb    14.0    16.1 
-    ##  3 name       3.55 Kb   <NA>      11.0    NA   
-    ##  4 vehicles   3.41 Kb   3.39 Kb   10.5    11.6 
-    ##  5 homeworld  2.3 Kb    2.12 Kb    7.11    7.26
-    ##  6 species    1.82 Kb   1.82 Kb    5.63    6.24
-    ##  7 skin_color 1.76 Kb   1.79 Kb    5.44    6.13
-    ##  8 eye_color  1.1 Kb    1.05 Kb    3.41    3.62
-    ##  9 hair_color 960 bytes 1 Kb       2.90    3.43
-    ## 10 gender     616 bytes 624 bytes  1.86    2.09
-    ## 11 mass       448 bytes 448 bytes  1.35    1.50
-    ## 12 birth_year 448 bytes 448 bytes  1.35    1.50
-    ## 13 height     248 bytes <NA>       0.749  NA
+    ##  1 films      11.8 Kb   11.29 Kb  36.1    39.7 
+    ##  2 starships  3.95 Kb   4.35 Kb   12.1    15.3 
+    ##  3 vehicles   3.64 Kb   3.65 Kb   11.1    12.8 
+    ##  4 name       3.55 Kb   <NA>      10.9    NA   
+    ##  5 homeworld  2.33 Kb   2.23 Kb    7.11    7.84
+    ##  6 skin_color 1.91 Kb   1.65 Kb    5.82    5.80
+    ##  7 species    1.77 Kb   1.71 Kb    5.42    6.02
+    ##  8 eye_color  1.05 Kb   1.12 Kb    3.20    3.93
+    ##  9 hair_color 960 bytes 968 bytes  2.86    3.33
+    ## 10 gender     680 bytes 616 bytes  2.03    2.12
+    ## 11 mass       448 bytes 448 bytes  1.34    1.54
+    ## 12 birth_year 448 bytes 448 bytes  1.34    1.54
+    ## 13 height     248 bytes <NA>       0.740  NA
 
 #### Missing values
 
 ##### `inspect_na()` for a single dataframe
 
-`inspect_na()` summarises the prevalence of missing values by each column in a data frame. A tibble containing the count (`cnt`) and the overall percentage (`pcnt`) of missing values is returned A barplot is also returned when `show_plot` is set to `TRUE`.
+`inspect_na()` summarises the prevalence of missing values by each
+column in a data frame. A tibble containing the count (`cnt`) and the
+overall percentage (`pcnt`) of missing values is returned A barplot is
+also returned when `show_plot` is set to `TRUE`.
 
 ``` r
 inspect_na(starwars, show_plot = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-10-1.png)
+![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->
 
     ## # A tibble: 13 x 3
     ##    col_name     cnt  pcnt
@@ -181,23 +204,28 @@ inspect_na(starwars, show_plot = TRUE)
 
 ##### `inspect_na()` for two dataframes
 
-When a second dataframe is provided, `inspect_na()` returns a tibble containing counts and percentage missingness by column, with summaries for the first and second data frames are show in columns with names appended with `_1` and `_2`, respectively. In addition, a *p*-value is calculated which provides a measure of evidence of whether the difference in missing values is significantly different.
+When a second dataframe is provided, `inspect_na()` returns a tibble
+containing counts and percentage missingness by column, with summaries
+for the first and second data frames are show in columns with names
+appended with `_1` and `_2`, respectively. In addition, a \(p\)-value is
+calculated which provides a measure of evidence of whether the
+difference in missing values is significantly different.
 
 ``` r
 inspect_na(star_1, star_2, show_plot = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-11-1.png)
+![](man/figures/README-unnamed-chunk-11-1.png)<!-- -->
 
     ## # A tibble: 13 x 6
     ##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
     ##    <chr>      <int>  <dbl> <int>  <dbl>   <dbl>
-    ##  1 birth_year    26     52    24     48   0.841
-    ##  2 mass          19     38    14     28   0.395
-    ##  3 homeworld      6     12     2      4   0.269
+    ##  1 birth_year    23     46    24     48   1.000
+    ##  2 mass          15     30    15     30   1    
+    ##  3 homeworld      6     12     3      6   0.485
     ##  4 height         4      8    NA     NA  NA    
-    ##  5 hair_color     3      6     4      8   1.000
-    ##  6 species        3      6     2      4   1.000
+    ##  5 hair_color     3      6     2      4   1.000
+    ##  6 species        3      6     3      6   1    
     ##  7 gender         2      4     2      4   1    
     ##  8 name           0      0    NA     NA  NA    
     ##  9 skin_color     0      0     0      0  NA    
@@ -208,23 +236,35 @@ inspect_na(star_1, star_2, show_plot = TRUE)
 
 Notes:
 
--   Smaller *p*-values indicate stronger evidence of a difference in the missingness rate for a single column
--   If a column appears in one data frame and not the other - for example `height` appears in `star_1` but nor `star_2`, then the corresponding `pcnt_`, `cnt_` and `p_value` columns will contain `NA`
--   Where the missingness is identically 0, the `p_value` is `NA`.
--   The visualisation illustrates the significance of the difference using a coloured bar overlay. Orange bars indicate evidence of equality or missingness, while blue bars indicate inequality. If a `p_value` cannot be calculated, no coloured bar is shown.
--   The significance level can be specified using the `alpha` argument to `inspect_na()`. The default is `alpha = 0.05`.
+  - Smaller \(p\)-values indicate stronger evidence of a difference in
+    the missingness rate for a single column
+  - If a column appears in one data frame and not the other - for
+    example `height` appears in `star_1` but nor `star_2`, then the
+    corresponding `pcnt_`, `cnt_` and `p_value` columns will contain
+    `NA`
+  - Where the missingness is identically 0, the `p_value` is `NA`.
+  - The visualisation illustrates the significance of the difference
+    using a coloured bar overlay. Orange bars indicate evidence of
+    equality or missingness, while blue bars indicate inequality. If a
+    `p_value` cannot be calculated, no coloured bar is shown.
+  - The significance level can be specified using the `alpha` argument
+    to `inspect_na()`. The default is `alpha = 0.05`.
 
 #### Correlation
 
 ##### `inspect_cor()` for a single dataframe
 
-`inspect_cor()` returns a tibble containing Pearson's correlation coefficient, confidence intervals and *p*-values for pairs of numeric columns . The function combines the functionality of `cor()` and `cor.test()` in a more convenient wrapper. A point and whiskers plot is also returned when `show_plot = TRUE`.
+`inspect_cor()` returns a tibble containing Pearson’s correlation
+coefficient, confidence intervals and \(p\)-values for pairs of numeric
+columns . The function combines the functionality of `cor()` and
+`cor.test()` in a more convenient wrapper. A point and whiskers plot is
+also returned when `show_plot = TRUE`.
 
 ``` r
 inspect_cor(starwars, show_plot = T)
 ```
 
-![](man/figures/README-unnamed-chunk-12-1.png)
+![](man/figures/README-unnamed-chunk-12-1.png)<!-- -->
 
     ## # A tibble: 3 x 6
     ##   col_1      col_2    corr p_value  lower   upper
@@ -235,44 +275,61 @@ inspect_cor(starwars, show_plot = T)
 
 Notes
 
--   The tibble is sorted in descending order of the absolute coefficient |*ρ*|.
--   `inspect_cor` drops missing values prior to calculation of each correlation coefficient.
--   The `p_value` is associated with the null hypothesis *H*<sub>0</sub> : *ρ* = 0.
+  - The tibble is sorted in descending order of the absolute coefficient
+    \(|\rho|\).
+  - `inspect_cor` drops missing values prior to calculation of each
+    correlation coefficient.  
+  - The `p_value` is associated with the null hypothesis
+    \(H_0: \rho = 0\).
 
 ##### `inspect_cor()` for for two dataframes
 
-When a second dataframe is provided, `inspect_cor()` returns a tibble that compares correlation coefficients of the first dataframe to those in the second. The `p_value` column contains a measure of evidence for whether the two correlation coefficients are equal or not.
+When a second dataframe is provided, `inspect_cor()` returns a tibble
+that compares correlation coefficients of the first dataframe to those
+in the second. The `p_value` column contains a measure of evidence for
+whether the two correlation coefficients are equal or not.
 
 ``` r
 inspect_cor(star_1, star_2, show_plot = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-13-1.png)
+![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
 
     ## # A tibble: 3 x 5
     ##   col_1      col_2  corr_1 corr_2   p_value
     ##   <chr>      <chr>   <dbl>  <dbl>     <dbl>
-    ## 1 mass       height  0.801 NA     NA       
-    ## 2 birth_year height -0.572 NA     NA       
-    ## 3 birth_year mass   -0.421  0.986  8.03e-46
+    ## 1 birth_year mass   0.941   0.113  2.41e-15
+    ## 2 birth_year height 0.126  NA     NA       
+    ## 3 mass       height 0.0936 NA     NA
 
 Notes:
 
--   Smaller `p_value` indicates stronger evidence against the null hypothesis *H*<sub>0</sub> : *ρ*<sub>1</sub> = *ρ*<sub>2</sub> and an indication that the true correlation coefficients differ.
--   The visualisation illustrates the significance of the difference using a coloured bar overlay. Orange bars indicate evidence of equality of correlations, while blue bars indicate inequality. If a `p_value` cannot be calculated, no coloured bar is shown.
--   The significance level can be specified using the `alpha` argument to `inspect_cor()`. The default is `alpha = 0.05`.
+  - Smaller `p_value` indicates stronger evidence against the null
+    hypothesis \(H_0: \rho_1 = \rho_2\) and an indication that the true
+    correlation coefficients differ.
+  - The visualisation illustrates the significance of the difference
+    using a coloured bar overlay. Orange bars indicate evidence of
+    equality of correlations, while blue bars indicate inequality. If a
+    `p_value` cannot be calculated, no coloured bar is shown.
+  - The significance level can be specified using the `alpha` argument
+    to `inspect_cor()`. The default is `alpha = 0.05`.
 
 #### Feature imbalance
 
 ##### `inspect_imb()` for a single dataframe
 
-Understanding categorical columns that are dominated by a single level can be useful. `inspect_imb()` returns a tibble containing categorical column names (`col_name`); the most frequently occurring categorical level in each column (`value`) and `pctn` & `cnt` the percentage and count which the value occurs. The tibble is sorted in descending order of `pcnt`. A barplot is also returned when `show_plot` is set to `TRUE`.
+Understanding categorical columns that are dominated by a single level
+can be useful. `inspect_imb()` returns a tibble containing categorical
+column names (`col_name`); the most frequently occurring categorical
+level in each column (`value`) and `pctn` & `cnt` the percentage and
+count which the value occurs. The tibble is sorted in descending order
+of `pcnt`. A barplot is also returned when `show_plot` is set to `TRUE`.
 
 ``` r
 inspect_imb(starwars, show_plot = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-14-1.png)
+![](man/figures/README-unnamed-chunk-14-1.png)<!-- -->
 
     ## # A tibble: 7 x 4
     ##   col_name   value   pcnt   cnt
@@ -287,38 +344,52 @@ inspect_imb(starwars, show_plot = TRUE)
 
 ##### `inspect_imb()` for two dataframes
 
-When a second dataframe is provided, `inspect_imb()` returns a tibble that compares the frequency of the most common categorical values of the first dataframe to those in the second. The `p_value` column contains a measure of evidence for whether the true frequencies are equal or not.
+When a second dataframe is provided, `inspect_imb()` returns a tibble
+that compares the frequency of the most common categorical values of the
+first dataframe to those in the second. The `p_value` column contains a
+measure of evidence for whether the true frequencies are equal or not.
 
 ``` r
 inspect_imb(star_1, star_2, show_plot = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-15-1.png)
+![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
 
     ## # A tibble: 7 x 7
-    ##   col_name   value            pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
-    ##   <chr>      <chr>             <dbl> <int>  <dbl> <int>   <dbl>
-    ## 1 gender     male                72     10     72    11   1.000
-    ## 2 hair_color none                40      1     44     1   1    
-    ## 3 species    Human               40      1     42     1   1    
-    ## 4 eye_color  brown               24      8     NA    NA  NA    
-    ## 5 skin_color fair                24      1     20     2   1    
-    ## 6 homeworld  Tatooine            14.     2     16     1   1    
-    ## 7 name       Anakin Skywalker     2      1     NA    NA  NA
+    ##   col_name   value    pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
+    ##   <chr>      <chr>     <dbl> <int>  <dbl> <int>   <dbl>
+    ## 1 gender     male        66     12     68    13       1
+    ## 2 species    Human       44      1     44     1       1
+    ## 3 hair_color none        36      1     44     1       1
+    ## 4 skin_color fair        28.     1     22     1       1
+    ## 5 eye_color  blue        26      5     24     5       1
+    ## 6 homeworld  Tatooine    14.     2     NA    NA      NA
+    ## 7 name       Ackbar       2      1     NA    NA      NA
 
--   Smaller `p_value` indicates stronger evidence against the null hypothesis that the true frequency of the most common values is the same.
--   The visualisation illustrates the significance of the difference using a coloured bar overlay. Orange bars indicate evidence of equality of the imbalance, while blue bars indicate inequality. If a `p_value` cannot be calculated, no coloured bar is shown.
--   The significance level can be specified using the `alpha` argument to `inspect_imb()`. The default is `alpha = 0.05`.
+  - Smaller `p_value` indicates stronger evidence against the null
+    hypothesis that the true frequency of the most common values is the
+    same.
+  - The visualisation illustrates the significance of the difference
+    using a coloured bar overlay. Orange bars indicate evidence of
+    equality of the imbalance, while blue bars indicate inequality. If a
+    `p_value` cannot be calculated, no coloured bar is shown.
+  - The significance level can be specified using the `alpha` argument
+    to `inspect_imb()`. The default is `alpha = 0.05`.
 
 #### Numeric summaries
 
-`inspect_num()` combining some of the functionality of `summary()` and `hist()` by returning summaries of numeric columns. `inspect_num()` returns standard numerical summaries (`min`, `q1`, `mean`, `median`,`q3`, `max`, `sd`), but also the percentage of missing entries (`pcnt_na`) and a simple histogram (`hist`). If `show_plot = TRUE` a histogram is generated for each numeric feature.
+`inspect_num()` combining some of the functionality of `summary()` and
+`hist()` by returning summaries of numeric columns. `inspect_num()`
+returns standard numerical summaries (`min`, `q1`, `mean`,
+`median`,`q3`, `max`, `sd`), but also the percentage of missing entries
+(`pcnt_na`) and a simple histogram (`hist`). If `show_plot = TRUE` a
+histogram is generated for each numeric feature.
 
 ``` r
 inspect_num(starwars, show_plot = TRUE, breaks = 10)
 ```
 
-![](man/figures/README-unnamed-chunk-16-1.png)
+![](man/figures/README-unnamed-chunk-16-1.png)<!-- -->
 
     ## # A tibble: 3 x 10
     ##   col_name     min    q1 median  mean    q3   max    sd pcnt_na hist       
@@ -327,7 +398,10 @@ inspect_num(starwars, show_plot = TRUE, breaks = 10)
     ## 2 height        66 167      180 174.  191     264  34.8    6.90 <tibble [1…
     ## 3 mass          15  55.6     79  97.3  84.5  1358 169.    32.2  <tibble [1…
 
-The `hist` column is a list whose elements are tibbles each containing the relative frequencies of bins for each feature. These tibbles are used to generate the histograms when `show_plot = TRUE`. For example, the histogram for `starwars$birth_year` is
+The `hist` column is a list whose elements are tibbles each containing
+the relative frequencies of bins for each feature. These tibbles are
+used to generate the histograms when `show_plot = TRUE`. For example,
+the histogram for `starwars$birth_year` is
 
 ``` r
 inspect_num(starwars)$hist$birth_year
@@ -359,19 +433,25 @@ inspect_num(starwars)$hist$birth_year
 
 #### Categorical levels
 
-`inspect_cat()` returns a tibble summarising categorical features in a data frame, combining the functionality of the `inspect_imb()` and `table()` functions. If `show_plot = TRUE` a barplot is generated showing the relative split. The tibble generated contains the columns
+`inspect_cat()` returns a tibble summarising categorical features in a
+data frame, combining the functionality of the `inspect_imb()` and
+`table()` functions. If `show_plot = TRUE` a barplot is generated
+showing the relative split. The tibble generated contains the columns
 
--   `col_name` name of each categorical column
--   `cnt` the number of unique levels in the feature
--   `common` the most common level (see also `inspect_imb()`)
--   `common_pcnt` the percentage occurrence of the most dominant level
--   `levels` a list of tibbles each containing frequency tabulations of all levels
+  - `col_name` name of each categorical column
+  - `cnt` the number of unique levels in the feature
+  - `common` the most common level (see also `inspect_imb()`)  
+  - `common_pcnt` the percentage occurrence of the most dominant level  
+  - `levels` a list of tibbles each containing frequency tabulations of
+    all levels
+
+<!-- end list -->
 
 ``` r
 inspect_cat(starwars, show_plot = T)
 ```
 
-![](man/figures/README-unnamed-chunk-18-1.png)
+![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
 
     ## # A tibble: 7 x 5
     ##   col_name     cnt common common_pcnt levels           
@@ -407,4 +487,5 @@ inspect_cat(starwars)$levels$hair_color
     ## 12 grey          0.0115
     ## 13 unknown       0.0115
 
-Note that by default, if `NA` values are present, they are counted as a distinct categorical level.
+Note that by default, if `NA` values are present, they are counted as a
+distinct categorical level.
