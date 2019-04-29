@@ -44,7 +44,7 @@ plot_imb_2 <- function(df_plot, df_names, alpha){
   
   # generate plot
   plt <- df_plot %>%
-    ggplot(aes(x = col_name, 
+    ggplot(aes(x = factor(col_name, levels = unique(df_plot$col_name)), 
                y = pcnt, 
                colour = data_frame)) +
     geom_blank() + theme_bw() + 
