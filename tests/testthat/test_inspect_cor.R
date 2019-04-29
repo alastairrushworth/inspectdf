@@ -72,7 +72,8 @@ test_that("Single column returns empty df", {
 })
 
 test_that("Constant columns return NA", {
-  expect_equal(sum(is.na(inspect_cor(data.frame(z = 1:10, y = rep(1, 10)))$corr)), 1)
+  expect_warning(inspect_cor(data.frame(z = 1:10, y = rep(1, 10))))
+  expect_equal(suppressWarnings(sum(is.na(inspect_cor(data.frame(z = 1:10, y = rep(1, 10)))$corr))), 1)
 })
 
 
