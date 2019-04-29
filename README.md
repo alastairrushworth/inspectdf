@@ -6,6 +6,7 @@ Status](https://travis-ci.org/alastairrushworth/inspectdf.svg?branch=master)](ht
 [![codecov](https://codecov.io/gh/alastairrushworth/inspectdf/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/inspectdf)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/inspectdf)](https://cran.r-project.org/package=inspectdf)
+<!-- [![](https://cranlogs.r-pkg.org/badges/inspectdf)](https://cran.r-project.org/package=inspectdf) -->
 
 ## Overview
 
@@ -14,22 +15,27 @@ comparison and visualisation of data frames. Functions are provided to
 summarise missingness, categorical levels, numeric distribution,
 correlation, column types and memory usage.
 
-The package has three aims:  
-\+ to speed up repetitive checking and exploratory tasks for data
-frames  
-\+ to make it easier to compare data frames for differences and
-inconsistencies  
-\+ to support quick visualisation of data frames
+The package has three aims:
+
+  - to speed up repetitive checking and exploratory tasks for data
+    frames  
+  - to make it easier to compare data frames for differences and
+    inconsistencies
+  - to support quick visualisation of data frames
 
 ## Key functions
 
-  - `inspect_types()` summary of column types
-  - `inspect_mem()` summary of memory usage of columns
-  - `inspect_na()` columnwise prevalence of missing values
-  - `inspect_cor()` correlation coefficients of numeric columns
-  - `inspect_imb()` feature imbalance of categorical columns
-  - `inspect_num()` summaries of numeric columns
-  - `inspect_cat()` summaries of categorical columns
+  - [`inspect_types()`](#column-types) summary of column types
+  - [`inspect_mem()`](#memory-usage) summary of memory usage of columns
+  - [`inspect_na()`](#missing-values) columnwise prevalence of missing
+    values
+  - [`inspect_cor()`](#correlation) correlation coefficients of numeric
+    columns
+  - [`inspect_imb()`](#feature-imbalance) feature imbalance of
+    categorical columns
+  - [`inspect_num()`](#numeric-summaries) summaries of numeric columns
+  - [`inspect_cat()`](#categorical-levels) summaries of categorical
+    columns
 
 ## Installation
 
@@ -156,19 +162,19 @@ inspect_mem(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 13 x 5
     ##    col_name   size_1    size_2    pcnt_1 pcnt_2
     ##    <chr>      <chr>     <chr>      <dbl>  <dbl>
-    ##  1 films      11.8 Kb   11.29 Kb  36.1    39.7 
-    ##  2 starships  3.95 Kb   4.35 Kb   12.1    15.3 
-    ##  3 vehicles   3.64 Kb   3.65 Kb   11.1    12.8 
-    ##  4 name       3.55 Kb   <NA>      10.9    NA   
-    ##  5 homeworld  2.33 Kb   2.23 Kb    7.11    7.84
-    ##  6 skin_color 1.91 Kb   1.65 Kb    5.82    5.80
-    ##  7 species    1.77 Kb   1.71 Kb    5.42    6.02
-    ##  8 eye_color  1.05 Kb   1.12 Kb    3.20    3.93
-    ##  9 hair_color 960 bytes 968 bytes  2.86    3.33
-    ## 10 gender     680 bytes 616 bytes  2.03    2.12
-    ## 11 mass       448 bytes 448 bytes  1.34    1.54
-    ## 12 birth_year 448 bytes 448 bytes  1.34    1.54
-    ## 13 height     248 bytes <NA>       0.740  NA
+    ##  1 films      12.03 Kb  11.07 Kb  36.1    40.2 
+    ##  2 starships  4.23 Kb   3.73 Kb   12.7    13.6 
+    ##  3 name       3.55 Kb   <NA>      10.7    NA   
+    ##  4 vehicles   3.4 Kb    3.31 Kb   10.2    12.0 
+    ##  5 homeworld  2.41 Kb   2.27 Kb    7.24    8.23
+    ##  6 skin_color 1.95 Kb   1.96 Kb    5.83    7.12
+    ##  7 species    1.94 Kb   1.77 Kb    5.81    6.44
+    ##  8 eye_color  1.05 Kb   1.05 Kb    3.14    3.80
+    ##  9 hair_color 1.01 Kb   840 bytes  3.02    2.98
+    ## 10 gender     680 bytes 680 bytes  1.99    2.41
+    ## 11 mass       448 bytes 448 bytes  1.31    1.59
+    ## 12 birth_year 448 bytes 448 bytes  1.31    1.59
+    ## 13 height     248 bytes <NA>       0.726  NA
 
 #### Missing values
 
@@ -220,13 +226,13 @@ inspect_na(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 13 x 6
     ##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
     ##    <chr>      <int>  <dbl> <int>  <dbl>   <dbl>
-    ##  1 birth_year    23     46    24     48   1.000
-    ##  2 mass          15     30    15     30   1    
-    ##  3 homeworld      6     12     3      6   0.485
-    ##  4 height         4      8    NA     NA  NA    
-    ##  5 hair_color     3      6     2      4   1.000
-    ##  6 species        3      6     3      6   1    
-    ##  7 gender         2      4     2      4   1    
+    ##  1 birth_year    23     46    29     58   0.317
+    ##  2 mass          11     22    17     34   0.265
+    ##  3 homeworld      5     10     7     14   0.758
+    ##  4 hair_color     4      8     4      8   1    
+    ##  5 height         3      6    NA     NA  NA    
+    ##  6 gender         2      4     3      6   1.000
+    ##  7 species        1      2     3      6   0.610
     ##  8 name           0      0    NA     NA  NA    
     ##  9 skin_color     0      0     0      0  NA    
     ## 10 eye_color      0      0     0      0  NA    
@@ -298,9 +304,9 @@ inspect_cor(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 3 x 5
     ##   col_1      col_2  corr_1 corr_2   p_value
     ##   <chr>      <chr>   <dbl>  <dbl>     <dbl>
-    ## 1 birth_year mass   0.941   0.113  2.41e-15
-    ## 2 birth_year height 0.126  NA     NA       
-    ## 3 mass       height 0.0936 NA     NA
+    ## 1 birth_year mass    0.473  0.946  6.56e-10
+    ## 2 birth_year height -0.388 NA     NA       
+    ## 3 mass       height  0.128 NA     NA
 
 Notes:
 
@@ -356,15 +362,15 @@ inspect_imb(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
 
     ## # A tibble: 7 x 7
-    ##   col_name   value    pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
-    ##   <chr>      <chr>     <dbl> <int>  <dbl> <int>   <dbl>
-    ## 1 gender     male        66     12     68    13       1
-    ## 2 species    Human       44      1     44     1       1
-    ## 3 hair_color none        36      1     44     1       1
-    ## 4 skin_color fair        28.     1     22     1       1
-    ## 5 eye_color  blue        26      5     24     5       1
-    ## 6 homeworld  Tatooine    14.     2     NA    NA      NA
-    ## 7 name       Ackbar       2      1     NA    NA      NA
+    ##   col_name   value      pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
+    ##   <chr>      <chr>       <dbl> <int>  <dbl> <int>   <dbl>
+    ## 1 gender     male          72     10     66    11   1.000
+    ## 2 hair_color none          42      1     46     1   1    
+    ## 3 species    Human         42      1     38     1   1    
+    ## 4 eye_color  brown         28.     5     26     6   1.000
+    ## 5 skin_color fair          16      1     16     1   1    
+    ## 6 homeworld  Naboo         10      2     NA    NA  NA    
+    ## 7 name       Adi Gallia     2      1     NA    NA  NA
 
   - Smaller `p_value` indicates stronger evidence against the null
     hypothesis that the true frequency of the most common values is the
