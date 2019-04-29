@@ -4,7 +4,7 @@
 \alias{inspect_imb}
 \title{Summarise and compare columnwise imbalance for non-numeric columns in one or two dataframes.}
 \usage{
-inspect_imb(df1, df2 = NULL, show_plot = FALSE)
+inspect_imb(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -14,6 +14,8 @@ Defaults to \code{NULL}.}
 
 \item{show_plot}{Logical argument determining whether plot is returned
 in addition to tibble output.  Default is \code{FALSE}.}
+
+\item{alpha}{Alpha level for performing significance tests.  Defaults to 0.05.}
 }
 \value{
 A tibble summarising and comparing the imbalance for each non-numeric column 

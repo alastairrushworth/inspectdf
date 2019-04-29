@@ -162,19 +162,19 @@ inspect_mem(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 13 x 5
     ##    col_name   size_1    size_2    pcnt_1 pcnt_2
     ##    <chr>      <chr>     <chr>      <dbl>  <dbl>
-    ##  1 films      12.03 Kb  11.07 Kb  36.1    40.2 
-    ##  2 starships  4.23 Kb   3.73 Kb   12.7    13.6 
-    ##  3 name       3.55 Kb   <NA>      10.7    NA   
-    ##  4 vehicles   3.4 Kb    3.31 Kb   10.2    12.0 
-    ##  5 homeworld  2.41 Kb   2.27 Kb    7.24    8.23
-    ##  6 skin_color 1.95 Kb   1.96 Kb    5.83    7.12
-    ##  7 species    1.94 Kb   1.77 Kb    5.81    6.44
-    ##  8 eye_color  1.05 Kb   1.05 Kb    3.14    3.80
-    ##  9 hair_color 1.01 Kb   840 bytes  3.02    2.98
-    ## 10 gender     680 bytes 680 bytes  1.99    2.41
-    ## 11 mass       448 bytes 448 bytes  1.31    1.59
-    ## 12 birth_year 448 bytes 448 bytes  1.31    1.59
-    ## 13 height     248 bytes <NA>       0.726  NA
+    ##  1 films      10.59 Kb  10.99 Kb  34.4    40.1 
+    ##  2 starships  4.25 Kb   3.86 Kb   13.8    14.1 
+    ##  3 name       3.57 Kb   <NA>      11.6    NA   
+    ##  4 vehicles   3.32 Kb   3.27 Kb   10.8    11.9 
+    ##  5 homeworld  2.08 Kb   2.16 Kb    6.75    7.89
+    ##  6 species    1.59 Kb   1.72 Kb    5.18    6.27
+    ##  7 skin_color 1.56 Kb   1.72 Kb    5.08    6.27
+    ##  8 eye_color  1.1 Kb    1.11 Kb    3.58    4.04
+    ##  9 hair_color 1.05 Kb   1.06 Kb    3.43    3.87
+    ## 10 gender     560 bytes 680 bytes  1.78    2.42
+    ## 11 mass       448 bytes 448 bytes  1.42    1.59
+    ## 12 birth_year 448 bytes 448 bytes  1.42    1.59
+    ## 13 height     248 bytes <NA>       0.787  NA
 
 #### Missing values
 
@@ -226,13 +226,13 @@ inspect_na(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 13 x 6
     ##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
     ##    <chr>      <int>  <dbl> <int>  <dbl>   <dbl>
-    ##  1 birth_year    23     46    29     58   0.317
-    ##  2 mass          11     22    17     34   0.265
+    ##  1 birth_year    27     54    24     48   0.689
+    ##  2 mass          21     42    16     32   0.407
     ##  3 homeworld      5     10     7     14   0.758
-    ##  4 hair_color     4      8     4      8   1    
+    ##  4 species        4      8     2      4   0.674
     ##  5 height         3      6    NA     NA  NA    
-    ##  6 gender         2      4     3      6   1.000
-    ##  7 species        1      2     3      6   0.610
+    ##  6 hair_color     2      4     3      6   1.000
+    ##  7 gender         1      2     2      4   1    
     ##  8 name           0      0    NA     NA  NA    
     ##  9 skin_color     0      0     0      0  NA    
     ## 10 eye_color      0      0     0      0  NA    
@@ -302,11 +302,11 @@ inspect_cor(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
 
     ## # A tibble: 3 x 5
-    ##   col_1      col_2  corr_1 corr_2   p_value
-    ##   <chr>      <chr>   <dbl>  <dbl>     <dbl>
-    ## 1 birth_year mass    0.473  0.946  6.56e-10
-    ## 2 birth_year height -0.388 NA     NA       
-    ## 3 mass       height  0.128 NA     NA
+    ##   col_1      col_2  corr_1 corr_2 p_value
+    ##   <chr>      <chr>   <dbl>  <dbl>   <dbl>
+    ## 1 mass       height  0.779 NA     NA     
+    ## 2 birth_year height  0.289 NA     NA     
+    ## 3 birth_year mass    0.145  0.469  0.0783
 
 Notes:
 
@@ -362,15 +362,15 @@ inspect_imb(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
 
     ## # A tibble: 7 x 7
-    ##   col_name   value      pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
-    ##   <chr>      <chr>       <dbl> <int>  <dbl> <int>   <dbl>
-    ## 1 gender     male          72     10     66    11   1.000
-    ## 2 hair_color none          42      1     46     1   1    
-    ## 3 species    Human         42      1     38     1   1    
-    ## 4 eye_color  brown         28.     5     26     6   1.000
-    ## 5 skin_color fair          16      1     16     1   1    
-    ## 6 homeworld  Naboo         10      2     NA    NA  NA    
-    ## 7 name       Adi Gallia     2      1     NA    NA  NA
+    ##   col_name   value            pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
+    ##   <chr>      <chr>             <dbl> <int>  <dbl> <int>   <dbl>
+    ## 1 gender     male                76     11     64    13   0.815
+    ## 2 species    Human               50      1     42     1   1    
+    ## 3 hair_color none                34      1     40     1   1    
+    ## 4 eye_color  brown               28.     5     24     6   1.000
+    ## 5 skin_color fair                26      1     18     1   1    
+    ## 6 homeworld  Naboo               18      2     NA    NA  NA    
+    ## 7 name       Anakin Skywalker     2      1     NA    NA  NA
 
   - Smaller `p_value` indicates stronger evidence against the null
     hypothesis that the true frequency of the most common values is the

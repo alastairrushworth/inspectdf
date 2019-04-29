@@ -5,7 +5,7 @@
 ^README\.Rmd$
 ^depracated$
 ^example\.R$
-^reporter\.Rproj$
+^inspectdf\.Rproj$
 ^hex$
 ^\.travis\.yml$
 ^\.Rproj\.user$

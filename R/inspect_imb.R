@@ -5,6 +5,7 @@
 #' Defaults to \code{NULL}.  
 #' @param show_plot Logical argument determining whether plot is returned
 #' in addition to tibble output.  Default is \code{FALSE}.
+#' @param alpha Alpha level for performing significance tests.  Defaults to 0.05.
 #' @return  A tibble summarising and comparing the imbalance for each non-numeric column 
 #' in one or a pair of data frames.
 #' @details When a single data frame is specified, a tibble is returned which 
