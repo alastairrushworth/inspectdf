@@ -1,3 +1,5 @@
+#' @importFrom stats var
+
 # this function checks for 0 variance numeric features
 check_variance <- function(df_num){
   # get variances
