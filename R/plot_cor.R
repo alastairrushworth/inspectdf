@@ -1,6 +1,7 @@
 plot_cor_1 <- function(df_plot, absolute = F, df_names){
   # preprocess data a bit
   df_plot <- df_plot %>% 
+    filter(!is.na(corr)) %>%
     mutate(pair = factor(pair, levels = as.character(pair)),
            sign = as.factor(c("Negative", 
                               "Positive")[as.numeric(corr > 0) + 1]))
