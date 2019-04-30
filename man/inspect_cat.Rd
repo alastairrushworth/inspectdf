@@ -4,7 +4,7 @@
 \alias{inspect_cat}
 \title{Summarise and compare the levels within each categorical feature in one or two dataframes.}
 \usage{
-inspect_cat(df1, df2 = NULL, show_plot = FALSE)
+inspect_cat(df1, df2 = NULL, show_plot = FALSE, text_labels = TRUE)
 }
 \arguments{
 \item{df1}{A dataframe}
@@ -14,6 +14,9 @@ Defaults to \code{NULL}.}
 
 \item{show_plot}{Logical argument determining whether plot is returned
 in addition to tibble output.  Default is \code{FALSE}.}
+
+\item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
+Default is \code{TRUE}.}
 }
 \value{
 A tibble summarising and comparing the categorical features 

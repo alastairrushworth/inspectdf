@@ -6,6 +6,8 @@
 #' @param show_plot Logical determining whether to return a plot in addition to tibble.  
 #' Default is \code{FALSE}.
 #' @param alpha Alpha level for performing significance tests.  Defaults to 0.05.
+#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
+#' Default is \code{TRUE}.
 #' @return A tibble summarising the count and percentage of columnwise missingness 
 #' for one or a pair of data frames.
 #' @details When a single data frame is specified, the a tibble is returned which 
@@ -53,7 +55,8 @@
 #' @importFrom tibble tibble
 #' @export
 
-inspect_na <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05){
+inspect_na <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05, 
+                       text_labels = TRUE){
   # perform basic column check on dataframe input
   check_df_cols(df1)
   # capture the data frame names
@@ -68,7 +71,11 @@ inspect_na <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05){
     # if any missing values then print out
     if(nrow(out) > 0){
       # print plot if requested
-      if(show_plot) plot_na_1(out, df_names = df_names)
+      if(show_plot){
+        plot_na_1(out, 
+                  df_names = df_names, 
+                  text_labels = text_labels)
+      }
       # return summary tibble
       return(out)
     } else {
@@ -87,7 +94,12 @@ inspect_na <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05){
     colnames(na_tab)[c(3, 5)] <- paste0("pcnt_", 1:2)
     colnames(na_tab)[c(2, 4)] <- paste0("cnt_", 1:2)
     # print a plot if requested
-    if(show_plot) plot_na_2(na_tab, df_names = df_names, alpha = alpha)
+    if(show_plot){
+      plot_na_2(na_tab, 
+                df_names = df_names, 
+                alpha = alpha, 
+                text_labels = text_labels)
+    }
     # return dataframe
     return(na_tab)
   }

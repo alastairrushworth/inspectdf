@@ -5,6 +5,8 @@
 #' Defaults to \code{NULL}.
 #' @param show_plot Logical argument determining whether plot is returned
 #' in addition to tibble output.  Default is \code{FALSE}.
+#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
+#' Default is \code{TRUE}.
 #' @return A tibble summarising and comparing the categorical features 
 #' in one or a pair of data frames.
 #' @details When only \code{df1} is specified, a tibble is returned which 
@@ -56,7 +58,8 @@
 #' @importFrom dplyr ungroup
 #' @importFrom magrittr %>%
 
-inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE){
+inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE, 
+                        text_labels = TRUE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -97,9 +100,9 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE){
       # if plot is requested
       if(show_plot){
         # plot the categories using stacked bars
-        plt <- plot_cat(levels_df, df_names)
-        # return the plot
-        print(plt) 
+        plot_cat(levels_df, 
+                 df_names, 
+                 text_labels = text_labels)
       }
       # return df
       return(levels_df)
@@ -126,9 +129,9 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE){
     # if plot is requested
     if(show_plot){
       # plot the categories using stacked bars
-      plt <- plot_cat(levels_df, df_names)
-      # return the plot
-      print(plt)
+      plot_cat(levels_df, 
+               df_names, 
+               text_labels = text_labels)
     }
     # return the comparison table
     return(levels_df)

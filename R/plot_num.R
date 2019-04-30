@@ -1,4 +1,4 @@
-plot_num_1 <- function(df_plot, df_names, plot_layout){
+plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels){
   # set the plot_layout if not specified
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
   # get bin midpoints for plotting
@@ -31,7 +31,7 @@ plot_num_1 <- function(df_plot, df_names, plot_layout){
 
 
 
-plot_num_2 <- function(df_plot, df_names, plot_layout){
+plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels){
   # set the plot_layout if not specified
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
   # chop stuff off

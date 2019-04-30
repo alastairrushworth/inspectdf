@@ -10,6 +10,8 @@
 #' @param absolute Logical flag indicating whether to plot correlations on an absolute scale.  
 #' Note that this is just a display option and all tests and comparisons occur on the original 
 #' correlation scale regardless of this flag. 
+#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
+#' Default is \code{TRUE}.
 #' @return A tibble summarising and comparing the correlations for each numeric column 
 #' in one or a pair of data frames.
 #' @details When only \code{df1} is specified, a tibble is returned which 
@@ -71,7 +73,8 @@
 #' @importFrom tibble tibble
 
 inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05, 
-                       absolute = TRUE){
+                       absolute = TRUE, 
+                       text_labels = TRUE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -91,8 +94,12 @@ inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
       # return top strongest if requested
       out <- cor_df 
       # return plot if requested
-      if(show_plot) plot_cor_1(out, df_names = df_names,
-                               absolute = absolute)
+      if(show_plot){
+        plot_cor_1(out, 
+                   df_names = df_names,
+                   absolute = absolute, 
+                   text_labels = text_labels)
+      }
       # return dataframe of correlations
       return(out %>% select(-pair))
     } else {
@@ -116,8 +123,13 @@ inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
     cor_tab$p_value <- cor_test(cor_tab$corr_1, cor_tab$corr_2, 
                                 n_1 = nrow(df1), n_2 = nrow(df2))
     # generate plot if requested
-    if(show_plot) plot_cor_2(cor_tab, absolute = absolute, 
-                             alpha = alpha, df_names = df_names)
+    if(show_plot){
+      plot_cor_2(cor_tab, 
+                 absolute = absolute, 
+                 alpha = alpha, 
+                 df_names = df_names, 
+                 text_labels = text_labels)
+    }
     # return the df
     return(cor_tab)
   }

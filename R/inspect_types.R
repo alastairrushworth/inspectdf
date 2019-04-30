@@ -4,6 +4,8 @@
 #' @param df2 An optional second data frame for comparison.  
 #' @param show_plot Logical argument determining whether plot is generated 
 #' in addition to tibble output.  Default is \code{FALSE}.  
+#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
+#' Default is \code{TRUE}.
 #' @return A tibble summarising the count and percentage of different 
 #' column types for one or a pair of data frames.
 #' @details When \code{df2 = NULL}, a tibble is returned with the columns
@@ -52,7 +54,8 @@
 #' @importFrom tidyr replace_na
 #' @useDynLib inspectdf
 
-inspect_types <- function(df1, df2 = NULL, show_plot = FALSE){
+inspect_types <- function(df1, df2 = NULL, show_plot = FALSE, 
+                          text_labels = TRUE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -83,7 +86,11 @@ inspect_types <- function(df1, df2 = NULL, show_plot = FALSE){
       filter(pcnt > 0) 
     
     # if plot requested then show barplot
-    if(show_plot) plot_types_1(out, df_names = df_names)
+    if(show_plot){
+      plot_types_1(out, 
+                   df_names = df_names, 
+                   text_labels = text_labels)
+    }
     # return dataframe
     return(out)
   } else {
@@ -94,7 +101,11 @@ inspect_types <- function(df1, df2 = NULL, show_plot = FALSE){
     out <- full_join(s1, s2, by = "type") %>% 
       replace(is.na(.), 0)
     # show plot if requested
-    if(show_plot) plot_types_2(out, df_names = df_names)
+    if(show_plot){
+      plot_types_2(out, 
+                   df_names = df_names, 
+                   text_labels = text_labels)
+    }
     # return dataframe
     return(out)
   }

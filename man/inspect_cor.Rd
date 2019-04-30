@@ -5,7 +5,7 @@
 \title{Summarise and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.}
 \usage{
 inspect_cor(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
-  absolute = TRUE)
+  absolute = TRUE, text_labels = TRUE)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -22,6 +22,9 @@ Defaults to 0.05.}
 \item{absolute}{Logical flag indicating whether to plot correlations on an absolute scale.
 Note that this is just a display option and all tests and comparisons occur on the original 
 correlation scale regardless of this flag.}
+
+\item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
+Default is \code{TRUE}.}
 }
 \value{
 A tibble summarising and comparing the correlations for each numeric column 

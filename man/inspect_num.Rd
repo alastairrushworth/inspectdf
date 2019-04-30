@@ -5,7 +5,7 @@
 \title{Summarise and compare the numeric variables within one or two dataframes}
 \usage{
 inspect_num(df1, df2 = NULL, show_plot = F, breaks = 20,
-  plot_layout = NULL, breakseq = NULL)
+  plot_layout = NULL, breakseq = NULL, text_labels = TRUE)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -26,6 +26,9 @@ in the plotting grid.  For example, 3 rows and 2 columns would be specified as
 
 \item{breakseq}{For internal use only.  Argument that accepts a pre-specified set of 
 break points, default is \code{NULL}.}
+
+\item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
+Default is \code{TRUE}.}
 }
 \value{
 A \code{tibble} containing statistical summaries of the numeric 

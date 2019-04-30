@@ -1,4 +1,4 @@
-plot_cor_1 <- function(df_plot, absolute = F, df_names){
+plot_cor_1 <- function(df_plot, absolute = F, df_names, text_labels){
   # preprocess data a bit
   df_plot <- df_plot %>% 
     filter(!is.na(corr)) %>%
@@ -38,7 +38,7 @@ plot_cor_1 <- function(df_plot, absolute = F, df_names){
 }
 
 
-plot_cor_2 <- function(df_plot, absolute = F, alpha, df_names){
+plot_cor_2 <- function(df_plot, absolute = F, alpha, df_names, text_labels){
   df_plot <- df_plot %>%
     mutate(pair = paste(col_1, col_2, sep = " & ")) %>%
     mutate(pair = factor(pair, levels = as.character(pair))) %>%

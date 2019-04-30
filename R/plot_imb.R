@@ -1,4 +1,4 @@
-plot_imb_1 <- function(df_plot, df_names){
+plot_imb_1 <- function(df_plot, df_names, text_labels){
   # convert col_name to factor
   df_plot <- df_plot %>% 
     mutate(col_name = factor(col_name, levels = as.character(col_name))) %>%
@@ -11,16 +11,18 @@ plot_imb_1 <- function(df_plot, df_names){
                   label = "label", ttl = ttl,
                   ylb = "% of values", rotate = TRUE)
   # add text annotation to plot
-  plt <- add_annotation_to_bars(x = df_plot$col_name, 
-                                y = df_plot$pcnt, 
-                                z = df_plot$value, 
-                                plt = plt, 
-                                thresh = 0.5)
+  if(text_labels){
+    plt <- add_annotation_to_bars(x = df_plot$col_name, 
+                                  y = df_plot$pcnt, 
+                                  z = df_plot$value, 
+                                  plt = plt, 
+                                  thresh = 0.5)
+  }
   # return plot
   print(plt)
 }
 
-plot_imb_2 <- function(df_plot, df_names, alpha){
+plot_imb_2 <- function(df_plot, df_names, alpha, text_labels){
   
   # combine col_name and value
   df_plot <- df_plot %>% 

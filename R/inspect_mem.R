@@ -7,6 +7,8 @@
 #' in addition to tibble output.  Default is \code{FALSE}.  
 #' @return A tibble summarising and comparing the columnwise memory usage 
 #' for one or a pair of data frames.
+#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
+#' Default is \code{TRUE}.
 #' @details When a single data frame is specified, a tibble is returned which 
 #' contains columnwise memory usage in descending order of size:
 #' \itemize{
@@ -55,7 +57,8 @@
 #' @importFrom tibble tibble
 #' @export
 
-inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE){
+inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE, 
+                        text_labels = TRUE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -88,7 +91,12 @@ inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE){
       rename(col_name = names, size = n.y) %>% 
       select(-n.x)
     # return plot if requested
-    if(show_plot) plot_mem_1(out, df_names = df_names, sizes = sizes)
+    if(show_plot){
+      plot_mem_1(out, 
+                 df_names = df_names, 
+                 sizes = sizes, 
+                 text_labels = text_labels)
+    }
     # return tibble
     return(out)
   } else {
@@ -100,7 +108,12 @@ inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE){
     colnames(sjoin)[2:3] <- paste0("size_",  1:2)
     colnames(sjoin)[4:5] <- paste0("pcnt_",  1:2)
     # if plot is requested
-    if(show_plot) plot_mem_2(sjoin, df_names = df_names, sizes = sizes)
+    if(show_plot){
+      plot_mem_2(sjoin, 
+                 df_names = df_names, 
+                 sizes = sizes, 
+                 text_labels = text_labels)
+    }
     # return dataframe
     return(sjoin)
   }
