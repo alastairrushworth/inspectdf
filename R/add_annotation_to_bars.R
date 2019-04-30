@@ -9,28 +9,35 @@
 #' @importFrom ggplot2 theme
 
 # annotate a bar plot
-add_annotation_to_bars <- function(x, y, z, plt, thresh = 0.05, 
-                                   nudge = 1, angle = 90, 
+add_annotation_to_bars <- function(x, y, z, dodged = 0, plt, thresh = 0.05, 
+                                   nudge = 1, 
+                                   angle = 90, 
                                    hjust = c("left", "right"), 
                                    size = 4, inherit.aes = FALSE, 
-                                   position = "identity"){
+                                   position = "identity", 
+                                   fill = NA){
   # two different label series
   z_white <- z_grey <- z
-  z_white[y < (thresh * max(y))] <- NA
-  z_grey[y >= (thresh * max(y))] <- NA
+  z_white[y < (thresh * max(y, na.rm = T))] <- NA
+  z_grey[y >= (thresh * max(y, na.rm = T))] <- NA
+  # manual text nudge 
+  nudge <- abs(diff(range(y, na.rm = T))) / 80
   # add a white series to the bigger bars
-  plt <- plt + geom_text(aes(x = x, y = y, label = z_white),
-                         nudge_y = -nudge, color = "white",
+  plt <- plt + geom_text(aes(x = x, y = y - nudge, label = z_white, group = fill),
+                         #nudge_y = -nudge, 
+                         color = "white",
                          angle = angle, 
                          hjust = hjust[2], inherit.aes = inherit.aes, 
-                         na.rm = TRUE, size = size)
+                         na.rm = TRUE, size = size, 
+                         position = position_dodge(width = dodged))
   # add a grey series to the smaller bars
-  plt <- plt + geom_text(aes(x = x, y = y, label = z_grey),
-                         nudge_y = nudge, 
+  plt <- plt + geom_text(aes(x = x, y = y + nudge, label = z_grey, group = fill),
+                         #nudge_y = nudge, 
                          color = "lightsteelblue4", 
                          angle = angle, 
                          hjust = hjust[1], inherit.aes = inherit.aes, 
-                         na.rm = TRUE, size = size)
+                         na.rm = TRUE, size = size, 
+                         position = position_dodge(width = dodged))
   # return the plot
   return(plt)
 }
