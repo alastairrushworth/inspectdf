@@ -19,10 +19,12 @@ plot_types_1 <- function(df_plot, df_names){
                                 " columns."), 
                   ylb = "Number of columns", lgnd = "Column types")
   # add text annotation to plot
+  # add anotations
   plt <- add_annotation_to_bars(x = df_plot$type, 
                                 y = df_plot$cnt, 
-                                z = df_plot$cnt,
-                                plt = plt, thresh = 0.1, nudge = 0.3)
+                                z = df_plot$cnt, 
+                                plt = plt, thresh = 0.1)
+
   # print plot
   print(plt)
 }
@@ -58,25 +60,19 @@ plot_types_2 <- function(df_plot, df_names){
              aes(x = type, y = cnt, 
                  fill = as.factor(df_input), 
                  group = as.factor(df_input)), 
-             na.rm = TRUE) + 
-    # add the black labels to small bars
-    geom_text(
-      aes(x = type, y = cnt, label = black_labs, 
-          group = as.factor(df_input)),
-      position = position_dodge(width = 1),
-      vjust = -0.5, size = 3, col = "gray50", 
-      na.rm = TRUE) + 
-    # add the white labels to big bars
-    geom_text(
-      aes(x = type, y = cnt, label = white_labs, 
-          group = as.factor(df_input)),
-      position = position_dodge(width = 1),
-      vjust = 2, size = 3, col = "white", 
-      na.rm = TRUE) + 
+             na.rm = TRUE)
+  
+  # add anotations
+  plt <- add_annotation_to_bars(x = z_tall$type, 
+                                y = z_tall$cnt, 
+                                z = z_tall$cnt, 
+                                plt = plt, thresh = 0.1, 
+                                dodged = 1, fill = as.factor(z_tall$df_input))
+  
     # labels the axes, add title and subtitle
-    labs(x = "", y = "Number of columns", 
-         title = ttl_plt, 
-         subtitle = sttl) + 
+  plt <- plt + labs(x = "", y = "Number of columns", 
+                    title = ttl_plt, 
+                    subtitle = sttl) + 
     # label the legend 
     scale_fill_discrete(name = "Data frame")
   
