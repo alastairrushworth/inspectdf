@@ -1,6 +1,6 @@
 #' @importFrom ggplot2 scale_color_discrete
 
-plot_na_1 <- function(df_plot, df_names){
+plot_na_1 <- function(df_plot, df_names, text_labels){
   # convert col_name to factor
   df_plot <- df_plot %>% 
     mutate(col_name = factor(col_name, levels = as.character(col_name)))
@@ -12,13 +12,15 @@ plot_na_1 <- function(df_plot, df_names){
                                 " columns, of which ", sum(df_plot$cnt > 0), 
                                 " have missing values"),
                   ylb = "% of column that is NA", rotate = TRUE)
-  # add text annotation to plot
-  plt <- add_annotation_to_bars(x = df_plot$col_name, y = df_plot$pcnt, 
-                                z = df_plot$cnt, plt = plt)
+  # add text annotation to plot if requested
+  if(text_labels){
+    plt <- add_annotation_to_bars(x = df_plot$col_name, y = df_plot$pcnt, 
+                                  z = df_plot$cnt, plt = plt)
+  }
   print(plt)
 }
 
-plot_na_2 <- function(df_plot, df_names, alpha){
+plot_na_2 <- function(df_plot, df_names, alpha, text_labels){
   leg_text <- as.character(unlist(df_names))
   na_tab  <- df_plot
   df_plot <- df_plot %>% 

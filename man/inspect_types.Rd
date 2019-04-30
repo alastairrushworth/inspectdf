@@ -4,7 +4,7 @@
 \alias{inspect_types}
 \title{Summarise and compare column types in one or two dataframes.}
 \usage{
-inspect_types(df1, df2 = NULL, show_plot = FALSE)
+inspect_types(df1, df2 = NULL, show_plot = FALSE, text_labels = TRUE)
 }
 \arguments{
 \item{df1}{A data frame.}
@@ -13,6 +13,9 @@ inspect_types(df1, df2 = NULL, show_plot = FALSE)
 
 \item{show_plot}{Logical argument determining whether plot is generated 
 in addition to tibble output.  Default is \code{FALSE}.}
+
+\item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
+Default is \code{TRUE}.}
 }
 \value{
 A tibble summarising the count and percentage of different 

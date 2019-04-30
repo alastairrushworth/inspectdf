@@ -1,5 +1,5 @@
 
-plot_mem_1 <- function(df_plot, df_names, sizes){
+plot_mem_1 <- function(df_plot, df_names, sizes, text_labels){
   # convert column names to factor
   df_plot <- df_plot %>% 
     mutate(col_name = factor(col_name, levels = as.character(col_name)))
@@ -11,17 +11,19 @@ plot_mem_1 <- function(df_plot, df_names, sizes){
                                 " columns, ", sizes$nrw_1, 
                                 " rows & total size of ", sizes$sz_1), 
                   ylb = "% of total size", rotate = TRUE)
-  # add text annotation to plot
-  plt <- add_annotation_to_bars(x = df_plot$col_name, 
-                                y = df_plot$pcnt, 
-                                z = df_plot$size, 
-                                plt = plt, thresh = 0.2)
+  # add text annotation to plot  
+  if(text_labels){
+    plt <- add_annotation_to_bars(x = df_plot$col_name, 
+                                  y = df_plot$pcnt, 
+                                  z = df_plot$size, 
+                                  plt = plt, thresh = 0.2)
+  }
   # print plot
   print(plt)
 }
 
 
-plot_mem_2 <- function(df_plot, df_names, sizes){
+plot_mem_2 <- function(df_plot, df_names, sizes, text_labels){
 
   leg_text <- as.character(unlist(df_names))
   # gather percents
@@ -57,11 +59,13 @@ plot_mem_2 <- function(df_plot, df_names, sizes){
          subtitle = paste0(sttl_plt1, "\n", sttl_plt2)) + 
     scale_fill_discrete(name = "Data frame", labels = leg_text) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  plt <- add_annotation_to_bars(x = z_tall$col_name, 
-                                y = z_tall$pcnt, 
-                                z = z_tall$size, 
-                                plt = plt, thresh = 0.2, 
-                                dodged = 1, fill = z_tall$df_input)
+  if(text_labels){
+    plt <- add_annotation_to_bars(x = z_tall$col_name, 
+                                  y = z_tall$pcnt, 
+                                  z = z_tall$size, 
+                                  plt = plt, thresh = 0.2, 
+                                  dodged = 1, fill = z_tall$df_input)
+  }
   
   print(plt)
 }

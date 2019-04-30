@@ -6,6 +6,8 @@
 #' @param show_plot Logical argument determining whether plot is returned
 #' in addition to tibble output.  Default is \code{FALSE}.
 #' @param alpha Alpha level for performing significance tests.  Defaults to 0.05.
+#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
+#' Default is \code{TRUE}.
 #' @return  A tibble summarising and comparing the imbalance for each non-numeric column 
 #' in one or a pair of data frames.
 #' @details When a single data frame is specified, a tibble is returned which 
@@ -55,7 +57,8 @@
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
 
-inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05){
+inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05, 
+                        text_labels = TRUE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -79,7 +82,11 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05){
         arrange(desc(prop)) %>% 
         select(col_name, value, pcnt = prop, cnt)
       # print plot if requested
-      if(show_plot) plot_imb_1(out, df_names = df_names)
+      if(show_plot){
+        plot_imb_1(out, 
+                   df_names = df_names, 
+                   text_labels = text_labels)
+      }
       # return dataframe of values
       return(out)
     } else {
@@ -100,7 +107,12 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05){
     out <- left_join(s1, s2, by = c("col_name", "value")) %>%
       mutate(p_value = prop_test_imb(., n_1 = nrow(df1), n_2 = nrow(df2)))
     # print plot if requested
-    if(show_plot) plot_imb_2(out, df_names = df_names, alpha = alpha)
+    if(show_plot){
+      plot_imb_2(out, 
+                 df_names = df_names, 
+                 alpha = alpha, 
+                 text_labels = text_labels)
+    }
     # return combined data frame
     return(out)
   }

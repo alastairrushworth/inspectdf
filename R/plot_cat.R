@@ -4,7 +4,7 @@
 #' @importFrom ggplot2 scale_fill_manual
 #' @importFrom grDevices colorRampPalette
 #' @importFrom ggplot2 scale_x_discrete
-plot_cat <- function(levels_df, df_names){
+plot_cat <- function(levels_df, df_names, text_labels){
   # plotting pallete
   b <- colorRampPalette(c("tomato3", "white"))
   zcols <- b(1001)
@@ -76,18 +76,20 @@ plot_cat <- function(levels_df, df_names){
   # add title
   plt <- plt + labs(title = ttl)
   
-  # label bars with category name if bar is long enough
-  annts <- lvl_df2 %>% 
-    mutate(col_num = as.integer(col_name))
-  annts$value[annts$prop < 0.15] <- NA
-  col_vec <- ifelse((annts$colvalstretch > 0.7), 2, 1)
-  # if bars are dark, label white, otherwise gray
-  plt <- plt + geom_text(aes(x = annts$col_num, 
-                             y = annts$colval - (annts$prop/2), 
-                             label = annts$value), 
-                         color = c("white", "gray55")[col_vec], 
-                         inherit.aes = FALSE, na.rm = T, hjust = 0.5)
-  return(plt)
+  if(text_labels){
+    # label bars with category name if bar is long enough
+    annts <- lvl_df2 %>% 
+      mutate(col_num = as.integer(col_name))
+    annts$value[annts$prop < 0.15] <- NA
+    col_vec <- ifelse((annts$colvalstretch > 0.7), 2, 1)
+    # if bars are dark, label white, otherwise gray
+    plt <- plt + geom_text(aes(x = annts$col_num, 
+                               y = annts$colval - (annts$prop/2), 
+                               label = annts$value), 
+                           color = c("white", "gray55")[col_vec], 
+                           inherit.aes = FALSE, na.rm = T, hjust = 0.5)
+  }
+  print(plt)
 }
 
 

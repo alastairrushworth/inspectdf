@@ -13,6 +13,8 @@
 #' \code{plot_layout = c(3, 2)}.
 #' @param breakseq For internal use only.  Argument that accepts a pre-specified set of 
 #' break points, default is \code{NULL}.
+#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
+#' Default is \code{TRUE}.
 #' @return A \code{tibble} containing statistical summaries of the numeric 
 #' columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
 #' @details 
@@ -82,7 +84,8 @@
 #' @importFrom utils tail
 
 inspect_num <- function(df1, df2 = NULL, show_plot = F, 
-                       breaks = 20, plot_layout = NULL, breakseq = NULL){
+                       breaks = 20, plot_layout = NULL, breakseq = NULL, 
+                       text_labels = TRUE){
 
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -132,7 +135,8 @@ inspect_num <- function(df1, df2 = NULL, show_plot = F,
       if(show_plot){
         plot_num_1(out, 
                    df_names = df_names, 
-                   plot_layout = plot_layout)
+                   plot_layout = plot_layout, 
+                   text_labels = text_labels)
       }
       # return df
       return(out)

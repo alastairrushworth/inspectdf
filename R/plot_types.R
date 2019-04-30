@@ -7,7 +7,7 @@
 #' @importFrom ggplot2 scale_fill_discrete
 #' @importFrom ggplot2 theme
 
-plot_types_1 <- function(df_plot, df_names){
+plot_types_1 <- function(df_plot, df_names, text_labels){
   # convert column names to factor
   df_plot <- df_plot %>% 
     mutate(type = factor(type, levels = as.character(type)))
@@ -18,18 +18,19 @@ plot_types_1 <- function(df_plot, df_names){
                   sttl = paste0("df::", df_names$df1,  " has ", sum(df_plot$cnt), 
                                 " columns."), 
                   ylb = "Number of columns", lgnd = "Column types")
-  # add text annotation to plot
-  # add anotations
-  plt <- add_annotation_to_bars(x = df_plot$type, 
-                                y = df_plot$cnt, 
-                                z = df_plot$cnt, 
-                                plt = plt, thresh = 0.1)
+  # add text annotation to plot if requested
+  if(text_labels){
+    plt <- add_annotation_to_bars(x = df_plot$type, 
+                                  y = df_plot$cnt, 
+                                  z = df_plot$cnt, 
+                                  plt = plt, thresh = 0.1)
+  }
 
   # print plot
   print(plt)
 }
 
-plot_types_2 <- function(df_plot, df_names){
+plot_types_2 <- function(df_plot, df_names, text_labels){
   # convert to a taller df for plotting
   d1 <- df_plot %>% select(1, 2:3) %>% mutate(df_input = df_names$df1)
   d2 <- df_plot %>% select(1, 4:5) %>% mutate(df_input = df_names$df2)
@@ -62,14 +63,16 @@ plot_types_2 <- function(df_plot, df_names){
                  group = as.factor(df_input)), 
              na.rm = TRUE)
   
-  # add anotations
-  plt <- add_annotation_to_bars(x = z_tall$type, 
-                                y = z_tall$cnt, 
-                                z = z_tall$cnt, 
-                                plt = plt, thresh = 0.1, 
-                                dodged = 1, fill = as.factor(z_tall$df_input))
+  # add anotations if requested
+  if(text_labels){
+    plt <- add_annotation_to_bars(x = z_tall$type, 
+                                  y = z_tall$cnt, 
+                                  z = z_tall$cnt, 
+                                  plt = plt, thresh = 0.1, 
+                                  dodged = 1, fill = as.factor(z_tall$df_input))
+  }
   
-    # labels the axes, add title and subtitle
+  # labels the axes, add title and subtitle
   plt <- plt + labs(x = "", y = "Number of columns", 
                     title = ttl_plt, 
                     subtitle = sttl) + 
