@@ -5,7 +5,8 @@
 \title{Summarise and compare the numeric variables within one or two dataframes}
 \usage{
 inspect_num(df1, df2 = NULL, show_plot = F, breaks = 20,
-  plot_layout = NULL, breakseq = NULL, text_labels = TRUE)
+  plot_layout = NULL, breakseq = NULL, text_labels = TRUE,
+  alpha = 0.05)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -29,6 +30,10 @@ break points, default is \code{NULL}.}
 
 \item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
 Default is \code{TRUE}.}
+
+\item{alpha}{Alpha level for displaying whether test of difference between the data
+frames reaches a particular threshold.  Only applies when (when \code{show_plot = T}).  
+Defaults to 0.05.}
 }
 \value{
 A \code{tibble} containing statistical summaries of the numeric 

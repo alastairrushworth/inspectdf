@@ -165,7 +165,7 @@ Notes
 + `inspect_cor` drops missing values prior to calculation of each correlation coefficient.  
 + The `p_value` is associated with the null hypothesis $H_0: \rho = 0$.
 
-##### `inspect_cor()` for for two dataframes
+##### `inspect_cor()` for two dataframes
 
 When a second dataframe is provided, `inspect_cor()` returns a tibble that compares correlation coefficients of the first dataframe to those in the second.  The `p_value` column contains a measure of evidence for whether the two correlation coefficients are equal or not.  
 
@@ -206,6 +206,8 @@ inspect_imb(star_1, star_2, show_plot = TRUE)
 
 #### Numeric summaries
 
+##### `inspect_num()` for a single dataframe
+
 `inspect_num()` combining some of the functionality of `summary()` and `hist()` by returning summaries of numeric columns.  `inspect_num()` returns standard numerical summaries (`min`, `q1`,  `mean`, `median`,`q3`, `max`, `sd`), but also the percentage of missing entries (`pcnt_na`) and a simple histogram (`hist`).  If `show_plot = TRUE` a histogram is generated for each numeric feature.
 
 ```{r}
@@ -218,8 +220,17 @@ The `hist` column is a list whose elements are tibbles each containing the relat
 inspect_num(starwars)$hist$birth_year
 ```
 
+##### `inspect_num()` for two dataframes
+
+```{r}
+inspect_num(star_1, star_2, show_plot = TRUE)
+```
+
+
 
 #### Categorical levels
+
+##### `inspect_cat()` for a single dataframe
 
 `inspect_cat()` returns a tibble summarising categorical features in a data frame, combining the functionality of the `inspect_imb()` and `table()` functions. If `show_plot = TRUE` a barplot is generated showing the relative split.  The tibble generated contains the columns  
 
@@ -242,8 +253,11 @@ inspect_cat(starwars)$levels$hair_color
 Note that by default, if `NA` values are present, they are counted as a distinct categorical level.
 
 
+##### `inspect_cat()` for two dataframes
 
-
+```{r}
+inspect_cat(star_1, star_2, show_plot = TRUE)
+```
 
 
 

@@ -162,19 +162,19 @@ inspect_mem(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 13 x 5
     ##    col_name   size_1    size_2    pcnt_1 pcnt_2
     ##    <chr>      <chr>     <chr>      <dbl>  <dbl>
-    ##  1 films      11.59 Kb  11.71 Kb  35.1    41.0 
-    ##  2 starships  4.01 Kb   3.98 Kb   12.1    13.9 
-    ##  3 name       3.55 Kb   <NA>      10.8    NA   
-    ##  4 vehicles   3.47 Kb   3.31 Kb   10.5    11.6 
-    ##  5 homeworld  2.5 Kb    2.31 Kb    7.57    8.10
-    ##  6 species    2.24 Kb   1.8 Kb     6.78    6.32
-    ##  7 skin_color 2.02 Kb   1.8 Kb     6.10    6.29
-    ##  8 eye_color  1.11 Kb   1.16 Kb    3.36    4.08
-    ##  9 hair_color 848 bytes 1 Kb       2.51    3.50
-    ## 10 gender     624 bytes 616 bytes  1.84    2.11
-    ## 11 mass       448 bytes 448 bytes  1.32    1.53
-    ## 12 birth_year 448 bytes 448 bytes  1.32    1.53
-    ## 13 height     248 bytes <NA>       0.733  NA
+    ##  1 films      11.95 Kb  11.07 Kb  36.6    39.4 
+    ##  2 starships  4.55 Kb   4.55 Kb   13.9    16.2 
+    ##  3 name       3.55 Kb   <NA>      10.9    NA   
+    ##  4 vehicles   3.15 Kb   3.23 Kb    9.64   11.5 
+    ##  5 homeworld  2.25 Kb   2.31 Kb    6.89    8.24
+    ##  6 species    1.88 Kb   1.78 Kb    5.76    6.35
+    ##  7 skin_color 1.74 Kb   1.57 Kb    5.33    5.60
+    ##  8 eye_color  1.11 Kb   1.05 Kb    3.40    3.76
+    ##  9 hair_color 848 bytes 1.01 Kb    2.53    3.59
+    ## 10 gender     560 bytes 616 bytes  1.67    2.14
+    ## 11 mass       448 bytes 448 bytes  1.34    1.56
+    ## 12 birth_year 448 bytes 448 bytes  1.34    1.56
+    ## 13 height     248 bytes <NA>       0.741  NA
 
 #### Missing values
 
@@ -226,14 +226,14 @@ inspect_na(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 13 x 6
     ##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
     ##    <chr>      <int>  <dbl> <int>  <dbl>   <dbl>
-    ##  1 birth_year    27     54    27     54   1    
-    ##  2 mass          12     24    17     34   0.378
-    ##  3 hair_color     4      8     2      4   0.674
-    ##  4 gender         2      4     2      4   1    
-    ##  5 homeworld      2      4     4      8   0.674
-    ##  6 species        1      2     3      6   0.610
-    ##  7 name           0      0    NA     NA  NA    
-    ##  8 height         0      0    NA     NA  NA    
+    ##  1 birth_year    27     54    25     50   0.841
+    ##  2 mass          12     24    15     30   0.652
+    ##  3 homeworld      6     12     7     14   1    
+    ##  4 height         3      6    NA     NA  NA    
+    ##  5 hair_color     3      6     2      4   1.000
+    ##  6 gender         3      6     1      2   0.610
+    ##  7 species        3      6     4      8   1.000
+    ##  8 name           0      0    NA     NA  NA    
     ##  9 skin_color     0      0     0      0  NA    
     ## 10 eye_color      0      0     0      0  NA    
     ## 11 films          0      0     0      0  NA    
@@ -288,7 +288,7 @@ Notes
   - The `p_value` is associated with the null hypothesis
     \(H_0: \rho = 0\).
 
-##### `inspect_cor()` for for two dataframes
+##### `inspect_cor()` for two dataframes
 
 When a second dataframe is provided, `inspect_cor()` returns a tibble
 that compares correlation coefficients of the first dataframe to those
@@ -302,11 +302,11 @@ inspect_cor(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
 
     ## # A tibble: 3 x 5
-    ##   col_1      col_2  corr_1 corr_2  p_value
-    ##   <chr>      <chr>   <dbl>  <dbl>    <dbl>
-    ## 1 birth_year mass   0.952   0.565  3.77e-9
-    ## 2 birth_year height 0.161  NA     NA      
-    ## 3 mass       height 0.0816 NA     NA
+    ##   col_1      col_2  corr_1  corr_2 p_value
+    ##   <chr>      <chr>   <dbl>   <dbl>   <dbl>
+    ## 1 mass       height  0.834  NA      NA    
+    ## 2 birth_year height -0.582  NA      NA    
+    ## 3 birth_year mass   -0.438  -0.443   0.978
 
 Notes:
 
@@ -362,15 +362,15 @@ inspect_imb(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
 
     ## # A tibble: 7 x 7
-    ##   col_name   value    pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
-    ##   <chr>      <chr>     <dbl> <int>  <dbl> <int>   <dbl>
-    ## 1 gender     male        72     11     72    11   1    
-    ## 2 hair_color none        52      1     42     1   1    
-    ## 3 species    Human       30      1     42     1   1    
-    ## 4 eye_color  blue        24      8     24     5   0.552
-    ## 5 homeworld  Tatooine    14.     2     NA    NA  NA    
-    ## 6 skin_color fair        14.     1     26     2   1    
-    ## 7 name       Ackbar       2      1     NA    NA  NA
+    ##   col_name   value      pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
+    ##   <chr>      <chr>       <dbl> <int>  <dbl> <int>   <dbl>
+    ## 1 gender     male           76     9     78     9       1
+    ## 2 hair_color none           50     1     40     1       1
+    ## 3 species    Human          38     1     44     1       1
+    ## 4 eye_color  brown          24     6     32     6       1
+    ## 5 homeworld  Naboo          16     1     NA    NA      NA
+    ## 6 skin_color fair           16     1     24     1       1
+    ## 7 name       Adi Gallia      2     1     NA    NA      NA
 
   - Smaller `p_value` indicates stronger evidence against the null
     hypothesis that the true frequency of the most common values is the
@@ -383,6 +383,8 @@ inspect_imb(star_1, star_2, show_plot = TRUE)
     to `inspect_imb()`. The default is `alpha = 0.05`.
 
 #### Numeric summaries
+
+##### `inspect_num()` for a single dataframe
 
 `inspect_num()` combining some of the functionality of `summary()` and
 `hist()` by returning summaries of numeric columns. `inspect_num()`
@@ -437,7 +439,24 @@ inspect_num(starwars)$hist$birth_year
     ## 19 [850, 900) 0.0233
     ## 20 [900, Inf) 0
 
+##### `inspect_num()` for two dataframes
+
+``` r
+inspect_num(star_1, star_2, show_plot = TRUE)
+```
+
+![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
+
+    ## # A tibble: 3 x 5
+    ##   col_name   hist_1            hist_2                 psi fisher_p
+    ##   <chr>      <list>            <list>               <dbl>    <dbl>
+    ## 1 birth_year <tibble [20 × 2]> <tibble [20 × 2]>  0.00384    0.724
+    ## 2 height     <tibble [23 × 2]> <NULL>            NA         NA    
+    ## 3 mass       <tibble [27 × 2]> <tibble [27 × 2]>  0.0778     0.995
+
 #### Categorical levels
+
+##### `inspect_cat()` for a single dataframe
 
 `inspect_cat()` returns a tibble summarising categorical features in a
 data frame, combining the functionality of the `inspect_imb()` and
@@ -457,7 +476,7 @@ showing the relative split. The tibble generated contains the columns
 inspect_cat(starwars, show_plot = T)
 ```
 
-![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-19-1.png)<!-- -->
 
     ## # A tibble: 7 x 5
     ##   col_name     cnt common common_pcnt levels           
@@ -495,3 +514,22 @@ inspect_cat(starwars)$levels$hair_color
 
 Note that by default, if `NA` values are present, they are counted as a
 distinct categorical level.
+
+##### `inspect_cat()` for two dataframes
+
+``` r
+inspect_cat(star_1, star_2, show_plot = TRUE)
+```
+
+![](man/figures/README-unnamed-chunk-21-1.png)<!-- -->
+
+    ## # A tibble: 7 x 5
+    ##   col_name       psi fisher_p lvls_1            lvls_2           
+    ##   <chr>        <dbl>    <dbl> <list>            <list>           
+    ## 1 eye_color   0.194     0.904 <tibble [12 × 2]> <tibble [11 × 2]>
+    ## 2 gender      0.0445    0.782 <tibble [3 × 2]>  <tibble [4 × 2]> 
+    ## 3 hair_color  0.0642    0.954 <tibble [8 × 2]>  <tibble [11 × 2]>
+    ## 4 homeworld   0.0528    1     <tibble [32 × 2]> <tibble [33 × 2]>
+    ## 5 name       NA        NA     <tibble [50 × 2]> <NULL>           
+    ## 6 skin_color  0.118     0.995 <tibble [22 × 2]> <tibble [19 × 2]>
+    ## 7 species     0.0365    1.000 <tibble [26 × 2]> <tibble [24 × 2]>
