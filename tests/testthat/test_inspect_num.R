@@ -45,3 +45,11 @@ test_that("Output with two different inputs data frame", {
   expect_is(inspect_num(storms, storms %>% dplyr::sample_n(100, replace = T)), "data.frame")
   expect_is(inspect_num(airquality, airquality%>% dplyr::sample_n(100, replace = T)), "data.frame")
 })
+
+test_that("Output where columns are missing from either df", {
+  set.seed(10)
+  star_1 <- starwars %>% dplyr::sample_n(50) %>% dplyr::select(-birth_year)
+  star_2 <- starwars %>% dplyr::sample_n(50) %>% dplyr::select(-1, -2)
+  expect_is(inspect_num(star_1, star_2, show_plot = TRUE), "data.frame")
+})
+

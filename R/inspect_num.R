@@ -15,6 +15,9 @@
 #' break points, default is \code{NULL}.
 #' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
 #' Default is \code{TRUE}.
+#' @param alpha Alpha level for displaying whether test of difference between the data
+#' frames reaches a particular threshold.  Only applies when (when \code{show_plot = T}).  
+#' Defaults to 0.05.
 #' @return A \code{tibble} containing statistical summaries of the numeric 
 #' columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
 #' @details 
@@ -85,7 +88,7 @@
 
 inspect_num <- function(df1, df2 = NULL, show_plot = F, 
                        breaks = 20, plot_layout = NULL, breakseq = NULL, 
-                       text_labels = TRUE){
+                       text_labels = TRUE, alpha = 0.05){
 
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -108,20 +111,23 @@ inspect_num <- function(df1, df2 = NULL, show_plot = F,
                   sd = sd(value, na.rm = T), 
                   pcnt_na = 100 * mean(is.na(value))) %>%
         ungroup
+      
       # tibble determining breaks to use
       breaks_tbl <- tibble(col_name = colnames(df_num)) 
       # join to the breaks argument if supplied
       if(!is.null(breakseq)){
         breaks_tbl <- left_join(breaks_tbl, breakseq, by = "col_name")
       } else {
-        breaks_tbl$breaks <- as.list(rep(NA, nrow(breaks_tbl)))
+        # if not supplied, create placeholder list of NULLs
+        breaks_tbl$breaks <- lapply(as.list(1:nrow(breaks_tbl)), function(xc) NULL)
       }
       breaks_tbl$hist <- vector("list", length = ncol(df_num))
-      # loop over the breaks_tbl and generate histograms, suppress plotting
+      # loop over the breaks_tbl and generate histograms, suppressing plotting
+      # if breaks already exist, then use them, otherwise create new breaks
       for(i in 1:nrow(breaks_tbl)){
-        brks_na <- anyNA(breaks_tbl$breaks[[i]])
+        brks_null <- is.null(breaks_tbl$breaks[[i]])
         breaks_tbl$hist[[i]] <- hist(unlist(df_num[breaks_tbl$col_name[i]]), plot = F, 
-                                     breaks = if(brks_na) breaks else {breaks_tbl$breaks[[i]]}, 
+                                     breaks = if(brks_null) breaks else {breaks_tbl$breaks[[i]]}, 
                                      right = FALSE)
       }
       # extract basic info for constructing hist
@@ -168,7 +174,8 @@ inspect_num <- function(df1, df2 = NULL, show_plot = F,
     if(show_plot){
       plot_num_2(levels_tab, 
                  df_names = df_names, 
-                 plot_layout = plot_layout)
+                 plot_layout = plot_layout, 
+                 alpha = alpha)
     }
     # return dataframe
     return(levels_tab)

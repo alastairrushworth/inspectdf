@@ -4,8 +4,10 @@ plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels){
   # get bin midpoints for plotting
   for(i in 1:length(df_plot$hist)){
     df_plot$hist[[i]]$col_name <- df_plot$col_name[i]
-    diff_nums <- lapply(strsplit(gsub("\\[|,|\\)", "", df_plot$hist[[i]]$value), " "), function(v) diff(as.numeric(v))) %>% unlist %>% unique
-    df_plot$hist[[i]]$mid <- lapply(strsplit(gsub("\\[|,|\\)", "", df_plot$hist[[i]]$value), " "), function(v) diff(as.numeric(v))/2 + as.numeric(v)[1]) %>% unlist
+    diff_nums <- lapply(strsplit(gsub("\\[|,|\\)", "", df_plot$hist[[i]]$value), " "), 
+                        function(v) diff(as.numeric(v))) %>% unlist %>% unique
+    df_plot$hist[[i]]$mid <- lapply(strsplit(gsub("\\[|,|\\)", "", df_plot$hist[[i]]$value), " "), 
+                                    function(v) diff(as.numeric(v))/2 + as.numeric(v)[1]) %>% unlist
     if(is.nan(df_plot$hist[[i]]$mid[1]) | is.infinite(df_plot$hist[[i]]$mid[1])){
       df_plot$hist[[i]]$mid[1] <- df_plot$hist[[i]]$mid[2] - (diff_nums[is.finite(diff_nums)])[1]
     } 
@@ -31,21 +33,52 @@ plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels){
 
 
 
-plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels){
+plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels, alpha){
   # set the plot_layout if not specified
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
   # chop stuff off
   df_plot <- df_plot %>% 
-    select(-psi, -fisher_p) 
+    select(-psi) 
+  # if columns missing in either dataframe, use buckets from the other
+  # replace frequencies with NA.
+  x_1 <- which(unlist(lapply(df_plot$hist_1, is.null)))
+  x_2 <- which(unlist(lapply(df_plot$hist_2, is.null)))
+  if(length(x_1) > 0){
+    for(i in x_1){
+      df_plot$hist_1[[i]] <- df_plot$hist_2[[i]]
+      df_plot$hist_1[[i]]$prop <- NA
+    }
+  }
+  if(length(x_2) > 0){
+    for(i in x_2){
+      df_plot$hist_2[[i]] <- df_plot$hist_1[[i]]
+      df_plot$hist_2[[i]]$prop <- NA
+    }
+  }
+
   # add the variable name to the histograms as an extra column
-  for(i in 1:nrow(df_plot)) df_plot[[2]][[i]]$cname <- df_plot$col_name[i] 
-  for(i in 1:nrow(df_plot)) df_plot[[3]][[i]]$cname <- df_plot$col_name[i] 
+  for(i in 1:nrow(df_plot)){
+    df_plot[[2]][[i]]$cname <- df_plot[[3]][[i]]$cname <- df_plot$col_name[i] 
+  }
+
   # combine the histograms
   trns_plot <- bind_rows(bind_rows(df_plot[[2]]), 
                          bind_rows(df_plot[[3]]))
   trns_plot$dfn <- rep(unlist(df_names), each = nrow(trns_plot) / 2)
   # apply an ordering to the categories
-  get_num <- function(st) as.integer(gsub("\\[|\\(", "", unlist(strsplit(st, ","))[1]))
+  get_num <- function(st){
+    first_dig <- gsub("\\[|\\(", "", unlist(strsplit(st, ","))[1])
+    first_dig <- ifelse(grepl("Inf", first_dig), 
+                        as.numeric(first_dig), 
+                        as.integer(first_dig))
+    return(first_dig)
+  }
+  xy <- df_plot %>% 
+    select(cname = col_name, fisher_p) %>%
+    mutate(significant = as.integer(fisher_p < alpha) + 2) %>%
+    replace_na(list(significant = 1)) %>%
+    mutate(significant = c("gray30", "lightskyblue1", "red3")[significant])
+  
   get_numV <- Vectorize(get_num)
   ord_vals <- trns_plot %>%
     select(value) %>%
@@ -54,10 +87,15 @@ plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels){
     arrange(first_num)
   # generate a heatplot
   plt <- trns_plot %>%
-    ggplot(aes(x = dfn, y = factor(value, levels = ord_vals$value), fill = prop)) + 
+    ggplot(aes(x = dfn, y = factor(value, levels = ord_vals$value), fill = prop)) +
+    geom_rect(data = xy, fill = xy$significant,  
+              xmin = -Inf, xmax = Inf, 
+              ymin = -Inf, ymax = Inf, alpha = 0.5, 
+              inherit.aes = FALSE) +
     geom_tile(colour = "white") + 
-    geom_text(aes(label = round(prop * 100, 1)), col = "gray30") + 
-    scale_fill_gradient(low = "white", high = "steelblue") + 
+    geom_text(aes(label = round(prop * 100, 1)), 
+              col = "gray30", na.rm = T) + 
+    scale_fill_gradient(low = "white", high = "steelblue") +
     theme(legend.position = "none", 
           axis.text.x = element_text(angle = 45, hjust = 1)) +
     labs(x = "", y = "", 
