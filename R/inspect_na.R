@@ -5,7 +5,9 @@
 #' Defaults to \code{NULL}.
 #' @param show_plot Logical determining whether to return a plot in addition to tibble.  
 #' Default is \code{FALSE}.
-#' @param alpha Alpha level for performing significance tests.  Defaults to 0.05.
+#' @param alpha Alpha level for displaying whether test of difference between the data
+#' frames reaches a particular threshold.  Only applies when (when \code{show_plot = T}).  
+#' Defaults to 0.05.
 #' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
 #' Default is \code{TRUE}.
 #' @return A tibble summarising the count and percentage of columnwise missingness 

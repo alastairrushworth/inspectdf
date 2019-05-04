@@ -222,10 +222,13 @@ inspect_num(starwars)$hist$birth_year
 
 ##### `inspect_num()` for two dataframes
 
+When comparing a pair of dataframes using `inspect_num()`, the histograms of common numeric features are calculated, using identical bins.  The list columns `hist_1` and `hist_2` contain the histograms of the features in the first and second dataframes.  A formal statistical comparison of each pair of histograms is calculated using Fisher's exact test, the resulting _p_ value is reported in the column `fisher_p`.
+
+When `show_plot = TRUE`, heat plot comparisons are returned for each numeric column in each dataframe.  Where a column is present in only one of the dataframes, grey cells are shown in the comparison.  The significance of Fisher's test is illustrated by coloured vertical bands around each plot: if the colour is grey, no _p_ value could be calculated, if blue, the histograms are not found to be significantly different otherwise the bands are red.
+
 ```{r}
 inspect_num(star_1, star_2, show_plot = TRUE)
 ```
-
 
 
 #### Categorical levels
@@ -255,10 +258,13 @@ Note that by default, if `NA` values are present, they are counted as a distinct
 
 ##### `inspect_cat()` for two dataframes
 
+When two dataframes are compared using `inspect_cat()`, list columns are returned for categorical columns common to both: `lvls_1` and `lvl2_2`.  In addition, the population stability index (`psi`) and _p_ values associated with Fisher's exact test (`fisher_p`) are returned to enable comparison of the distribution of levels in each pair of columns.
+
 ```{r}
 inspect_cat(star_1, star_2, show_plot = TRUE)
 ```
 
+When `show_plot = TRUE`, a barplot is returned comparing distributions of levels in pairs of columns shared by the two dataframes.  
 
 
 

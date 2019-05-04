@@ -7,9 +7,6 @@
 #' in addition to tibble output.  Default is \code{FALSE}.
 #' @param alpha Alpha level for performing tests of correlation coefficient equality.  
 #' Defaults to 0.05.
-#' @param absolute Logical flag indicating whether to plot correlations on an absolute scale.  
-#' Note that this is just a display option and all tests and comparisons occur on the original 
-#' correlation scale regardless of this flag. 
 #' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
 #' Default is \code{TRUE}.
 #' @return A tibble summarising and comparing the correlations for each numeric column 
@@ -73,7 +70,6 @@
 #' @importFrom tibble tibble
 
 inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05, 
-                       absolute = TRUE, 
                        text_labels = TRUE){
   
   # perform basic column check on dataframe input
@@ -96,8 +92,8 @@ inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
       # return plot if requested
       if(show_plot){
         plot_cor_1(out, 
+                   alpha = alpha,
                    df_names = df_names,
-                   absolute = absolute, 
                    text_labels = text_labels)
       }
       # return dataframe of correlations
@@ -125,7 +121,6 @@ inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
     # generate plot if requested
     if(show_plot){
       plot_cor_2(cor_tab, 
-                 absolute = absolute, 
                  alpha = alpha, 
                  df_names = df_names, 
                  text_labels = text_labels)
