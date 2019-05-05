@@ -55,6 +55,7 @@
 #' @importFrom dplyr slice
 #' @importFrom dplyr ungroup
 #' @importFrom magrittr %>%
+#' @importFrom progress progress_bar
 
 inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE, 
                         text_labels = TRUE){
@@ -74,7 +75,15 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
     # calculate association if categorical columns exist
     if(ncol(df_cat) > 0){
       # get the levels for each category
-      levels_list <- lapply(df_cat, fast_table, show_na = TRUE)
+      levels_list <- vector("list", length = length(df_cat))
+      pb <- progress_bar$new(
+        format = paste0(" ", df_names[[1]], " [:bar] :percent eta: :eta"),
+        total = length(df_cat), clear = TRUE, width = 80)
+      for(i in 1:length(df_cat)){
+        pb$tick()
+        levels_list[[i]] <- fast_table(df_cat[[i]], show_na = TRUE)
+      }
+      names(levels_list) <- names(df_cat)
       # get the most common level
       levels_top  <- lapply(levels_list, function(M) M[1, ]) %>% 
         do.call("rbind", .) %>% 
