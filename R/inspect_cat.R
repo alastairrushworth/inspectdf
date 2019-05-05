@@ -25,11 +25,9 @@
 #' exact test are performed as part of the comparison.
 #' \itemize{
 #'   \item \code{col_name} character vector containing column names of \code{df1} and \code{df2}.
-#'   \item{psi} numeric column containing the 
-#'   \href{https://www.quora.com/What-is-population-stability-index}{population stability index}.  
-#'   This measures the difference in the distribution of two categorical features.  Conventionally, 
-#'   values exceeding 0.25 indicate strong evidence of a change, with values below 0.25 and 0.1 
-#'   representing moderate and low evidence of a change.
+#'   \item{jsd} numeric column containing the Jensen-Shannon divergence.  This measures the 
+#'   difference in distribution of a pair of categorical features.  Values near to 0 indicate
+#'   agreement of the distributions, while 1 indicates disagreement.
 #'   \item{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
 #'   evidence that the the two sets of relative frequencies are actually different.
 #'   \item \code{lvls_1}, \code{lvls_2} relative frequency of levels in each of \code{df1} and \code{df2}.
@@ -120,10 +118,9 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
       select(-contains("common"), -cnt)
     # combine and clean up levels
     levels_df <- full_join(s1, s2, by = "col_name") %>% 
-      mutate(psi = psi(levels.x, levels.y)) %>%
+      mutate(jsd = js_divergence_vec(levels.x, levels.y)) %>%
       mutate(fisher_p = fisher(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
-        select(col_name, psi, fisher_p, levels.x, levels.y)
-    colnames(levels_df)[4:5] <- paste0("lvls_", 1:2)
+      select(col_name, jsd, fisher_p, lvls_1 = levels.x, lvls_2 = levels.y)
     # ensure the list names are retained
     names(levels_df[[4]]) <- names(levels_df[[5]]) <- as.character(levels_df$col_name)
     # if plot is requested

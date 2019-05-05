@@ -38,7 +38,7 @@ plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels, alpha){
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
   # chop stuff off
   df_plot <- df_plot %>% 
-    select(-psi) 
+    select(-jsd) 
   # if columns missing in either dataframe, use buckets from the other
   # replace frequencies with NA.
   x_1 <- which(unlist(lapply(df_plot$hist_1, is.null)))

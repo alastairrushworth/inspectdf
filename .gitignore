@@ -13,3 +13,4 @@ tests/testthat/*.pdf
 inst/
 hex/
 checks.R
+big_tests.R

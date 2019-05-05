@@ -160,21 +160,21 @@ inspect_mem(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
 
     ## # A tibble: 13 x 5
-    ##    col_name   size_1    size_2    pcnt_1 pcnt_2
-    ##    <chr>      <chr>     <chr>      <dbl>  <dbl>
-    ##  1 films      10.85 Kb  12.16 Kb  34.5    40.8 
-    ##  2 starships  3.96 Kb   4.59 Kb   12.6    15.4 
-    ##  3 name       3.55 Kb   <NA>      11.3    NA   
-    ##  4 vehicles   3.23 Kb   3.55 Kb   10.3    11.9 
-    ##  5 homeworld  2.34 Kb   2.3 Kb     7.43    7.72
-    ##  6 species    1.95 Kb   1.9 Kb     6.19    6.36
-    ##  7 skin_color 1.91 Kb   1.87 Kb    6.07    6.26
-    ##  8 eye_color  1.04 Kb   1.1 Kb     3.31    3.69
-    ##  9 hair_color 904 bytes 840 bytes  2.81    2.75
-    ## 10 gender     616 bytes 680 bytes  1.91    2.23
-    ## 11 mass       448 bytes 448 bytes  1.39    1.47
-    ## 12 birth_year 448 bytes 448 bytes  1.39    1.47
-    ## 13 height     248 bytes <NA>       0.771  NA
+    ##    col_name   size_1    size_2     pcnt_1 pcnt_2
+    ##    <chr>      <chr>     <chr>       <dbl>  <dbl>
+    ##  1 films      11.61 Kb  9.95 Kb    36.5    37.1 
+    ##  2 starships  4.03 Kb   3.98 Kb    12.7    14.8 
+    ##  3 name       3.52 Kb   <NA>       11.1    NA   
+    ##  4 vehicles   3.47 Kb   3.17 Kb    10.9    11.8 
+    ##  5 homeworld  2 Kb      2.41 Kb     6.29    8.99
+    ##  6 species    1.84 Kb   2.07 Kb     5.78    7.71
+    ##  7 skin_color 1.79 Kb   1.8 Kb      5.63    6.72
+    ##  8 eye_color  1.05 Kb   1016 bytes  3.29    3.69
+    ##  9 hair_color 792 bytes 1 Kb        2.43    3.72
+    ## 10 gender     616 bytes 616 bytes   1.89    2.24
+    ## 11 mass       448 bytes 448 bytes   1.38    1.63
+    ## 12 birth_year 448 bytes 448 bytes   1.38    1.63
+    ## 13 height     248 bytes <NA>        0.762  NA
 
 #### Missing values
 
@@ -226,13 +226,13 @@ inspect_na(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 13 x 6
     ##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
     ##    <chr>      <int>  <dbl> <int>  <dbl>   <dbl>
-    ##  1 birth_year    25     50    24     48   1    
-    ##  2 mass          17     34    14     28   0.665
+    ##  1 birth_year    27     54    27     54   1    
+    ##  2 mass          15     30    17     34   0.830
     ##  3 homeworld      5     10     6     12   1.000
-    ##  4 height         4      8    NA     NA  NA    
-    ##  5 hair_color     3      6     4      8   1.000
-    ##  6 gender         2      4     2      4   1    
-    ##  7 species        1      2     4      8   0.359
+    ##  4 hair_color     4      8     0      0   0.126
+    ##  5 gender         3      6     0      0   0.241
+    ##  6 species        3      6     3      6   1    
+    ##  7 height         2      4    NA     NA  NA    
     ##  8 name           0      0    NA     NA  NA    
     ##  9 skin_color     0      0     0      0  NA    
     ## 10 eye_color      0      0     0      0  NA    
@@ -302,11 +302,11 @@ inspect_cor(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
 
     ## # A tibble: 3 x 5
-    ##   col_1      col_2  corr_1 corr_2 p_value
-    ##   <chr>      <chr>   <dbl>  <dbl>   <dbl>
-    ## 1 mass       height  0.752 NA      NA    
-    ## 2 birth_year height  0.568 NA      NA    
-    ## 3 birth_year mass    0.374  0.470   0.571
+    ##   col_1      col_2  corr_1  corr_2 p_value
+    ##   <chr>      <chr>   <dbl>   <dbl>   <dbl>
+    ## 1 mass       height  0.779  NA      NA    
+    ## 2 birth_year height -0.491  NA      NA    
+    ## 3 birth_year mass   -0.381  -0.431   0.772
 
 Notes:
 
@@ -362,15 +362,15 @@ inspect_imb(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
 
     ## # A tibble: 7 x 7
-    ##   col_name   value    pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
-    ##   <chr>      <chr>     <dbl> <int>  <dbl> <int>   <dbl>
-    ## 1 gender     male        66     14    72      9   0.342
-    ## 2 hair_color none        40      1    42      1   1    
-    ## 3 species    Human       38      1    38      1   1    
-    ## 4 eye_color  brown       24      6    28.     6   1    
-    ## 5 skin_color fair        16      2    18      1   1    
-    ## 6 homeworld  Tatooine    14.     1    NA     NA  NA    
-    ## 7 name       Ackbar       2      1    NA     NA  NA
+    ##   col_name   value      pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
+    ##   <chr>      <chr>       <dbl> <int>  <dbl> <int>   <dbl>
+    ## 1 gender     male           72    10     82     7   0.594
+    ## 2 hair_color none           44     6     50     1   0.117
+    ## 3 species    Human          40     1     32     1   1    
+    ## 4 eye_color  brown          26     7     NA    NA  NA    
+    ## 5 homeworld  Tatooine       18     3     NA    NA  NA    
+    ## 6 skin_color fair           16     1     20     1   1    
+    ## 7 name       Adi Gallia      2     1     NA    NA  NA
 
   - Smaller `p_value` indicates stronger evidence against the null
     hypothesis that the true frequency of the most common values is the
@@ -463,11 +463,11 @@ inspect_num(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
 
     ## # A tibble: 3 x 5
-    ##   col_name   hist_1            hist_2               psi fisher_p
-    ##   <chr>      <list>            <list>             <dbl>    <dbl>
-    ## 1 birth_year <tibble [22 × 2]> <tibble [22 × 2]>  0.494   0.0138
-    ## 2 height     <tibble [18 × 2]> <NULL>            NA      NA     
-    ## 3 mass       <tibble [27 × 2]> <tibble [27 × 2]>  0.217   0.251
+    ##   col_name   hist_1            hist_2                jsd fisher_p
+    ##   <chr>      <list>            <list>              <dbl>    <dbl>
+    ## 1 birth_year <tibble [20 × 2]> <tibble [20 × 2]>  0.0474    0.354
+    ## 2 height     <tibble [23 × 2]> <NULL>            NA        NA    
+    ## 3 mass       <tibble [27 × 2]> <tibble [27 × 2]>  0.122     0.694
 
 #### Categorical levels
 
@@ -534,7 +534,7 @@ distinct categorical level.
 
 When two dataframes are compared using `inspect_cat()`, list columns are
 returned for categorical columns common to both: `lvls_1` and `lvl2_2`.
-In addition, the population stability index (`psi`) and *p* values
+In addition, the Jensen-Shannon divergence (`jsd`) and *p* values
 associated with Fisher’s exact test (`fisher_p`) are returned to enable
 comparison of the distribution of levels in each pair of columns.
 
@@ -545,15 +545,15 @@ inspect_cat(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-21-1.png)<!-- -->
 
     ## # A tibble: 7 x 5
-    ##   col_name       psi fisher_p lvls_1            lvls_2           
+    ##   col_name       jsd fisher_p lvls_1            lvls_2           
     ##   <chr>        <dbl>    <dbl> <list>            <list>           
-    ## 1 eye_color   0.0666    0.996 <tibble [11 × 2]> <tibble [12 × 2]>
-    ## 2 gender      0.0633    0.683 <tibble [4 × 2]>  <tibble [5 × 2]> 
-    ## 3 hair_color  0.0321    0.943 <tibble [9 × 2]>  <tibble [8 × 2]> 
-    ## 4 homeworld   0.139     1     <tibble [33 × 2]> <tibble [33 × 2]>
+    ## 1 eye_color   0.0817    0.785 <tibble [11 × 2]> <tibble [10 × 2]>
+    ## 2 gender      0.0386    0.276 <tibble [4 × 2]>  <tibble [3 × 2]> 
+    ## 3 hair_color  0.0951    0.418 <tibble [7 × 2]>  <tibble [10 × 2]>
+    ## 4 homeworld   0.282     0.998 <tibble [28 × 2]> <tibble [35 × 2]>
     ## 5 name       NA        NA     <tibble [50 × 2]> <NULL>           
-    ## 6 skin_color  0.116     0.997 <tibble [25 × 2]> <tibble [24 × 2]>
-    ## 7 species     0.131     1     <tibble [27 × 2]> <tibble [26 × 2]>
+    ## 6 skin_color  0.176     0.996 <tibble [23 × 2]> <tibble [23 × 2]>
+    ## 7 species     0.161     1     <tibble [25 × 2]> <tibble [29 × 2]>
 
 When `show_plot = TRUE`, a barplot is returned comparing distributions
 of levels in pairs of columns shared by the two dataframes.

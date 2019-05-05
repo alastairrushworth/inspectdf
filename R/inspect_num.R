@@ -39,13 +39,11 @@
 #'   \item \code{hist_1}, \code{hist_2} list column for histograms of each of \code{df1} and \code{df2}.
 #'   Where a column appears in both dataframe, the bins used for \code{df1} are reused to 
 #'   calculate histograms for \code{df2}.
-#'   \item{psi} numeric column containing the 
-#'   \href{https://www.quora.com/What-is-population-stability-index}{population stability index}.  
-#'   This measures the change in distribution of two numeric features.  Conventionally, values
-#'   exceeding 0.25 indicate strong evidence of a change, with values below 0.25 and 0.1 
-#'   representing moderate and low evidence of a change.
+#'   \item{jsd} numeric column containing the Jensen-Shannon divergence.  This measures the 
+#'   difference in distribution of a pair of binned numeric features.  Values near to 0 indicate
+#'   agreement of the distributions, while 1 indicates disagreement.
 #'   \item{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
-#'   evidence that the the two histograms are actually different.
+#'   evidence that the two histograms are actually different.
 #' }
 #' @export
 #' @examples
@@ -156,20 +154,19 @@ inspect_num <- function(df1, df2 = NULL, show_plot = F,
   } else {
     # get histogram and summaries for first df
     s1 <- inspect_num(df1, show_plot = F, breaks = breaks) %>% 
-      select(col_name, mean, sd, hist)
+      select(col_name, hist)
     # extract breaks from the above
     breaks_table <- tibble(col_name = s1$col_name, 
                            breaks = lapply(s1$hist, get_break))
-    # get new histoggrams and summary stats using breaks from s1
+    # get new histograms and summary stats using breaks from s1
     s2 <- inspect_num(df2, breakseq = breaks_table, show_plot = F) %>% 
-      select(col_name, mean, sd, hist)
+      select(col_name, hist)
     s12 <- full_join(s1, s2, by = "col_name")
-    # calculate psi and fisher p-value
+    # calculate js-divergence and fisher p-value
     levels_tab <- s12 %>%
-      mutate(psi = psi(hist.x, hist.y)) %>%
+      mutate(jsd = js_divergence_vec(hist.x, hist.y)) %>%
       mutate(fisher_p = fisher(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
-      select(-contains("mean"), -contains("sd"))
-    colnames(levels_tab)[2:3] <- paste0("hist_", 1:2)
+      select(col_name, hist_1 = hist.x, hist_2 = hist.y,  jsd, fisher_p)
     # if plot is requested
     if(show_plot){
       plot_num_2(levels_tab, 
