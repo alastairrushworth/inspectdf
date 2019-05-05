@@ -1,6 +1,7 @@
 ^tests$
 ^inst$
 ^checks\.R$
+^big_tests\.R$
 ^deprecated$
 ^README\.Rmd$
 ^depracated$

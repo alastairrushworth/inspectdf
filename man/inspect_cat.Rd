@@ -42,11 +42,9 @@ common both dataframes are compared.  In particular, the population stability in
 exact test are performed as part of the comparison.
 \itemize{
   \item \code{col_name} character vector containing column names of \code{df1} and \code{df2}.
-  \item{psi} numeric column containing the 
-  \href{https://www.quora.com/What-is-population-stability-index}{population stability index}.  
-  This measures the difference in the distribution of two categorical features.  Conventionally, 
-  values exceeding 0.25 indicate strong evidence of a change, with values below 0.25 and 0.1 
-  representing moderate and low evidence of a change.
+  \item{jsd} numeric column containing the Jensen-Shannon divergence.  This measures the 
+  difference in distribution of a pair of categorical features.  Values near to 0 indicate
+  agreement of the distributions, while 1 indicates disagreement.
   \item{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
   evidence that the the two sets of relative frequencies are actually different.
   \item \code{lvls_1}, \code{lvls_2} relative frequency of levels in each of \code{df1} and \code{df2}.

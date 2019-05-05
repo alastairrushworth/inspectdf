@@ -19,11 +19,9 @@ plot_cat <- function(levels_df, df_names, text_labels){
     lvl_df$dfi <- df_names[[1]]
   } else {
     # first remove column
-    if(anyNA(levels_df$psi)){
-      levels_df <- levels_df[-which(is.na(levels_df$psi)), ]
+    if(anyNA(levels_df$jsd)){
+      levels_df <- levels_df[-which(is.na(levels_df$jsd)), ]
     }
-    # levels_df <- levels_df %>%
-    #   filter(!is.na(psi))
     lvl_df <- levels_df %>% select_if(is.list) 
     a1 <- pull_collapse(lvl_df, 1)
     a2 <- pull_collapse(lvl_df, 2)

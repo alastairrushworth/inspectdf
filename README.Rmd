@@ -258,7 +258,7 @@ Note that by default, if `NA` values are present, they are counted as a distinct
 
 ##### `inspect_cat()` for two dataframes
 
-When two dataframes are compared using `inspect_cat()`, list columns are returned for categorical columns common to both: `lvls_1` and `lvl2_2`.  In addition, the population stability index (`psi`) and _p_ values associated with Fisher's exact test (`fisher_p`) are returned to enable comparison of the distribution of levels in each pair of columns.
+When two dataframes are compared using `inspect_cat()`, list columns are returned for categorical columns common to both: `lvls_1` and `lvl2_2`.  In addition, the Jensen-Shannon divergence (`jsd`) and _p_ values associated with Fisher's exact test (`fisher_p`) are returned to enable comparison of the distribution of levels in each pair of columns.
 
 ```{r}
 inspect_cat(star_1, star_2, show_plot = TRUE)

@@ -61,13 +61,11 @@ If both \code{df1} and \code{df2} are specified, the tibble has columns
   \item \code{hist_1}, \code{hist_2} list column for histograms of each of \code{df1} and \code{df2}.
   Where a column appears in both dataframe, the bins used for \code{df1} are reused to 
   calculate histograms for \code{df2}.
-  \item{psi} numeric column containing the 
-  \href{https://www.quora.com/What-is-population-stability-index}{population stability index}.  
-  This measures the change in distribution of two numeric features.  Conventionally, values
-  exceeding 0.25 indicate strong evidence of a change, with values below 0.25 and 0.1 
-  representing moderate and low evidence of a change.
+  \item{jsd} numeric column containing the Jensen-Shannon divergence.  This measures the 
+  difference in distribution of a pair of binned numeric features.  Values near to 0 indicate
+  agreement of the distributions, while 1 indicates disagreement.
   \item{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
-  evidence that the the two histograms are actually different.
+  evidence that the two histograms are actually different.
 }
 }
 \examples{

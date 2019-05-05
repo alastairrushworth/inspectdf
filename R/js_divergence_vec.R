@@ -6,7 +6,14 @@
 #' @importFrom tibble tibble
 #' @importFrom tidyr replace_na
 
-psi <- function(Mlist1, Mlist2){
+js_divergence_vec <- function(Mlist1, Mlist2){
+  log_zero <- function(g){
+    ifelse(g == 0, NA, log(g)/log(2.0))
+  }
+  js_divergence <- function(p, q){
+    m <- 0.5 * (p + q)
+    0.5 * (sum(p * log_zero(p / m), na.rm = T) + sum(q * log_zero(q / m), na.rm = T))
+  }
   out_vec <- vector("numeric", length = length(Mlist1))
   if(length(Mlist1) > 0){
     for(i in 1:length(out_vec)){
@@ -15,9 +22,7 @@ psi <- function(Mlist1, Mlist2){
       } else {
         out_vec[i] <- full_join(Mlist1[[i]], Mlist2[[i]], by = "value") %>%
           replace_na(list(prop.x = 0, prop.y = 0)) %>%
-          filter(!prop.x == 0, !prop.y == 0) %>%
-          mutate(psi_vals = (prop.y - prop.x) * log(prop.y / prop.x)) %>% 
-          summarise(psi = sum(psi_vals)) %>% 
+          summarise(jsd = js_divergence(prop.x, prop.y)) %>%
           as.numeric
       }
     }
