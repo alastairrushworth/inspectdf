@@ -10,7 +10,7 @@ LazyLoad: yes
 ByteCompile: yes
 Encoding: UTF-8
 Depends: R (>= 3.1.0)
-Imports:  dplyr, ggplot2, magrittr, Rcpp, tibble, tidyr
+Imports:  dplyr, ggplot2, magrittr, progress, Rcpp, tibble, tidyr
 Suggests: testthat
 License: GPL-2
 URL: http://github.com/alastairrushworth/inspectdf
