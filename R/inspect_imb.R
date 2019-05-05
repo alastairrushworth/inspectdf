@@ -71,8 +71,17 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
     # calculate imbalance if any columns available
     if(ncol(df_cat) > 0){
       # function to find the percentage of the most common value in a vector
-      freq_tabs      <- lapply(df_cat, fast_table, show_cnt = TRUE)
-      imb_cols       <- suppressWarnings(bind_rows(freq_tabs, .id = "col_name"))
+      levels_list <- vector("list", length = length(df_cat))
+      pb <- progress_bar$new(
+        format = paste0(" ", df_names[[1]], " [:bar] :percent eta: :eta"),
+        total = length(df_cat), clear = TRUE, width = 80)
+      for(i in 1:length(df_cat)){
+        pb$tick()
+        levels_list[[i]] <- fast_table(df_cat[[i]], show_cnt = TRUE)
+      }
+      names(levels_list) <- names(df_cat)
+      # freq_tabs      <- lapply(df_cat, fast_table, show_cnt = TRUE)
+      imb_cols       <- suppressWarnings(bind_rows(levels_list, .id = "col_name"))
 
       out <- imb_cols %>% 
         group_by(col_name) %>%
