@@ -86,7 +86,9 @@ inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
       # perfom check for 0 variance features, return warning if found
       check_variance(df_numeric)
       # get correlation coefficients for numeric pairs
-      suppressWarnings(cor_df <- cor_test_1(df_numeric, alpha = alpha))
+      suppressWarnings(cor_df <- cor_test_1(df_numeric,
+                                            df_name = df_names[[1]], 
+                                            alpha = alpha))
       # return top strongest if requested
       out <- cor_df 
       # return plot if requested
