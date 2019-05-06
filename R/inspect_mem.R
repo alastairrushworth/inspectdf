@@ -67,22 +67,34 @@ inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE,
   df_names <- get_df_names()
   
   # max size of both dfs
-  sizes <- list(sz_1  = size_up(df1, form = T), 
-                sz_2  = size_up(df2, form = T), 
+  sizes <- list(sz_1  = format_size(object.size(df1)), 
+                sz_2  = format_size(object.size(df2)), 
                 ncl_1 = ncol(df1), ncl_2 = ncol(df2), 
                 nrw_1 = nrow(df1), nrw_2 = nrow(df2))
   
   if(is.null(df2)){
-    # get column size
-    col_space     <- sapply(df1, size_up, form = F)
-    col_space_ch  <- sapply(df1, size_up, form = T)
+    # col_space vectors
+    col_space <- vector("list", length = sizes$ncl_1)
+    col_space_ch <- vector("character", length = sizes$ncl_1)
+    # initialise progress bar
+    pb <- progress_bar$new(
+      format = paste0(" ", df_names[[1]], " [:bar] :percent eta: :eta"),
+      total = sizes$ncl_1, clear = TRUE, width = 80)
+    # get column sizes in both character and numeric formats
+    for(i in 1:sizes$ncl_1){
+      pb$tick()
+      col_space[[i]] <- object.size(df1[[i]])
+      col_space_ch[i] <- format_size(col_space[[i]])
+    }
+    col_space <- unlist(col_space)
+    names(col_space) <- names(col_space_ch) <- colnames(df1)
     col_max       <- which.max(col_space)
     col_max_size  <- col_space[col_max]
     col_max_names <- names(col_space)[col_max]
     
     # get ncols, nrows, and storage size of the data
-    ncl <- format(ncol(df1), big.mark = ",")
-    nrw <- format(nrow(df1), big.mark = ",")
+    ncl <- format(sizes$ncl_1, big.mark = ",")
+    nrw <- format(sizes$ncl_1, big.mark = ",")
   
     out <- vec_to_tibble(col_space) %>% 
       left_join(vec_to_tibble(col_space_ch), by = "names") %>%
