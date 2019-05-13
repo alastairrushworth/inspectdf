@@ -69,8 +69,8 @@
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 
-inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05, 
-                       text_labels = TRUE){
+inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE, 
+                        alpha = 0.05, text_labels = TRUE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)

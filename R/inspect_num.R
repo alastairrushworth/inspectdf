@@ -86,7 +86,8 @@
 
 inspect_num <- function(df1, df2 = NULL, show_plot = F, 
                        breaks = 20, plot_layout = NULL, breakseq = NULL, 
-                       text_labels = TRUE, alpha = 0.05){
+                       text_labels = TRUE, hist_na = FALSE,
+                       alpha = 0.05){
 
   # perform basic column check on dataframe input
   check_df_cols(df1)

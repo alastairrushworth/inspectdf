@@ -1,3 +1,7 @@
+dot_size <- function(n){
+  (1 / exp(0.005 * (n - 1))) * 3
+}
+
 plot_cor_1 <- function(df_plot, alpha, df_names, text_labels){
   # preprocess data a bit
   df_plot <- df_plot %>% 
@@ -9,8 +13,8 @@ plot_cor_1 <- function(df_plot, alpha, df_names, text_labels){
   plt <- ggplot(df_plot, aes(x = pair, y = corr, colour = sign)) +
     geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
     geom_errorbar(aes(ymin = lower, ymax = upper), colour = "black", width = .1) +
-    geom_point(size = 3.7, color = "black") + 
-    geom_point(size = 3) +
+    geom_point(size = 1.25 * dot_size(nrow(df_plot)), color = "black") + 
+    geom_point(size = dot_size(nrow(df_plot))) +
     coord_flip() + 
     labs(x = "", 
          title =  paste0("Correlation of columns in df::", df_names$df1), 
@@ -45,8 +49,8 @@ plot_cor_2 <- function(df_plot, alpha, df_names, text_labels){
       xmin = p_val_tab$index - 0.4, xmax = p_val_tab$index + 0.4,
       ymin = -2, ymax = 2, linetype = "blank") +
     geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
-    geom_point(size = 3.7, color = "black", na.rm = TRUE) + 
-    geom_point(size = 3, na.rm = TRUE) +
+    geom_point(size = 1.25 * dot_size(nrow(df_plot)), color = "black", na.rm = TRUE) + 
+    geom_point(size = dot_size(nrow(df_plot)), na.rm = TRUE) +
     coord_flip() + 
     labs(y = bquote("Pearson correlation (\u03C1)"), x = "",
          title =  paste0("Comparison of \u03C1 between df::", df_names$df1, 
