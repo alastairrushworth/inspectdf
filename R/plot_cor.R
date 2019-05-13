@@ -1,7 +1,3 @@
-dot_size <- function(n){
-  (1 / exp(0.005 * (n - 1))) * 3
-}
-
 plot_cor_1 <- function(df_plot, alpha, df_names, text_labels){
   # preprocess data a bit
   df_plot <- df_plot %>% 
