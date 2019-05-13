@@ -7,6 +7,9 @@
 #' in addition to tibble output.  Default is \code{FALSE}.
 #' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
 #' Default is \code{TRUE}.
+#' @param high_cardinality Minimum number of occurences of category to be shown as a distinct segment 
+#' in the  plot.  Default is 0.  This argument can help when some column contain many unique or 
+#' near-unique levels that may take a while to plot.
 #' @return A tibble summarising and comparing the categorical features 
 #' in one or a pair of data frames.
 #' @details When only \code{df1} is specified, a tibble is returned which 
@@ -58,7 +61,7 @@
 #' @importFrom progress progress_bar
 
 inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE, 
-                        text_labels = TRUE){
+                        text_labels = TRUE, high_cardinality = 0){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -81,13 +84,14 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
         total = length(df_cat), clear = TRUE, width = 80)
       for(i in 1:length(df_cat)){
         pb$tick()
-        levels_list[[i]] <- fast_table(df_cat[[i]], show_na = TRUE)
+        levels_list[[i]] <- fast_table(df_cat[[i]], show_na = TRUE, show_cnt = TRUE)
       }
       names(levels_list) <- names(df_cat)
       # get the most common level
       levels_top  <- lapply(levels_list, function(M) M[1, ]) %>% 
         do.call("rbind", .) %>% 
-        mutate(col_name = colnames(df_cat))
+        mutate(col_name = colnames(df_cat)) %>%
+        select(-cnt)
       # get the unique levels
       levels_unique <- suppressWarnings(lapply(levels_list, nrow) %>% 
         do.call("rbind", .) %>% 
@@ -98,6 +102,7 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
         mutate(prop = prop * 100) %>%
         rename(cnt = V1, common = value, common_pcnt = prop)
       # add the list of levels as a final column
+      # levels_list_no_cnt <- lapply(levels_list, function(M) M[, -3])
       levels_df$levels <- levels_list
       # sort by alphabetical order & filter to max number of rows
       levels_df <- levels_df %>% 
@@ -109,7 +114,8 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
         # plot the categories using stacked bars
         plot_cat(levels_df, 
                  df_names, 
-                 text_labels = text_labels)
+                 text_labels = text_labels, 
+                 high_cardinality = high_cardinality)
       }
       # return df
       return(levels_df)
@@ -128,8 +134,10 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
     # combine and clean up levels
     levels_df <- full_join(s1, s2, by = "col_name") %>% 
       mutate(jsd = js_divergence_vec(levels.x, levels.y)) %>%
-      mutate(fisher_p = fisher(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
+      mutate(fisher_p = fisher(levels.x, levels.y, n_1 = nrow(df1), 
+                               n_2 = nrow(df2))) %>%
       select(col_name, jsd, fisher_p, lvls_1 = levels.x, lvls_2 = levels.y)
+
     # ensure the list names are retained
     names(levels_df[[4]]) <- names(levels_df[[5]]) <- as.character(levels_df$col_name)
     # if plot is requested
@@ -137,7 +145,8 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
       # plot the categories using stacked bars
       plot_cat(levels_df, 
                df_names, 
-               text_labels = text_labels)
+               text_labels = text_labels, 
+               high_cardinality = high_cardinality)
     }
     # return the comparison table
     return(levels_df)

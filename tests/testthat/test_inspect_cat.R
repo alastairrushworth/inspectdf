@@ -51,3 +51,16 @@ test_that("Majority NA in standard dataframes does not throw error", {
   expect_is(inspect_cat(data.frame(misst = c("a", "b", NA, NA))), "data.frame")
 })
 
+test_that("Cardinality option works", {
+  expect_is(inspect_cat(starwars%>% dplyr::select(-1), high_cardinality = 0), "data.frame")
+  expect_is(inspect_cat(starwars%>% dplyr::select(-1), high_cardinality = 1), "data.frame")
+  expect_is(inspect_cat(starwars%>% dplyr::select(-1), 
+                        starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T),
+                        high_cardinality = 0), 
+            "data.frame")
+  expect_is(inspect_cat(starwars%>% dplyr::select(-1), 
+                        starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T),
+                        high_cardinality = 1), 
+            "data.frame")
+})
+
