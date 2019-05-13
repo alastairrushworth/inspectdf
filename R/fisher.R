@@ -19,7 +19,7 @@ fisher <- function(Mlist1, Mlist2, n_1, n_2){
             # proportion of counts in each histogram
             mutate(prop.x = n_1 * prop.x, prop.y = n_2 * prop.y) %>%
             # drop the values column
-            select(-value) %>% 
+            select(-value, -contains("cnt")) %>% 
             # convert to a matrix and transpose to a pair of row vectors
             as.matrix %>% t %>%
             # apply fisher's exact test and extract the statistic

@@ -6,7 +6,7 @@ Status](https://travis-ci.org/alastairrushworth/inspectdf.svg?branch=master)](ht
 [![codecov](https://codecov.io/gh/alastairrushworth/inspectdf/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/inspectdf)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/inspectdf)](https://cran.r-project.org/package=inspectdf)
-<!-- [![](https://cranlogs.r-pkg.org/badges/inspectdf)](https://cran.r-project.org/package=inspectdf) -->
+[![](https://cranlogs.r-pkg.org/badges/inspectdf)](https://cran.r-project.org/package=inspectdf)
 
 ## Overview
 
@@ -160,21 +160,21 @@ inspect_mem(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
 
     ## # A tibble: 13 x 5
-    ##    col_name   size_1    size_2     pcnt_1 pcnt_2
-    ##    <chr>      <chr>     <chr>       <dbl>  <dbl>
-    ##  1 films      11.61 Kb  9.95 Kb    36.5    37.1 
-    ##  2 starships  4.03 Kb   3.98 Kb    12.7    14.8 
-    ##  3 name       3.52 Kb   <NA>       11.1    NA   
-    ##  4 vehicles   3.47 Kb   3.17 Kb    10.9    11.8 
-    ##  5 homeworld  2 Kb      2.41 Kb     6.29    8.99
-    ##  6 species    1.84 Kb   2.07 Kb     5.78    7.71
-    ##  7 skin_color 1.79 Kb   1.8 Kb      5.63    6.72
-    ##  8 eye_color  1.05 Kb   1016 bytes  3.29    3.69
-    ##  9 hair_color 792 bytes 1 Kb        2.43    3.72
-    ## 10 gender     616 bytes 616 bytes   1.89    2.24
-    ## 11 mass       448 bytes 448 bytes   1.38    1.63
-    ## 12 birth_year 448 bytes 448 bytes   1.38    1.63
-    ## 13 height     248 bytes <NA>        0.762  NA
+    ##    col_name   size_1    size_2    pcnt_1 pcnt_2
+    ##    <chr>      <chr>     <chr>      <dbl>  <dbl>
+    ##  1 films      10.61 Kb  11.58 Kb  33.8    41.1 
+    ##  2 starships  4.27 Kb   4.26 Kb   13.6    15.1 
+    ##  3 name       3.55 Kb   <NA>      11.3    NA   
+    ##  4 vehicles   3.47 Kb   3.32 Kb   11.0    11.8 
+    ##  5 homeworld  2.2 Kb    2.08 Kb    6.98    7.38
+    ##  6 skin_color 1.9 Kb    1.66 Kb    6.04    5.89
+    ##  7 species    1.84 Kb   1.72 Kb    5.84    6.11
+    ##  8 hair_color 960 bytes 968 bytes  2.98    3.36
+    ##  9 eye_color  960 bytes 1.05 Kb    2.98    3.72
+    ## 10 gender     616 bytes 680 bytes  1.91    2.36
+    ## 11 mass       448 bytes 448 bytes  1.39    1.55
+    ## 12 birth_year 448 bytes 448 bytes  1.39    1.55
+    ## 13 height     248 bytes <NA>       0.771  NA
 
 #### Missing values
 
@@ -193,7 +193,7 @@ inspect_na(starwars, show_plot = TRUE)
 
     ## # A tibble: 13 x 3
     ##    col_name     cnt  pcnt
-    ##    <chr>      <int> <dbl>
+    ##    <chr>      <dbl> <dbl>
     ##  1 birth_year    44 50.6 
     ##  2 mass          28 32.2 
     ##  3 homeworld     10 11.5 
@@ -225,14 +225,14 @@ inspect_na(star_1, star_2, show_plot = TRUE)
 
     ## # A tibble: 13 x 6
     ##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
-    ##    <chr>      <int>  <dbl> <int>  <dbl>   <dbl>
-    ##  1 birth_year    27     54    27     54   1    
-    ##  2 mass          15     30    17     34   0.830
-    ##  3 homeworld      5     10     6     12   1.000
-    ##  4 hair_color     4      8     0      0   0.126
-    ##  5 gender         3      6     0      0   0.241
-    ##  6 species        3      6     3      6   1    
-    ##  7 height         2      4    NA     NA  NA    
+    ##    <chr>      <dbl>  <dbl> <dbl>  <dbl>   <dbl>
+    ##  1 birth_year    24     48    24     48   1    
+    ##  2 mass          14     28    17     34   0.665
+    ##  3 homeworld      5     10     5     10   1    
+    ##  4 height         3      6    NA     NA  NA    
+    ##  5 species        3      6     3      6   1    
+    ##  6 hair_color     2      4     3      6   1.000
+    ##  7 gender         2      4     2      4   1    
     ##  8 name           0      0    NA     NA  NA    
     ##  9 skin_color     0      0     0      0  NA    
     ## 10 eye_color      0      0     0      0  NA    
@@ -302,11 +302,11 @@ inspect_cor(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
 
     ## # A tibble: 3 x 5
-    ##   col_1      col_2  corr_1  corr_2 p_value
-    ##   <chr>      <chr>   <dbl>   <dbl>   <dbl>
-    ## 1 mass       height  0.779  NA      NA    
-    ## 2 birth_year height -0.491  NA      NA    
-    ## 3 birth_year mass   -0.381  -0.431   0.772
+    ##   col_1      col_2  corr_1 corr_2 p_value
+    ##   <chr>      <chr>   <dbl>  <dbl>   <dbl>
+    ## 1 mass       height  0.772 NA      NA    
+    ## 2 birth_year height  0.498 NA      NA    
+    ## 3 birth_year mass    0.237  0.476   0.180
 
 Notes:
 
@@ -340,12 +340,12 @@ inspect_imb(starwars, show_plot = TRUE)
     ## # A tibble: 7 x 4
     ##   col_name   value   pcnt   cnt
     ##   <chr>      <chr>  <dbl> <int>
-    ## 1 gender     male   71.3     19
-    ## 2 hair_color none   42.5      1
-    ## 3 species    Human  40.2      1
-    ## 4 eye_color  brown  24.1     10
-    ## 5 skin_color fair   19.5      2
-    ## 6 homeworld  Naboo  12.6      3
+    ## 1 gender     male   71.3     62
+    ## 2 hair_color none   42.5     37
+    ## 3 species    Human  40.2     35
+    ## 4 eye_color  brown  24.1     21
+    ## 5 skin_color fair   19.5     17
+    ## 6 homeworld  Naboo  12.6     11
     ## 7 name       Ackbar  1.15     1
 
 ##### `inspect_imb()` for two dataframes
@@ -362,15 +362,15 @@ inspect_imb(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
 
     ## # A tibble: 7 x 7
-    ##   col_name   value      pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
-    ##   <chr>      <chr>       <dbl> <int>  <dbl> <int>   <dbl>
-    ## 1 gender     male           72    10     82     7   0.594
-    ## 2 hair_color none           44     6     50     1   0.117
-    ## 3 species    Human          40     1     32     1   1    
-    ## 4 eye_color  brown          26     7     NA    NA  NA    
-    ## 5 homeworld  Tatooine       18     3     NA    NA  NA    
-    ## 6 skin_color fair           16     1     20     1   1    
-    ## 7 name       Adi Gallia      2     1     NA    NA  NA
+    ##   col_name   value  pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
+    ##   <chr>      <chr>   <dbl> <int>  <dbl> <int>   <dbl>
+    ## 1 gender     male       74    37     68    34   0.659
+    ## 2 hair_color none       38    19     38    19   1    
+    ## 3 species    Human      38    19     46    23   0.543
+    ## 4 eye_color  brown      26    13     30    15   0.824
+    ## 5 skin_color fair       18     9     22    11   0.803
+    ## 6 homeworld  Naboo      16     8     18     9   1.000
+    ## 7 name       Ackbar      2     1     NA    NA  NA
 
   - Smaller `p_value` indicates stronger evidence against the null
     hypothesis that the true frequency of the most common values is the
@@ -463,11 +463,11 @@ inspect_num(star_1, star_2, show_plot = TRUE)
 ![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
 
     ## # A tibble: 3 x 5
-    ##   col_name   hist_1            hist_2                jsd fisher_p
-    ##   <chr>      <list>            <list>              <dbl>    <dbl>
-    ## 1 birth_year <tibble [20 × 2]> <tibble [20 × 2]>  0.0474    0.354
-    ## 2 height     <tibble [23 × 2]> <NULL>            NA        NA    
-    ## 3 mass       <tibble [27 × 2]> <tibble [27 × 2]>  0.122     0.694
+    ##   col_name   hist_1            hist_2               jsd fisher_p
+    ##   <chr>      <list>            <list>             <dbl>    <dbl>
+    ## 1 birth_year <tibble [22 × 2]> <tibble [22 × 2]>  0.146    0.265
+    ## 2 height     <tibble [22 × 2]> <NULL>            NA       NA    
+    ## 3 mass       <tibble [17 × 2]> <tibble [17 × 2]>  0.109    0.571
 
 #### Categorical levels
 
@@ -496,13 +496,13 @@ inspect_cat(starwars, show_plot = T)
     ## # A tibble: 7 x 5
     ##   col_name     cnt common common_pcnt levels           
     ##   <chr>      <int> <chr>        <dbl> <list>           
-    ## 1 eye_color     15 brown        24.1  <tibble [15 × 2]>
-    ## 2 gender         5 male         71.3  <tibble [5 × 2]> 
-    ## 3 hair_color    13 none         42.5  <tibble [13 × 2]>
-    ## 4 homeworld     49 Naboo        12.6  <tibble [49 × 2]>
-    ## 5 name          87 Ackbar        1.15 <tibble [87 × 2]>
-    ## 6 skin_color    31 fair         19.5  <tibble [31 × 2]>
-    ## 7 species       38 Human        40.2  <tibble [38 × 2]>
+    ## 1 eye_color     15 brown        24.1  <tibble [15 × 3]>
+    ## 2 gender         5 male         71.3  <tibble [5 × 3]> 
+    ## 3 hair_color    13 none         42.5  <tibble [13 × 3]>
+    ## 4 homeworld     49 Naboo        12.6  <tibble [49 × 3]>
+    ## 5 name          87 Ackbar        1.15 <tibble [87 × 3]>
+    ## 6 skin_color    31 fair         19.5  <tibble [31 × 3]>
+    ## 7 species       38 Human        40.2  <tibble [38 × 3]>
 
 For example, the levels for the `hair_color` column are
 
@@ -510,22 +510,22 @@ For example, the levels for the `hair_color` column are
 inspect_cat(starwars)$levels$hair_color
 ```
 
-    ## # A tibble: 13 x 2
-    ##    value           prop
-    ##    <chr>          <dbl>
-    ##  1 none          0.425 
-    ##  2 brown         0.207 
-    ##  3 black         0.149 
-    ##  4 <NA>          0.0575
-    ##  5 white         0.0460
-    ##  6 blond         0.0345
-    ##  7 auburn        0.0115
-    ##  8 auburn, grey  0.0115
-    ##  9 auburn, white 0.0115
-    ## 10 blonde        0.0115
-    ## 11 brown, grey   0.0115
-    ## 12 grey          0.0115
-    ## 13 unknown       0.0115
+    ## # A tibble: 13 x 3
+    ##    value           prop   cnt
+    ##    <chr>          <dbl> <int>
+    ##  1 none          0.425     37
+    ##  2 brown         0.207     18
+    ##  3 black         0.149     13
+    ##  4 <NA>          0.0575     5
+    ##  5 white         0.0460     4
+    ##  6 blond         0.0345     3
+    ##  7 auburn        0.0115     1
+    ##  8 auburn, grey  0.0115     1
+    ##  9 auburn, white 0.0115     1
+    ## 10 blonde        0.0115     1
+    ## 11 brown, grey   0.0115     1
+    ## 12 grey          0.0115     1
+    ## 13 unknown       0.0115     1
 
 Note that by default, if `NA` values are present, they are counted as a
 distinct categorical level.
@@ -547,13 +547,13 @@ inspect_cat(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 7 x 5
     ##   col_name       jsd fisher_p lvls_1            lvls_2           
     ##   <chr>        <dbl>    <dbl> <list>            <list>           
-    ## 1 eye_color   0.0817    0.785 <tibble [11 × 2]> <tibble [10 × 2]>
-    ## 2 gender      0.0386    0.276 <tibble [4 × 2]>  <tibble [3 × 2]> 
-    ## 3 hair_color  0.0951    0.418 <tibble [7 × 2]>  <tibble [10 × 2]>
-    ## 4 homeworld   0.282     0.998 <tibble [28 × 2]> <tibble [35 × 2]>
-    ## 5 name       NA        NA     <tibble [50 × 2]> <NULL>           
-    ## 6 skin_color  0.176     0.996 <tibble [23 × 2]> <tibble [23 × 2]>
-    ## 7 species     0.161     1     <tibble [25 × 2]> <tibble [29 × 2]>
+    ## 1 eye_color   0.0551    0.971 <tibble [9 × 3]>  <tibble [11 × 3]>
+    ## 2 gender      0.0122    0.927 <tibble [4 × 3]>  <tibble [5 × 3]> 
+    ## 3 hair_color  0.0475    0.989 <tibble [10 × 3]> <tibble [10 × 3]>
+    ## 4 homeworld   0.241     1     <tibble [31 × 3]> <tibble [29 × 3]>
+    ## 5 name       NA        NA     <tibble [50 × 3]> <NULL>           
+    ## 6 skin_color  0.122     0.999 <tibble [25 × 3]> <tibble [21 × 3]>
+    ## 7 species     0.168     1     <tibble [25 × 3]> <tibble [23 × 3]>
 
 When `show_plot = TRUE`, a barplot is returned comparing distributions
 of levels in pairs of columns shared by the two dataframes.

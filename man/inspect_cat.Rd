@@ -4,7 +4,8 @@
 \alias{inspect_cat}
 \title{Summarise and compare the levels within each categorical feature in one or two dataframes.}
 \usage{
-inspect_cat(df1, df2 = NULL, show_plot = FALSE, text_labels = TRUE)
+inspect_cat(df1, df2 = NULL, show_plot = FALSE, text_labels = TRUE,
+  high_cardinality = 0)
 }
 \arguments{
 \item{df1}{A dataframe}
@@ -17,6 +18,10 @@ in addition to tibble output.  Default is \code{FALSE}.}
 
 \item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
 Default is \code{TRUE}.}
+
+\item{high_cardinality}{Minimum number of occurences of category to be shown as a distinct segment 
+in the  plot.  Default is 0.  This argument can help when some column contain many unique or 
+near-unique levels that may take a while to plot.}
 }
 \value{
 A tibble summarising and comparing the categorical features 

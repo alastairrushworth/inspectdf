@@ -15,10 +15,10 @@ fast_table <- function(v, show_na = TRUE, show_cnt = FALSE){
     freq <- NA
   }
   # recombine levels with frequencies
-  tbl_freq <-  tibble(value = vals, prop = freq / length(v)) %>% 
-    arrange(desc(prop))
+  tbl_freq <-  tibble(value = vals, prop = freq / length(v)) 
   # if frequencies are required, add them here
   if(show_cnt) tbl_freq$cnt <- freq
+  tbl_freq <- tbl_freq %>% arrange(desc(prop))
   # if the values column is not numeric, then coerce to character
   if(!any("numeric" %in% class(tbl_freq$value))){
     tbl_freq$value <- as.character(tbl_freq$value)
