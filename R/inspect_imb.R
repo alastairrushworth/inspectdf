@@ -68,21 +68,20 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
   if(is.null(df2)){
     # pick out categorical columns
     df_cat <- df1 %>% select_if(function(v) is.character(v) | is.factor(v))
+    n_cols <- ncol(df_cat)
     # calculate imbalance if any columns available
-    if(ncol(df_cat) > 0){
+    if(n_cols > 0){
+      names_cat <- colnames(df_cat)
       # function to find the percentage of the most common value in a vector
-      levels_list <- vector("list", length = length(df_cat))
-      pb <- progress_bar$new(
-        format = paste0(" ", df_names[[1]], " [:bar] :percent eta: :eta"),
-        total = length(df_cat) + 1, clear = TRUE, width = 80)
-      pb$tick()
-      for(i in 1:length(df_cat)){
+      levels_list <- vector("list", length = n_cols)
+      pb <- start_progress(prefix = " Column", total = n_cols)
+      for(i in 1:n_cols){
+        update_progress(bar = pb, iter = i, total = n_cols, what = names_cat[i])
         full_tab <- fast_table(df_cat[[i]], show_cnt = TRUE)
         levels_list[[i]] <- full_tab %>% slice(1)
-        pb$tick()
       }
       # collapse highest imbalance into single dataframe
-      names(levels_list) <- names(df_cat)
+      names(levels_list) <- names_cat
       imb_cols  <- suppressWarnings(bind_rows(levels_list, .id = "col_name"))
 
       out <- imb_cols %>% 

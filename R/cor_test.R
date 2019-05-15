@@ -33,11 +33,9 @@ cor_test_1 <- function(df_input, df_name, alpha = 0.05){
   # loop over rows and calculate correlation, p.value and cint
   out_cors <- vector("list", length = nrow(c_cmbs))
   total_its <- nrow(c_cmbs)
-  pb <- progress_bar$new(
-    format = paste0(" ", df_name, " [:bar] :percent eta: :eta"),
-    total = total_its, clear = TRUE, width = 80)
+  pb <- start_progress(prefix = " Column pair", total = total_its)
   for(i in 1:total_its){
-    pb$tick()
+    update_progress(bar = pb, iter = i, total = total_its, what = c_cmbs$pair[i])
     c_df   <- df_input %>% select_(c_cmbs$col_1[i], c_cmbs$col_2[i])
     c_test <- try(cor.test(c_df[, 1, drop = TRUE], 
                            c_df[, 2, drop = T], 

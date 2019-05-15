@@ -4,9 +4,10 @@
 #' @importFrom ggplot2 scale_fill_manual
 #' @importFrom grDevices colorRampPalette
 #' @importFrom ggplot2 scale_x_discrete
-plot_cat <- function(levels_df, df_names, text_labels, high_cardinality){
+plot_cat <- function(levels_df, df_names, text_labels, high_cardinality, 
+                     cols = cols){
   # plotting pallete
-  b <- colorRampPalette(c("tomato3", "white"))
+  b <- colorRampPalette(c(cols[1], "white"))
   zcols <- b(1001)
 
   # min_freq label
@@ -101,8 +102,8 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality){
     geom_bar(position = "stack", stat = "identity", 
              colour = "black", size = 0.2) +
     scale_fill_manual(
-      values = ifelse(is.na(lvl_df2$value), "gray65", 
-                      ifelse(lvl_df2$value == min_freq_label, "black", 
+      values = ifelse(is.na(lvl_df2$value), cols[2], 
+                      ifelse(lvl_df2$value == min_freq_label, cols[3], 
                              zcols[round(lvl_df2$colvalstretch * 1000, 0)]))) +
     coord_flip() +
     guides(fill = FALSE) + 
