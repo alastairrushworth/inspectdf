@@ -74,15 +74,14 @@ inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE,
   
   if(is.null(df2)){
     # col_space vectors
+    names_vec <- colnames(df1)
     col_space <- vector("list", length = sizes$ncl_1)
     col_space_ch <- vector("character", length = sizes$ncl_1)
     # initialise progress bar
-    pb <- progress_bar$new(
-      format = paste0(" ", df_names[[1]], " [:bar] :percent eta: :eta"),
-      total = sizes$ncl_1, clear = TRUE, width = 80)
+    pb <- start_progress(prefix = " Column", total = sizes$ncl_1)
     # get column sizes in both character and numeric formats
     for(i in 1:sizes$ncl_1){
-      pb$tick()
+      update_progress(bar = pb, iter = i, total = sizes$ncl_1, what = names_vec[i])
       col_space[[i]] <- object.size(df1[[i]])
       col_space_ch[i] <- format_size(col_space[[i]])
     }

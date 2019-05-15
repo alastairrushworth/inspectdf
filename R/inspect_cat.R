@@ -10,6 +10,8 @@
 #' @param high_cardinality Minimum number of occurences of category to be shown as a distinct segment 
 #' in the  plot.  Default is 0.  This argument can help when some column contain many unique or 
 #' near-unique levels that may take a while to plot.
+#' @param cols Vector conataining names or integers indicating colours for the plotted bars for levels,
+#' missing values and for high cardinality values, respectively.
 #' @return A tibble summarising and comparing the categorical features 
 #' in one or a pair of data frames.
 #' @details When only \code{df1} is specified, a tibble is returned which 
@@ -61,7 +63,8 @@
 #' @importFrom progress progress_bar
 
 inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE, 
-                        text_labels = TRUE, high_cardinality = 0){
+                        text_labels = TRUE, high_cardinality = 0, 
+                        cols = c("tomato3", "gray65", "darkmagenta")){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -78,19 +81,20 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
     # calculate association if categorical columns exist
     if(ncol(df_cat) > 0){
       # get the levels for each category
+      names_cat <- colnames(df_cat)
+      n_cols <- ncol(df_cat)
       levels_list <- vector("list", length = length(df_cat))
-      pb <- progress_bar$new(
-        format = paste0(" ", df_names[[1]], " [:bar] :percent eta: :eta"),
-        total = length(df_cat), clear = TRUE, width = 80)
-      for(i in 1:length(df_cat)){
-        pb$tick()
+      # loop over columns and tabulte frequencies
+      pb <- start_progress(prefix = " Column", total = n_cols)
+      for(i in 1:n_cols){
+        update_progress(bar = pb, iter = i, total = n_cols, what = names_cat[i])
         levels_list[[i]] <- fast_table(df_cat[[i]], show_na = TRUE, show_cnt = TRUE)
       }
       names(levels_list) <- names(df_cat)
       # get the most common level
       levels_top  <- lapply(levels_list, function(M) M[1, ]) %>% 
         do.call("rbind", .) %>% 
-        mutate(col_name = colnames(df_cat)) %>%
+        mutate(col_name = names_cat) %>%
         select(-cnt)
       # get the unique levels
       levels_unique <- suppressWarnings(lapply(levels_list, nrow) %>% 
@@ -101,8 +105,6 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
         left_join(levels_top, by = "col_name") %>% 
         mutate(prop = prop * 100) %>%
         rename(cnt = V1, common = value, common_pcnt = prop)
-      # add the list of levels as a final column
-      # levels_list_no_cnt <- lapply(levels_list, function(M) M[, -3])
       levels_df$levels <- levels_list
       # sort by alphabetical order & filter to max number of rows
       levels_df <- levels_df %>% 
@@ -115,7 +117,8 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
         plot_cat(levels_df, 
                  df_names, 
                  text_labels = text_labels, 
-                 high_cardinality = high_cardinality)
+                 high_cardinality = high_cardinality, 
+                 cols = cols)
       }
       # return df
       return(levels_df)
@@ -146,7 +149,8 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
       plot_cat(levels_df, 
                df_names, 
                text_labels = text_labels, 
-               high_cardinality = high_cardinality)
+               high_cardinality = high_cardinality, 
+               cols = cols)
     }
     # return the comparison table
     return(levels_df)

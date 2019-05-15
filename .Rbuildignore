@@ -5,6 +5,7 @@
 ^big_tests\.R$
 ^deprecated$
 ^README\.Rmd$
+^NEWS\.Rmd$
 ^depracated$
 ^example\.R$
 ^inspectdf\.Rproj$

@@ -65,16 +65,16 @@ inspect_na <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
   df_names <- get_df_names()
   # if ony one df input then inspect na content
   if(is.null(df2)){
+    n_cols <- ncol(df1)
+    names_vec <- colnames(df1)
     # calculate columnwise missingness
-    na_vec <- vector("numeric", length = ncol(df1))
-    pb <- progress_bar$new(
-      format = paste0(" ", df_names[[1]], " [:bar] :percent eta: :eta"),
-      total = ncol(df1), clear = TRUE, width = 80)
-    for(i in 1:ncol(df1)){
-      pb$tick()
+    na_vec <- vector("numeric", length = n_cols)
+    pb <- start_progress(prefix = " Column", total = n_cols)
+    for(i in 1:n_cols){
+      update_progress(bar = pb, iter = i, total = n_cols, what = names_vec[i])
       na_vec[i] <- sumna(df1[[i]])
     }
-    names(na_vec) <- colnames(df1)
+    names(na_vec) <- names_vec
     out <- vec_to_tibble(na_vec) %>%
       mutate(pcnt = 100 * n / nrow(df1)) %>%
       select(col_name = names, cnt = n, pcnt) %>%

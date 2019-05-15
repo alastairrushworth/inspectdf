@@ -95,11 +95,10 @@ inspect_num <- function(df1, df2 = NULL, show_plot = F,
   if(is.null(df2)){
     # pick out numeric features
     df_num <- df1 %>% select_if(is.numeric)
+    n_cols <- ncol(df_num)
     # calculate summary statistics for each
-    if(ncol(df_num) > 0){
-      pb <- progress_bar$new(
-        format = paste0(" ", df_names[[1]], " [:bar] :percent eta: :eta"),
-        total = ncol(df_num) + 1, clear = TRUE, width = 80)
+    if(n_cols > 0){
+      names_vec <- colnames(df1)
       # use the summary function to sweep out statistics
       df_num_sum <- df_num %>% gather(key = "col_name", value = "value") %>%
         group_by(col_name) %>% 
@@ -112,7 +111,6 @@ inspect_num <- function(df1, df2 = NULL, show_plot = F,
                   sd = sd(value, na.rm = T), 
                   pcnt_na = 100 * mean(is.na(value))) %>%
         ungroup
-      pb$tick()
       # tibble determining breaks to use
       breaks_tbl <- tibble(col_name = colnames(df_num)) 
       # join to the breaks argument if supplied
@@ -122,11 +120,12 @@ inspect_num <- function(df1, df2 = NULL, show_plot = F,
         # if not supplied, create placeholder list of NULLs
         breaks_tbl$breaks <- lapply(as.list(1:nrow(breaks_tbl)), function(xc) NULL)
       }
-      breaks_tbl$hist <- vector("list", length = ncol(df_num))
+      pb <- start_progress(prefix = " Column", total = n_cols)
+      breaks_tbl$hist <- vector("list", length = nrow(breaks_tbl))
       # loop over the breaks_tbl and generate histograms, suppressing plotting
       # if breaks already exist, then use them, otherwise create new breaks
       for(i in 1:nrow(breaks_tbl)){
-        pb$tick()
+        update_progress(bar = pb, iter = i, total = nrow(breaks_tbl), what = names_vec[i])
         # substract out mean to avoid numerical issues
         brks_null <- is.null(breaks_tbl$breaks[[i]])
         hist_i    <- suppressWarnings(hist(df_num[[breaks_tbl$col_name[i]]], 
