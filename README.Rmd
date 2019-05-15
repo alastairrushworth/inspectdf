@@ -9,10 +9,10 @@ knitr::opts_chunk$set(
 ```
 
 
-# inspectdf <img src="man/figures/hex.png" align="right" width="120" />
+# inspectdf <img src="man/figures/logo.png" align="right" width="120" />
 
 
-[![Build Status](https://travis-ci.org/alastairrushworth/inspectdf.svg?branch=master)](https://travis-ci.org/alastairrushworth/inspectdf)  
+[![Build Status](https://travis-ci.org/alastairrushworth/inspectdf.svg?branch=master)](https://travis-ci.org/alastairrushworth/inspectdf)
 [![codecov](https://codecov.io/gh/alastairrushworth/inspectdf/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/inspectdf)
 [![CRAN status](https://www.r-pkg.org/badges/version/inspectdf)](https://cran.r-project.org/package=inspectdf)
 [![](https://cranlogs.r-pkg.org/badges/inspectdf)](https://cran.r-project.org/package=inspectdf)

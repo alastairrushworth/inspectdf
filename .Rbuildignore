@@ -1,4 +1,5 @@
 ^tests$
+^docs$
 ^inst$
 ^checks\.R$
 ^big_tests\.R$
