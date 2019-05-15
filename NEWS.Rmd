@@ -1,0 +1,13 @@
+---
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### News
+
+#### `inspectdf` 0.0.1
+
+- Initial CRAN release
