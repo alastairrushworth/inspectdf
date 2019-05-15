@@ -127,13 +127,15 @@ inspect_num <- function(df1, df2 = NULL, show_plot = F,
       # if breaks already exist, then use them, otherwise create new breaks
       for(i in 1:nrow(breaks_tbl)){
         pb$tick()
+        # substract out mean to avoid numerical issues
         brks_null <- is.null(breaks_tbl$breaks[[i]])
-        breaks_tbl$hist[[i]] <- hist(unlist(df_num[breaks_tbl$col_name[i]]), plot = F, 
-                                     breaks = if(brks_null) breaks else {breaks_tbl$breaks[[i]]}, 
-                                     right = FALSE)
+        hist_i    <- suppressWarnings(hist(df_num[[breaks_tbl$col_name[i]]], 
+                                           plot = FALSE, 
+                                           breaks = if(brks_null) breaks else {breaks_tbl$breaks[[i]]}, 
+                                           right = FALSE))
+        # extract basic info for constructing hist
+        breaks_tbl$hist[[i]] <- prop_value(hist_i)
       }
-      # extract basic info for constructing hist
-      breaks_tbl$hist <- lapply(breaks_tbl$hist, prop_value)
       # ensure the histogram has a min and max breaks & join back to df_num_sum
       out <- left_join(df_num_sum, breaks_tbl, by = "col_name") %>% 
         select(-breaks)

@@ -74,11 +74,12 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
       levels_list <- vector("list", length = length(df_cat))
       pb <- progress_bar$new(
         format = paste0(" ", df_names[[1]], " [:bar] :percent eta: :eta"),
-        total = length(df_cat), clear = TRUE, width = 80)
+        total = length(df_cat) + 1, clear = TRUE, width = 80)
+      pb$tick()
       for(i in 1:length(df_cat)){
-        pb$tick()
         full_tab <- fast_table(df_cat[[i]], show_cnt = TRUE)
         levels_list[[i]] <- full_tab %>% slice(1)
+        pb$tick()
       }
       # collapse highest imbalance into single dataframe
       names(levels_list) <- names(df_cat)
