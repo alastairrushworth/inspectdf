@@ -1,12 +1,14 @@
 
-# inspectdf <img src="man/figures/hex.png" align="right" width="120" />
+# inspectdf <img src="man/figures/logo.png" align="right" width="120" />
 
 [![Build
-Status](https://travis-ci.org/alastairrushworth/inspectdf.svg?branch=master)](https://travis-ci.org/alastairrushworth/inspectdf)  
+Status](https://travis-ci.org/alastairrushworth/inspectdf.svg?branch=master)](https://travis-ci.org/alastairrushworth/inspectdf)
 [![codecov](https://codecov.io/gh/alastairrushworth/inspectdf/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/inspectdf)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/inspectdf)](https://cran.r-project.org/package=inspectdf)
 [![](https://cranlogs.r-pkg.org/badges/inspectdf)](https://cran.r-project.org/package=inspectdf)
+[![cran
+checks](https://cranchecks.info/badges/summary/inspectdf)](https://cran.r-project.org/web/checks/check_results_inspectdf.html)
 
 ## Overview
 
@@ -162,19 +164,19 @@ inspect_mem(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 13 x 5
     ##    col_name   size_1    size_2    pcnt_1 pcnt_2
     ##    <chr>      <chr>     <chr>      <dbl>  <dbl>
-    ##  1 films      10.61 Kb  11.58 Kb  33.8    41.1 
-    ##  2 starships  4.27 Kb   4.26 Kb   13.6    15.1 
-    ##  3 name       3.55 Kb   <NA>      11.3    NA   
-    ##  4 vehicles   3.47 Kb   3.32 Kb   11.0    11.8 
-    ##  5 homeworld  2.2 Kb    2.08 Kb    6.98    7.38
-    ##  6 skin_color 1.9 Kb    1.66 Kb    6.04    5.89
-    ##  7 species    1.84 Kb   1.72 Kb    5.84    6.11
-    ##  8 hair_color 960 bytes 968 bytes  2.98    3.36
-    ##  9 eye_color  960 bytes 1.05 Kb    2.98    3.72
-    ## 10 gender     616 bytes 680 bytes  1.91    2.36
-    ## 11 mass       448 bytes 448 bytes  1.39    1.55
-    ## 12 birth_year 448 bytes 448 bytes  1.39    1.55
-    ## 13 height     248 bytes <NA>       0.771  NA
+    ##  1 films      11.48 Kb  11.37 Kb  35.1    39.6 
+    ##  2 starships  4.8 Kb    4.56 Kb   14.7    15.9 
+    ##  3 name       3.55 Kb   <NA>      10.8    NA   
+    ##  4 vehicles   3.54 Kb   3.45 Kb   10.8    12.0 
+    ##  5 homeworld  2.23 Kb   2.23 Kb    6.80    7.76
+    ##  6 species    1.8 Kb    1.84 Kb    5.49    6.40
+    ##  7 skin_color 1.61 Kb   1.7 Kb     4.92    5.91
+    ##  8 eye_color  1.11 Kb   1.16 Kb    3.39    4.06
+    ##  9 hair_color 968 bytes 920 bytes  2.89    3.13
+    ## 10 gender     560 bytes 624 bytes  1.67    2.12
+    ## 11 mass       448 bytes 448 bytes  1.34    1.53
+    ## 12 birth_year 448 bytes 448 bytes  1.34    1.53
+    ## 13 height     248 bytes <NA>       0.740  NA
 
 #### Missing values
 
@@ -226,16 +228,16 @@ inspect_na(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 13 x 6
     ##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
     ##    <chr>      <dbl>  <dbl> <dbl>  <dbl>   <dbl>
-    ##  1 birth_year    24     48    24     48   1    
-    ##  2 mass          14     28    17     34   0.665
-    ##  3 homeworld      5     10     5     10   1    
-    ##  4 height         3      6    NA     NA  NA    
-    ##  5 species        3      6     3      6   1    
-    ##  6 hair_color     2      4     3      6   1.000
-    ##  7 gender         2      4     2      4   1    
-    ##  8 name           0      0    NA     NA  NA    
-    ##  9 skin_color     0      0     0      0  NA    
-    ## 10 eye_color      0      0     0      0  NA    
+    ##  1 birth_year    24     48    27     54   0.689
+    ##  2 mass          11     22    16     32   0.368
+    ##  3 homeworld      5     10     6     12   1.000
+    ##  4 species        4      8     3      6   1.000
+    ##  5 height         3      6    NA     NA  NA    
+    ##  6 hair_color     1      2     2      4   1    
+    ##  7 name           0      0    NA     NA  NA    
+    ##  8 skin_color     0      0     0      0  NA    
+    ##  9 eye_color      0      0     0      0  NA    
+    ## 10 gender         0      0     1      2   1    
     ## 11 films          0      0     0      0  NA    
     ## 12 vehicles       0      0     0      0  NA    
     ## 13 starships      0      0     0      0  NA
@@ -304,9 +306,9 @@ inspect_cor(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 3 x 5
     ##   col_1      col_2  corr_1 corr_2 p_value
     ##   <chr>      <chr>   <dbl>  <dbl>   <dbl>
-    ## 1 mass       height  0.772 NA      NA    
-    ## 2 birth_year height  0.498 NA      NA    
-    ## 3 birth_year mass    0.237  0.476   0.180
+    ## 1 mass       height  0.724 NA      NA    
+    ## 2 birth_year height  0.606 NA      NA    
+    ## 3 birth_year mass    0.391  0.470   0.639
 
 Notes:
 
@@ -364,13 +366,13 @@ inspect_imb(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 7 x 7
     ##   col_name   value  pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
     ##   <chr>      <chr>   <dbl> <int>  <dbl> <int>   <dbl>
-    ## 1 gender     male       74    37     68    34   0.659
-    ## 2 hair_color none       38    19     38    19   1    
-    ## 3 species    Human      38    19     46    23   0.543
-    ## 4 eye_color  brown      26    13     30    15   0.824
-    ## 5 skin_color fair       18     9     22    11   0.803
-    ## 6 homeworld  Naboo      16     8     18     9   1.000
-    ## 7 name       Ackbar      2     1     NA    NA  NA
+    ## 1 gender     male      70     35     74    37   0.824
+    ## 2 hair_color none      46     23     42    21   0.840
+    ## 3 species    Human     42     21     38    19   0.838
+    ## 4 eye_color  brown     28.    14     24    12   0.820
+    ## 5 skin_color light     18      9     NA    NA  NA    
+    ## 6 homeworld  Naboo     14.     7     NA    NA  NA    
+    ## 7 name       Ackbar     2      1     NA    NA  NA
 
   - Smaller `p_value` indicates stronger evidence against the null
     hypothesis that the true frequency of the most common values is the
@@ -465,9 +467,9 @@ inspect_num(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 3 x 5
     ##   col_name   hist_1            hist_2               jsd fisher_p
     ##   <chr>      <list>            <list>             <dbl>    <dbl>
-    ## 1 birth_year <tibble [22 × 2]> <tibble [22 × 2]>  0.146    0.265
-    ## 2 height     <tibble [22 × 2]> <NULL>            NA       NA    
-    ## 3 mass       <tibble [17 × 2]> <tibble [17 × 2]>  0.109    0.571
+    ## 1 birth_year <tibble [22 × 2]> <tibble [22 × 2]>  0.141    0.211
+    ## 2 height     <tibble [21 × 2]> <NULL>            NA       NA    
+    ## 3 mass       <tibble [26 × 2]> <tibble [26 × 2]>  0.103    0.927
 
 #### Categorical levels
 
@@ -547,13 +549,13 @@ inspect_cat(star_1, star_2, show_plot = TRUE)
     ## # A tibble: 7 x 5
     ##   col_name       jsd fisher_p lvls_1            lvls_2           
     ##   <chr>        <dbl>    <dbl> <list>            <list>           
-    ## 1 eye_color   0.0551    0.971 <tibble [9 × 3]>  <tibble [11 × 3]>
-    ## 2 gender      0.0122    0.927 <tibble [4 × 3]>  <tibble [5 × 3]> 
-    ## 3 hair_color  0.0475    0.989 <tibble [10 × 3]> <tibble [10 × 3]>
-    ## 4 homeworld   0.241     1     <tibble [31 × 3]> <tibble [29 × 3]>
+    ## 1 eye_color   0.0301    0.992 <tibble [12 × 3]> <tibble [13 × 3]>
+    ## 2 gender      0.0249    0.494 <tibble [2 × 3]>  <tibble [4 × 3]> 
+    ## 3 hair_color  0.0731    0.893 <tibble [10 × 3]> <tibble [9 × 3]> 
+    ## 4 homeworld   0.173     1     <tibble [32 × 3]> <tibble [32 × 3]>
     ## 5 name       NA        NA     <tibble [50 × 3]> <NULL>           
-    ## 6 skin_color  0.122     0.999 <tibble [25 × 3]> <tibble [21 × 3]>
-    ## 7 species     0.168     1     <tibble [25 × 3]> <tibble [23 × 3]>
+    ## 6 skin_color  0.0897    1.000 <tibble [20 × 3]> <tibble [21 × 3]>
+    ## 7 species     0.144     1     <tibble [24 × 3]> <tibble [25 × 3]>
 
 When `show_plot = TRUE`, a barplot is returned comparing distributions
 of levels in pairs of columns shared by the two dataframes.
