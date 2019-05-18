@@ -87,19 +87,32 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 
 ##### `inspect_types()` for a single dataframe
 
-To explore the column types in a data frame, use the function `inspect_types()`.  The command returns a `tibble` summarising the counts and percentages of columns with particular types.  A barplot is also returned when `show_plot = TRUE`.
+To explore the column types in a data frame, use the function `inspect_types()`.  The command returns a `tibble` summarising the counts and percentages of columns with particular types.  
 
 ```{r}
-# return tibble and visualisation of columns types
-inspect_types(starwars, show_plot = TRUE)
+# return tibble showing columns types
+inspect_types(starwars)
 ```
+
+A barplot can be produced by passing the result to `show_plot()`:
+
+```{r}
+# print visualisation of column types
+inspect_types(starwars) %>% show_plot()
+```
+
 
 ##### `inspect_types()` for two dataframes
 
 When a second dataframe is provided, `inspect_types()` will create a dataframe comparing the count and percentage of each column type for each of the input dataframes.  The summaries for the first and second dataframes are show in columns with names appended with `_1` and `_2`, respectively.
 
 ```{r}
-inspect_types(star_1, star_2, show_plot = TRUE)
+inspect_types(star_1, star_2)
+```
+
+```{r}
+# print visualisation of column type comparison
+inspect_types(star_1, star_2) %>% show_plot()
 ```
 
 
@@ -108,10 +121,16 @@ inspect_types(star_1, star_2, show_plot = TRUE)
 
 ##### `inspect_mem()` for a single dataframe
 
-To explore the memory usage of the columns in a data frame, use `inspect_mem()`.  The command returns a `tibble` containing the size of each column in the dataframe.  A barplot is also returned when `show_plot = TRUE`.
+To explore the memory usage of the columns in a data frame, use `inspect_mem()`.  The command returns a `tibble` containing the size of each column in the dataframe.  
 
 ```{r}
-inspect_mem(starwars, show_plot = TRUE)
+inspect_mem(starwars)
+```
+
+A barplot can be produced by passing the result to `show_plot()`:
+
+```{r}
+inspect_mem(starwars) %>% show_plot()
 ```
 
 ##### `inspect_mem()` for two dataframes
@@ -119,18 +138,27 @@ inspect_mem(starwars, show_plot = TRUE)
 When a second dataframe is provided, `inspect_mem()` will create a dataframe comparing the size of each column for both input dataframes.  The summaries for the first and second dataframes are show in columns with names appended with `_1` and `_2`, respectively.
 
 ```{r}
-inspect_mem(star_1, star_2, show_plot = TRUE)
+inspect_mem(star_1, star_2)
 ```
 
+```{r}
+inspect_mem(star_1, star_2) %>% show_plot()
+```
 
 #### Missing values
 
 ##### `inspect_na()` for a single dataframe
 
-`inspect_na()` summarises the prevalence of missing values by each column in a data frame.  A tibble containing the count (`cnt`) and the overall percentage (`pcnt`) of missing values is returned  A barplot is also returned when `show_plot` is set to `TRUE`.
+`inspect_na()` summarises the prevalence of missing values by each column in a data frame.  A tibble containing the count (`cnt`) and the overall percentage (`pcnt`) of missing values is returned.
 
 ```{r}
-inspect_na(starwars, show_plot = TRUE)
+inspect_na(starwars)
+```
+
+A barplot can be produced by passing the result to `show_plot()`:
+
+```{r}
+inspect_na(starwars) %>% show_plot()
 ```
 
 ##### `inspect_na()` for two dataframes
@@ -138,7 +166,11 @@ inspect_na(starwars, show_plot = TRUE)
 When a second dataframe is provided, `inspect_na()` returns a tibble containing counts and percentage missingness by column, with summaries for the first and second data frames are show in columns with names appended with `_1` and `_2`, respectively.  In addition, a $p$-value is calculated which provides a measure of evidence of whether the difference in missing values is significantly different.
 
 ```{r}
-inspect_na(star_1, star_2, show_plot = TRUE)
+inspect_na(star_1, star_2)
+```
+
+```{r}
+inspect_na(star_1, star_2) %>% show_plot()
 ```
 
 Notes:
@@ -154,10 +186,16 @@ Notes:
 
 ##### `inspect_cor()` for a single dataframe
 
-`inspect_cor()` returns a tibble containing Pearson's correlation coefficient, confidence intervals and $p$-values for pairs of numeric columns .  The function combines the functionality of `cor()` and `cor.test()` in a more convenient wrapper.  A point and whiskers plot is also returned when `show_plot = TRUE`.
+`inspect_cor()` returns a tibble containing Pearson's correlation coefficient, confidence intervals and $p$-values for pairs of numeric columns .  The function combines the functionality of `cor()` and `cor.test()` in a more convenient wrapper.  
 
 ```{r}
-inspect_cor(starwars, show_plot = T)
+inspect_cor(starwars)
+```
+
+A point and whiskers plot is printed when using the `show_plot()` function:
+
+```{r}
+inspect_cor(starwars) %>% show_plot()
 ```
 
 Notes
@@ -171,7 +209,11 @@ Notes
 When a second dataframe is provided, `inspect_cor()` returns a tibble that compares correlation coefficients of the first dataframe to those in the second.  The `p_value` column contains a measure of evidence for whether the two correlation coefficients are equal or not.  
 
 ```{r}
-inspect_cor(star_1, star_2, show_plot = TRUE)
+inspect_cor(star_1, star_2)
+```
+
+```{r}
+inspect_cor(star_1, star_2) %>% show_plot()
 ```
 
 Notes:
@@ -186,18 +228,30 @@ Notes:
 
 ##### `inspect_imb()` for a single dataframe
 
-Understanding categorical columns that are dominated by a single level can be useful.  `inspect_imb()` returns a tibble containing categorical column names (`col_name`); the most frequently occurring categorical level in each column (`value`) and `pctn` & `cnt` the percentage and count which the value occurs.  The tibble is sorted in descending order of `pcnt`.  A barplot is also returned when `show_plot` is set to `TRUE`.
+Understanding categorical columns that are dominated by a single level can be useful.  `inspect_imb()` returns a tibble containing categorical column names (`col_name`); the most frequently occurring categorical level in each column (`value`) and `pctn` & `cnt` the percentage and count which the value occurs.  The tibble is sorted in descending order of `pcnt`. 
 
 ```{r}
-inspect_imb(starwars, show_plot = TRUE)
+inspect_imb(starwars)
 ```
+
+ A barplot is printed by passing the result to the `show_plot()` function:
+ 
+```{r}
+inspect_imb(starwars) %>% show_plot()
+```
+
 
 ##### `inspect_imb()` for two dataframes
 
 When a second dataframe is provided, `inspect_imb()` returns a tibble that compares the frequency of the most common categorical values of the first dataframe to those in the second.  The `p_value` column contains a measure of evidence for whether the true frequencies are equal or not. 
 
 ```{r}
-inspect_imb(star_1, star_2, show_plot = TRUE)
+inspect_imb(star_1, star_2)
+```
+
+
+```{r}
+inspect_imb(star_1, star_2) %>% show_plot()
 ```
 
 + Smaller `p_value` indicates stronger evidence against the null hypothesis that the true frequency of the most common values is the same.
@@ -209,10 +263,10 @@ inspect_imb(star_1, star_2, show_plot = TRUE)
 
 ##### `inspect_num()` for a single dataframe
 
-`inspect_num()` combining some of the functionality of `summary()` and `hist()` by returning summaries of numeric columns.  `inspect_num()` returns standard numerical summaries (`min`, `q1`,  `mean`, `median`,`q3`, `max`, `sd`), but also the percentage of missing entries (`pcnt_na`) and a simple histogram (`hist`).  If `show_plot = TRUE` a histogram is generated for each numeric feature.
+`inspect_num()` combining some of the functionality of `summary()` and `hist()` by returning summaries of numeric columns.  `inspect_num()` returns standard numerical summaries (`min`, `q1`,  `mean`, `median`,`q3`, `max`, `sd`), but also the percentage of missing entries (`pcnt_na`) and a simple histogram (`hist`).  
 
 ```{r}
-inspect_num(starwars, show_plot = TRUE, breaks = 10)
+inspect_num(starwars, breaks = 10)
 ```
 
 The `hist` column is a list whose elements are tibbles each containing the relative frequencies of bins for each feature.  These tibbles are used to generate the histograms when `show_plot = TRUE`.  For example, the histogram for `starwars$birth_year` is
@@ -221,6 +275,13 @@ The `hist` column is a list whose elements are tibbles each containing the relat
 inspect_num(starwars)$hist$birth_year
 ```
 
+A histogram is generated for each numeric feature by passing the result to the `show_plot()` function:
+
+```{r}
+inspect_num(starwars, breaks = 10)
+```
+
+
 ##### `inspect_num()` for two dataframes
 
 When comparing a pair of dataframes using `inspect_num()`, the histograms of common numeric features are calculated, using identical bins.  The list columns `hist_1` and `hist_2` contain the histograms of the features in the first and second dataframes.  A formal statistical comparison of each pair of histograms is calculated using Fisher's exact test, the resulting _p_ value is reported in the column `fisher_p`.
@@ -228,15 +289,18 @@ When comparing a pair of dataframes using `inspect_num()`, the histograms of com
 When `show_plot = TRUE`, heat plot comparisons are returned for each numeric column in each dataframe.  Where a column is present in only one of the dataframes, grey cells are shown in the comparison.  The significance of Fisher's test is illustrated by coloured vertical bands around each plot: if the colour is grey, no _p_ value could be calculated, if blue, the histograms are not found to be significantly different otherwise the bands are red.
 
 ```{r}
-inspect_num(star_1, star_2, show_plot = TRUE)
+inspect_num(star_1, star_2)
 ```
 
+```{r}
+inspect_num(star_1, star_2) %>% show_plot()
+```
 
 #### Categorical levels
 
 ##### `inspect_cat()` for a single dataframe
 
-`inspect_cat()` returns a tibble summarising categorical features in a data frame, combining the functionality of the `inspect_imb()` and `table()` functions. If `show_plot = TRUE` a barplot is generated showing the relative split.  The tibble generated contains the columns  
+`inspect_cat()` returns a tibble summarising categorical features in a data frame, combining the functionality of the `inspect_imb()` and `table()` functions.  The tibble generated contains the columns  
 
 + `col_name` name of each categorical column
 + `cnt` the number of unique levels in the feature
@@ -245,7 +309,7 @@ inspect_num(star_1, star_2, show_plot = TRUE)
 + `levels` a list of tibbles each containing frequency tabulations of all levels
 
 ```{r}
-inspect_cat(starwars, show_plot = T)
+inspect_cat(starwars)
 ```
 
 For example, the levels for the `hair_color` column are
@@ -254,7 +318,20 @@ For example, the levels for the `hair_color` column are
 inspect_cat(starwars)$levels$hair_color
 ```
 
-Note that by default, if `NA` values are present, they are counted as a distinct categorical level.
+Note that by default, if `NA` values are present, they are counted as a distinct categorical level.  A barplot is printed showing the relative split when passing the result to `show_plot()`:
+
+```{r}
+inspect_cat(starwars) %>% show_plot()
+```
+
+The argument `high_cardinality` in the `show_plot()` function can be used to bundle together categories that occur only a small number of times.  For example, to combine categories only occuring once, use:
+
+```{r}
+inspect_cat(starwars) %>% 
+  show_plot(high_cardinality = 1)
+```
+
+The resulting bundles are shown in purple.
 
 
 ##### `inspect_cat()` for two dataframes
@@ -262,10 +339,12 @@ Note that by default, if `NA` values are present, they are counted as a distinct
 When two dataframes are compared using `inspect_cat()`, list columns are returned for categorical columns common to both: `lvls_1` and `lvl2_2`.  In addition, the Jensen-Shannon divergence (`jsd`) and _p_ values associated with Fisher's exact test (`fisher_p`) are returned to enable comparison of the distribution of levels in each pair of columns.
 
 ```{r}
-inspect_cat(star_1, star_2, show_plot = TRUE)
+inspect_cat(star_1, star_2)
 ```
 
-When `show_plot = TRUE`, a barplot is returned comparing distributions of levels in pairs of columns shared by the two dataframes.  
+```{r}
+inspect_cat(star_1, star_2) %>% show_plot()
+```
 
 
 
