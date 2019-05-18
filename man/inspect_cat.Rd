@@ -4,24 +4,13 @@
 \alias{inspect_cat}
 \title{Summarise and compare the levels within each categorical feature in one or two dataframes.}
 \usage{
-inspect_cat(df1, df2 = NULL, show_plot = FALSE, text_labels = TRUE,
-  high_cardinality = 0)
+inspect_cat(df1, df2 = NULL)
 }
 \arguments{
 \item{df1}{A dataframe}
 
 \item{df2}{An optional second data frame for comparing categorical levels.
 Defaults to \code{NULL}.}
-
-\item{show_plot}{Logical argument determining whether plot is returned
-in addition to tibble output.  Default is \code{FALSE}.}
-
-\item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
-Default is \code{TRUE}.}
-
-\item{high_cardinality}{Minimum number of occurences of category to be shown as a distinct segment 
-in the  plot.  Default is 0.  This argument can help when some column contain many unique or 
-near-unique levels that may take a while to plot.}
 }
 \value{
 A tibble summarising and comparing the categorical features 
@@ -58,8 +47,6 @@ exact test are performed as part of the comparison.
 \examples{
 data("starwars", package = "dplyr")
 inspect_cat(starwars)
-# return a visualisation too
-inspect_cat(starwars, show_plot = TRUE)
 # compare the levels in two data frames
 inspect_cat(starwars, starwars[1:20, ])
 }

@@ -4,9 +4,7 @@
 \alias{inspect_num}
 \title{Summarise and compare the numeric variables within one or two dataframes}
 \usage{
-inspect_num(df1, df2 = NULL, show_plot = F, breaks = 20,
-  plot_layout = NULL, breakseq = NULL, text_labels = TRUE,
-  alpha = 0.05)
+inspect_num(df1, df2 = NULL, breaks = 20, breakseq = NULL)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -14,26 +12,12 @@ inspect_num(df1, df2 = NULL, show_plot = F, breaks = 20,
 \item{df2}{An optional second data frame for comparing categorical levels.
 Defaults to \code{NULL}.}
 
-\item{show_plot}{Logical determining whether to show a plot in addition 
-to tibble output.  Default is \code{FALSE}.}
-
 \item{breaks}{Optional argument determining how breaks are constructed for 
 histograms when comparing numeric data frame features.  This is passed to 
 \code{hist(..., breaks)}.  See \code{?hist} for more details.}
 
-\item{plot_layout}{Vector specifying the number of rows and columns 
-in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
-\code{plot_layout = c(3, 2)}.}
-
 \item{breakseq}{For internal use only.  Argument that accepts a pre-specified set of 
 break points, default is \code{NULL}.}
-
-\item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
-Default is \code{TRUE}.}
-
-\item{alpha}{Alpha level for displaying whether test of difference between the data
-frames reaches a particular threshold.  Only applies when (when \code{show_plot = T}).  
-Defaults to 0.05.}
 }
 \value{
 A \code{tibble} containing statistical summaries of the numeric 
@@ -75,5 +59,5 @@ inspect_num(starwars)
 # with a visualisation too - try to limit number of bins
 inspect_num(starwars, breaks = 10)
 # compare two data frames
-inspect_num(starwars, starwars[-c(1:10), ], breaks = 10, show_plot = TRUE)
+inspect_num(starwars, starwars[-c(1:10), ], breaks = 10)
 }

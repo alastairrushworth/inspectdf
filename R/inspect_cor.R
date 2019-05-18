@@ -3,12 +3,7 @@
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for comparing correlation 
 #' coefficients.  Defaults to \code{NULL}.
-#' @param show_plot Logical argument determining whether plot is returned
-#' in addition to tibble output.  Default is \code{FALSE}.
-#' @param alpha Alpha level for performing tests of correlation coefficient equality.  
-#' Defaults to 0.05.
-#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
-#' Default is \code{TRUE}.
+#' @param alpha Alpha level for correlation confidence intervals.  Defaults to 0.05.
 #' @return A tibble summarising and comparing the correlations for each numeric column 
 #' in one or a pair of data frames.
 #' @details When only \code{df1} is specified, a tibble is returned which 
@@ -36,10 +31,8 @@
 #' data("starwars", package = "dplyr")
 #' # correlations in numeric columns
 #' inspect_cor(starwars)
-#' # get visualisation with confidence bands
-#' inspect_cor(starwars, show_plot = TRUE)
 #' # compare correlations with a different data frame
-#' inspect_cor(starwars, starwars[1:10, ], show_plot = TRUE)
+#' inspect_cor(starwars, starwars[1:10, ])
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -50,27 +43,10 @@
 #' @importFrom dplyr select_if
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
-#' @importFrom ggplot2 aes
-#' @importFrom ggplot2 coord_flip
-#' @importFrom ggplot2 element_blank
-#' @importFrom ggplot2 element_text
-#' @importFrom ggplot2 geom_blank
-#' @importFrom ggplot2 geom_errorbar
-#' @importFrom ggplot2 geom_hline
-#' @importFrom ggplot2 geom_point
-#' @importFrom ggplot2 geom_rect
-#' @importFrom ggplot2 geom_text
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 guide_legend
-#' @importFrom ggplot2 guides
-#' @importFrom ggplot2 labs
-#' @importFrom ggplot2 theme
-#' @importFrom ggplot2 theme_bw
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 
-inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE, 
-                        alpha = 0.05, text_labels = TRUE){
+inspect_cor <- function(df1, df2 = NULL, alpha = 0.05){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -90,44 +66,37 @@ inspect_cor <- function(df1, df2 = NULL, show_plot = FALSE,
                                             df_name = df_names[[1]], 
                                             alpha = alpha))
       # return top strongest if requested
-      out <- cor_df 
-      # return plot if requested
-      if(show_plot){
-        plot_cor_1(out, 
-                   alpha = alpha,
-                   df_names = df_names,
-                   text_labels = text_labels)
-      }
-      # return dataframe of correlations
-      return(out %>% select(-pair))
+      pair <- cor_df %>% select(pair) %>% unlist
+      out <- cor_df %>% select(-pair)
+      
+      # attach attributes required for plotting
+      attr(out, "type") <- list("cor", 1)
+      attr(out, "df_names") <- df_names
+      attr(out, "pair") <- pair
     } else {
       # return empty dataframe 
-      return(tibble(col_1 = character(), 
+      out <- tibble(col_1 = character(), 
                     col_2 = character(), 
-                    corr = numeric()))
+                    corr = numeric())
     } 
   } else {
     # stats for df1
-    s1 <- inspect_cor(df1, show_plot = F) %>% 
+    s1 <- inspect_cor(df1) %>% 
       select(col_1, col_2, corr) %>% 
       rename(corr_1 = corr)
     # stats for df2
-    s2 <- inspect_cor(df2, show_plot = F) %>% 
+    s2 <- inspect_cor(df2) %>% 
       select(col_1, col_2, corr) %>% 
       rename(corr_2 = corr)
     # join the two
-    cor_tab <- full_join(s1, s2, by = c("col_1", "col_2"))
+    out <- full_join(s1, s2, by = c("col_1", "col_2"))
     # add p_value for test of difference between correlation coefficients
-    cor_tab$p_value <- cor_test(cor_tab$corr_1, cor_tab$corr_2, 
-                                n_1 = nrow(df1), n_2 = nrow(df2))
-    # generate plot if requested
-    if(show_plot){
-      plot_cor_2(cor_tab, 
-                 alpha = alpha, 
-                 df_names = df_names, 
-                 text_labels = text_labels)
-    }
-    # return the df
-    return(cor_tab)
+    out$p_value <- cor_test(out$corr_1, out$corr_2, 
+                            n_1 = nrow(df1), n_2 = nrow(df2))
+
+    # attach attributes required for plotting
+    attr(out, "type")     <- list("cor", 2)
+    attr(out, "df_names") <- df_names
   }
+  return(out)
 }

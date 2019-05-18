@@ -16,15 +16,6 @@ test_that("Output is a data frame", {
   expect_is(inspect_imb(airquality), "data.frame")
 })
 
-test_that("Plot is returned without error", {
-  expect_is(inspect_imb(mtcars, show_plot = T), "data.frame")
-  expect_is(inspect_imb(band_instruments, show_plot = T), "data.frame")
-  expect_error(inspect_imb(nasa, show_plot = T))
-  expect_is(inspect_imb(starwars, show_plot = T), "data.frame")
-  expect_is(inspect_imb(storms, show_plot = T), "data.frame")
-  expect_is(inspect_imb(airquality, show_plot = T), "data.frame")
-})
-
 test_that("Output with two identical df inputs data frame", {
   expect_is(inspect_imb(mtcars, mtcars), "data.frame")
   expect_is(inspect_imb(band_instruments, band_instruments), "data.frame")

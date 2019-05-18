@@ -3,15 +3,6 @@
 #' @param df1 A dataframe
 #' @param df2 An optional second data frame for comparing categorical levels.  
 #' Defaults to \code{NULL}.
-#' @param show_plot Logical argument determining whether plot is returned
-#' in addition to tibble output.  Default is \code{FALSE}.
-#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
-#' Default is \code{TRUE}.
-#' @param high_cardinality Minimum number of occurences of category to be shown as a distinct segment 
-#' in the  plot.  Default is 0.  This argument can help when some column contain many unique or 
-#' near-unique levels that may take a while to plot.
-#' @param cols Vector conataining names or integers indicating colours for the plotted bars for levels,
-#' missing values and for high cardinality values, respectively.
 #' @return A tibble summarising and comparing the categorical features 
 #' in one or a pair of data frames.
 #' @details When only \code{df1} is specified, a tibble is returned which 
@@ -41,8 +32,6 @@
 #' @examples
 #' data("starwars", package = "dplyr")
 #' inspect_cat(starwars)
-#' # return a visualisation too
-#' inspect_cat(starwars, show_plot = TRUE)
 #' # compare the levels in two data frames
 #' inspect_cat(starwars, starwars[1:20, ])
 #' @importFrom tibble as_tibble
@@ -62,9 +51,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 
-inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE, 
-                        text_labels = TRUE, high_cardinality = 0, 
-                        cols = c("tomato3", "gray65", "darkmagenta")){
+inspect_cat <- function(df1, df2 = NULL){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -101,58 +88,46 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE,
         do.call("rbind", .) %>% 
         as_tibble(rownames = "col_name"))
       # combine the above tables
-      levels_df <- levels_unique %>% 
+      out <- levels_unique %>% 
         left_join(levels_top, by = "col_name") %>% 
         mutate(prop = prop * 100) %>%
         rename(cnt = V1, common = value, common_pcnt = prop)
-      levels_df$levels <- levels_list
+      out$levels <- levels_list
       # sort by alphabetical order & filter to max number of rows
-      levels_df <- levels_df %>% 
+      out <- out %>% 
         arrange(col_name)
       # add names to the list
-      names(levels_df$levels) <- levels_df$col_name
-      # if plot is requested
-      if(show_plot){
-        # plot the categories using stacked bars
-        plot_cat(levels_df, 
-                 df_names, 
-                 text_labels = text_labels, 
-                 high_cardinality = high_cardinality, 
-                 cols = cols)
-      }
-      # return df
-      return(levels_df)
+      names(out$levels) <- out$col_name
+      
+      # attach attributes required for plotting
+      attr(out, "type")     <- list("cat", 1)
+      attr(out, "df_names") <- df_names
     } else {
-        return(tibble(col_name = character(), cnt = integer(), 
-                      common = character(), common_pcnt = numeric(), 
-                      levels = list()))
+      out <- tibble(col_name = character(), cnt = integer(), 
+                    common = character(), common_pcnt = numeric(), 
+                    levels = list())
     }
   } else {
     # levels for df1
-    s1 <- inspect_cat(df1, show_plot = FALSE)  %>% 
+    s1 <- inspect_cat(df1)  %>% 
       select(-contains("common"), -cnt)
     # levels for df2
-    s2 <- inspect_cat(df2, show_plot = FALSE) %>% 
+    s2 <- inspect_cat(df2) %>% 
       select(-contains("common"), -cnt)
     # combine and clean up levels
-    levels_df <- full_join(s1, s2, by = "col_name") %>% 
+    out <- full_join(s1, s2, by = "col_name") %>% 
       mutate(jsd = js_divergence_vec(levels.x, levels.y)) %>%
       mutate(fisher_p = fisher(levels.x, levels.y, n_1 = nrow(df1), 
                                n_2 = nrow(df2))) %>%
       select(col_name, jsd, fisher_p, lvls_1 = levels.x, lvls_2 = levels.y)
 
     # ensure the list names are retained
-    names(levels_df[[4]]) <- names(levels_df[[5]]) <- as.character(levels_df$col_name)
-    # if plot is requested
-    if(show_plot){
-      # plot the categories using stacked bars
-      plot_cat(levels_df, 
-               df_names, 
-               text_labels = text_labels, 
-               high_cardinality = high_cardinality, 
-               cols = cols)
-    }
-    # return the comparison table
-    return(levels_df)
+    names(out[[4]]) <- names(out[[5]]) <- as.character(out$col_name)
+    
+    # attach attributes required for plotting
+    attr(out, "type")     <- list("cat", 2)
+    attr(out, "df_names") <- df_names
   }
+  # return the comparison table
+  return(out)
 }

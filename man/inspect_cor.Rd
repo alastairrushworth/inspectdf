@@ -4,8 +4,7 @@
 \alias{inspect_cor}
 \title{Summarise and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.}
 \usage{
-inspect_cor(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
-  text_labels = TRUE)
+inspect_cor(df1, df2 = NULL, alpha = 0.05)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -13,14 +12,7 @@ inspect_cor(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
 \item{df2}{An optional second data frame for comparing correlation 
 coefficients.  Defaults to \code{NULL}.}
 
-\item{show_plot}{Logical argument determining whether plot is returned
-in addition to tibble output.  Default is \code{FALSE}.}
-
-\item{alpha}{Alpha level for performing tests of correlation coefficient equality.
-Defaults to 0.05.}
-
-\item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
-Default is \code{TRUE}.}
+\item{alpha}{Alpha level for correlation confidence intervals.  Defaults to 0.05.}
 }
 \value{
 A tibble summarising and comparing the correlations for each numeric column 
@@ -55,8 +47,6 @@ correlation coefficients across the dataframes.
 data("starwars", package = "dplyr")
 # correlations in numeric columns
 inspect_cor(starwars)
-# get visualisation with confidence bands
-inspect_cor(starwars, show_plot = TRUE)
 # compare correlations with a different data frame
-inspect_cor(starwars, starwars[1:10, ], show_plot = TRUE)
+inspect_cor(starwars, starwars[1:10, ])
 }
