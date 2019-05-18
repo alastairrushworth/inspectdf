@@ -50,6 +50,12 @@ devtools::install_github("alastairrushworth/inspectdf")
 library(inspectdf)
 ```
 
+    ## Registered S3 methods overwritten by 'ggplot2':
+    ##   method         from 
+    ##   [.quosures     rlang
+    ##   c.quosures     rlang
+    ##   print.quosures rlang
+
 ## Illustrative data: `starwars`
 
 The examples below make use of the `starwars` data from the `dplyr`
@@ -76,15 +82,12 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 
 To explore the column types in a data frame, use the function
 `inspect_types()`. The command returns a `tibble` summarising the counts
-and percentages of columns with particular types. A barplot is also
-returned when `show_plot = TRUE`.
+and percentages of columns with particular types.
 
 ``` r
-# return tibble and visualisation of columns types
-inspect_types(starwars, show_plot = TRUE)
+# return tibble showing columns types
+inspect_types(starwars)
 ```
-
-![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
     ## # A tibble: 4 x 4
     ##   type        cnt  pcnt col_name 
@@ -93,6 +96,15 @@ inspect_types(starwars, show_plot = TRUE)
     ## 2 list          3 23.1  <chr [3]>
     ## 3 numeric       2 15.4  <chr [2]>
     ## 4 integer       1  7.69 <chr [1]>
+
+A barplot can be produced by passing the result to `show_plot()`:
+
+``` r
+# print visualisation of column types
+inspect_types(starwars) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 ##### `inspect_types()` for two dataframes
 
@@ -103,10 +115,8 @@ dataframes are show in columns with names appended with `_1` and `_2`,
 respectively.
 
 ``` r
-inspect_types(star_1, star_2, show_plot = TRUE)
+inspect_types(star_1, star_2)
 ```
-
-![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
     ## # A tibble: 4 x 5
     ##   type      cnt_1 pcnt_1 cnt_2 pcnt_2
@@ -116,20 +126,24 @@ inspect_types(star_1, star_2, show_plot = TRUE)
     ## 3 numeric       2  15.4      2   18.2
     ## 4 integer       1   7.69     0    0
 
+``` r
+# print visualisation of column type comparison
+inspect_types(star_1, star_2) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
+
 #### Memory usage
 
 ##### `inspect_mem()` for a single dataframe
 
 To explore the memory usage of the columns in a data frame, use
 `inspect_mem()`. The command returns a `tibble` containing the size of
-each column in the dataframe. A barplot is also returned when `show_plot
-= TRUE`.
+each column in the dataframe.
 
 ``` r
-inspect_mem(starwars, show_plot = TRUE)
+inspect_mem(starwars)
 ```
-
-![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
 
     ## # A tibble: 13 x 3
     ##    col_name   size        pcnt
@@ -148,6 +162,14 @@ inspect_mem(starwars, show_plot = TRUE)
     ## 12 birth_year 744 bytes  1.36 
     ## 13 height     400 bytes  0.730
 
+A barplot can be produced by passing the result to `show_plot()`:
+
+``` r
+inspect_mem(starwars) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-11-1.png)<!-- -->
+
 ##### `inspect_mem()` for two dataframes
 
 When a second dataframe is provided, `inspect_mem()` will create a
@@ -156,27 +178,31 @@ The summaries for the first and second dataframes are show in columns
 with names appended with `_1` and `_2`, respectively.
 
 ``` r
-inspect_mem(star_1, star_2, show_plot = TRUE)
+inspect_mem(star_1, star_2)
 ```
-
-![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
 
     ## # A tibble: 13 x 5
     ##    col_name   size_1    size_2    pcnt_1 pcnt_2
     ##    <chr>      <chr>     <chr>      <dbl>  <dbl>
-    ##  1 films      11.48 Kb  11.37 Kb  35.1    39.6 
-    ##  2 starships  4.8 Kb    4.56 Kb   14.7    15.9 
-    ##  3 name       3.55 Kb   <NA>      10.8    NA   
-    ##  4 vehicles   3.54 Kb   3.45 Kb   10.8    12.0 
-    ##  5 homeworld  2.23 Kb   2.23 Kb    6.80    7.76
-    ##  6 species    1.8 Kb    1.84 Kb    5.49    6.40
-    ##  7 skin_color 1.61 Kb   1.7 Kb     4.92    5.91
-    ##  8 eye_color  1.11 Kb   1.16 Kb    3.39    4.06
-    ##  9 hair_color 968 bytes 920 bytes  2.89    3.13
-    ## 10 gender     560 bytes 624 bytes  1.67    2.12
-    ## 11 mass       448 bytes 448 bytes  1.34    1.53
-    ## 12 birth_year 448 bytes 448 bytes  1.34    1.53
-    ## 13 height     248 bytes <NA>       0.740  NA
+    ##  1 films      10.86 Kb  11.51 Kb  33.7    39.4 
+    ##  2 starships  4.62 Kb   4.52 Kb   14.3    15.5 
+    ##  3 vehicles   3.61 Kb   3.47 Kb   11.2    11.9 
+    ##  4 name       3.51 Kb   <NA>      10.9    NA   
+    ##  5 homeworld  2.18 Kb   2.3 Kb     6.76    7.85
+    ##  6 skin_color 1.9 Kb    1.79 Kb    5.89    6.12
+    ##  7 species    1.89 Kb   1.83 Kb    5.87    6.25
+    ##  8 eye_color  1.05 Kb   1.17 Kb    3.27    4.01
+    ##  9 hair_color 912 bytes 1.12 Kb    2.76    3.82
+    ## 10 gender     616 bytes 680 bytes  1.87    2.27
+    ## 11 mass       448 bytes 448 bytes  1.36    1.50
+    ## 12 birth_year 448 bytes 448 bytes  1.36    1.50
+    ## 13 height     248 bytes <NA>       0.752  NA
+
+``` r
+inspect_mem(star_1, star_2) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
 
 #### Missing values
 
@@ -184,14 +210,11 @@ inspect_mem(star_1, star_2, show_plot = TRUE)
 
 `inspect_na()` summarises the prevalence of missing values by each
 column in a data frame. A tibble containing the count (`cnt`) and the
-overall percentage (`pcnt`) of missing values is returned A barplot is
-also returned when `show_plot` is set to `TRUE`.
+overall percentage (`pcnt`) of missing values is returned.
 
 ``` r
-inspect_na(starwars, show_plot = TRUE)
+inspect_na(starwars)
 ```
-
-![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->
 
     ## # A tibble: 13 x 3
     ##    col_name     cnt  pcnt
@@ -210,6 +233,14 @@ inspect_na(starwars, show_plot = TRUE)
     ## 12 vehicles       0  0   
     ## 13 starships      0  0
 
+A barplot can be produced by passing the result to `show_plot()`:
+
+``` r
+inspect_na(starwars) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
+
 ##### `inspect_na()` for two dataframes
 
 When a second dataframe is provided, `inspect_na()` returns a tibble
@@ -220,27 +251,31 @@ calculated which provides a measure of evidence of whether the
 difference in missing values is significantly different.
 
 ``` r
-inspect_na(star_1, star_2, show_plot = TRUE)
+inspect_na(star_1, star_2)
 ```
-
-![](man/figures/README-unnamed-chunk-11-1.png)<!-- -->
 
     ## # A tibble: 13 x 6
     ##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
     ##    <chr>      <dbl>  <dbl> <dbl>  <dbl>   <dbl>
-    ##  1 birth_year    24     48    27     54   0.689
-    ##  2 mass          11     22    16     32   0.368
-    ##  3 homeworld      5     10     6     12   1.000
-    ##  4 species        4      8     3      6   1.000
-    ##  5 height         3      6    NA     NA  NA    
-    ##  6 hair_color     1      2     2      4   1    
-    ##  7 name           0      0    NA     NA  NA    
-    ##  8 skin_color     0      0     0      0  NA    
-    ##  9 eye_color      0      0     0      0  NA    
-    ## 10 gender         0      0     1      2   1    
+    ##  1 birth_year    24     48    25     50   1    
+    ##  2 mass          16     32    18     36   0.833
+    ##  3 homeworld      4      8     5     10   1    
+    ##  4 height         2      4    NA     NA  NA    
+    ##  5 hair_color     2      4     1      2   1    
+    ##  6 gender         1      2     0      0   1    
+    ##  7 species        1      2     3      6   0.610
+    ##  8 name           0      0    NA     NA  NA    
+    ##  9 skin_color     0      0     0      0  NA    
+    ## 10 eye_color      0      0     0      0  NA    
     ## 11 films          0      0     0      0  NA    
     ## 12 vehicles       0      0     0      0  NA    
     ## 13 starships      0      0     0      0  NA
+
+``` r
+inspect_na(star_1, star_2) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-17-1.png)<!-- -->
 
 Notes:
 
@@ -265,14 +300,11 @@ Notes:
 `inspect_cor()` returns a tibble containing Pearson’s correlation
 coefficient, confidence intervals and \(p\)-values for pairs of numeric
 columns . The function combines the functionality of `cor()` and
-`cor.test()` in a more convenient wrapper. A point and whiskers plot is
-also returned when `show_plot = TRUE`.
+`cor.test()` in a more convenient wrapper.
 
 ``` r
-inspect_cor(starwars, show_plot = T)
+inspect_cor(starwars)
 ```
-
-![](man/figures/README-unnamed-chunk-12-1.png)<!-- -->
 
     ## # A tibble: 3 x 6
     ##   col_1      col_2    corr p_value  lower   upper
@@ -280,6 +312,15 @@ inspect_cor(starwars, show_plot = T)
     ## 1 birth_year mass    0.478 0.00318  0.130  0.721 
     ## 2 birth_year height -0.400 0.00789 -0.651 -0.0690
     ## 3 mass       height  0.134 0.312   -0.163  0.409
+
+A point and whiskers plot is printed when using the `show_plot()`
+function:
+
+``` r
+inspect_cor(starwars) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-19-1.png)<!-- -->
 
 Notes
 
@@ -298,17 +339,21 @@ in the second. The `p_value` column contains a measure of evidence for
 whether the two correlation coefficients are equal or not.
 
 ``` r
-inspect_cor(star_1, star_2, show_plot = TRUE)
+inspect_cor(star_1, star_2)
 ```
-
-![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
 
     ## # A tibble: 3 x 5
     ##   col_1      col_2  corr_1 corr_2 p_value
     ##   <chr>      <chr>   <dbl>  <dbl>   <dbl>
-    ## 1 mass       height  0.724 NA      NA    
-    ## 2 birth_year height  0.606 NA      NA    
-    ## 3 birth_year mass    0.391  0.470   0.639
+    ## 1 mass       height 0.712  NA     NA     
+    ## 2 birth_year height 0.449  NA     NA     
+    ## 3 birth_year mass   0.0762  0.474  0.0332
+
+``` r
+inspect_cor(star_1, star_2) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-21-1.png)<!-- -->
 
 Notes:
 
@@ -331,13 +376,11 @@ can be useful. `inspect_imb()` returns a tibble containing categorical
 column names (`col_name`); the most frequently occurring categorical
 level in each column (`value`) and `pctn` & `cnt` the percentage and
 count which the value occurs. The tibble is sorted in descending order
-of `pcnt`. A barplot is also returned when `show_plot` is set to `TRUE`.
+of `pcnt`.
 
 ``` r
-inspect_imb(starwars, show_plot = TRUE)
+inspect_imb(starwars)
 ```
-
-![](man/figures/README-unnamed-chunk-14-1.png)<!-- -->
 
     ## # A tibble: 7 x 4
     ##   col_name   value   pcnt   cnt
@@ -350,6 +393,15 @@ inspect_imb(starwars, show_plot = TRUE)
     ## 6 homeworld  Naboo  12.6     11
     ## 7 name       Ackbar  1.15     1
 
+A barplot is printed by passing the result to the `show_plot()`
+function:
+
+``` r
+inspect_imb(starwars) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-23-1.png)<!-- -->
+
 ##### `inspect_imb()` for two dataframes
 
 When a second dataframe is provided, `inspect_imb()` returns a tibble
@@ -358,21 +410,25 @@ first dataframe to those in the second. The `p_value` column contains a
 measure of evidence for whether the true frequencies are equal or not.
 
 ``` r
-inspect_imb(star_1, star_2, show_plot = TRUE)
+inspect_imb(star_1, star_2)
 ```
 
-![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
-
     ## # A tibble: 7 x 7
-    ##   col_name   value  pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
-    ##   <chr>      <chr>   <dbl> <int>  <dbl> <int>   <dbl>
-    ## 1 gender     male      70     35     74    37   0.824
-    ## 2 hair_color none      46     23     42    21   0.840
-    ## 3 species    Human     42     21     38    19   0.838
-    ## 4 eye_color  brown     28.    14     24    12   0.820
-    ## 5 skin_color light     18      9     NA    NA  NA    
-    ## 6 homeworld  Naboo     14.     7     NA    NA  NA    
-    ## 7 name       Ackbar     2      1     NA    NA  NA
+    ##   col_name   value    pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
+    ##   <chr>      <chr>     <dbl> <int>  <dbl> <int>   <dbl>
+    ## 1 gender     male        76     38     72    36   0.820
+    ## 2 hair_color none        52     26     42    21   0.423
+    ## 3 species    Human       40     20     42    21   1.000
+    ## 4 eye_color  blue        24     12     26    13   1    
+    ## 5 skin_color fair        22     11     22    11   1    
+    ## 6 homeworld  Tatooine    14.     7     NA    NA  NA    
+    ## 7 name       Ackbar       2      1     NA    NA  NA
+
+``` r
+inspect_imb(star_1, star_2) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-25-1.png)<!-- -->
 
   - Smaller `p_value` indicates stronger evidence against the null
     hypothesis that the true frequency of the most common values is the
@@ -392,14 +448,11 @@ inspect_imb(star_1, star_2, show_plot = TRUE)
 `hist()` by returning summaries of numeric columns. `inspect_num()`
 returns standard numerical summaries (`min`, `q1`, `mean`,
 `median`,`q3`, `max`, `sd`), but also the percentage of missing entries
-(`pcnt_na`) and a simple histogram (`hist`). If `show_plot = TRUE` a
-histogram is generated for each numeric feature.
+(`pcnt_na`) and a simple histogram (`hist`).
 
 ``` r
-inspect_num(starwars, show_plot = TRUE, breaks = 10)
+inspect_num(starwars, breaks = 10)
 ```
-
-![](man/figures/README-unnamed-chunk-16-1.png)<!-- -->
 
     ## # A tibble: 3 x 10
     ##   col_name     min    q1 median  mean    q3   max    sd pcnt_na hist       
@@ -441,6 +494,20 @@ inspect_num(starwars)$hist$birth_year
     ## 19 [850, 900) 0.0233
     ## 20 [900, Inf) 0
 
+A histogram is generated for each numeric feature by passing the result
+to the `show_plot()` function:
+
+``` r
+inspect_num(starwars, breaks = 10)
+```
+
+    ## # A tibble: 3 x 10
+    ##   col_name     min    q1 median  mean    q3   max    sd pcnt_na hist       
+    ##   <chr>      <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl> <list>     
+    ## 1 birth_year     8  35       52  87.6  72     896 155.    50.6  <tibble [1…
+    ## 2 height        66 167      180 174.  191     264  34.8    6.90 <tibble [1…
+    ## 3 mass          15  55.6     79  97.3  84.5  1358 169.    32.2  <tibble [1…
+
 ##### `inspect_num()` for two dataframes
 
 When comparing a pair of dataframes using `inspect_num()`, the
@@ -459,17 +526,21 @@ calculated, if blue, the histograms are not found to be significantly
 different otherwise the bands are red.
 
 ``` r
-inspect_num(star_1, star_2, show_plot = TRUE)
+inspect_num(star_1, star_2)
 ```
 
-![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
-
     ## # A tibble: 3 x 5
-    ##   col_name   hist_1            hist_2               jsd fisher_p
-    ##   <chr>      <list>            <list>             <dbl>    <dbl>
-    ## 1 birth_year <tibble [22 × 2]> <tibble [22 × 2]>  0.141    0.211
-    ## 2 height     <tibble [21 × 2]> <NULL>            NA       NA    
-    ## 3 mass       <tibble [26 × 2]> <tibble [26 × 2]>  0.103    0.927
+    ##   col_name   hist_1            hist_2                jsd fisher_p
+    ##   <chr>      <list>            <list>              <dbl>    <dbl>
+    ## 1 birth_year <tibble [21 × 2]> <tibble [21 × 2]>  0.161     0.141
+    ## 2 height     <tibble [22 × 2]> <NULL>            NA        NA    
+    ## 3 mass       <tibble [17 × 2]> <tibble [17 × 2]>  0.0920    0.759
+
+``` r
+inspect_num(star_1, star_2) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-30-1.png)<!-- -->
 
 #### Categorical levels
 
@@ -477,8 +548,7 @@ inspect_num(star_1, star_2, show_plot = TRUE)
 
 `inspect_cat()` returns a tibble summarising categorical features in a
 data frame, combining the functionality of the `inspect_imb()` and
-`table()` functions. If `show_plot = TRUE` a barplot is generated
-showing the relative split. The tibble generated contains the columns
+`table()` functions. The tibble generated contains the columns
 
   - `col_name` name of each categorical column
   - `cnt` the number of unique levels in the feature
@@ -490,10 +560,8 @@ showing the relative split. The tibble generated contains the columns
 <!-- end list -->
 
 ``` r
-inspect_cat(starwars, show_plot = T)
+inspect_cat(starwars)
 ```
-
-![](man/figures/README-unnamed-chunk-19-1.png)<!-- -->
 
     ## # A tibble: 7 x 5
     ##   col_name     cnt common common_pcnt levels           
@@ -530,7 +598,27 @@ inspect_cat(starwars)$levels$hair_color
     ## 13 unknown       0.0115     1
 
 Note that by default, if `NA` values are present, they are counted as a
-distinct categorical level.
+distinct categorical level. A barplot is printed showing the relative
+split when passing the result to `show_plot()`:
+
+``` r
+inspect_cat(starwars) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-33-1.png)<!-- -->
+
+The argument `high_cardinality` in the `show_plot()` function can be
+used to bundle together categories that occur only a small number of
+times. For example, to combine categories only occuring once, use:
+
+``` r
+inspect_cat(starwars) %>% 
+  show_plot(high_cardinality = 1)
+```
+
+![](man/figures/README-unnamed-chunk-34-1.png)<!-- -->
+
+The resulting bundles are shown in purple.
 
 ##### `inspect_cat()` for two dataframes
 
@@ -541,21 +629,22 @@ associated with Fisher’s exact test (`fisher_p`) are returned to enable
 comparison of the distribution of levels in each pair of columns.
 
 ``` r
-inspect_cat(star_1, star_2, show_plot = TRUE)
+inspect_cat(star_1, star_2)
 ```
-
-![](man/figures/README-unnamed-chunk-21-1.png)<!-- -->
 
     ## # A tibble: 7 x 5
     ##   col_name       jsd fisher_p lvls_1            lvls_2           
     ##   <chr>        <dbl>    <dbl> <list>            <list>           
-    ## 1 eye_color   0.0301    0.992 <tibble [12 × 3]> <tibble [13 × 3]>
-    ## 2 gender      0.0249    0.494 <tibble [2 × 3]>  <tibble [4 × 3]> 
-    ## 3 hair_color  0.0731    0.893 <tibble [10 × 3]> <tibble [9 × 3]> 
-    ## 4 homeworld   0.173     1     <tibble [32 × 3]> <tibble [32 × 3]>
+    ## 1 eye_color   0.0350    0.996 <tibble [11 × 3]> <tibble [13 × 3]>
+    ## 2 gender      0.0259    0.685 <tibble [4 × 3]>  <tibble [4 × 3]> 
+    ## 3 hair_color  0.0499    0.994 <tibble [9 × 3]>  <tibble [13 × 3]>
+    ## 4 homeworld   0.220     1     <tibble [31 × 3]> <tibble [33 × 3]>
     ## 5 name       NA        NA     <tibble [50 × 3]> <NULL>           
-    ## 6 skin_color  0.0897    1.000 <tibble [20 × 3]> <tibble [21 × 3]>
-    ## 7 species     0.144     1     <tibble [24 × 3]> <tibble [25 × 3]>
+    ## 6 skin_color  0.126     1.000 <tibble [25 × 3]> <tibble [23 × 3]>
+    ## 7 species     0.223     0.998 <tibble [26 × 3]> <tibble [25 × 3]>
 
-When `show_plot = TRUE`, a barplot is returned comparing distributions
-of levels in pairs of columns shared by the two dataframes.
+``` r
+inspect_cat(star_1, star_2) %>% show_plot()
+```
+
+![](man/figures/README-unnamed-chunk-36-1.png)<!-- -->
