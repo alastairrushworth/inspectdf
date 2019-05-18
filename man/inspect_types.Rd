@@ -4,18 +4,12 @@
 \alias{inspect_types}
 \title{Summarise and compare column types in one or two dataframes.}
 \usage{
-inspect_types(df1, df2 = NULL, show_plot = FALSE, text_labels = TRUE)
+inspect_types(df1, df2 = NULL)
 }
 \arguments{
 \item{df1}{A data frame.}
 
 \item{df2}{An optional second data frame for comparison.}
-
-\item{show_plot}{Logical argument determining whether plot is generated 
-in addition to tibble output.  Default is \code{FALSE}.}
-
-\item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
-Default is \code{TRUE}.}
 }
 \value{
 A tibble summarising the count and percentage of different 
@@ -48,8 +42,6 @@ The resulting tibble has the columns
 data("starwars", package = "dplyr")
 # get tibble of column types for the starwars data
 inspect_types(starwars)
-# get column types and show as barplot
-inspect_types(starwars, show_plot = TRUE)
 # compare two data frames
-inspect_types(starwars, starwars[, -1], show_plot = TRUE)
+inspect_types(starwars, starwars[, -1])
 }

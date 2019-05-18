@@ -1,3 +1,10 @@
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 element_text
+#' @importFrom ggplot2 geom_bar
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 scale_fill_discrete
+#' @importFrom ggplot2 theme
 
 plot_mem_1 <- function(df_plot, df_names, sizes, text_labels){
   # convert column names to factor

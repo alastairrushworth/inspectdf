@@ -3,21 +3,11 @@
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for comparing categorical levels.  
 #' Defaults to \code{NULL}.
-#' @param show_plot Logical determining whether to show a plot in addition 
-#' to tibble output.  Default is \code{FALSE}.
 #' @param breaks Optional argument determining how breaks are constructed for 
 #' histograms when comparing numeric data frame features.  This is passed to 
 #' \code{hist(..., breaks)}.  See \code{?hist} for more details. 
-#' @param plot_layout Vector specifying the number of rows and columns 
-#' in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
-#' \code{plot_layout = c(3, 2)}.
 #' @param breakseq For internal use only.  Argument that accepts a pre-specified set of 
 #' break points, default is \code{NULL}.
-#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
-#' Default is \code{TRUE}.
-#' @param alpha Alpha level for displaying whether test of difference between the data
-#' frames reaches a particular threshold.  Only applies when (when \code{show_plot = T}).  
-#' Defaults to 0.05.
 #' @return A \code{tibble} containing statistical summaries of the numeric 
 #' columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
 #' @details 
@@ -53,7 +43,7 @@
 #' # with a visualisation too - try to limit number of bins
 #' inspect_num(starwars, breaks = 10)
 #' # compare two data frames
-#' inspect_num(starwars, starwars[-c(1:10), ], breaks = 10, show_plot = TRUE)
+#' inspect_num(starwars, starwars[-c(1:10), ], breaks = 10)
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -66,15 +56,6 @@
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
 #' @importFrom dplyr ungroup
-#' @importFrom ggplot2 aes
-#' @importFrom ggplot2 facet_grid
-#' @importFrom ggplot2 facet_wrap
-#' @importFrom ggplot2 geom_col
-#' @importFrom ggplot2 geom_tile
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 labs
-#' @importFrom ggplot2 scale_fill_gradient
-#' @importFrom ggplot2 theme
 #' @importFrom magrittr %>%
 #' @importFrom graphics hist
 #' @importFrom stats median
@@ -84,9 +65,8 @@
 #' @importFrom tidyr gather
 #' @importFrom utils tail
 
-inspect_num <- function(df1, df2 = NULL, show_plot = F, 
-                       breaks = 20, plot_layout = NULL, breakseq = NULL, 
-                       text_labels = TRUE, alpha = 0.05){
+inspect_num <- function(df1, df2 = NULL,
+                       breaks = 20, breakseq = NULL){
 
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -140,48 +120,37 @@ inspect_num <- function(df1, df2 = NULL, show_plot = F,
         select(-breaks)
       # add feature names to the list
       names(out$hist) <-  as.character(out$col_name)
-      # if plot is requested
-      if(show_plot){
-        plot_num_1(out, 
-                   df_names = df_names, 
-                   plot_layout = plot_layout, 
-                   text_labels = text_labels)
-      }
-      # return df
-      return(out)
+      # attach attributes required for plotting
+      attr(out, "type") <- list("num", 1)
+      attr(out, "df_names") <- df_names
     } else {
-      return(tibble(col_name = character(), min = numeric(), 
+      out <- tibble(col_name = character(), min = numeric(), 
                     q1 = numeric(), median = numeric(), 
                     mean = numeric(), q3 = numeric(),
                     max = numeric(), sd = numeric(), 
-                    pcnt_na = numeric(), hist = list()))
+                    pcnt_na = numeric(), hist = list())
     }
   } else {
     # get histogram and summaries for first df
-    s1 <- inspect_num(df1, show_plot = F, breaks = breaks) %>% 
+    s1 <- inspect_num(df1, breaks = breaks) %>% 
       select(col_name, hist)
     # extract breaks from the above
     breaks_table <- tibble(col_name = s1$col_name, 
                            breaks = lapply(s1$hist, get_break))
     # get new histograms and summary stats using breaks from s1
-    s2 <- inspect_num(df2, breakseq = breaks_table, show_plot = F) %>% 
+    s2 <- inspect_num(df2, breakseq = breaks_table) %>% 
       select(col_name, hist)
-    s12 <- full_join(s1, s2, by = "col_name")
+    out <- full_join(s1, s2, by = "col_name")
     # calculate js-divergence and fisher p-value
-    levels_tab <- s12 %>%
+    out <- out %>%
       mutate(jsd = js_divergence_vec(hist.x, hist.y)) %>%
       mutate(fisher_p = fisher(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       select(col_name, hist_1 = hist.x, hist_2 = hist.y,  jsd, fisher_p)
-    # if plot is requested
-    if(show_plot){
-      plot_num_2(levels_tab, 
-                 df_names = df_names, 
-                 plot_layout = plot_layout, 
-                 alpha = alpha)
-    }
-    # return dataframe
-    return(levels_tab)
+    # attach attributes required for plotting
+    attr(out, "type") <- list("num", 2)
+    attr(out, "df_names") <- df_names
   }
+  return(out)
 }
 
 

@@ -145,17 +145,12 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   print(plt)
 }
 
+# put_na_top <- function(dfb){
+#   if(anyNA(dfb$value)){
+#     na_row <- which(is.na(dfb$value))[1]
+#     return(bind_rows(dfb[na_row, ], dfb[-na_row, ]))
+#   } else {
+#     return(dfb)
+#   }
+# }
 
-
-
-put_na_top <- function(dfb){
-  if(anyNA(dfb$value)){
-    na_row <- which(is.na(dfb$value))[1]
-    return(bind_rows(dfb[na_row, ], dfb[-na_row, ]))
-  } else {
-    return(dfb)
-  }
-}
-
-# pull out the list column containing levels 
-# and collapse the list into a dataframe

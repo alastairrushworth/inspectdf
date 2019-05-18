@@ -2,10 +2,6 @@
 #'
 #' @param df1 A data frame.
 #' @param df2 An optional second data frame for comparison.  
-#' @param show_plot Logical argument determining whether plot is generated 
-#' in addition to tibble output.  Default is \code{FALSE}.  
-#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
-#' Default is \code{TRUE}.
 #' @return A tibble summarising the count and percentage of different 
 #' column types for one or a pair of data frames.
 #' @details When \code{df2 = NULL}, a tibble is returned with the columns
@@ -30,10 +26,8 @@
 #' data("starwars", package = "dplyr")
 #' # get tibble of column types for the starwars data
 #' inspect_types(starwars)
-#' # get column types and show as barplot
-#' inspect_types(starwars, show_plot = TRUE)
 #' # compare two data frames
-#' inspect_types(starwars, starwars[, -1], show_plot = TRUE)
+#' inspect_types(starwars, starwars[, -1])
 #' @export
 #' @importFrom dplyr arrange
 #' @importFrom dplyr case_when
@@ -54,8 +48,7 @@
 #' @importFrom tidyr replace_na
 #' @useDynLib inspectdf
 
-inspect_types <- function(df1, df2 = NULL, show_plot = FALSE, 
-                          text_labels = TRUE){
+inspect_types <- function(df1, df2 = NULL){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -84,31 +77,22 @@ inspect_types <- function(df1, df2 = NULL, show_plot = FALSE,
       arrange(desc(pcnt))  %>% 
       left_join(nms_df, by = "type") %>%
       filter(pcnt > 0) 
-    
-    # if plot requested then show barplot
-    if(show_plot){
-      plot_types_1(out, 
-                   df_names = df_names, 
-                   text_labels = text_labels)
-    }
-    # return dataframe
-    return(out)
+    # attach attributes required for plotting
+    attr(out, "type") <- list("types", 1)
+    attr(out, "df_names") <- df_names
   } else {
-    s1 <- inspect_types(df1, show_plot = F) %>% select(-col_name)
+    s1 <- inspect_types(df1) %>% select(-col_name)
     colnames(s1)[2:3] <- paste0(c("cnt_", "pcnt_"), 1)
-    s2 <- inspect_types(df2, show_plot = F) %>% select(-col_name)
+    s2 <- inspect_types(df2) %>% select(-col_name)
     colnames(s2)[2:3] <- paste0(c("cnt_", "pcnt_"), 2)
     out <- full_join(s1, s2, by = "type") %>% 
       replace(is.na(.), 0)
-    # show plot if requested
-    if(show_plot){
-      plot_types_2(out, 
-                   df_names = df_names, 
-                   text_labels = text_labels)
-    }
-    # return dataframe
-    return(out)
+    # attach attributes required for plotting
+    attr(out, "type") <- list("types", 2)
+    attr(out, "df_names") <- df_names
   }
+  # return dataframe
+  return(out)
 }
 
 

@@ -1,3 +1,20 @@
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 coord_flip
+#' @importFrom ggplot2 element_blank
+#' @importFrom ggplot2 element_text
+#' @importFrom ggplot2 geom_blank
+#' @importFrom ggplot2 geom_errorbar
+#' @importFrom ggplot2 geom_hline
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 geom_rect
+#' @importFrom ggplot2 geom_text
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 guide_legend
+#' @importFrom ggplot2 guides
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme_bw
+
 plot_cor_1 <- function(df_plot, alpha, df_names, text_labels){
   # preprocess data a bit
   df_plot <- df_plot %>% 

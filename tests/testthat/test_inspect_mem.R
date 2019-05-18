@@ -32,21 +32,3 @@ test_that("Output with two different inputs data frame", {
   expect_is(inspect_mem(storms, storms %>% dplyr::sample_n(100, replace = T)), "data.frame")
   expect_is(inspect_mem(airquality, airquality %>% dplyr::sample_n(100, replace = T)), "data.frame")
 })
-
-test_that("Plot comparison output works", {
-  set.seed(10)
-  expect_is(inspect_mem(mtcars, mtcars %>% dplyr::sample_n(100, replace = T), show_plot = T), "data.frame")
-  expect_is(inspect_mem(band_instruments, band_instruments %>% dplyr::sample_n(100, replace = T), show_plot = T) , "data.frame")
-  expect_is(inspect_mem(starwars, starwars %>% dplyr::sample_n(100, replace = T), show_plot = T), "data.frame")
-  expect_is(inspect_mem(storms, storms %>% dplyr::sample_n(100, replace = T), show_plot = T), "data.frame")
-  expect_is(inspect_mem(airquality, airquality %>% dplyr::sample_n(100, replace = T), show_plot = T), "data.frame")
-})
-
-test_that("Plot single output works", {
-  set.seed(10)
-  expect_is(inspect_mem(mtcars, show_plot = T), "data.frame")
-  expect_is(inspect_mem(band_instruments, show_plot = T) , "data.frame")
-  expect_is(inspect_mem(starwars, show_plot = T), "data.frame")
-  expect_is(inspect_mem(storms, show_plot = T), "data.frame")
-  expect_is(inspect_mem(airquality, show_plot = T), "data.frame")
-})

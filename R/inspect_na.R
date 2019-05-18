@@ -3,13 +3,6 @@
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for making columnwise comparison of missingness.  
 #' Defaults to \code{NULL}.
-#' @param show_plot Logical determining whether to return a plot in addition to tibble.  
-#' Default is \code{FALSE}.
-#' @param alpha Alpha level for displaying whether test of difference between the data
-#' frames reaches a particular threshold.  Only applies when (when \code{show_plot = T}).  
-#' Defaults to 0.05.
-#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
-#' Default is \code{TRUE}.
 #' @return A tibble summarising the count and percentage of columnwise missingness 
 #' for one or a pair of data frames.
 #' @details When a single data frame is specified, the a tibble is returned which 
@@ -35,14 +28,10 @@
 #'   in both \code{df1} and \code{df2}.
 #' }
 #' 
-#' 
-#' 
 #' @examples
 #' data("starwars", package = "dplyr")
 #' # inspect missingness in starwars data
 #' inspect_na(starwars)
-#' # show the result as a barplot
-#' inspect_na(starwars, show_plot = TRUE)
 #' # compare two dataframes
 #' inspect_na(starwars, starwars[1:30, ])
 #' @importFrom dplyr arrange
@@ -57,64 +46,45 @@
 #' @importFrom tibble tibble
 #' @export
 
-inspect_na <- function(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05, 
-                       text_labels = TRUE){
+inspect_na <- function(df1, df2 = NULL){
   # perform basic column check on dataframe input
   check_df_cols(df1)
   # capture the data frame names
   df_names <- get_df_names()
   # if ony one df input then inspect na content
   if(is.null(df2)){
-    n_cols <- ncol(df1)
-    names_vec <- colnames(df1)
-    # calculate columnwise missingness
-    na_vec <- vector("numeric", length = n_cols)
-    pb <- start_progress(prefix = " Column", total = n_cols)
-    for(i in 1:n_cols){
-      update_progress(bar = pb, iter = i, total = n_cols, what = names_vec[i])
-      na_vec[i] <- sumna(df1[[i]])
-    }
-    names(na_vec) <- names_vec
-    out <- vec_to_tibble(na_vec) %>%
-      mutate(pcnt = 100 * n / nrow(df1)) %>%
-      select(col_name = names, cnt = n, pcnt) %>%
-      arrange(desc(pcnt))
-    # if any missing values then print out
-    if(nrow(out) > 0){
-      # print plot if requested
-      if(show_plot){
-        plot_na_1(out, 
-                  df_names = df_names, 
-                  text_labels = text_labels)
+      n_cols <- ncol(df1)
+      names_vec <- colnames(df1)
+      # calculate columnwise missingness
+      na_vec <- vector("numeric", length = n_cols)
+      pb <- start_progress(prefix = " Column", total = n_cols)
+      for(i in 1:n_cols){
+        update_progress(bar = pb, iter = i, total = n_cols, what = names_vec[i])
+        na_vec[i] <- sumna(df1[[i]])
       }
-      # return summary tibble
-      return(out)
-    } else {
-      # return dataframe of values
-      return(tibble(col_name = character(), cnt = integer(), pcnt = numeric()))
-    }
-    if(type == "console") invisible(df1)
+      names(na_vec) <- names_vec
+      out <- vec_to_tibble(na_vec) %>%
+        mutate(pcnt = 100 * n / nrow(df1)) %>%
+        select(col_name = names, cnt = n, pcnt) %>%
+        arrange(desc(pcnt))
+      
+      # attach attributes required for plotting
+      attr(out, "type") <- list("na", 1)
+      attr(out, "df_names") <- df_names
   } else {
-    s1 <- inspect_na(df1, show_plot = F) 
-    s2 <- inspect_na(df2, show_plot = F)
-    na_tab <- full_join(s1, s2, by = "col_name")
-    na_tab$p_value <- prop_test(na_1 = na_tab$cnt.x, 
-                                na_2 = na_tab$cnt.y, 
-                                n_1 = nrow(df1), 
-                                n_2 = nrow(df2))
-    colnames(na_tab)[c(3, 5)] <- paste0("pcnt_", 1:2)
-    colnames(na_tab)[c(2, 4)] <- paste0("cnt_", 1:2)
-    # print a plot if requested
-    if(show_plot){
-      plot_na_2(na_tab, 
-                df_names = df_names, 
-                alpha = alpha, 
-                text_labels = text_labels)
-    }
-    # return dataframe
-    return(na_tab)
+    s1 <- inspect_na(df1) 
+    s2 <- inspect_na(df2)
+    out <- full_join(s1, s2, by = "col_name")
+    out$p_value <- prop_test(na_1 = out$cnt.x, 
+                             na_2 = out$cnt.y, 
+                             n_1 = nrow(df1), 
+                             n_2 = nrow(df2))
+    colnames(out)[2:5] <- c("cnt_1", "pcnt_1", "cnt_2", "pcnt_2")
+    
+    # attach attributes required for plotting
+    attr(out, "type") <- list("na", 2)
+    attr(out, "df_names") <- df_names
   }
+  # return dataframe
+  return(out)
 }
-
-
-

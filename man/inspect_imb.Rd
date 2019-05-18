@@ -4,22 +4,13 @@
 \alias{inspect_imb}
 \title{Summarise and compare columnwise imbalance for non-numeric columns in one or two dataframes.}
 \usage{
-inspect_imb(df1, df2 = NULL, show_plot = FALSE, alpha = 0.05,
-  text_labels = TRUE)
+inspect_imb(df1, df2 = NULL)
 }
 \arguments{
 \item{df1}{A data frame}
 
 \item{df2}{An optional second data frame for comparing columnwise imbalance.
 Defaults to \code{NULL}.}
-
-\item{show_plot}{Logical argument determining whether plot is returned
-in addition to tibble output.  Default is \code{FALSE}.}
-
-\item{alpha}{Alpha level for performing significance tests.  Defaults to 0.05.}
-
-\item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
-Default is \code{TRUE}.}
 }
 \value{
 A tibble summarising and comparing the imbalance for each non-numeric column 
@@ -60,8 +51,6 @@ The resulting tibble has columns
 data("starwars", package = "dplyr")
 # get tibble of most common levels
 inspect_imb(starwars)
-# get most common levels and show as barplot
-inspect_imb(starwars, show_plot = TRUE)
-# compare memory usage 
+# compare imbalance 
 inspect_imb(starwars, starwars[1:10, -3])
 }

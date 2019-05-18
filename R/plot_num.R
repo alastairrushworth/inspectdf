@@ -1,3 +1,13 @@
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 facet_grid
+#' @importFrom ggplot2 facet_wrap
+#' @importFrom ggplot2 geom_col
+#' @importFrom ggplot2 geom_tile
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 scale_fill_gradient
+#' @importFrom ggplot2 theme
+
 plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels){
   # set the plot_layout if not specified
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)

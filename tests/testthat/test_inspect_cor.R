@@ -16,23 +16,6 @@ test_that("Output is a data frame", {
   expect_is(inspect_cor(airquality), "data.frame")
 })
 
-test_that("Single data frame plot output", {
-  expect_is(suppressWarnings(inspect_cor(mtcars, show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_cor(band_instruments, show_plot = T)), "data.frame")
-  expect_error(suppressWarnings(inspect_cor(nasa, show_plot = T)))
-  expect_is(suppressWarnings(inspect_cor(starwars, show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_cor(storms, show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_cor(airquality, show_plot = T)), "data.frame")
-})
-
-test_that("Pair of data frames plot output", {
-  expect_is(suppressWarnings(inspect_cor(mtcars, mtcars[1:30, ], show_plot = T)), "data.frame")
-  expect_error(suppressWarnings(inspect_cor(nasa, nasa[1:30, ], show_plot = T)))
-  expect_is(suppressWarnings(inspect_cor(starwars, starwars[1:30, ], show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_cor(storms, storms[1:1000, ], show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_cor(airquality, airquality[1:30, ], show_plot = T)), "data.frame")
-})
-
 test_that("Output with two identical df inputs data frame", {
   expect_is(inspect_cor(mtcars, mtcars), "data.frame")
   expect_is(inspect_cor(starwars, starwars), "data.frame")

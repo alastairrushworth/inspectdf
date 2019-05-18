@@ -4,19 +4,13 @@
 \alias{inspect_mem}
 \title{Summarise and compare the memory usage in one or two dataframes.}
 \usage{
-inspect_mem(df1, df2 = NULL, show_plot = FALSE, text_labels = TRUE)
+inspect_mem(df1, df2 = NULL)
 }
 \arguments{
 \item{df1}{A data frame.}
 
 \item{df2}{An optional second data frame for comparing column sizes.
 Defaults to \code{NULL}.}
-
-\item{show_plot}{Logical argument determining whether plot is returned
-in addition to tibble output.  Default is \code{FALSE}.}
-
-\item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}). 
-Default is \code{TRUE}.}
 }
 \value{
 A tibble summarising and comparing the columnwise memory usage 
@@ -49,8 +43,6 @@ Rows are sorted in descending order of size as they appear in \code{df1}:
 data("starwars", package = "dplyr")
 # get tibble of column memory usage for the starwars data
 inspect_mem(starwars)
-# get column memory usage and show as barplot
-inspect_mem(starwars, show_plot = TRUE)
 # compare memory usage 
 inspect_mem(starwars, starwars[1:10, -3])
 }

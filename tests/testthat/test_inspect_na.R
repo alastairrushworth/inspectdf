@@ -16,20 +16,6 @@ test_that("Output is a data frame", {
   expect_is(inspect_na(airquality), "data.frame")
 })
 
-test_that("Plot is returned without error", {
-  expect_is(suppressWarnings(inspect_na(mtcars, show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_na(mtcars, mtcars[1:30, ], show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_na(band_instruments, band_instruments[1:2, ], show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_na(band_instruments, show_plot = T)), "data.frame")
-  expect_error(inspect_na(nasa, show_plot = T))
-  expect_is(suppressWarnings(inspect_na(starwars, show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_na(starwars, starwars[1:30, ], show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_na(storms, show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_na(storms, storms[1:200,], show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_na(airquality, show_plot = T)), "data.frame")
-  expect_is(suppressWarnings(inspect_na(airquality, airquality[1:30,], show_plot = T)), "data.frame")
-})
-
 test_that("Output with two identical df inputs data frame", {
   expect_is(inspect_na(mtcars, mtcars), "data.frame")
   expect_is(inspect_na(band_instruments, band_instruments), "data.frame")
