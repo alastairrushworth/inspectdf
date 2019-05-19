@@ -50,6 +50,7 @@
 #' @importFrom dplyr ungroup
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
+#' @importFrom Rcpp compileAttributes
 
 inspect_cat <- function(df1, df2 = NULL){
   
