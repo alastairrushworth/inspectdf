@@ -14,8 +14,14 @@ get_df_names <- function(){
   df_name2 <- ifelse(df_name2 %>% length > 1 & df_name2[1] == "%>%", 
                      df_name2[2], df_name2[1])
   # if passed using a chain function, look for argument name
+  # only use if the first part of the chain isn't a fn
   ee <- find_chain_parts()$lhs
-  if(!is.null(ee)) df_name1 <- deparse(ee)
+  if(!is.null(ee)){
+    if(!grepl("[(]", deparse(ee))){
+      df_name1 <- deparse(ee) 
+    }
+  }
+  # print(df_name1)
   # if the length is still greater than 1, then use default names
   if(df_name1 %>% length > 1) df_name1 <- "df1"
   if(df_name2 %>% length > 1) df_name2 <- "df2"
