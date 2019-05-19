@@ -15,8 +15,8 @@ show_plot(x, text_labels = TRUE, alpha = 0.05, high_cardinality = 0,
 \item{alpha}{Alpha level for performing significance tests.  Defaults to 0.05.}
 
 \item{high_cardinality}{Minimum number of occurrences of category to be shown as a distinct segment 
-in the plot (\code{inspect_cat} only).  Default is 0.  This argument can help when some column 
-contain many unique or near-unique levels that may take a while to plot.}
+in the plot (\code{inspect_cat} only).  Default is 0.  This can help when some columns 
+contain many unique or near-unique levels that take a long time to render.}
 
 \item{plot_layout}{Vector specifying the number of rows and columns 
 in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
@@ -28,4 +28,29 @@ missing values and for high cardinality values, respectively.}
 }
 \description{
 Visualise summaries and comparisons of one or two dataframes.
+}
+\examples{
+# Load 'starwars' data
+data("starwars", package = "dplyr")
+
+# categorical plot
+inspect_cat(starwars) \%>\% show_plot()
+
+# correlations in numeric columns
+inspect_cor(starwars) \%>\% show_plot()
+
+# feature imbalance bar plot
+inspect_imb(starwars) \%>\% show_plot()
+
+# memory usage barplot
+inspect_mem(starwars) \%>\% show_plot()
+
+# missingness barplot
+inspect_na(starwars) \%>\% show_plot()
+
+# histograms for numeric columns
+inspect_num(starwars) \%>\% show_plot()
+
+# barplot of column types
+inspect_types(starwars) \%>\% show_plot()
 }
