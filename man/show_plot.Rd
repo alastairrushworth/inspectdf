@@ -34,23 +34,30 @@ Visualise summaries and comparisons of one or two dataframes.
 data("starwars", package = "dplyr")
 
 # categorical plot
-inspect_cat(starwars) \%>\% show_plot()
+x <- inspect_cat(starwars) 
+show_plot(x)
 
 # correlations in numeric columns
-inspect_cor(starwars) \%>\% show_plot()
+x <- inspect_cor(starwars)
+show_plot(x)
 
 # feature imbalance bar plot
-inspect_imb(starwars) \%>\% show_plot()
+x <- inspect_imb(starwars)
+show_plot(x)
 
 # memory usage barplot
-inspect_mem(starwars) \%>\% show_plot()
+x <- inspect_mem(starwars)
+show_plot(x)
 
 # missingness barplot
-inspect_na(starwars) \%>\% show_plot()
+x <- inspect_na(starwars)
+show_plot(x)
 
 # histograms for numeric columns
-inspect_num(starwars) \%>\% show_plot()
+x <- inspect_num(starwars)
+show_plot(x)
 
 # barplot of column types
-inspect_types(starwars) \%>\% show_plot()
+x <- inspect_types(starwars)
+show_plot(x)
 }
