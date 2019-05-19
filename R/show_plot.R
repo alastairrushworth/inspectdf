@@ -4,8 +4,8 @@
 #' @param alpha Alpha level for performing significance tests.  Defaults to 0.05.
 #' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
 #' @param high_cardinality Minimum number of occurrences of category to be shown as a distinct segment 
-#' in the plot (\code{inspect_cat} only).  Default is 0.  This argument can help when some column 
-#' contain many unique or near-unique levels that may take a while to plot.
+#' in the plot (\code{inspect_cat} only).  Default is 0.  This can help when some columns 
+#' contain many unique or near-unique levels that take a long time to render.
 #' @param cols Vector containing names or integers indicating colours for the plotted bars for levels,
 #' missing values and for high cardinality values, respectively.
 #' @param plot_layout Vector specifying the number of rows and columns 
@@ -13,6 +13,30 @@
 #' \code{plot_layout = c(3, 2)}.
 #' Default is \code{TRUE}.
 #' @export
+#' @examples 
+#' # Load 'starwars' data
+#' data("starwars", package = "dplyr")
+#' 
+#' # categorical plot
+#' inspect_cat(starwars) %>% show_plot()
+#' 
+#' # correlations in numeric columns
+#' inspect_cor(starwars) %>% show_plot()
+#' 
+#' # feature imbalance bar plot
+#' inspect_imb(starwars) %>% show_plot()
+#' 
+#' # memory usage barplot
+#' inspect_mem(starwars) %>% show_plot()
+#' 
+#' # missingness barplot
+#' inspect_na(starwars) %>% show_plot()
+#' 
+#' # histograms for numeric columns
+#' inspect_num(starwars) %>% show_plot()
+#' 
+#' # barplot of column types
+#' inspect_types(starwars) %>% show_plot()
 
 show_plot <- function(x, text_labels = TRUE, alpha = 0.05, 
                       high_cardinality = 0, plot_layout = NULL,
