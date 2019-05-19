@@ -4,13 +4,16 @@
 \alias{inspect_cor}
 \title{Summarise and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.}
 \usage{
-inspect_cor(df1, df2 = NULL, alpha = 0.05)
+inspect_cor(df1, df2 = NULL, with_col = NULL, alpha = 0.05)
 }
 \arguments{
 \item{df1}{A data frame}
 
 \item{df2}{An optional second data frame for comparing correlation 
 coefficients.  Defaults to \code{NULL}.}
+
+\item{with_col}{Character vector of columns to calculate correlations with.  When set to 
+the default, \code{NULL}, all pairs of correlations are returned.}
 
 \item{alpha}{Alpha level for correlation confidence intervals.  Defaults to 0.05.}
 }
@@ -47,6 +50,10 @@ correlation coefficients across the dataframes.
 data("starwars", package = "dplyr")
 # correlations in numeric columns
 inspect_cor(starwars)
+
+# only show correlations with 'mass' column
+inspect_cor(starwars, with_col = "mass")
+
 # compare correlations with a different data frame
 inspect_cor(starwars, starwars[1:10, ])
 }
