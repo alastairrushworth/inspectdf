@@ -47,7 +47,7 @@
 
 show_plot <- function(x, text_labels = TRUE, alpha = 0.05, 
                       high_cardinality = 0, plot_layout = NULL,
-                      cols = c("tomato3", "gray65", "darkmagenta")){
+                      cols = c()"#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"){
   type     <- attr(x, "type")
   df_names <- attr(x, "df_names")
   
