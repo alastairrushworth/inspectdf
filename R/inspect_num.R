@@ -5,6 +5,8 @@
 #' Defaults to \code{NULL}.
 #' @param breaks Optional argument determining how breaks are constructed for 
 #' histograms when comparing numeric data frame features.  This is passed to 
+#' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
+#' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' \code{hist(..., breaks)}.  See \code{?hist} for more details. 
 #' @param breakseq For internal use only.  Argument that accepts a pre-specified set of 
 #' break points, default is \code{NULL}.
@@ -66,7 +68,7 @@
 #' @importFrom utils tail
 
 inspect_num <- function(df1, df2 = NULL,
-                       breaks = 20, breakseq = NULL){
+                       breaks = 20, breakseq = NULL, show_plot = FALSE){
 
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -150,6 +152,7 @@ inspect_num <- function(df1, df2 = NULL,
     attr(out, "type") <- list("num", 2)
     attr(out, "df_names") <- df_names
   }
+  if(show_plot) plot_deprecated(out)
   return(out)
 }
 

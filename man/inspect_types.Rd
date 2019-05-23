@@ -4,12 +4,15 @@
 \alias{inspect_types}
 \title{Summarise and compare column types in one or two dataframes.}
 \usage{
-inspect_types(df1, df2 = NULL)
+inspect_types(df1, df2 = NULL, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame.}
 
 \item{df2}{An optional second data frame for comparison.}
+
+\item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
+Superseded by the function \code{show_plot()} and will be dropped in a future version.}
 }
 \value{
 A tibble summarising the count and percentage of different 

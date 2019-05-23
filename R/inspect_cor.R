@@ -6,6 +6,8 @@
 #' @param alpha Alpha level for correlation confidence intervals.  Defaults to 0.05.
 #' @param with_col Character vector of columns to calculate correlations with.  When set to 
 #' the default, \code{NULL}, all pairs of correlations are returned.
+#' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
+#' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return A tibble summarising and comparing the correlations for each numeric column 
 #' in one or a pair of data frames.
 #' @details When only \code{df1} is specified, a tibble is returned which 
@@ -52,7 +54,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 
-inspect_cor <- function(df1, df2 = NULL, with_col = NULL, alpha = 0.05){
+inspect_cor <- function(df1, df2 = NULL, with_col = NULL, alpha = 0.05, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -105,5 +107,6 @@ inspect_cor <- function(df1, df2 = NULL, with_col = NULL, alpha = 0.05){
     attr(out, "type")     <- list("cor", 2)
     attr(out, "df_names") <- df_names
   }
+  if(show_plot) plot_deprecated(out)
   return(out)
 }
