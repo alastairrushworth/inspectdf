@@ -324,7 +324,7 @@ Note that by default, if `NA` values are present, they are counted as a distinct
 inspect_cat(starwars) %>% show_plot()
 ```
 
-The argument `high_cardinality` in the `show_plot()` function can be used to bundle together categories that occur only a small number of times.  For example, to combine categories only occuring once, use:
+The argument `high_cardinality` in the `show_plot()` function can be used to bundle together categories that occur only a small number of times.  For example, to combine categories only occurring once, use:
 
 ```{r}
 inspect_cat(starwars) %>% 
