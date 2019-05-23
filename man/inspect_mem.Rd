@@ -4,13 +4,16 @@
 \alias{inspect_mem}
 \title{Summarise and compare the memory usage in one or two dataframes.}
 \usage{
-inspect_mem(df1, df2 = NULL)
+inspect_mem(df1, df2 = NULL, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame.}
 
 \item{df2}{An optional second data frame for comparing column sizes.
 Defaults to \code{NULL}.}
+
+\item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
+Superseded by the function \code{show_plot()} and will be dropped in a future version.}
 }
 \value{
 A tibble summarising and comparing the columnwise memory usage 

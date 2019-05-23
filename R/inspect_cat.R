@@ -3,6 +3,8 @@
 #' @param df1 A dataframe
 #' @param df2 An optional second data frame for comparing categorical levels.  
 #' Defaults to \code{NULL}.
+#' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
+#' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return A tibble summarising and comparing the categorical features 
 #' in one or a pair of data frames.
 #' @details When only \code{df1} is specified, a tibble is returned which 
@@ -52,7 +54,7 @@
 #' @importFrom progress progress_bar
 #' @importFrom Rcpp compileAttributes
 
-inspect_cat <- function(df1, df2 = NULL){
+inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -129,6 +131,6 @@ inspect_cat <- function(df1, df2 = NULL){
     attr(out, "type")     <- list("cat", 2)
     attr(out, "df_names") <- df_names
   }
-  # return the comparison table
+  if(show_plot) plot_deprecated(out)
   return(out)
 }

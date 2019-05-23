@@ -4,7 +4,8 @@
 \alias{inspect_cor}
 \title{Summarise and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.}
 \usage{
-inspect_cor(df1, df2 = NULL, with_col = NULL, alpha = 0.05)
+inspect_cor(df1, df2 = NULL, with_col = NULL, alpha = 0.05,
+  show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -16,6 +17,9 @@ coefficients.  Defaults to \code{NULL}.}
 the default, \code{NULL}, all pairs of correlations are returned.}
 
 \item{alpha}{Alpha level for correlation confidence intervals.  Defaults to 0.05.}
+
+\item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
+Superseded by the function \code{show_plot()} and will be dropped in a future version.}
 }
 \value{
 A tibble summarising and comparing the correlations for each numeric column 

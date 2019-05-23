@@ -3,6 +3,8 @@
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for comparing columnwise imbalance.  
 #' Defaults to \code{NULL}.  
+#' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
+#' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return  A tibble summarising and comparing the imbalance for each non-numeric column 
 #' in one or a pair of data frames.
 #' @details When a single data frame is specified, a tibble is returned which 
@@ -50,7 +52,7 @@
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
 
-inspect_imb <- function(df1, df2 = NULL){
+inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -106,6 +108,6 @@ inspect_imb <- function(df1, df2 = NULL){
     attr(out, "type")     <- list("imb", 2)
     attr(out, "df_names") <- df_names
   }
-  # return combined data frame
+  if(show_plot) plot_deprecated(out)
   return(out)
 }

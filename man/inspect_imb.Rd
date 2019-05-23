@@ -4,13 +4,16 @@
 \alias{inspect_imb}
 \title{Summarise and compare columnwise imbalance for non-numeric columns in one or two dataframes.}
 \usage{
-inspect_imb(df1, df2 = NULL)
+inspect_imb(df1, df2 = NULL, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame}
 
 \item{df2}{An optional second data frame for comparing columnwise imbalance.
 Defaults to \code{NULL}.}
+
+\item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
+Superseded by the function \code{show_plot()} and will be dropped in a future version.}
 }
 \value{
 A tibble summarising and comparing the imbalance for each non-numeric column 
