@@ -27,14 +27,19 @@ plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels){
     }
   }
   df_plot <- bind_rows(df_plot$hist)
+  bin_width <- df_plot %>% 
+    group_by(col_name) %>%
+    summarise(bar_width = diff(mid)[1]/1.5)
+  df_plot <- df_plot %>% 
+    left_join(bin_width, by = "col_name")
   # generate plot
   plt <- df_plot %>%
-    ggplot(aes(x = mid, y = prop)) + 
+    ggplot(aes(x = mid, y = prop, width = bar_width)) + 
     geom_col(fill = "blue") + 
     labs(x = "", y = "Probability", 
          title =  paste0("Histograms of numeric columns in df::", df_names$df1), 
          subtitle = "") +
-    facet_wrap(~ col_name, scales = "free", 
+    facet_wrap(~ col_name, scale = "free", 
                nrow = plot_layout[[1]], 
                ncol = plot_layout[[2]])
   # print plot

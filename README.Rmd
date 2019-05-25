@@ -278,7 +278,8 @@ inspect_num(starwars)$hist$birth_year
 A histogram is generated for each numeric feature by passing the result to the `show_plot()` function:
 
 ```{r}
-inspect_num(starwars, breaks = 10)
+inspect_num(starwars, breaks = 10) %>%
+  show_plot()
 ```
 
 
@@ -293,7 +294,8 @@ inspect_num(star_1, star_2)
 ```
 
 ```{r}
-inspect_num(star_1, star_2) %>% show_plot()
+inspect_num(star_1, star_2) %>% 
+  show_plot()
 ```
 
 #### Categorical levels
