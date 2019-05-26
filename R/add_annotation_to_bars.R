@@ -41,24 +41,3 @@ add_annotation_to_bars <- function(x, y, z, dodged = 0, plt, thresh = 0.05,
   # return the plot
   return(plt)
 }
-
-# bar plot function
-bar_plot <- function(df_plot, x, y, fill, label, xlb = "", ylb = "", 
-                     ttl = "", sttl = "", lgnd = NULL, rotate = FALSE){
-  # basic bar plot
-  plt <- df_plot %>% 
-    ggplot(aes_string(x = x, y = y, fill = fill, label = label)) + 
-    geom_bar(stat = "identity") + 
-    labs(x = xlb, y = ylb, title = ttl, subtitle = sttl)
-  # if legend is required give a name, otherwise remove
-  if(is.null(lgnd)){
-    plt <- plt + guides(fill = FALSE)
-  } else {
-    plt <- plt + scale_fill_discrete(name = lgnd)
-  }
-  # rotate x-axis labels if requested
-  if(rotate){
-    plt <- plt + theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  }
-  return(plt)
-}

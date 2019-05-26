@@ -39,7 +39,7 @@ plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels){
     labs(x = "", y = "Probability", 
          title =  paste0("Histograms of numeric columns in df::", df_names$df1), 
          subtitle = "") +
-    facet_wrap(~ col_name, scale = "free", 
+    facet_wrap(~ col_name, scales = "free", 
                nrow = plot_layout[[1]], 
                ncol = plot_layout[[2]])
   # print plot

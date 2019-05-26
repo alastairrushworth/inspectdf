@@ -18,7 +18,7 @@ plot_types_1 <- function(df_plot, df_names, text_labels, col_palette){
                   ttl  = paste0("df::", df_names$df1, " column types"),
                   sttl = paste0("df::", df_names$df1,  " has ", 
                                 sum(df_plot$cnt), " columns."), 
-                  ylb  = "Number of columns", lgnd = "Column types", 
+                  ylb  = "Number of columns", 
                   col_palette = col_palette)
   # add text annotation to plot if requested
   if(text_labels){
@@ -32,7 +32,7 @@ plot_types_1 <- function(df_plot, df_names, text_labels, col_palette){
   print(plt)
 }
 
-plot_types_2 <- function(df_plot, df_names, text_labels){
+plot_types_2 <- function(df_plot, df_names, text_labels, col_palette){
   # convert to a taller df for plotting
   d1 <- df_plot %>% select(1, 2:3) %>% mutate(df_input = df_names$df1)
   d2 <- df_plot %>% select(1, 4:5) %>% mutate(df_input = df_names$df2)
@@ -75,11 +75,13 @@ plot_types_2 <- function(df_plot, df_names, text_labels){
   }
   
   # labels the axes, add title and subtitle
-  plt <- plt + labs(x = "", y = "Number of columns", 
-                    title = ttl_plt, 
-                    subtitle = sttl) + 
+  plt <- plt + 
+    labs(x = "", y = "Number of columns", 
+         title = ttl_plt, 
+         subtitle = sttl) + 
     # label the legend 
-    scale_fill_discrete(name = "Data frame")
+    scale_fill_manual(name = "Data frame",  
+                      values = user_colours(3, col_palette)[c(1, 3)])
   
   # return plot
   print(plt)

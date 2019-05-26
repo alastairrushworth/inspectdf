@@ -5,7 +5,7 @@
 #' @importFrom grDevices colorRampPalette
 #' @importFrom ggplot2 scale_x_discrete
 plot_cat <- function(levels_df, df_names, text_labels, high_cardinality, 
-                     cols = cols){
+                     cols = c("tomato3", "gray65", "darkmagenta")){
   # plotting pallete
   b <- colorRampPalette(c(cols[1], "white"))
   zcols <- b(1001)
