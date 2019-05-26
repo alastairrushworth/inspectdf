@@ -7,7 +7,7 @@
                              "pair",  "lower", "upper", "value", "col_name", "V1", 
                              "n_levels", "levels.x", "levels.y", "diff_1_2", 
                              "diff_2_1", "p_value", "n", "type",
-                             "mid", "hist.x", "hist.y", "n.x",
+                             "mid", "hist.x", "hist.y", "n.x", "col_name2",
                              "n.y", "df_input", "count", "col_type", 
                              "corr", "is_sig", "index", "data_frame", "pcnt", 
                              "level_key", "dfi", "colval", "fisher_p", 
