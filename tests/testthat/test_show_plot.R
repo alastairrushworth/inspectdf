@@ -19,12 +19,13 @@ test_that("inspect_cat plots", {
                                 inspect_cat(
                                   storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
                                 ) %>% show_plot)
-  
+  expect_doppelganger("Inspect-cat-storms_col_1",   storms %>% inspect_cat %>% show_plot(col_palette = 1))
+  expect_doppelganger("Inspect-cat-storms_col_2",   storms %>% inspect_cat %>% show_plot(col_palette = 2))
 })
 
 test_that("inspect_cor plots", {
   expect_doppelganger("Inspect-cor-starwars", starwars %>% inspect_cor %>% show_plot)
-  expect_doppelganger("Inspect-cor-storms",   storms %>%   inspect_cor %>% show_plot)
+  expect_doppelganger("Inspect-cor-storms",   storms %>% inspect_cor %>% show_plot)
   expect_doppelganger("Inspect-cor-starwars2", 
                               starwars %>% 
                                 inspect_cor(
@@ -34,7 +35,7 @@ test_that("inspect_cor plots", {
                                 inspect_cor(
                                   storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
                                 ) %>% show_plot)
-  
+  expect_doppelganger("Inspect-cor-storms_alpha", storms %>% inspect_cor %>% show_plot(alpha = 0.1))
 })
 
 test_that("inspect_imb plots", {
@@ -49,6 +50,8 @@ test_that("inspect_imb plots", {
                                 inspect_imb(
                                   storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
                                 ) %>% show_plot)
+  expect_doppelganger("Inspect-imb-storms_col_1",   storms %>%   inspect_imb %>% show_plot(col_palette = 1))
+  expect_doppelganger("Inspect-imb-storms_col_2",   storms %>%   inspect_imb %>% show_plot(col_palette = 2))
   
 })
 
@@ -94,32 +97,5 @@ test_that("inspect_num plots", {
                                 inspect_num(
                                   storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
                                 ) %>% show_plot)
-  
+  expect_doppelganger("Inspect-num-storms_plot_layout",   storms %>%  inspect_num %>% show_plot(plot_layout = c(3, 4)))
 })
-
-# test_that("inspect_types plots", {
-#   expect_doppelganger("Inspect-type-starwars", starwars %>% inspect_types %>% show_plot)
-#   expect_doppelganger("Inspect-types-storms",   storms %>%   inspect_types %>% show_plot)
-#   expect_doppelganger("Inspect-types-starwars2", 
-#                               starwars %>% 
-#                                 inspect_types(
-#                                   starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
-#                                 ) %>% show_plot)
-#   expect_doppelganger("Inspect-types-storms2",   storms %>% 
-#                                 inspect_types(
-#                                   storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
-#                                 ) %>% show_plot)
-#   
-# })
-# test_that("Cardinality option works", {
-#   expect_is(inspect_cat(starwars%>% dplyr::select(-1), high_cardinality = 0), "data.frame")
-#   expect_is(inspect_cat(starwars%>% dplyr::select(-1), high_cardinality = 1), "data.frame")
-#   expect_is(inspect_cat(starwars%>% dplyr::select(-1), 
-#                         starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T),
-#                         high_cardinality = 0), 
-#             "data.frame")
-#   expect_is(inspect_cat(starwars%>% dplyr::select(-1), 
-#                         starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T),
-#                         high_cardinality = 1), 
-#             "data.frame")
-# })
