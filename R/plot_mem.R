@@ -6,7 +6,7 @@
 #' @importFrom ggplot2 scale_fill_discrete
 #' @importFrom ggplot2 theme
 
-plot_mem_1 <- function(df_plot, df_names, sizes, text_labels){
+plot_mem_1 <- function(df_plot, df_names, sizes, text_labels, col_palette){
   # convert column names to factor
   df_plot <- df_plot %>% 
     mutate(col_name = factor(col_name, levels = as.character(col_name)))
@@ -17,7 +17,8 @@ plot_mem_1 <- function(df_plot, df_names, sizes, text_labels){
                   sttl = paste0("df::", df_names$df1,  " has ", sizes$ncl_1, 
                                 " columns, ", sizes$nrw_1, 
                                 " rows & total size of ", sizes$sz_1), 
-                  ylb = "% of total size", rotate = TRUE)
+                  ylb = "% of total size", rotate = TRUE, 
+                  col_palette = col_palette)
   # add text annotation to plot  
   if(text_labels){
     plt <- add_annotation_to_bars(x = df_plot$col_name, 
@@ -30,7 +31,7 @@ plot_mem_1 <- function(df_plot, df_names, sizes, text_labels){
 }
 
 
-plot_mem_2 <- function(df_plot, df_names, sizes, text_labels){
+plot_mem_2 <- function(df_plot, df_names, sizes, text_labels, col_palette){
 
   leg_text <- as.character(unlist(df_names))
   # gather percents
@@ -64,7 +65,8 @@ plot_mem_2 <- function(df_plot, df_names, sizes, text_labels){
     labs(x = "", y = "% of total size", 
          title = ttl_plt, 
          subtitle = paste0(sttl_plt1, "\n", sttl_plt2)) + 
-    scale_fill_discrete(name = "Data frame", labels = leg_text) +
+    scale_fill_manual(name = "Data frame", labels = leg_text, 
+                      values = user_colours(3, col_palette)[c(1, 3)]) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
   if(text_labels){
     plt <- add_annotation_to_bars(x = z_tall$col_name, 

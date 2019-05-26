@@ -5,7 +5,7 @@
 \title{Visualise summaries and comparisons of one or two dataframes.}
 \usage{
 show_plot(x, text_labels = TRUE, alpha = 0.05, high_cardinality = 0,
-  plot_layout = NULL, cols = c("tomato3", "gray65", "darkmagenta"))
+  plot_layout = NULL, col_palette = 0)
 }
 \arguments{
 \item{x}{Dataframe resulting from a call to an `inspect_` function.}
@@ -23,8 +23,7 @@ in the plotting grid.  For example, 3 rows and 2 columns would be specified as
 \code{plot_layout = c(3, 2)}.
 Default is \code{TRUE}.}
 
-\item{cols}{Vector containing names or integers indicating colours for the plotted bars for levels,
-missing values and for high cardinality values, respectively.}
+\item{col_palette}{Integer or character string indicating the colour palette to use.}
 }
 \description{
 Visualise summaries and comparisons of one or two dataframes.
