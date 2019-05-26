@@ -7,17 +7,19 @@
 #' @importFrom ggplot2 scale_fill_discrete
 #' @importFrom ggplot2 theme
 
-plot_types_1 <- function(df_plot, df_names, text_labels){
+plot_types_1 <- function(df_plot, df_names, text_labels, col_palette){
   # convert column names to factor
   df_plot <- df_plot %>% 
     mutate(type = factor(type, levels = as.character(type)))
   # construct bar plot of column types
-  plt <- bar_plot(df_plot = df_plot, x = "type", y = "cnt", 
+  plt <- bar_plot(df_plot = df_plot, 
+                  x = "type", y = "cnt", 
                   fill = "type", label = "cnt", 
-                  ttl = paste0("df::", df_names$df1), " column types",
-                  sttl = paste0("df::", df_names$df1,  " has ", sum(df_plot$cnt), 
-                                " columns."), 
-                  ylb = "Number of columns", lgnd = "Column types")
+                  ttl  = paste0("df::", df_names$df1, " column types"),
+                  sttl = paste0("df::", df_names$df1,  " has ", 
+                                sum(df_plot$cnt), " columns."), 
+                  ylb  = "Number of columns", lgnd = "Column types", 
+                  col_palette = col_palette)
   # add text annotation to plot if requested
   if(text_labels){
     plt <- add_annotation_to_bars(x = df_plot$type, 
