@@ -54,7 +54,8 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   if(type[[1]] == "cat"){
       plot_cat(x, df_names = df_names,
                text_labels = text_labels, 
-               high_cardinality = high_cardinality)
+               high_cardinality = high_cardinality, 
+               col_palette = col_palette)
   }
   
   # correlation plots
