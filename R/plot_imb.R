@@ -1,3 +1,6 @@
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 guide_legend
+
 plot_imb_1 <- function(df_plot, df_names, text_labels, col_palette){
   # convert col_name to factor
   df_plot <- df_plot %>% 

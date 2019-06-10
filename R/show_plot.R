@@ -67,7 +67,8 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
                  col_palette = col_palette)
     } else {
       plot_cor_2(x, df_names = df_names, alpha = alpha,
-                 text_labels = text_labels)
+                 text_labels = text_labels, 
+                 col_palette = col_palette)
     }
   }
   

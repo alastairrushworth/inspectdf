@@ -13,6 +13,7 @@
                              "level_key", "dfi", "colval", "fisher_p", 
                              "cname", "first_num", "new_level_key", "zs", "dfn", 
                              "cnt", "col_names", "white_labs", "black_labs", 
-                             "cls", "alpha", "jsd", "significant", "bar_width"))
+                             "cls", "alpha", "jsd", "significant", "bar_width", 
+                             "corr_1", "corr_2", "data_frame_n"))
   invisible()
 }
