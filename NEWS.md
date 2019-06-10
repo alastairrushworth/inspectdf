@@ -1,6 +1,16 @@
 
 ### News
 
+#### `inspectdf` 0.0.2.9000
+
+  - Points and whiskers changed to coloured bands for `inspect_cor()`
+    plots of single df. These are easier to see when bands are small.
+    Points changed to bars for `inspect_cor()` comparison plots - this
+    makes it easier to see smaller differences in correlations.
+  - `NA` correlations ommitted from `inspect_cor()` comparison when
+    plotted. Ordering of correlations reveresed to consistent with
+    returned tibble.
+
 #### `inspectdf` 0.0.2
 
   - `show_plot()` function (`show_plot` argument  in `inspect_` functions
