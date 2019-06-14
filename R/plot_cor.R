@@ -55,7 +55,14 @@ plot_cor_2 <- function(out, alpha, df_names, text_labels, col_palette){
   # get a vector of signficance colors from theme
   vcols <- c("gray50", user_colours(9, col_palette)[9])
   # get a vector of bar colors from theme
-  bcols <- user_colours(n_df, col_palette)
+  if(n_df < 5){
+    n_col <- 10
+    bcols <- user_colours(n_col, col_palette)
+    cols_subs <- seq(-2, n_col + 2, length.out = n_df + 2)[-c(1, n_df + 2)]
+    bcols <- bcols[cols_subs]
+  } else {
+    bcols <- user_colours(n_df, col_palette)
+  }
   # add bar colors, significance & bar positions
   out <- out %>% 
     mutate(index = as.integer(pair)) %>%
