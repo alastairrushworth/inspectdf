@@ -23,6 +23,9 @@ fast_table <- function(v, show_na = TRUE, show_cnt = FALSE){
   if(!any("numeric" %in% class(tbl_freq$value))){
     tbl_freq$value <- as.character(tbl_freq$value)
   }
+  if(!show_na){
+    tbl_freq <- tbl_freq %>% filter(!is.na(value))
+  }
   # return frequency table
   return(tbl_freq)
 }

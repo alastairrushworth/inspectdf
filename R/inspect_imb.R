@@ -3,6 +3,8 @@
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for comparing columnwise imbalance.  
 #' Defaults to \code{NULL}.  
+#' @param include_na Logical flag, whether to include missing values as a unique level.  Default
+#' is \code{FALSE} - to ignore NAs.
 #' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return  A tibble summarising and comparing the imbalance for each non-numeric column 
@@ -52,7 +54,7 @@
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
 
-inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE){
+inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, include_na = FALSE){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -61,7 +63,7 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE){
   
   if(is.null(df2)){
     # pick out categorical columns
-    df_cat <- df1 %>% select_if(function(v) is.character(v) | is.factor(v))
+    df_cat <- df1 %>% select_if(function(v) is.character(v) | is.factor(v) | is.logical(v))
     n_cols <- ncol(df_cat)
     # calculate imbalance if any columns available
     if(n_cols > 0){
@@ -71,8 +73,12 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE){
       pb <- start_progress(prefix = " Column", total = n_cols)
       for(i in 1:n_cols){
         update_progress(bar = pb, iter = i, total = n_cols, what = names_cat[i])
-        full_tab <- fast_table(df_cat[[i]], show_cnt = TRUE)
-        levels_list[[i]] <- full_tab %>% slice(1)
+        full_tab <- fast_table(df_cat[[i]], show_cnt = TRUE, show_na = include_na)
+        first_row <- full_tab %>% slice(1)
+        if(nrow(first_row) == 0){
+          first_row <- tibble(value = "empty", prop = 0, cnt = as.integer(0))
+        }
+        levels_list[[i]] <- first_row
       }
       # collapse highest imbalance into single dataframe
       names(levels_list) <- names_cat
@@ -96,10 +102,10 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE){
     }
   } else {
     # summary of df1
-    s1 <- inspect_imb(df1) %>% 
+    s1 <- inspect_imb(df1, include_na = include_na) %>% 
       rename(pcnt_1 = pcnt, cnt_1 = cnt)
     # summary of df2
-    s2 <- inspect_imb(df2) %>% 
+    s2 <- inspect_imb(df2, include_na = include_na) %>% 
       rename(pcnt_2 = pcnt, cnt_2 = cnt)
     # left join summaries together
     out <- left_join(s1, s2, by = c("col_name", "value")) %>%

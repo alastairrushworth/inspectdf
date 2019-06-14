@@ -5,7 +5,8 @@ plot_imb_1 <- function(df_plot, df_names, text_labels, col_palette){
   # convert col_name to factor
   df_plot <- df_plot %>% 
     mutate(col_name = factor(col_name, levels = as.character(col_name))) %>%
-    mutate(label = paste0(value, " - ", round(pcnt, 1), "%"))
+    mutate(label = paste0(value, " - ", round(pcnt, 1), "%")) %>%
+    mutate(value = case_when(is.na(value) ~ "NA", TRUE ~ value))
   # title & subtitle
   ttl <- paste0("df::", df_names$df1, " most common levels by column")
   # construct bar plot of missingess
@@ -16,11 +17,13 @@ plot_imb_1 <- function(df_plot, df_names, text_labels, col_palette){
                   col_palette = col_palette)
   # add text annotation to plot
   if(text_labels){
-    plt <- add_annotation_to_bars(x = df_plot$col_name, 
-                                  y = df_plot$pcnt, 
-                                  z = df_plot$value, 
-                                  plt = plt, 
-                                  thresh = 0.5)
+    plt <- add_annotation_to_bars(
+      x = df_plot$col_name,
+      y = df_plot$pcnt,
+      z = df_plot$value,
+      plt = plt, 
+      thresh = 0.5, 
+      parse = TRUE)
   }
   # return plot
   print(plt)

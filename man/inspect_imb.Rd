@@ -4,7 +4,7 @@
 \alias{inspect_imb}
 \title{Summarise and compare columnwise imbalance for non-numeric columns in one or two dataframes.}
 \usage{
-inspect_imb(df1, df2 = NULL, show_plot = FALSE)
+inspect_imb(df1, df2 = NULL, show_plot = FALSE, include_na = FALSE)
 }
 \arguments{
 \item{df1}{A data frame}
@@ -14,6 +14,9 @@ Defaults to \code{NULL}.}
 
 \item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
 Superseded by the function \code{show_plot()} and will be dropped in a future version.}
+
+\item{include_na}{Logical flag, whether to include missing values as a unique level.  Default
+is \code{FALSE} - to ignore NAs.}
 }
 \value{
 A tibble summarising and comparing the imbalance for each non-numeric column 
