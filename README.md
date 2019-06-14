@@ -177,21 +177,21 @@ inspect_mem(star_1, star_2)
 ```
 
     ## # A tibble: 13 x 5
-    ##    col_name   size_1     size_2    pcnt_1 pcnt_2
-    ##    <chr>      <chr>      <chr>      <dbl>  <dbl>
-    ##  1 films      11.96 Kb   10.98 Kb  37.7    39.2 
-    ##  2 starships  4.17 Kb    4.62 Kb   13.2    16.5 
-    ##  3 name       3.52 Kb    <NA>      11.1    NA   
-    ##  4 vehicles   3.23 Kb    3.37 Kb   10.2    12.0 
-    ##  5 homeworld  2.02 Kb    2.01 Kb    6.39    7.16
-    ##  6 species    1.66 Kb    1.77 Kb    5.23    6.30
-    ##  7 skin_color 1.64 Kb    1.65 Kb    5.18    5.88
-    ##  8 eye_color  1016 bytes 1.28 Kb    3.13    4.57
-    ##  9 hair_color 792 bytes  912 bytes  2.44    3.18
-    ## 10 gender     616 bytes  616 bytes  1.90    2.14
-    ## 11 mass       448 bytes  448 bytes  1.38    1.56
-    ## 12 birth_year 448 bytes  448 bytes  1.38    1.56
-    ## 13 height     248 bytes  <NA>       0.764  NA
+    ##    col_name   size_1    size_2    pcnt_1 pcnt_2
+    ##    <chr>      <chr>     <chr>      <dbl>  <dbl>
+    ##  1 films      10.94 Kb  10.78 Kb  34.2    39.2 
+    ##  2 starships  3.94 Kb   3.95 Kb   12.3    14.4 
+    ##  3 name       3.56 Kb   <NA>      11.2    NA   
+    ##  4 vehicles   3.25 Kb   3.31 Kb   10.2    12.0 
+    ##  5 homeworld  2.43 Kb   2.23 Kb    7.61    8.12
+    ##  6 species    2.12 Kb   1.88 Kb    6.65    6.84
+    ##  7 skin_color 2.05 Kb   1.7 Kb     6.41    6.19
+    ##  8 eye_color  1.1 Kb    1.16 Kb    3.45    4.23
+    ##  9 hair_color 784 bytes 968 bytes  2.40    3.44
+    ## 10 gender     680 bytes 680 bytes  2.08    2.41
+    ## 11 mass       448 bytes 448 bytes  1.37    1.59
+    ## 12 birth_year 448 bytes 448 bytes  1.37    1.59
+    ## 13 height     248 bytes <NA>       0.758  NA
 
 ``` r
 inspect_mem(star_1, star_2) %>% show_plot()
@@ -252,13 +252,13 @@ inspect_na(star_1, star_2)
     ## # A tibble: 13 x 6
     ##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
     ##    <chr>      <dbl>  <dbl> <dbl>  <dbl>   <dbl>
-    ##  1 birth_year    22     44    25     50   0.689
-    ##  2 mass          17     34    18     36   1.000
-    ##  3 homeworld      6     12     8     16   0.773
+    ##  1 birth_year    26     52    25     50   1    
+    ##  2 mass          13     26    16     32   0.659
+    ##  3 homeworld      7     14     8     16   1.000
     ##  4 height         4      8    NA     NA  NA    
-    ##  5 hair_color     3      6     1      2   0.610
-    ##  6 species        3      6     2      4   1.000
-    ##  7 gender         2      4     0      0   0.475
+    ##  5 hair_color     3      6     3      6   1    
+    ##  6 species        3      6     3      6   1    
+    ##  7 gender         2      4     1      2   1    
     ##  8 name           0      0    NA     NA  NA    
     ##  9 skin_color     0      0     0      0  NA    
     ## 10 eye_color      0      0     0      0  NA    
@@ -433,13 +433,13 @@ inspect_imb(star_1, star_2)
     ## # A tibble: 7 x 7
     ##   col_name   value  pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
     ##   <chr>      <chr>   <dbl> <int>  <dbl> <int>   <dbl>
-    ## 1 gender     male       74    37     78    39   0.815
-    ## 2 species    Human      42    21     44    22   1.000
-    ## 3 hair_color none       40    20     44    22   0.839
-    ## 4 eye_color  brown      30    15     NA    NA  NA    
-    ## 5 skin_color fair       18     9     18     9   1    
-    ## 6 homeworld  Naboo      16     8     NA    NA  NA    
-    ## 7 name       Ackbar      2     1     NA    NA  NA
+    ## 1 gender     male      76     38     78    39   1    
+    ## 2 hair_color none      52     26     40    20   0.316
+    ## 3 species    Human     32     16     40    20   0.532
+    ## 4 eye_color  brown     24     12     NA    NA  NA    
+    ## 5 skin_color fair      16      8     18     9   1.000
+    ## 6 homeworld  <NA>      14.     7     16     8   1.000
+    ## 7 name       Ackbar     2      1     NA    NA  NA
 
 ``` r
 inspect_imb(star_1, star_2) %>% show_plot()
@@ -544,7 +544,7 @@ inspect_num(storms, storms[-c(1:10), -1])
     ##    col_name    hist_1            hist_2                    jsd  fisher_p
     ##    <chr>       <list>            <list>                  <dbl>     <dbl>
     ##  1 day         <tibble [18 × 2]> <tibble [18 × 2]> 0.00000119  1        
-    ##  2 hour        <tibble [25 × 2]> <tibble [25 × 2]> 0.000539    0.962    
+    ##  2 hour        <tibble [25 × 2]> <tibble [25 × 2]> 0.000539    0.961    
     ##  3 hu_diameter <tibble [20 × 2]> <tibble [20 × 2]> 0           1        
     ##  4 lat         <tibble [25 × 2]> <tibble [25 × 2]> 0.000000460 1        
     ##  5 long        <tibble [23 × 2]> <tibble [23 × 2]> 0.00000174  1        
@@ -652,15 +652,15 @@ inspect_cat(star_1, star_2)
 ```
 
     ## # A tibble: 7 x 5
-    ##   col_name       jsd fisher_p lvls_1            lvls_2           
-    ##   <chr>        <dbl>    <dbl> <list>            <list>           
-    ## 1 eye_color   0.0701    0.973 <tibble [10 × 3]> <tibble [15 × 3]>
-    ## 2 gender      0.0204    0.795 <tibble [4 × 3]>  <tibble [3 × 3]> 
-    ## 3 hair_color  0.0531    0.909 <tibble [7 × 3]>  <tibble [9 × 3]> 
-    ## 4 homeworld   0.233     1     <tibble [28 × 3]> <tibble [28 × 3]>
-    ## 5 name       NA        NA     <tibble [50 × 3]> <NULL>           
-    ## 6 skin_color  0.120     0.996 <tibble [21 × 3]> <tibble [21 × 3]>
-    ## 7 species     0.154     1.000 <tibble [22 × 3]> <tibble [24 × 3]>
+    ##   col_name        jsd fisher_p lvls_1            lvls_2           
+    ##   <chr>         <dbl>    <dbl> <list>            <list>           
+    ## 1 eye_color   0.0333     0.988 <tibble [12 × 3]> <tibble [13 × 3]>
+    ## 2 gender      0.00254    1     <tibble [5 × 3]>  <tibble [5 × 3]> 
+    ## 3 hair_color  0.0655     0.859 <tibble [7 × 3]>  <tibble [10 × 3]>
+    ## 4 homeworld   0.205      1     <tibble [35 × 3]> <tibble [32 × 3]>
+    ## 5 name       NA         NA     <tibble [50 × 3]> <NULL>           
+    ## 6 skin_color  0.131      0.997 <tibble [27 × 3]> <tibble [21 × 3]>
+    ## 7 species     0.155      1     <tibble [30 × 3]> <tibble [26 × 3]>
 
 ``` r
 inspect_cat(star_1, star_2) %>% show_plot()
