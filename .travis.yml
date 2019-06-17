@@ -7,6 +7,7 @@ warnings_are_errors: true
 
 r_packages:
   - covr
+  - vdiffr
 
 after_success:
   - Rscript -e 'library(covr); codecov(token = "780be628-6f7e-42da-b4f5-34cf308a43f8")'
