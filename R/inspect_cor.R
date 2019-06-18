@@ -55,7 +55,6 @@
 #' @importFrom tibble tibble
 
 inspect_cor <- function(df1, df2 = NULL, with_col = NULL, alpha = 0.05, show_plot = FALSE){
-  
   # perform basic column check on dataframe input
   check_df_cols(df1)
   # capture the data frame names
@@ -65,6 +64,13 @@ inspect_cor <- function(df1, df2 = NULL, with_col = NULL, alpha = 0.05, show_plo
     select_if(is.numeric)
   # if only a single df input
   if(is.null(df2)){
+    # check that with_col exists
+    if(!is.null(with_col)){
+      in_num <- with_col %in% colnames(df_numeric)
+      in_all <- with_col %in% colnames(df1)
+      if(!in_num & in_all) stop(paste0("with_col = '", with_col, "' is not numeric"))
+      if(!in_num & !in_all) stop(paste0("with_col = '", with_col, "' not found in ", df_names[[1]]))
+    }
     # calculate correlation coefficients
     if(ncol(df_numeric) > 1){
       # perfom check for 0 variance features, return warning if found

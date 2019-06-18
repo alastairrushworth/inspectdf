@@ -59,10 +59,20 @@ test_that("Constant columns return NA", {
   expect_equal(suppressWarnings(sum(is.na(inspect_cor(data.frame(z = 1:10, y = rep(1, 10)))$corr))), 1)
 })
 
-
-
-
-
+test_that("inspect_cor with_col works", {
+  x <- inspect_cor(starwars, with_col = "mass")
+  expect_is(x, "data.frame")
+  expect_equal(nrow(x), 2)
+  expect_equal(unique(x$col_1), "mass")
+  x <- inspect_cor(iris, with_col = "Sepal.Length")
+  expect_is(x, "data.frame")
+  expect_equal(nrow(x), 3)
+  expect_equal(unique(x$col_1), "Sepal.Length")
+  # error - column not found
+  expect_error(inspect_cor(iris, with_col = "mass"))
+  # error - column not numeric
+  expect_error(inspect_cor(starwars, with_col = "gender"))
+})
 
 
 

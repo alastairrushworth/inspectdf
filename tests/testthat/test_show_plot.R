@@ -8,6 +8,7 @@ library(vdiffr)
 test_that("inspect_cat plots", {
   expect_doppelganger("Inspect-cat-starwars", starwars %>% inspect_cat %>% show_plot)
   expect_doppelganger("Inspect-cat-starwars-card", starwars %>% inspect_cat %>% show_plot(high_cardinality = 1))
+  expect_doppelganger("Inspect-cat-starwars-labels", starwars %>% inspect_cat %>% show_plot(text_labels = FALSE))
   expect_doppelganger("Inspect-cat-storms",   storms %>%   inspect_cat %>% show_plot)
   expect_doppelganger("Inspect-cat-storms-card",   storms %>%   inspect_cat %>% show_plot(high_cardinality = 30))
   expect_doppelganger("Inspect-cat-starwars2", 
