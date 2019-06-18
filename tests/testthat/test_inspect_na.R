@@ -6,6 +6,8 @@ data("nasa", package = "dplyr")
 data("band_instruments", package = "dplyr")
 data("storms", package = "dplyr")
 data(mtcars, airquality)
+# add a logical column
+starwars$mass_lg <- starwars$mass > 70
 
 test_that("Output is a data frame", {
   expect_is(inspect_na(mtcars), "data.frame")
