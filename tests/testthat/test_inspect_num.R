@@ -40,3 +40,8 @@ test_that("Output where columns are missing from either df", {
   expect_is(inspect_num(star_1, star_2), "data.frame")
 })
 
+test_that("Number of breaks", {
+  expect_is(iris %>% inspect_num(breaks = 30), "data.frame")
+  expect_is(iris %>% inspect_num(breaks = 10), "data.frame")
+})
+

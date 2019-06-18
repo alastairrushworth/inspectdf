@@ -25,10 +25,13 @@ cor_test <- function(cor_1, cor_2, n_1, n_2){
 # univariate correlation tests
 cor_test_1 <- function(df_input, df_name, with_col, alpha = 0.05){
   # every combination of variables
-  c_nms  <- c_nms_1 <- c_nms_2 <- colnames(df_input)
+  c_nms   <- c_nms_1 <- c_nms_2 <- colnames(df_input)
   c_nms_1 <- if(is.null(with_col)) c_nms_1 else with_col
-  c_cmbs <- expand.grid(col_1 = factor(c_nms_1, levels = c_nms_2), col_2 =  c_nms_2) %>%
-    filter(as.numeric(col_1) > as.numeric(col_2), !col_1 == col_2) %>%
+  c_cmbs  <- expand.grid(col_1 = factor(c_nms_1, levels = c_nms_2), col_2 =  c_nms_2) 
+  c_cmbs  <- if(is.null(with_col)) c_cmbs %>% 
+    filter(as.numeric(col_1) > as.numeric(col_2)) else c_cmbs
+  c_cmbs  <- c_cmbs %>%
+    filter(!col_1 == col_2) %>%
     mutate_all(as.character) %>% 
     mutate(pair = paste(col_1, col_2, sep = " & "))
   # loop over rows and calculate correlation, p.value and cint
