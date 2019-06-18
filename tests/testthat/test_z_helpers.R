@@ -17,3 +17,11 @@ test_that("sumna", {
 test_that("check_variance", {
   expect_warning(check_variance(zx))
 })
+
+test_that("check_dfs", {
+  x <- list(a = c(1, 2), b = c("a", "b"))
+  expect_error(check_df_cols(x))
+  expect_silent(check_df_cols(mtcars))
+  y <- data.frame()
+  expect_error(check_df_cols(y))
+})
