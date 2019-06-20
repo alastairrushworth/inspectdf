@@ -112,7 +112,7 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE){
     }
   } else {
     # levels for df1
-    s1 <- inspect_cat(df1)  %>% 
+    s1 <- inspect_cat(df1) %>% 
       select(-contains("common"), -cnt)
     # levels for df2
     s2 <- inspect_cat(df2) %>% 
