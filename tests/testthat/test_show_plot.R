@@ -6,6 +6,7 @@ data("storms", package = "dplyr")
 library(vdiffr)
 
 test_that("a", {
+  set.seed(1)
   expect_doppelganger("Inspect-cat-starwars", starwars %>% inspect_cat %>% show_plot)
   expect_doppelganger("Inspect-cat-starwars-card", starwars %>% inspect_cat %>% show_plot(high_cardinality = 1))
   expect_doppelganger("Inspect-cat-starwars-labels", starwars %>% inspect_cat %>% show_plot(text_labels = FALSE))
@@ -25,6 +26,7 @@ test_that("a", {
 })
 
 test_that("b", {
+  set.seed(1)
   expect_doppelganger("Inspect-cor-starwars", starwars %>% inspect_cor %>% show_plot)
   expect_doppelganger("Inspect-cor-storms",   storms %>% inspect_cor %>% show_plot)
   expect_doppelganger("Inspect-cor-starwars2", 
@@ -40,6 +42,7 @@ test_that("b", {
 })
 
 test_that("c", {
+  set.seed(1)
   expect_doppelganger("Inspect-imb-starwars", starwars %>% inspect_imb %>% show_plot)
   expect_doppelganger("Inspect-imb-storms",   storms %>%   inspect_imb %>% show_plot)
   expect_doppelganger("Inspect-imb-starwars2", 
@@ -57,6 +60,7 @@ test_that("c", {
 })
 
 test_that("d", {
+  set.seed(1)
   expect_doppelganger("Inspect-mem-starwars", starwars %>% inspect_mem %>% show_plot)
   expect_doppelganger("Inspect-mem-storms",   storms %>%   inspect_mem %>% show_plot)
   expect_doppelganger("Inspect-mem-starwars2", 
@@ -72,6 +76,7 @@ test_that("d", {
 })
 
 test_that("e", {
+  set.seed(1)
   expect_doppelganger("Inspect-na-starwars", starwars %>% inspect_na %>% show_plot)
   expect_doppelganger("Inspect-na-storms",   storms %>%   inspect_na %>% show_plot)
   expect_doppelganger("Inspect-na-starwars2", 
@@ -110,6 +115,7 @@ test_that("g", {
 
 
 test_that("h", {
+  set.seed(1)
   expect_doppelganger("Inspect-num-starwars", starwars %>% inspect_num %>% show_plot)
   expect_doppelganger("Inspect-num-storms",   storms %>%   inspect_num %>% show_plot)
   expect_doppelganger("Inspect-num-starwars2",
