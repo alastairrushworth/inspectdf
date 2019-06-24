@@ -12,7 +12,7 @@ plot_imb_1 <- function(df_plot, df_names, text_labels, col_palette){
   # construct bar plot of missingess
   plt <- bar_plot(df_plot = df_plot, x = "col_name", 
                   y = "pcnt", fill = "col_name", 
-                  label = "label", ttl = ttl,
+                  label = "value", ttl = ttl,
                   ylb = "% of values", rotate = TRUE, 
                   col_palette = col_palette)
   # add text annotation to plot
