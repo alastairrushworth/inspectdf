@@ -12,3 +12,4 @@
 ^hex$
 ^\.travis\.yml$
 ^\.Rproj\.user$
+^README.html$

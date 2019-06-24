@@ -233,12 +233,15 @@
 <rect x='658.72' y='62.92' width='21.19' height='148.97' style='stroke-width: 0.43; stroke-linecap: square; stroke-linejoin: miter; fill: #FFFCFC;' clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)' />
 <rect x='679.91' y='62.92' width='4.14' height='148.97' style='stroke-width: 0.43; stroke-linecap: square; stroke-linejoin: miter; fill: #FFFEFE;' clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)' />
 <rect x='684.05' y='62.92' width='0.00' height='148.97' style='stroke-width: 0.43; stroke-linecap: square; stroke-linejoin: miter; fill: #8B008B;' clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)' />
-<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='560.26' y='472.26' style='font-size: 11.04px; fill: #8C8C8C; font-family: Liberation Sans;' textLength='92.64px' lengthAdjust='spacingAndGlyphs'>tropical depression</text></g>
-<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='412.00' y='472.26' style='font-size: 11.04px; fill: #FFFFFF; font-family: Liberation Sans;' textLength='46.02px' lengthAdjust='spacingAndGlyphs'>hurricane</text></g>
-<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='174.66' y='472.26' style='font-size: 11.04px; fill: #FFFFFF; font-family: Liberation Sans;' textLength='66.22px' lengthAdjust='spacingAndGlyphs'>tropical storm</text></g>
-<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='544.02' y='141.21' style='font-size: 11.04px; fill: #8C8C8C; font-family: Liberation Sans;' textLength='6.14px' lengthAdjust='spacingAndGlyphs'>1</text></g>
-<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='413.42' y='141.21' style='font-size: 11.04px; fill: #FFFFFF; font-family: Liberation Sans;' textLength='9.81px' lengthAdjust='spacingAndGlyphs'>-1</text></g>
-<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='204.67' y='141.21' style='font-size: 11.04px; fill: #FFFFFF; font-family: Liberation Sans;' textLength='6.14px' lengthAdjust='spacingAndGlyphs'>0</text></g>
+<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='171.76' y='472.59' style='font-size: 12.00px; fill: #333333; font-family: Liberation Sans;' textLength='72.02px' lengthAdjust='spacingAndGlyphs'>tropical storm</text></g>
+<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='409.99' y='472.59' style='font-size: 12.00px; fill: #333333; font-family: Liberation Sans;' textLength='50.03px' lengthAdjust='spacingAndGlyphs'>hurricane</text></g>
+<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='556.22' y='472.59' style='font-size: 12.00px; fill: #333333; font-family: Liberation Sans;' textLength='100.72px' lengthAdjust='spacingAndGlyphs'>tropical depression</text></g>
+<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='204.40' y='141.54' style='font-size: 12.00px; fill: #333333; font-family: Liberation Sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>0</text></g>
+<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='412.99' y='141.54' style='font-size: 12.00px; fill: #333333; font-family: Liberation Sans;' textLength='10.67px' lengthAdjust='spacingAndGlyphs'>-1</text></g>
+<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='543.76' y='141.54' style='font-size: 12.00px; fill: #333333; font-family: Liberation Sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>1</text></g>
+<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='614.17' y='141.54' style='font-size: 12.00px; fill: #333333; font-family: Liberation Sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>2</text></g>
+<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='644.34' y='141.54' style='font-size: 12.00px; fill: #333333; font-family: Liberation Sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>3</text></g>
+<g clip-path='url(#cpNDQuMTV8NzE0LjUyfDU2Ny43OHwzOC4wOQ==)'><text x='665.98' y='141.54' style='font-size: 12.00px; fill: #333333; font-family: Liberation Sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>4</text></g>
 <defs>
   <clipPath id='cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA='>
     <rect x='0.00' y='0.00' width='720.00' height='576.00' />

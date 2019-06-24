@@ -58,11 +58,9 @@ plot_types_2 <- function(df_plot, df_names, text_labels, col_palette){
   # plot the result
   plt <- z_tall %>%
     mutate(type = factor(type, levels = df_plot$type)) %>%
-    ggplot(aes(x = type, y = cnt)) + 
+    ggplot(aes(x = type, y = cnt, fill = as.factor(df_input),
+               group = as.factor(df_input))) + 
     geom_bar(stat = "identity", position = "dodge", 
-             aes(x = type, y = cnt, 
-                 fill = as.factor(df_input), 
-                 group = as.factor(df_input)), 
              na.rm = TRUE)
   
   # add anotations if requested

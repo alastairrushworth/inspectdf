@@ -10,6 +10,10 @@ plot_mem_1 <- function(df_plot, df_names, sizes, text_labels, col_palette){
   # convert column names to factor
   df_plot <- df_plot %>% 
     mutate(col_name = factor(col_name, levels = as.character(col_name)))
+  # set NAs to 0
+  df_plot$size <- ifelse(is.na(df_plot$size), "", df_plot$size)
+  df_plot$pcnt <- ifelse(is.na(df_plot$pcnt), 0, df_plot$pcnt)
+
   # construct bar plot of column memory usage
   plt <- bar_plot(df_plot = df_plot, x = "col_name", y = "pcnt", 
                   fill = "col_name", label = "size", 
@@ -58,9 +62,14 @@ plot_mem_2 <- function(df_plot, df_names, sizes, text_labels, col_palette){
   # tidy the factor 
   z_tall <- z_tall %>%
     mutate(col_name = factor(col_name, levels = df_plot$col_name)) 
+
+  # set NAs to 0
+  z_tall$size <- ifelse(is.na(z_tall$size), "", z_tall$size)
+  z_tall$pcnt <- ifelse(is.na(z_tall$pcnt), 0, z_tall$pcnt)
+
   # plot the result
   plt <- z_tall %>%
-    ggplot(aes(x = col_name, y = pcnt, fill = df_input)) + 
+    ggplot(aes(x = col_name, y = pcnt, fill = df_input, label = size)) + 
     geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) + 
     labs(x = "", y = "% of total size", 
          title = ttl_plt, 
