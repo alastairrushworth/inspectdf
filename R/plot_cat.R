@@ -114,7 +114,7 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   
   # generate plot
   plt <- lvl_df2 %>%
-    ggplot(aes(x = col_name, y = prop, fill = new_level_key)) +
+    ggplot(aes(x = col_name, y = prop, fill = new_level_key, label = value)) +
     geom_bar(position = "stack", stat = "identity", 
              colour = "black", size = 0.2) +
     scale_fill_manual(values = colour_vector) + 
@@ -126,6 +126,17 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
           axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
     labs(x = "", y = "", 
          subtitle = bquote("Gray segments are missing values")) 
+
+  if(text_labels){
+    annts <- lvl_df2 %>% mutate(col_num = as.integer(col_name))
+    plt <- plt + ggfittext::geom_bar_text(
+      contrast = TRUE,
+      position = "stack",
+      place = "middle",
+      grow = FALSE,
+      colour = "gray20"
+    )
+  }
   
   # if this is a comparison, then add x-axis labels and descriptive title
   if(is_onedf){
@@ -142,19 +153,6 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   # add title
   plt <- plt + labs(title = ttl)
   
-  if(text_labels){
-    # label bars with category name if bar is long enough
-    annts <- lvl_df2 %>% 
-      mutate(col_num = as.integer(col_name))
-    annts$value[annts$prop < 0.15] <- NA
-    col_vec <- ifelse((annts$colvalstretch > 0.7), 2, 1)
-    # if bars are dark, label white, otherwise gray
-    plt <- plt + geom_text(aes(x = annts$col_num, 
-                               y = annts$colval - (annts$prop/2), 
-                               label = annts$value), 
-                           color = c("white", "gray55")[col_vec], 
-                           inherit.aes = FALSE, na.rm = T, hjust = 0.5)
-  }
   print(plt)
 }
 

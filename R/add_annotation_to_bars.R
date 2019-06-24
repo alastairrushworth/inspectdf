@@ -25,30 +25,14 @@ add_annotation_to_bars <- function(x, y, z, dodged = 0, plt, thresh = 0.05,
     z[is_under] <- under_txt(z[is_under])
     z[!is_under] <- gsub(" ", "~", z[!is_under]) 
   }
-  # two different label series
-  z_white <- z_grey <- z
-  z_white[y < (thresh * max(y, na.rm = T))] <- NA
-  z_grey[y >= (thresh * max(y, na.rm = T))] <- NA
-  # manual text nudge 
-  nudge <- abs(diff(range(y, na.rm = T))) / 80
-  # add a white series to the bigger bars
-  plt <- plt + geom_text(aes(x = x, y = y - nudge, label = z_white, group = fill),
-                         #nudge_y = -nudge, 
-                         color = "white",
-                         angle = angle, 
-                         hjust = hjust[2], inherit.aes = inherit.aes, 
-                         na.rm = TRUE, size = size, 
-                         position = position_dodge(width = dodged), 
-                         parse = parse)
-  # add a grey series to the smaller bars
-  plt <- plt + geom_text(aes(x = x, y = y + nudge, label = z_grey, group = fill),
-                         #nudge_y = nudge, 
-                         color = "lightsteelblue4", 
-                         angle = angle, 
-                         hjust = hjust[1], inherit.aes = inherit.aes, 
-                         na.rm = TRUE, size = size, 
-                         position = position_dodge(width = dodged), 
-                         parse = parse)
+  plt <- plt + ggfittext::geom_bar_text(
+    angle = 90,
+    size = 24,
+    min.size = 6,
+    position = "dodge",
+    contrast = TRUE,
+    colour = "gray20"
+  )
   # return the plot
   return(plt)
 }
