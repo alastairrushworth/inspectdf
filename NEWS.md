@@ -3,6 +3,11 @@
 
 #### `inspectdf` 0.0.2.9000
 
+  - `text_labels` autoscale size using `ggfittext::geom_fit_text()`. For
+    an example see
+    [`inspect_cat()`](https://github.com/alastairrushworth/inspectdf#categorical-levels).
+    Thanks to [David Wilkins](https://github.com/wilkox) for the
+    [PR](https://github.com/alastairrushworth/inspectdf/pull/9).
   - `include_na` option for `inspect_imb()`. Categorical columns that
     are 100% missing, or constant are underlined in plot for easier
     comprehension.
