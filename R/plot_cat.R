@@ -4,6 +4,7 @@
 #' @importFrom ggplot2 scale_fill_manual
 #' @importFrom grDevices colorRampPalette
 #' @importFrom ggplot2 scale_x_discrete
+#' @importFrom ggplot2 scale_colour_manual
 plot_cat <- function(levels_df, df_names, text_labels, high_cardinality, 
                      cols = c("tomato3", "gray65", "darkmagenta"), 
                      col_palette){
@@ -111,15 +112,15 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   colour_vector <- vcols[col_inds]
   colour_vector[is.na(lvl_df2$value)] <- cols[2]
   colour_vector[lvl_df2$value == min_freq_label] <- cols[3]
-  
   # generate plot
   plt <- lvl_df2 %>%
-    ggplot(aes(x = col_name, y = prop, fill = new_level_key, label = value)) +
+    ggplot(aes(x = col_name, y = prop, fill = new_level_key, 
+               label = value)) +
     geom_bar(position = "stack", stat = "identity", 
              colour = "black", size = 0.2) +
-    scale_fill_manual(values = colour_vector) + 
-    coord_flip() +
+    scale_fill_manual(values = colour_vector) +
     guides(fill = FALSE) + 
+    coord_flip() +
     theme(axis.title.y = element_blank(), panel.background = element_blank(),
           axis.ticks.y = element_blank(), panel.border = element_blank(), 
           panel.grid.major = element_blank(), axis.title.x = element_blank(), 
@@ -129,13 +130,27 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
 
   if(text_labels){
     annts <- lvl_df2 %>% mutate(col_num = as.integer(col_name))
-    plt <- plt + ggfittext::geom_bar_text(
-      contrast = TRUE,
-      position = "stack",
-      place = "middle",
-      grow = FALSE,
-      colour = "gray20"
-    )
+    lvl_df2$col_vec <- factor(as.integer(annts$colvalstretch < 0.7), 
+                                 levels = c(1, 0))
+    
+    plt <- plt + 
+      suppressWarnings( 
+        ggfittext::geom_fit_text(
+          data = lvl_df2,
+          aes(x = col_name,
+              y = prop,
+              label = value, 
+              fill = new_level_key, 
+              colour = as.factor(col_vec)),
+          inherit.aes = FALSE,
+          na.rm = TRUE,
+          position = "stack",
+          place = "middle",
+          grow = FALSE, 
+          outside = FALSE, 
+          show.legend = FALSE
+        )) + 
+          scale_colour_manual(values = c("white", "gray55"))
   }
   
   # if this is a comparison, then add x-axis labels and descriptive title
@@ -153,6 +168,6 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   # add title
   plt <- plt + labs(title = ttl)
   
-  print(plt)
+  suppressWarnings(print(plt))
 }
 

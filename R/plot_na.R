@@ -13,7 +13,8 @@ plot_na_1 <- function(df_plot, df_names, text_labels, col_palette){
                                 " have missing values"),
                   ylb = "% of column that is NA", 
                   rotate = TRUE, 
-                  col_palette = col_palette)
+                  col_palette = col_palette, 
+                  ylim_range = c(0, 1.01 * max(df_plot$pcnt)))
   # add text annotation to plot if requested
   if(text_labels){
     plt <- add_annotation_to_bars(x = df_plot$col_name, 
