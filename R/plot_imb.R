@@ -29,7 +29,7 @@ plot_imb_1 <- function(df_plot, df_names, text_labels, col_palette){
   print(plt)
 }
 
-plot_imb_2 <- function(df_plot, df_names, alpha, text_labels){
+plot_imb_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
   
   # combine col_name and value
   df_plot <- df_plot %>% 
@@ -57,16 +57,16 @@ plot_imb_2 <- function(df_plot, df_names, alpha, text_labels){
                y = pcnt, 
                colour = data_frame)) +
     geom_blank() + theme_bw() + 
-    theme(panel.border = element_blank(), 
-          panel.grid.major = element_blank()) +
+    theme(panel.border = element_blank(), panel.grid.major = element_blank()) +
     geom_rect(
-      fill = c("grey85", "darkorange2", "royalblue1")[p_val_tab$is_sig], alpha = 0.2,
+      fill = c(NA, "gray50", user_colours(9, col_palette)[9])[p_val_tab$is_sig], alpha = 0.2,
       xmin = p_val_tab$index - 0.4, xmax = p_val_tab$index + 0.4,
       ymin = -100, ymax = 200, linetype = "blank") +
     geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
     geom_point(size = 3.7, color = "black", na.rm = TRUE) + 
     geom_point(size = 3, na.rm = TRUE) +
-    coord_flip()
+    coord_flip() +
+    scale_colour_manual(values = get_best_pair(col_palette), name = "Data frame")
   
   # title & subtitle
   ttl <- paste0("Comparison of most common levels")
@@ -74,8 +74,8 @@ plot_imb_2 <- function(df_plot, df_names, alpha, text_labels){
                  " inequality at ", bquote("\u03B1"), " = 0.05")
   plt <- plt + 
     labs(x = "", title = ttl, subtitle = sttl) + 
-    guides(colour = guide_legend(title = bquote("Data frame"))) + 
-    labs(y = "% of values", x = "") %>% 
+    guides(color = guide_legend(override.aes = list(fill=NA))) + 
+    labs(y = "% of column", x = "") %>% 
     suppressWarnings()
   
   # return the plot 

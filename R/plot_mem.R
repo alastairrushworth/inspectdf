@@ -75,7 +75,7 @@ plot_mem_2 <- function(df_plot, df_names, sizes, text_labels, col_palette){
          title = ttl_plt, 
          subtitle = paste0(sttl_plt1, "\n", sttl_plt2)) + 
     scale_fill_manual(name = "Data frame", labels = leg_text, 
-                      values = user_colours(3, col_palette)[c(1, 3)]) +
+                      values = get_best_pair(col_palette)) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
   if(text_labels){
     plt <- add_annotation_to_bars(x = z_tall$col_name, 

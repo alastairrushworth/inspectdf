@@ -55,11 +55,8 @@ plot_cor_2 <- function(out, alpha, df_names, text_labels, col_palette){
   # get a vector of signficance colors from theme
   vcols <- c("gray50", user_colours(9, col_palette)[9])
   # get a vector of bar colors from theme
-  if(n_df < 5){
-    n_col <- 10
-    bcols <- user_colours(n_col, col_palette)
-    cols_subs <- seq(-2, n_col + 2, length.out = n_df + 2)[-c(1, n_df + 2)]
-    bcols <- bcols[cols_subs]
+  if(n_df == 2){
+    bcols <- get_best_pair(col_palette)
   } else {
     bcols <- user_colours(n_df, col_palette)
   }
@@ -76,7 +73,7 @@ plot_cor_2 <- function(out, alpha, df_names, text_labels, col_palette){
     geom_blank() + theme_bw() + 
     theme(panel.border = element_blank(), panel.grid.major = element_blank()) +
     geom_rect(
-      fill = vcols[as.integer(out$p_value < alpha) + 1], alpha = 0.15,
+      fill = vcols[as.integer(out$p_value < alpha) + 1], alpha = 0.2,
       xmin = out$index - 0.4, xmax = out$index + 0.4,
       ymin = -2, ymax = 2, linetype = "blank") +
     geom_rect(
