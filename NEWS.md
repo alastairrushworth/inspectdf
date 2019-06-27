@@ -8,16 +8,24 @@
     [`inspect_cat()`](https://github.com/alastairrushworth/inspectdf#categorical-levels).
     Thanks to [David Wilkins](https://github.com/wilkox) for the
     [PR](https://github.com/alastairrushworth/inspectdf/pull/9).
-  - `include_na` option for `inspect_imb()`. Categorical columns that
-    are 100% missing, or constant are underlined in plot for easier
-    comprehension.
-  - Points and whiskers changed to coloured bands for `inspect_cor()`
-    plots of single dataframe. These are easier to see when bands are
-    small. Points changed to bars for `inspect_cor()` comparison plots -
-    this makes it easier to see smaller differences in correlations.
-  - `NA` correlations omitted from `inspect_cor()` comparison when
-    plotted. Ordering of correlations reversed to consistent with
-    returned tibble.
+  - 6 different color palettes supported in `show_plot()` via
+    `col_palette` argument. Colorblind friendy option specified via
+    `show_plot(col_palette = 1)` - thanks to [Richard
+    Careaga](https://github.com/technocrat) [for the
+    suggestion](https://github.com/alastairrushworth/inspectdf/pull/3).
+  - `inspect_imb()`.
+      - `include_na` option for categorical columns that are 100%
+        missing, or constant are underlined in plot for easier
+        comprehension.
+  - `inspect_cor()`
+      - Points and whiskers changed to coloured bands for single
+        dataframe summaries - these are easier to see when CIs are
+        narrow.  
+      - Points changed to bars for `inspect_cor()` comparison plots -
+        makes it easier to see smaller differences in correlations.  
+      - `NA` correlations omitted from `inspect_cor()` comparison when
+        plotted. Ordering of correlations reversed to be consistent with
+        returned tibble.
 
 #### `inspectdf` 0.0.2
 
