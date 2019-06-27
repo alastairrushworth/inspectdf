@@ -23,7 +23,14 @@ in the plotting grid.  For example, 3 rows and 2 columns would be specified as
 \code{plot_layout = c(3, 2)}.
 Default is \code{TRUE}.}
 
-\item{col_palette}{Integer or character string indicating the colour palette to use.}
+\item{col_palette}{Integer indicating the colour palette to use.
+
+ - `0`: (default) `ggplot2` color palette
+ - `1`: a [colorblind friendly palette](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
+ - `2`: [80s theme](https://www.color-hex.com/color-palette/25888)
+ - `3`: [rainbox theme](https://www.color-hex.com/color-palette/79261)
+ - `4`: [mario theme](https://www.color-hex.com/color-palette/78663)
+ - `5`: [pokemon theme](https://www.color-hex.com/color-palette/78664)}
 }
 \description{
 Visualise summaries and comparisons of one or two dataframes.

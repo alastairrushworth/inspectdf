@@ -6,7 +6,14 @@
 #' @param high_cardinality Minimum number of occurrences of category to be shown as a distinct segment 
 #' in the plot (\code{inspect_cat} only).  Default is 0.  This can help when some columns 
 #' contain many unique or near-unique levels that take a long time to render.
-#' @param col_palette Integer or character string indicating the colour palette to use.
+#' @param col_palette Integer indicating the colour palette to use.
+#' 
+#'  - `0`: (default) `ggplot2` color palette
+#'  - `1`: a [colorblind friendly palette](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
+#'  - `2`: [80s theme](https://www.color-hex.com/color-palette/25888)
+#'  - `3`: [rainbox theme](https://www.color-hex.com/color-palette/79261)
+#'  - `4`: [mario theme](https://www.color-hex.com/color-palette/78663)
+#'  - `5`: [pokemon theme](https://www.color-hex.com/color-palette/78664)
 #' @param plot_layout Vector specifying the number of rows and columns 
 #' in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
 #' \code{plot_layout = c(3, 2)}.
@@ -80,7 +87,8 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
                  col_palette = col_palette)
     } else {
       plot_imb_2(x, df_names = df_names, alpha = alpha,
-                 text_labels = text_labels)
+                 text_labels = text_labels, 
+                 col_palette = col_palette)
     }
   }
   
@@ -108,7 +116,8 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
                 col_palette = col_palette)
     } else {
       plot_na_2(x, df_names = df_names, alpha = alpha,
-                text_labels = text_labels)
+                text_labels = text_labels, 
+                col_palette = col_palette)
     }
   }
   

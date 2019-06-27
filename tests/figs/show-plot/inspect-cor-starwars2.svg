@@ -24,10 +24,10 @@
 <polyline points='331.60,545.13 331.60,22.77 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
 <polyline points='418.39,545.13 418.39,22.77 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
 <polyline points='505.19,545.13 505.19,22.77 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
-<rect x='-1621.24' y='109.83' width='3471.71' height='348.24' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #7F7F7F; fill-opacity: 0.15;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
-<rect x='-1621.24' y='109.83' width='3471.71' height='348.24' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #7F7F7F; fill-opacity: 0.15;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
-<rect x='114.62' y='109.83' width='414.99' height='174.12' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #D89000;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
-<rect x='114.62' y='283.95' width='253.08' height='174.12' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #00B0F6;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
+<rect x='-1621.24' y='109.83' width='3471.71' height='348.24' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #7F7F7F; fill-opacity: 0.20;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
+<rect x='-1621.24' y='109.83' width='3471.71' height='348.24' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #7F7F7F; fill-opacity: 0.20;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
+<rect x='114.62' y='109.83' width='414.99' height='174.12' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #F8766D;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
+<rect x='114.62' y='283.95' width='253.08' height='174.12' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #619CFF;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
 <line x1='114.62' y1='545.13' x2='114.62' y2='22.77' style='stroke-width: 1.07; stroke: #6E7B8B; stroke-dasharray: 5.69,5.69; stroke-linecap: butt;' clip-path='url(#cpOTMuODd8NTUwLjM2fDU0NS4xM3wyMi43Nw==)' />
 <defs>
   <clipPath id='cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA='>
@@ -52,9 +52,9 @@
 <rect x='561.32' y='253.53' width='153.20' height='60.84' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='566.80' y='267.71' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='54.44px' lengthAdjust='spacingAndGlyphs'>Data frame</text></g>
 <rect x='566.80' y='274.33' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
-<rect x='567.51' y='275.04' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #D89000;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
+<rect x='567.51' y='275.04' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #F8766D;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <rect x='566.80' y='291.61' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
-<rect x='567.51' y='292.32' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #00B0F6;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
+<rect x='567.51' y='292.32' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #619CFF;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='589.56' y='286.00' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='33.23px' lengthAdjust='spacingAndGlyphs'>starwars</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='589.56' y='303.28' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='119.48px' lengthAdjust='spacingAndGlyphs'>starwars %&gt;% dplyr::select(-2)</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='93.87' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='430.52px' lengthAdjust='spacingAndGlyphs'>Comparison of ρ between df::starwars and starwars %&gt;% dplyr::select(-2)</text></g>
