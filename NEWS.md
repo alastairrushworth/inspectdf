@@ -1,7 +1,11 @@
 
 ### News
 
-#### `inspectdf` 0.0.2.9000
+#### `inspectdf` 0.0.3.9000
+
+  - Check for duplicate factor labels.
+
+#### `inspectdf` 0.0.3
 
   - `text_labels` autoscale size using `ggfittext::geom_fit_text()`. For
     an example see

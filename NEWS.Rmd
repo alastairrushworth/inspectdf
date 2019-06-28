@@ -8,7 +8,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### News
 
-#### `inspectdf` 0.0.2.9000
+
+#### `inspectdf` 0.0.3.9000
+
+- Check for duplicate factor labels.
+
+#### `inspectdf` 0.0.3
 
 - `text_labels` autoscale size using `ggfittext::geom_fit_text()`.  For an example see [`inspect_cat()`](https://github.com/alastairrushworth/inspectdf#categorical-levels).  Thanks to [David Wilkins](https://github.com/wilkox) for the [PR](https://github.com/alastairrushworth/inspectdf/pull/9).
 - 6 different color palettes supported in `show_plot()` via `col_palette` argument.  Colorblind friendy option specified via `show_plot(col_palette = 1)` - thanks to [Richard Careaga](https://github.com/technocrat) [for the suggestion](https://github.com/alastairrushworth/inspectdf/pull/3).
