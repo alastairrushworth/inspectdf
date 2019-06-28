@@ -70,6 +70,8 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE){
   
     # calculate association if categorical columns exist
     if(ncol(df_cat) > 0){
+      # check any factors for duplicate labels
+      df_cat <- check_factors(df_cat)
       # get the levels for each category
       names_cat <- colnames(df_cat)
       n_cols <- ncol(df_cat)

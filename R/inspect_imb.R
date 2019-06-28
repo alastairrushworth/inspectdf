@@ -63,10 +63,13 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, include_na = FALSE){
   
   if(is.null(df2)){
     # pick out categorical columns
-    df_cat <- df1 %>% select_if(function(v) is.character(v) | is.factor(v) | is.logical(v))
+    df_cat <- df1 %>% 
+      select_if(function(v) is.character(v) | is.factor(v) | is.logical(v))
     n_cols <- ncol(df_cat)
     # calculate imbalance if any columns available
     if(n_cols > 0){
+      # check any factors for duplicate labels
+      df_cat <- check_factors(df_cat)
       names_cat <- colnames(df_cat)
       # function to find the percentage of the most common value in a vector
       levels_list <- vector("list", length = n_cols)
