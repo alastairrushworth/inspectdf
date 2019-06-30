@@ -3,7 +3,10 @@
 
 #### `inspectdf` 0.0.3.9000
 
-  - Check for duplicate factor labels.
+  - `inspect_cor(method = ...)` argument added. Options for `pearson`,
+    `spearman` and `kendall`.
+  - Check for duplicate factor labels in `inspect_cat()` &
+    `inspect_imb()`.
 
 #### `inspectdf` 0.0.3
 
