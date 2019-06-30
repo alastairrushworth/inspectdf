@@ -12,7 +12,13 @@
 #' @importFrom ggplot2 theme
 #' @importFrom ggplot2 theme_bw
 
-plot_cor_1 <- function(out, alpha, df_names, text_labels, col_palette){
+plot_cor_1 <- function(out, alpha, df_names, text_labels, col_palette, method){
+  
+  # xlabels
+  mth_ind <- grep(paste0("^", method), c("pearson", "kendall", "spearman"), ignore.case = TRUE)
+  xlab    <- c("Pearson's correlation", 
+               "Kendall's rank correlation", 
+               "Spearman's rank correlation")[mth_ind]
   # get a vector of signficance colors from theme
   vcols <- c("gray50", user_colours(9, col_palette)[9])
   # factorise pairs, add a sign variable and an index
@@ -29,18 +35,24 @@ plot_cor_1 <- function(out, alpha, df_names, text_labels, col_palette){
       alpha = 0.4,
       xmin = out$index - 0.4, xmax = out$index + 0.4,
       ymin = out$lower, ymax = out$upper, linetype = 1, 
-      fill = vcols[(out$p_value < alpha) + 1]) +
+      fill = vcols[(out$p_value < alpha) + 1], 
+      na.rm = TRUE) +
     geom_segment(x = out$index - 0.4, y = out$corr, xend = out$index + 0.4, 
                  yend = out$corr, col = "gray40") +
     coord_flip() + ylim(min(out$lower), max(out$upper)) + 
-    labs(x = "", y = bquote("Pearson correlation (\u03C1)"),
-         title =  paste0("Correlation of columns in df::", df_names$df1))
+    labs(x = "", y = xlab, title = paste0("Correlation of columns in df::", 
+                                          df_names$df1))
   # print plot
   print(plt)
 }
 
 
-plot_cor_2 <- function(out, alpha, df_names, text_labels, col_palette){
+plot_cor_2 <- function(out, alpha, df_names, text_labels, col_palette, method){
+  # xlabels
+  mth_ind <- grep(tolower(paste0("^", method)), c("pearson", "kendal", "spearman"))
+  xlab    <- c("Pearson's correlation", 
+               "Kendall's rank correlation", 
+               "Spearman's rank correlation")[mth_ind]
   # create tall data from correlation table
   out <- out %>%
     filter(!is.na(corr_1), !is.na(corr_2)) %>%
@@ -82,10 +94,15 @@ plot_cor_2 <- function(out, alpha, df_names, text_labels, col_palette){
       ymin = out$bar_bg, ymax = out$bar_en) +
     geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
     coord_flip() + 
-    labs(y = bquote("Pearson correlation (\u03C1)"), x = "",
-         title =  paste0("Comparison of \u03C1 between df::", df_names$df1, 
-                         " and ", df_names$df2)) +
+    labs(y = xlab, x = "",
+         title = paste0("Comparison of \u03C1 between df::", df_names$df1, 
+                        " and ", df_names$df2)) +
     scale_fill_manual(name = "Data frame", values = bcols)
   # print plot
   print(plt)
 }
+
+
+
+
+

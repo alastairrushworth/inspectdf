@@ -67,15 +67,18 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   
   # correlation plots
   if(type[[1]] == "cor"){
+    method   <- attr(x, "method")
     if(type[[2]] == 1){
-      x$pair <- attr(x, "pair")
+      x$pair   <- attr(x, "pair")
       plot_cor_1(x, df_names = df_names, alpha = alpha,
                  text_labels = text_labels, 
-                 col_palette = col_palette)
+                 col_palette = col_palette,
+                 method      = method)
     } else {
       plot_cor_2(x, df_names = df_names, alpha = alpha,
                  text_labels = text_labels, 
-                 col_palette = col_palette)
+                 col_palette = col_palette, 
+                 method      = method)
     }
   }
   

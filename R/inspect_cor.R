@@ -3,6 +3,8 @@
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for comparing correlation 
 #' coefficients.  Defaults to \code{NULL}.
+#' @param method a character string indicating which correlation coefficient is to be used for the test. 
+#' One of "pearson", "kendall", or "spearman", can be abbreviated.
 #' @param alpha Alpha level for correlation confidence intervals.  Defaults to 0.05.
 #' @param with_col Character vector of columns to calculate correlations with.  When set to 
 #' the default, \code{NULL}, all pairs of correlations are returned.
@@ -54,7 +56,8 @@
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 
-inspect_cor <- function(df1, df2 = NULL, with_col = NULL, alpha = 0.05, show_plot = FALSE){
+inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL, 
+                        alpha = 0.05, show_plot = FALSE){
   # perform basic column check on dataframe input
   check_df_cols(df1)
   # capture the data frame names
@@ -79,14 +82,13 @@ inspect_cor <- function(df1, df2 = NULL, with_col = NULL, alpha = 0.05, show_plo
       suppressWarnings(cor_df <- cor_test_1(df_numeric,
                                             df_name = df_names[[1]], 
                                             with_col = with_col,
-                                            alpha = alpha))
+                                            alpha = alpha, 
+                                            method = method))
       # return top strongest if requested
       pair <- cor_df %>% select(pair) %>% unlist
       out <- cor_df %>% select(-pair)
       
       # attach attributes required for plotting
-      attr(out, "type") <- list("cor", 1)
-      attr(out, "df_names") <- df_names
       attr(out, "pair") <- pair
     } else {
       # return empty dataframe 
@@ -96,11 +98,11 @@ inspect_cor <- function(df1, df2 = NULL, with_col = NULL, alpha = 0.05, show_plo
     } 
   } else {
     # stats for df1
-    s1 <- inspect_cor(df1) %>% 
+    s1 <- inspect_cor(df1, method = method) %>% 
       select(col_1, col_2, corr) %>% 
       rename(corr_1 = corr)
     # stats for df2
-    s2 <- inspect_cor(df2) %>% 
+    s2 <- inspect_cor(df2, method = method) %>% 
       select(col_1, col_2, corr) %>% 
       rename(corr_2 = corr)
     # join the two
@@ -109,10 +111,12 @@ inspect_cor <- function(df1, df2 = NULL, with_col = NULL, alpha = 0.05, show_plo
     out$p_value <- cor_test(out$corr_1, out$corr_2, 
                             n_1 = nrow(df1), n_2 = nrow(df2))
 
-    # attach attributes required for plotting
-    attr(out, "type")     <- list("cor", 2)
-    attr(out, "df_names") <- df_names
+    # # attach attributes required for plotting
+    # attr(out, "type")     <- list("cor", 2)
   }
+  attr(out, "type")     <- list("cor", ifelse(is.null(df2), 1, 2))
+  attr(out, "df_names") <- df_names
+  attr(out, "method")   <- method
   if(show_plot) plot_deprecated(out)
   return(out)
 }

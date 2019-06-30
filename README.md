@@ -177,21 +177,21 @@ inspect_mem(star_1, star_2)
 ```
 
     ## # A tibble: 13 x 5
-    ##    col_name   size_1    size_2    pcnt_1 pcnt_2
-    ##    <chr>      <chr>     <chr>      <dbl>  <dbl>
-    ##  1 films      11.2 Kb   11.28 Kb  34.3    40.2 
-    ##  2 starships  4.08 Kb   4.19 Kb   12.5    14.9 
-    ##  3 name       3.57 Kb   <NA>      10.9    NA   
-    ##  4 vehicles   3.49 Kb   3.41 Kb   10.7    12.1 
-    ##  5 homeworld  2.48 Kb   2.01 Kb    7.61    7.15
-    ##  6 skin_color 2 Kb      2.01 Kb    6.13    7.15
-    ##  7 species    1.88 Kb   1.65 Kb    5.77    5.87
-    ##  8 eye_color  1.16 Kb   1.05 Kb    3.57    3.73
-    ##  9 hair_color 1 Kb      968 bytes  3.06    3.37
-    ## 10 gender     680 bytes 680 bytes  2.03    2.37
-    ## 11 mass       448 bytes 448 bytes  1.34    1.56
-    ## 12 birth_year 448 bytes 448 bytes  1.34    1.56
-    ## 13 height     248 bytes <NA>       0.742  NA
+    ##    col_name   size_1    size_2     pcnt_1 pcnt_2
+    ##    <chr>      <chr>     <chr>       <dbl>  <dbl>
+    ##  1 films      10.63 Kb  10.71 Kb   34.6    38.8 
+    ##  2 starships  4.19 Kb   4.3 Kb     13.6    15.6 
+    ##  3 name       3.53 Kb   <NA>       11.5    NA   
+    ##  4 vehicles   3.11 Kb   3.56 Kb    10.1    12.9 
+    ##  5 homeworld  2.14 Kb   2.15 Kb     6.96    7.78
+    ##  6 species    1.78 Kb   1.59 Kb     5.79    5.77
+    ##  7 skin_color 1.73 Kb   1.83 Kb     5.61    6.62
+    ##  8 eye_color  1.05 Kb   1016 bytes  3.43    3.59
+    ##  9 hair_color 896 bytes 1016 bytes  2.84    3.59
+    ## 10 gender     616 bytes 616 bytes   1.96    2.18
+    ## 11 mass       448 bytes 448 bytes   1.42    1.59
+    ## 12 birth_year 448 bytes 448 bytes   1.42    1.59
+    ## 13 height     248 bytes <NA>        0.787  NA
 
 ``` r
 inspect_mem(star_1, star_2) %>% show_plot()
@@ -252,13 +252,13 @@ inspect_na(star_1, star_2)
     ## # A tibble: 13 x 6
     ##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
     ##    <chr>      <dbl>  <dbl> <dbl>  <dbl>   <dbl>
-    ##  1 birth_year    25     50    25     50   1    
-    ##  2 mass          17     34    17     34   1.000
-    ##  3 homeworld      4      8     8     16   0.356
-    ##  4 height         2      4    NA     NA  NA    
-    ##  5 hair_color     2      4     5     10   0.433
-    ##  6 species        2      4     5     10   0.433
-    ##  7 gender         1      2     3      6   0.610
+    ##  1 birth_year    27     54    26     52   1    
+    ##  2 mass          18     36    12     24   0.275
+    ##  3 homeworld      6     12     6     12   1    
+    ##  4 height         4      8    NA     NA  NA    
+    ##  5 species        4      8     2      4   0.674
+    ##  6 hair_color     3      6     2      4   1.000
+    ##  7 gender         2      4     2      4   1    
     ##  8 name           0      0    NA     NA  NA    
     ##  9 skin_color     0      0     0      0  NA    
     ## 10 eye_color      0      0     0      0  NA    
@@ -304,16 +304,16 @@ inspect_cor(storms)
     ## # A tibble: 45 x 6
     ##    col_1       col_2         corr  p_value  lower  upper
     ##    <chr>       <chr>        <dbl>    <dbl>  <dbl>  <dbl>
-    ##  1 pressure    wind        -0.942 0.       -0.945 -0.940
-    ##  2 hu_diameter pressure    -0.842 0.       -0.853 -0.831
-    ##  3 hu_diameter wind         0.774 0.        0.758  0.788
-    ##  4 hu_diameter ts_diameter  0.684 0.        0.663  0.704
-    ##  5 ts_diameter pressure    -0.683 0.       -0.703 -0.663
-    ##  6 ts_diameter wind         0.640 0.        0.617  0.662
-    ##  7 ts_diameter lat          0.301 1.25e-73  0.266  0.335
-    ##  8 day         month       -0.183 3.59e-76 -0.205 -0.161
-    ##  9 hu_diameter lat          0.164 1.59e-22  0.127  0.201
-    ## 10 ts_diameter month        0.139 1.67e-16  0.102  0.176
+    ##  1 pressure    wind        -0.942 0.       -0.944 -0.940
+    ##  2 hu_diameter pressure    -0.842 0.       -0.852 -0.832
+    ##  3 hu_diameter wind         0.774 0.        0.760  0.787
+    ##  4 hu_diameter ts_diameter  0.684 0.        0.666  0.701
+    ##  5 ts_diameter pressure    -0.683 0.       -0.701 -0.665
+    ##  6 ts_diameter wind         0.640 0.        0.620  0.659
+    ##  7 ts_diameter lat          0.301 1.25e-73  0.270  0.330
+    ##  8 day         month       -0.183 3.59e-76 -0.202 -0.164
+    ##  9 hu_diameter lat          0.164 1.59e-22  0.132  0.197
+    ## 10 ts_diameter month        0.139 1.67e-16  0.106  0.172
     ## # … with 35 more rows
 
 A plot showing point estimate and confidence intervals is printed when
@@ -433,12 +433,12 @@ inspect_imb(star_1, star_2)
     ## # A tibble: 7 x 7
     ##   col_name   value  pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
     ##   <chr>      <chr>   <dbl> <int>  <dbl> <int>   <dbl>
-    ## 1 gender     male       72    36    64     32   0.520
-    ## 2 hair_color none       44    22    34     17   0.412
-    ## 3 species    Human      42    21    40     20   1.000
-    ## 4 skin_color fair       24    12    22     11   1.000
-    ## 5 eye_color  blue       24    12    NA     NA  NA    
-    ## 6 homeworld  Naboo      10     5    14.     7   0.758
+    ## 1 gender     male       76    38    72     36   0.820
+    ## 2 hair_color none       42    21    36     18   0.682
+    ## 3 species    Human      40    20    48     24   0.546
+    ## 4 eye_color  brown      32    16    28.    14   0.827
+    ## 5 homeworld  Naboo      18     9    18      9   1    
+    ## 6 skin_color fair       16     8    20     10   0.795
     ## 7 name       Ackbar      2     1    NA     NA  NA
 
 ``` r
@@ -652,15 +652,15 @@ inspect_cat(star_1, star_2)
 ```
 
     ## # A tibble: 7 x 5
-    ##   col_name       jsd fisher_p lvls_1            lvls_2           
-    ##   <chr>        <dbl>    <dbl> <list>            <list>           
-    ## 1 eye_color   0.122     0.703 <tibble [13 × 3]> <tibble [11 × 3]>
-    ## 2 gender      0.0106    0.870 <tibble [5 × 3]>  <tibble [5 × 3]> 
-    ## 3 hair_color  0.0690    0.921 <tibble [11 × 3]> <tibble [10 × 3]>
-    ## 4 homeworld   0.180     0.996 <tibble [36 × 3]> <tibble [28 × 3]>
-    ## 5 name       NA        NA     <tibble [50 × 3]> <NULL>           
-    ## 6 skin_color  0.122     0.936 <tibble [26 × 3]> <tibble [26 × 3]>
-    ## 7 species     0.138     0.990 <tibble [26 × 3]> <tibble [22 × 3]>
+    ##   col_name        jsd fisher_p lvls_1            lvls_2           
+    ##   <chr>         <dbl>    <dbl> <list>            <list>           
+    ## 1 eye_color   0.0887     0.927 <tibble [11 × 3]> <tibble [10 × 3]>
+    ## 2 gender      0.00322    0.942 <tibble [4 × 3]>  <tibble [4 × 3]> 
+    ## 3 hair_color  0.0300     0.993 <tibble [9 × 3]>  <tibble [11 × 3]>
+    ## 4 homeworld   0.192      1     <tibble [30 × 3]> <tibble [30 × 3]>
+    ## 5 name       NA         NA     <tibble [50 × 3]> <NULL>           
+    ## 6 skin_color  0.114      0.922 <tibble [22 × 3]> <tibble [24 × 3]>
+    ## 7 species     0.162      0.996 <tibble [24 × 3]> <tibble [21 × 3]>
 
 ``` r
 inspect_cat(star_1, star_2) %>% show_plot()

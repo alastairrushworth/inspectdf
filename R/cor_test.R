@@ -23,7 +23,7 @@ cor_test <- function(cor_1, cor_2, n_1, n_2){
 
 
 # univariate correlation tests
-cor_test_1 <- function(df_input, df_name, with_col, alpha = 0.05){
+cor_test_1 <- function(df_input, df_name, with_col, alpha, method){
   # every combination of variables
   c_nms   <- c_nms_1 <- c_nms_2 <- colnames(df_input)
   c_nms_1 <- if(is.null(with_col)) c_nms_1 else with_col
@@ -43,13 +43,14 @@ cor_test_1 <- function(df_input, df_name, with_col, alpha = 0.05){
     c_df   <- df_input %>% select_(c_cmbs$col_1[i], c_cmbs$col_2[i])
     c_test <- try(cor.test(c_df[, 1, drop = TRUE], 
                            c_df[, 2, drop = T], 
-                           conf.level = 1 - alpha / 2), 
+                           conf.level = 1 - alpha, 
+                           method = method), 
                   silent = TRUE)
     if(!class(c_test) == "try-error"){
       out_cors[[i]] <- tibble(corr = c_test$estimate, 
                               p_value = c_test$p.value,
-                              lower = c_test$conf.int[1],
-                              upper = c_test$conf.int[2]) 
+                              lower = ifelse(is.null(c_test$conf.int),  NA, c_test$conf.int[1]), 
+                              upper = ifelse(is.null(c_test$conf.int),  NA, c_test$conf.int[2])) 
     } else {
       out_cors[[i]] <- tibble(corr = NA, 
                               p_value = NA,

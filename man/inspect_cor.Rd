@@ -4,14 +4,17 @@
 \alias{inspect_cor}
 \title{Summarise and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.}
 \usage{
-inspect_cor(df1, df2 = NULL, with_col = NULL, alpha = 0.05,
-  show_plot = FALSE)
+inspect_cor(df1, df2 = NULL, method = "pearson", with_col = NULL,
+  alpha = 0.05, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A data frame}
 
 \item{df2}{An optional second data frame for comparing correlation 
 coefficients.  Defaults to \code{NULL}.}
+
+\item{method}{a character string indicating which correlation coefficient is to be used for the test. 
+One of "pearson", "kendall", or "spearman", can be abbreviated.}
 
 \item{with_col}{Character vector of columns to calculate correlations with.  When set to 
 the default, \code{NULL}, all pairs of correlations are returned.}
