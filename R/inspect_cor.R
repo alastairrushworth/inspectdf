@@ -59,14 +59,14 @@
 inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL, 
                         alpha = 0.05, show_plot = FALSE){
   # perform basic column check on dataframe input
-  check_df_cols(df1)
+  input_type <- check_df_cols(df1, df2)
   # capture the data frame names
   df_names <- get_df_names()
   # filter to only the numeric variables
   df_numeric <- df1 %>% 
     select_if(is.numeric)
   # if only a single df input
-  if(is.null(df2)){
+  if(input_type == "single"){
     # check that with_col exists
     if(!is.null(with_col)){
       in_num <- with_col %in% colnames(df_numeric)
@@ -96,7 +96,8 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
                     col_2 = character(), 
                     corr = numeric())
     } 
-  } else {
+  } 
+  if(input_type == "pair"){
     # stats for df1
     s1 <- inspect_cor(df1, method = method) %>% 
       select(col_1, col_2, corr) %>% 
@@ -110,11 +111,19 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
     # add p_value for test of difference between correlation coefficients
     out$p_value <- cor_test(out$corr_1, out$corr_2, 
                             n_1 = nrow(df1), n_2 = nrow(df2))
-
-    # # attach attributes required for plotting
-    # attr(out, "type")     <- list("cor", 2)
   }
-  attr(out, "type")     <- list("cor", ifelse(is.null(df2), 1, 2))
+  if(input_type == "grouped"){
+    # names of the groups
+    grp_nms <- attr(df1, "groups") %>% select(1)
+    cnm     <- colnames(grp_nms)[1]
+    out_nest <- df1 %>%
+      tidyr::nest()
+    out_list <- lapply(out_nest$data, inspect_cor, method = method)
+    grp_nms <- data.frame(rep(unlist(grp_nms), each = nrow(out_list[[1]])))
+    colnames(grp_nms) <- cnm
+    out <- bind_cols(grp_nms, bind_rows(out_list)) %>% as_tibble()
+  }
+  attr(out, "type")     <- list(method = "cor", input_type = input_type)
   attr(out, "df_names") <- df_names
   attr(out, "method")   <- method
   if(show_plot) plot_deprecated(out)

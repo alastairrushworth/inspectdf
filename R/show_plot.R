@@ -58,7 +58,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   df_names <- attr(x, "df_names")
   
   # categorical plots
-  if(type[[1]] == "cat"){
+  if(type$method == "cat"){
       plot_cat(x, df_names = df_names,
                text_labels = text_labels, 
                high_cardinality = high_cardinality, 
@@ -66,16 +66,23 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   }
   
   # correlation plots
-  if(type[[1]] == "cor"){
+  if(type$method == "cor"){
     method   <- attr(x, "method")
-    if(type[[2]] == 1){
+    if(type$input_type == "single"){
       x$pair   <- attr(x, "pair")
       plot_cor_1(x, df_names = df_names, alpha = alpha,
                  text_labels = text_labels, 
                  col_palette = col_palette,
                  method      = method)
-    } else {
+    }
+    if(type$input_type == "pair"){
       plot_cor_2(x, df_names = df_names, alpha = alpha,
+                 text_labels = text_labels, 
+                 col_palette = col_palette, 
+                 method      = method)
+    }
+    if(type$input_type == "grouped"){
+      plot_cor_3(x, df_names = df_names,
                  text_labels = text_labels, 
                  col_palette = col_palette, 
                  method      = method)
@@ -83,7 +90,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   }
   
   # imbalance plots
-  if(type[[1]] == "imb"){
+  if(type$method == "imb"){
     if(type[[2]] == 1){
       plot_imb_1(x, df_names = df_names,
                  text_labels = text_labels, 
@@ -96,7 +103,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   }
   
   # memory plots
-  if(type[[1]] == "mem"){
+  if(type$method == "mem"){
     sizes <- attr(x, "sizes")
     if(type[[2]] == 1){
       plot_mem_1(x, df_names = df_names, 
@@ -112,7 +119,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   }
   
   # missingness plots
-  if(type[[1]] == "na"){
+  if(type$method == "na"){
     if(type[[2]] == 1){
       plot_na_1(x, df_names = df_names,
                 text_labels = text_labels, 
@@ -125,7 +132,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   }
   
   # missingness plots
-  if(type[[1]] == "num"){
+  if(type$method == "num"){
     if(type[[2]] == 1){
       plot_num_1(x, df_names = df_names,
                  text_labels = text_labels, 
@@ -138,7 +145,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   }
   
   # types plots
-  if(type[[1]] == "types"){
+  if(type$method == "types"){
     if(type[[2]] == 1){
       plot_types_1(x, df_names = df_names,
                    text_labels = text_labels, 

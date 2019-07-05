@@ -102,6 +102,26 @@ plot_cor_2 <- function(out, alpha, df_names, text_labels, col_palette, method){
   print(plt)
 }
 
+plot_cor_3 <- function(out, df_names, text_labels, col_palette, method){
+  new_out <- out %>%
+    mutate(pair = paste(col_1, col_2, sep = " & ")) %>%
+    mutate(pair = factor(pair, levels = rev(unique(as.character(pair))))) %>%
+    select(-col_1, -col_2, -lower, -upper) %>%
+    mutate(data_frame =  .[[1]], data_frame_n = as.integer(as.factor(data_frame))) %>% 
+    select(-1)
+  n_df  <- length(unique(new_out$data_frame))
+  vcols <- c("gray50", user_colours(9, col_palette)[9])
+  bcols <- user_colours(n_df, col_palette)
+  plt <- new_out %>%
+    ggplot(aes(x = pair, y = corr, fill = data_frame, group = data_frame)) +
+    geom_blank() + theme_bw() + 
+    theme(panel.border = element_blank(), panel.grid.major = element_blank()) + 
+    geom_bar(stat = "identity", position = "dodge") + 
+    coord_flip() + 
+    scale_fill_manual(name = "Data frame", values = bcols) +
+    guides(fill = FALSE)
+  print(plt)
+}
 
 
 
