@@ -87,7 +87,7 @@ inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE){
       select(-n.x)
     
     # attach attributes required for plotting
-    attr(out, "type") <- list("mem", 1)
+    attr(out, "type") <- list(method = "mem", 1)
     attr(out, "df_names") <- df_names
     attr(out, "sizes") <- sizes
   } else {
@@ -99,7 +99,7 @@ inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE){
     colnames(out)[2:5] <- c("size_1", "size_2", "pcnt_1", "pcnt_2")
     
     # attach attributes required for plotting
-    attr(out, "type") <- list("mem", 2)
+    attr(out, "type") <- list(method = "mem", 2)
     attr(out, "df_names") <- df_names
     attr(out, "sizes") <- sizes
   }

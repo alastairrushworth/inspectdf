@@ -71,7 +71,7 @@ inspect_na <- function(df1, df2 = NULL, show_plot = FALSE){
         arrange(desc(pcnt))
       
       # attach attributes required for plotting
-      attr(out, "type") <- list("na", 1)
+      attr(out, "type") <- list(method = "na", 1)
       attr(out, "df_names") <- df_names
   } else {
     s1 <- inspect_na(df1) 
@@ -84,7 +84,7 @@ inspect_na <- function(df1, df2 = NULL, show_plot = FALSE){
     colnames(out)[2:5] <- c("cnt_1", "pcnt_1", "cnt_2", "pcnt_2")
     
     # attach attributes required for plotting
-    attr(out, "type") <- list("na", 2)
+    attr(out, "type") <- list(method = "na", 2)
     attr(out, "df_names") <- df_names
   }
   if(show_plot) plot_deprecated(out)

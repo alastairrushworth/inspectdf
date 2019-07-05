@@ -80,7 +80,7 @@ inspect_types <- function(df1, df2 = NULL, show_plot = FALSE){
       left_join(nms_df, by = "type") %>%
       filter(pcnt > 0) 
     # attach attributes required for plotting
-    attr(out, "type") <- list("types", 1)
+    attr(out, "type") <- list(method = "types", 1)
     attr(out, "df_names") <- df_names
   } else {
     s1 <- inspect_types(df1) %>% select(-col_name)
@@ -90,7 +90,7 @@ inspect_types <- function(df1, df2 = NULL, show_plot = FALSE){
     out <- full_join(s1, s2, by = "type") %>% 
       replace(is.na(.), 0)
     # attach attributes required for plotting
-    attr(out, "type") <- list("types", 2)
+    attr(out, "type") <- list(method = "types", 2)
     attr(out, "df_names") <- df_names
   }
   if(show_plot) plot_deprecated(out)
