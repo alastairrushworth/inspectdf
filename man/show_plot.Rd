@@ -5,7 +5,7 @@
 \title{Visualise summaries and comparisons of one or two dataframes.}
 \usage{
 show_plot(x, text_labels = TRUE, alpha = 0.05, high_cardinality = 0,
-  plot_layout = NULL, col_palette = 0)
+  plot_layout = NULL, col_palette = 0, plot_type = "bar")
 }
 \arguments{
 \item{x}{Dataframe resulting from a call to an `inspect_` function.}
