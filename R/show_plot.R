@@ -53,7 +53,7 @@
 
 show_plot <- function(x, text_labels = TRUE, alpha = 0.05, 
                       high_cardinality = 0, plot_layout = NULL,
-                      col_palette = 0){
+                      col_palette = 0, plot_type = "bar"){
   type     <- attr(x, "type")
   df_names <- attr(x, "df_names")
   
@@ -85,7 +85,8 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
       plot_cor_3(x, df_names = df_names,
                  text_labels = text_labels, 
                  col_palette = col_palette, 
-                 method      = method)
+                 method      = method, 
+                 plot_type   = plot_type)
     }
   }
   

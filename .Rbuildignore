@@ -14,3 +14,4 @@
 ^\.Rproj\.user$
 ^README.html$
 ^\.Rout$
+^\.RData

@@ -118,7 +118,8 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
     cnm     <- colnames(grp_nms)[1]
     out_nest <- df1 %>%
       tidyr::nest()
-    out_list <- lapply(out_nest$data, inspect_cor, method = method)
+    out_list <- lapply(out_nest$data, inspect_cor, method = method, 
+                       with_col = with_col, alpha = alpha)
     grp_nms <- data.frame(rep(unlist(grp_nms), each = nrow(out_list[[1]])))
     colnames(grp_nms) <- cnm
     out <- bind_cols(grp_nms, bind_rows(out_list)) %>% as_tibble()
