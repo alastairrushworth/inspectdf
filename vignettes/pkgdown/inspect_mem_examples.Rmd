@@ -1,0 +1,82 @@
+---
+title: "Memory usage of dataframe columns"
+output: github_document
+---
+
+
+Illustrative data: `starwars`
+---
+
+The examples below make use of the `starwars` and `storms` data from the `dplyr` package
+
+```{r}
+# some example data
+data(starwars, package = "dplyr")
+data(storms, package = "dplyr")
+```
+
+For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+
+---
+title: "Missingness and counting NAs"
+output: github_document
+---
+
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+star_1 <- starwars %>% sample_n(50)
+star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+```
+
+Illustrative data: `starwars`
+---
+
+The examples below make use of the `starwars` and `storms` data from the `dplyr` package
+
+```{r}
+# some example data
+data(starwars, package = "dplyr")
+data(storms, package = "dplyr")
+```
+
+For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+star_1 <- starwars %>% sample_n(50)
+star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+```
+
+
+
+
+`inspect_mem()` for a single dataframe
+---
+
+To explore the memory usage of the columns in a data frame, use `inspect_mem()`.  The command returns a `tibble` containing the size of each column in the dataframe.  
+
+```{r}
+library(inspectdf)
+inspect_mem(starwars)
+```
+
+A barplot can be produced by passing the result to `show_plot()`:
+
+```{r}
+inspect_mem(starwars) %>% show_plot()
+```
+
+`inspect_mem()` for two dataframes
+---
+
+When a second dataframe is provided, `inspect_mem()` will create a dataframe comparing the size of each column for both input dataframes.  The summaries for the first and second dataframes are show in columns with names appended with `_1` and `_2`, respectively.
+
+```{r}
+inspect_mem(star_1, star_2)
+```
+
+```{r}
+inspect_mem(star_1, star_2) %>% show_plot()
+```
+

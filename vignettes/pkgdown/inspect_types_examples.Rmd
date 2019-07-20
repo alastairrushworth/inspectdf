@@ -1,0 +1,57 @@
+---
+title: "Exploring dataframe column types"
+output: github_document
+---
+
+Illustrative data: `starwars`
+---
+
+The examples below make use of the `starwars` and `storms` data from the `dplyr` package
+
+```{r}
+# some example data
+data(starwars, package = "dplyr")
+data(storms, package = "dplyr")
+```
+
+For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+star_1 <- starwars %>% sample_n(50)
+star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+```
+
+
+`inspect_types()` for a single dataframe
+---
+
+To explore the column types in a data frame, use the function `inspect_types()`.  The command returns a `tibble` summarising the counts and percentages of columns with particular types.  
+
+```{r}
+library(inspectdf)
+# return tibble showing columns types
+inspect_types(starwars)
+```
+
+A barplot can be produced by passing the result to `show_plot()`:
+
+```{r}
+# print visualisation of column types
+inspect_types(starwars) %>% show_plot()
+```
+
+
+`inspect_types()` for two dataframes
+---
+
+When a second dataframe is provided, `inspect_types()` will create a dataframe comparing the count and percentage of each column type for each of the input dataframes.  The summaries for the first and second dataframes are show in columns with names appended with `_1` and `_2`, respectively.
+
+```{r}
+inspect_types(star_1, star_2)
+```
+
+```{r}
+# print visualisation of column type comparison
+inspect_types(star_1, star_2) %>% show_plot()
+```

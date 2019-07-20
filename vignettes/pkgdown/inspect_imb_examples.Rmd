@@ -1,0 +1,61 @@
+---
+title: "Feature imbalance for categorical columns"
+output: github_document
+---
+
+
+Illustrative data: `starwars`
+---
+
+The examples below make use of the `starwars` and `storms` data from the `dplyr` package
+
+```{r}
+# some example data
+data(starwars, package = "dplyr")
+data(storms, package = "dplyr")
+```
+
+For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+star_1 <- starwars %>% sample_n(50)
+star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+```
+
+
+`inspect_imb()` for a single dataframe
+---
+
+Understanding categorical columns that are dominated by a single level can be useful.  `inspect_imb()` returns a tibble containing categorical column names (`col_name`); the most frequently occurring categorical level in each column (`value`) and `pctn` & `cnt` the percentage and count which the value occurs.  The tibble is sorted in descending order of `pcnt`. 
+
+```{r}
+library(inspectdf)
+inspect_imb(starwars)
+```
+
+ A barplot is printed by passing the result to the `show_plot()` function:
+ 
+```{r}
+inspect_imb(starwars) %>% show_plot()
+```
+
+
+`inspect_imb()` for two dataframes
+---
+
+When a second dataframe is provided, `inspect_imb()` returns a tibble that compares the frequency of the most common categorical values of the first dataframe to those in the second.  The `p_value` column contains a measure of evidence for whether the true frequencies are equal or not. 
+
+```{r}
+inspect_imb(star_1, star_2)
+```
+
+
+```{r}
+inspect_imb(star_1, star_2) %>% show_plot()
+```
+
++ Smaller `p_value` indicates stronger evidence against the null hypothesis that the true frequency of the most common values is the same.
++ The visualisation illustrates the significance of the difference using a coloured bar overlay.  Orange bars indicate evidence of equality of the imbalance, while blue bars indicate inequality.  If a `p_value` cannot be calculated, no coloured bar is shown.
++ The significance level can be specified using the `alpha` argument to `inspect_imb()`.  The default is `alpha = 0.05`.
+

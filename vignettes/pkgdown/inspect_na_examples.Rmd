@@ -1,0 +1,70 @@
+---
+title: "Missingness and counting NAs"
+output: github_document
+---
+
+<!-- # ```{r, echo = FALSE} -->
+<!-- # knitr::opts_chunk$set( -->
+<!-- #   fig.path = "/vignettes/pkgdown/man/figures/inspect_na-" -->
+<!-- # ) -->
+<!-- # ``` -->
+<!-- #  -->
+
+
+Illustrative data: `starwars`
+---
+
+The examples below make use of the `starwars` and `storms` data from the `dplyr` package
+
+```{r}
+# some example data
+data(starwars, package = "dplyr")
+data(storms, package = "dplyr")
+```
+
+For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+star_1 <- starwars %>% sample_n(50)
+star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+```
+
+
+
+`inspect_na()` for a single dataframe
+---
+
+`inspect_na()` summarises the prevalence of missing values by each column in a data frame.  A tibble containing the count (`cnt`) and the overall percentage (`pcnt`) of missing values is returned.
+
+```{r}
+library(inspectdf)
+inspect_na(starwars)
+```
+
+A barplot can be produced by passing the result to `show_plot()`:
+
+```{r}
+inspect_na(starwars) %>% show_plot()
+```
+
+`inspect_na()` for two dataframes
+---
+
+When a second dataframe is provided, `inspect_na()` returns a tibble containing counts and percentage missingness by column, with summaries for the first and second data frames are show in columns with names appended with `_1` and `_2`, respectively.  In addition, a $p$-value is calculated which provides a measure of evidence of whether the difference in missing values is significantly different.
+
+```{r}
+inspect_na(star_1, star_2)
+```
+
+```{r}
+inspect_na(star_1, star_2) %>% show_plot()
+```
+
+Notes:
+
++ Smaller $p$-values indicate stronger evidence of a difference in the missingness rate for a single column
++ If a column appears in one data frame and not the other - for example `height` appears in `star_1` but nor `star_2`, then the corresponding `pcnt_`, `cnt_` and `p_value` columns will contain `NA`
++ Where the missingness is identically 0, the `p_value` is `NA`.
++ The visualisation illustrates the significance of the difference using a coloured bar overlay.  Orange bars indicate evidence of equality or missingness, while blue bars indicate inequality.  If a `p_value` cannot be calculated, no coloured bar is shown.
++ The significance level can be specified using the `alpha` argument to `inspect_na()`.  The default is `alpha = 0.05`.

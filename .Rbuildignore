@@ -1,5 +1,6 @@
 ^tests$
 ^docs$
+^vignettes/pkgdown$
 ^inst$
 ^checks\.R$
 ^big_tests\.R$
