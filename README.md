@@ -35,6 +35,10 @@ devtools::install_github("alastairrushworth/inspectdf")
 
 To install the CRAN version of the package, use
 
+``` r
+install.packages("inspectdf")
+```
+
 ## Key functions
 
   - [`inspect_types()`](#column-types) summary of column types
