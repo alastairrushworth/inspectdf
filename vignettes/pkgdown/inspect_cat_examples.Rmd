@@ -1,0 +1,78 @@
+---
+title: "Exploring and visualising categorical features"
+output: github_document
+---
+
+## Illustrative data: `starwars`
+
+
+The examples below make use of the `starwars` and `storms` data from the `dplyr` package
+
+```{r}
+# some example data
+data(starwars, package = "dplyr")
+data(storms, package = "dplyr")
+```
+
+For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+star_1 <- starwars %>% sample_n(50)
+star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+```
+
+
+
+## `inspect_cat()` for a single dataframe
+
+
+`inspect_cat()` returns a tibble summarising categorical features in a data frame, combining the functionality of the `inspect_imb()` and `table()` functions.  The tibble generated contains the columns  
+
++ `col_name` name of each categorical column
++ `cnt` the number of unique levels in the feature
++ `common` the most common level (see also `inspect_imb()`)  
++ `common_pcnt` the percentage occurrence of the most dominant level  
++ `levels` a list of tibbles each containing frequency tabulations of all levels
+
+```{r}
+library(inspectdf)
+inspect_cat(starwars)
+```
+
+For example, the levels for the `hair_color` column are
+
+```{r}
+inspect_cat(starwars)$levels$hair_color
+```
+
+Note that by default, if `NA` values are present, they are counted as a distinct categorical level.  A barplot is printed showing the relative split when passing the result to `show_plot()`:
+
+```{r}
+inspect_cat(starwars) %>% show_plot()
+```
+
+The argument `high_cardinality` in the `show_plot()` function can be used to bundle together categories that occur only a small number of times.  For example, to combine categories only occurring once, use:
+
+```{r}
+inspect_cat(starwars) %>% 
+  show_plot(high_cardinality = 1)
+```
+
+The resulting bundles are shown in purple.
+
+
+## `inspect_cat()` for two dataframes
+
+
+When two dataframes are compared using `inspect_cat()`, list columns are returned for categorical columns common to both: `lvls_1` and `lvl2_2`.  In addition, the Jensen-Shannon divergence (`jsd`) and _p_ values associated with Fisher's exact test (`fisher_p`) are returned to enable comparison of the distribution of levels in each pair of columns.
+
+```{r}
+inspect_cat(star_1, star_2)
+```
+
+```{r}
+inspect_cat(star_1, star_2) %>% show_plot()
+```
+
+

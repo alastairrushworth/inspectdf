@@ -1,0 +1,12 @@
+pandoc: 2.7.2
+pkgdown: 1.3.0
+pkgdown_sha: ~
+articles:
+  inspect_cat_examples: pkgdown/inspect_cat_examples.html
+  inspect_cor_exampes: pkgdown/inspect_cor_exampes.html
+  inspect_imb_examples: pkgdown/inspect_imb_examples.html
+  inspect_mem_examples: pkgdown/inspect_mem_examples.html
+  inspect_na_examples: pkgdown/inspect_na_examples.html
+  inspect_num_examples: pkgdown/inspect_num_examples.html
+  inspect_types_examples: pkgdown/inspect_types_examples.html
+

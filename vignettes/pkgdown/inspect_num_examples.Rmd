@@ -1,0 +1,67 @@
+---
+title: "Numeric column summaries and visualisations"
+output: github_document
+---
+
+
+
+Illustrative data: `starwars`
+---
+
+The examples below make use of the `starwars` and `storms` data from the `dplyr` package
+
+```{r}
+# some example data
+data(starwars, package = "dplyr")
+data(storms, package = "dplyr")
+```
+
+For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+star_1 <- starwars %>% sample_n(50)
+star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+```
+
+
+
+`inspect_num()` for a single dataframe
+---
+
+`inspect_num()` combining some of the functionality of `summary()` and `hist()` by returning summaries of numeric columns.  `inspect_num()` returns standard numerical summaries (`min`, `q1`,  `mean`, `median`,`q3`, `max`, `sd`), but also the percentage of missing entries (`pcnt_na`) and a simple histogram (`hist`).  
+
+```{r}
+library(inspectdf)
+inspect_num(storms, breaks = 10)
+```
+
+The `hist` column is a list whose elements are tibbles each containing the relative frequencies of bins for each feature.  These tibbles are used to generate the histograms when `show_plot = TRUE`.  For example, the histogram for `starwars$birth_year` is
+
+```{r}
+inspect_num(storms)$hist$pressure
+```
+
+A histogram is generated for each numeric feature by passing the result to the `show_plot()` function:
+
+```{r}
+inspect_num(storms, breaks = 10) %>%
+  show_plot()
+```
+
+
+`inspect_num()` for two dataframes
+---
+
+When comparing a pair of dataframes using `inspect_num()`, the histograms of common numeric features are calculated, using identical bins.  The list columns `hist_1` and `hist_2` contain the histograms of the features in the first and second dataframes.  A formal statistical comparison of each pair of histograms is calculated using Fisher's exact test, the resulting _p_ value is reported in the column `fisher_p`.
+
+When `show_plot = TRUE`, heat plot comparisons are returned for each numeric column in each dataframe.  Where a column is present in only one of the dataframes, grey cells are shown in the comparison.  The significance of Fisher's test is illustrated by coloured vertical bands around each plot: if the colour is grey, no _p_ value could be calculated, if blue, the histograms are not found to be significantly different otherwise the bands are red.
+
+```{r}
+inspect_num(storms, storms[-c(1:10), -1])
+```
+
+```{r}
+inspect_num(storms, storms[-c(1:10), -1]) %>% 
+  show_plot()
+```

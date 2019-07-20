@@ -1,0 +1,72 @@
+---
+title: "Correlation diagnostics for numeric columns"
+output: github_document
+---
+
+Illustrative data: `starwars`
+---
+
+The examples below make use of the `starwars` and `storms` data from the `dplyr` package
+
+```{r}
+# some example data
+data(starwars, package = "dplyr")
+data(storms, package = "dplyr")
+```
+
+For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+star_1 <- starwars %>% sample_n(50)
+star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+```
+
+
+`inspect_cor()` for a single dataframe
+---
+
+`inspect_cor()` returns a tibble containing Pearson's correlation coefficient, confidence intervals and $p$-values for pairs of numeric columns .  The function combines the functionality of `cor()` and `cor.test()` in a more convenient wrapper.  
+
+```{r}
+library(inspectdf)
+inspect_cor(storms)
+```
+
+A plot showing point estimate and confidence intervals is printed when using the `show_plot()` function.  Note that intervals that straddle the null value of 0 are shown in gray:
+
+```{r}
+inspect_cor(storms) %>% show_plot()
+```
+
+Notes:
+
++ The tibble is sorted in descending order of the absolute coefficient $|\rho|$.
++ `inspect_cor` drops missing values prior to calculation of each correlation coefficient.  
++ The `p_value` is associated with the null hypothesis $H_0: \rho = 0$.
+
+
+`inspect_cor()` for two dataframes
+---
+
+When a second dataframe is provided, `inspect_cor()` returns a tibble that compares correlation coefficients of the first dataframe to those in the second.  The `p_value` column contains a measure of evidence for whether the two correlation coefficients are equal or not.  
+
+```{r}
+inspect_cor(storms, storms[-c(1:200), ])
+```
+
+To plot the comparison of the top 20 correlation coefficients: 
+
+```{r}
+inspect_cor(storms, storms[-c(1:200), ]) %>% 
+  slice(1:20) %>%
+  show_plot()
+```
+
+Notes:
+
++ Smaller `p_value` indicates stronger evidence against the null hypothesis $H_0: \rho_1 = \rho_2$ and an indication that the true correlation coefficients differ.
++ The visualisation illustrates the significance of the difference using a coloured bar underlay.  Coloured bars indicate evidence of inequality of correlations, while gray bars indicate equality.  
++ For a pair of features, if either coefficient is `NA`, the comparison is omitted from the visualisation.
++ The significance level can be specified using the `alpha` argument to `inspect_cor()`.  The default is `alpha = 0.05`.
+
