@@ -1,3 +1,4 @@
+library(vdiffr)
 context("inspect_cor with pair dataframes")
 
 # load in some example data
@@ -21,4 +22,17 @@ test_that("Output with two different inputs data frame", {
   expect_is(inspect_cor(starwars, starwars %>% dplyr::sample_n(100, replace = T)), "data.frame")
   expect_is(inspect_cor(storms, storms %>% dplyr::sample_n(100, replace = T)), "data.frame")
   expect_is(inspect_cor(airquality, airquality%>% dplyr::sample_n(100, replace = T)), "data.frame")
+})
+
+test_that("Pair comparison correlation plots work", {
+  set.seed(1)
+  expect_doppelganger("Inspect-cor-starwars2", 
+                      starwars %>% 
+                        inspect_cor(
+                          starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
+                        ) %>% show_plot)
+  expect_doppelganger("Inspect-cor-storms2",   storms %>% 
+                        inspect_cor(
+                          storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
+                        ) %>% show_plot)
 })

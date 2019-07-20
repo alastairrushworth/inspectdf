@@ -11,14 +11,16 @@
 #'
 #' @keywords datasets
 #'
-#' @source Data gethered using the \href{https://github.com/joshuaulrich/quantmod}{quantmod}
+#' @source Data gathered using the \href{https://github.com/joshuaulrich/quantmod}{quantmod}
 #' package.
 #'
 #' @examples
 #' data(tech)
-#' # change in correlation over time
-#' tech %>%
-#'   group_by(year) %>%
-#'   inspect_cor() %>%
-#'   show_plot()
+#' head(tech)
+#' # NOT RUN - change in correlation over time
+#' # library(dplyr)
+#' # tech_grp <- tech %>% 
+#' #         group_by(year) %>%
+#' #         inspect_cor()
+#' # tech_grp %>% show_plot()    
 "tech"

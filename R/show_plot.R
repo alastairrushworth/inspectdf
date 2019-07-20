@@ -14,6 +14,7 @@
 #'  - `3`: [rainbox theme](https://www.color-hex.com/color-palette/79261)
 #'  - `4`: [mario theme](https://www.color-hex.com/color-palette/78663)
 #'  - `5`: [pokemon theme](https://www.color-hex.com/color-palette/78664)
+#' @param plot_type String determining the type of plot to show.  Defaults to `"bar"`.  
 #' @param plot_layout Vector specifying the number of rows and columns 
 #' in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
 #' \code{plot_layout = c(3, 2)}.
@@ -70,23 +71,27 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
     method   <- attr(x, "method")
     if(type$input_type == "single"){
       x$pair   <- attr(x, "pair")
-      plot_cor_1(x, df_names = df_names, alpha = alpha,
-                 text_labels = text_labels, 
-                 col_palette = col_palette,
-                 method      = method)
+      plot_cor_single(x, 
+                      df_names = df_names, alpha = alpha,
+                      text_labels = text_labels, 
+                      col_palette = col_palette,
+                      method      = method)
     }
     if(type$input_type == "pair"){
-      plot_cor_2(x, df_names = df_names, alpha = alpha,
-                 text_labels = text_labels, 
-                 col_palette = col_palette, 
-                 method      = method)
+      plot_cor_pair(x, 
+                    df_names = df_names, 
+                    alpha = alpha,
+                    text_labels = text_labels, 
+                    col_palette = col_palette, 
+                    method      = method)
     }
     if(type$input_type == "grouped"){
-      plot_cor_3(x, df_names = df_names,
-                 text_labels = text_labels, 
-                 col_palette = col_palette, 
-                 method      = method, 
-                 plot_type   = plot_type)
+      plot_cor_grouped(x, 
+                       df_names = df_names,
+                       text_labels = text_labels, 
+                       col_palette = col_palette, 
+                       method      = method, 
+                       plot_type   = plot_type)
     }
   }
   

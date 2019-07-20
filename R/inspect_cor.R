@@ -1,15 +1,16 @@
 #' Summarise and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.
 #'
-#' @param df1 A data frame
+#' @param df1 A data frame. 
 #' @param df2 An optional second data frame for comparing correlation 
 #' coefficients.  Defaults to \code{NULL}.
-#' @param method a character string indicating which correlation coefficient is to be used for the test. 
-#' One of "pearson", "kendall", or "spearman", can be abbreviated.
+#' @param method a character string indicating which type of correlation coefficient to use, one 
+#' of "pearson", "kendall", or "spearman", which can be abbreviated.
 #' @param alpha Alpha level for correlation confidence intervals.  Defaults to 0.05.
-#' @param with_col Character vector of columns to calculate correlations with.  When set to 
+#' @param with_col Character vector of column names to calculate correlations with.  When set to 
 #' the default, \code{NULL}, all pairs of correlations are returned.
 #' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
+#' 
 #' @return A tibble summarising and comparing the correlations for each numeric column 
 #' in one or a pair of data frames.
 #' @details When only \code{df1} is specified, a tibble is returned which 
@@ -21,6 +22,9 @@
 #'   \item \code{p_value} p-value associated with the null hypothesis of 0 correlation, small values 
 #'   indicate evidence that the true correlation is not equal to 0.
 #' }
+#' If `df1` has class `grouped_df`, then correlations will be calculated within the grouping levels 
+#' and the tibble returned will have an additional column corresponding to the group labels.
+#' 
 #' When both \code{df1} and \code{df2} are specified, the tibble returned performs a comparison of the 
 #' correlation coefficients across the dataframes.
 #' \itemize{
@@ -37,12 +41,18 @@
 #' data("starwars", package = "dplyr")
 #' # correlations in numeric columns
 #' inspect_cor(starwars)
-#' 
 #' # only show correlations with 'mass' column
 #' inspect_cor(starwars, with_col = "mass")
-#' 
 #' # compare correlations with a different data frame
 #' inspect_cor(starwars, starwars[1:10, ])
+#' 
+#' # NOT RUN - change in correlation over time
+#' # library(dplyr)
+#' # tech_grp <- tech %>% 
+#' #         group_by(year) %>%
+#' #         inspect_cor()
+#' # tech_grp %>% show_plot()     
+#' 
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc

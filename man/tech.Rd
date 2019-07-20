@@ -6,7 +6,7 @@
 \title{Tech stocks closing prices}
 \format{A \code{dataframe} with 3158 rows and 6 columns.}
 \source{
-Data gethered using the \href{https://github.com/joshuaulrich/quantmod}{quantmod}
+Data gathered using the \href{https://github.com/joshuaulrich/quantmod}{quantmod}
 package.
 }
 \usage{
@@ -18,10 +18,12 @@ Apple and IBM between 2007 and 2019.
 }
 \examples{
 data(tech)
-# change in correlation over time
-tech \%>\%
-  group_by(year) \%>\%
-  inspect_cor() \%>\%
-  show_plot()
+head(tech)
+# NOT RUN - change in correlation over time
+# library(dplyr)
+# tech_grp <- tech \%>\% 
+#         group_by(year) \%>\%
+#         inspect_cor()
+# tech_grp \%>\% show_plot()    
 }
 \keyword{datasets}

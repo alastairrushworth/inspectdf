@@ -1,3 +1,4 @@
+library(vdiffr)
 context("inspect_cor with single dataframe")
 
 # load in some example data
@@ -67,5 +68,9 @@ test_that("filter & inspect_cor", {
   expect_equal(attr(y, "method"), "pearson")
 })
 
-
+test_that("Single df correlation plots work", {
+  expect_doppelganger("Inspect-cor-starwars", starwars %>% inspect_cor %>% show_plot)
+  expect_doppelganger("Inspect-cor-storms",   storms %>% inspect_cor %>% show_plot)
+  expect_doppelganger("Inspect-cor-storms_alpha", storms %>% inspect_cor %>% show_plot(alpha = 0.1))
+})
 
