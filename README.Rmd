@@ -38,7 +38,7 @@ devtools::install_github("alastairrushworth/inspectdf")
 ```
 
 To install the CRAN version of the package, use
-```{r, echo = FALSE, eval = FALSE}
+```{r, eval = FALSE}
 install.packages("inspectdf")
 ```
 
