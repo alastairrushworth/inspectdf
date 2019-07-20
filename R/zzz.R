@@ -14,6 +14,7 @@
                              "cname", "first_num", "new_level_key", "zs", "dfn", 
                              "cnt", "col_names", "white_labs", "black_labs", 
                              "cls", "alpha", "jsd", "significant", "bar_width", 
-                             "corr_1", "corr_2", "data_frame_n", "col_vec", "size"))
+                             "corr_1", "corr_2", "data_frame_n", "col_vec", "size", 
+                             "df_cat_fact"))
   invisible()
 }

@@ -31,6 +31,8 @@ Default is \code{TRUE}.}
  - `3`: [rainbox theme](https://www.color-hex.com/color-palette/79261)
  - `4`: [mario theme](https://www.color-hex.com/color-palette/78663)
  - `5`: [pokemon theme](https://www.color-hex.com/color-palette/78664)}
+
+\item{plot_type}{String determining the type of plot to show.  Defaults to `"bar"`.}
 }
 \description{
 Visualise summaries and comparisons of one or two dataframes.

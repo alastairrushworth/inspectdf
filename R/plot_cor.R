@@ -1,3 +1,4 @@
+#' @importFrom ggfittext geom_bar_text
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 coord_flip
 #' @importFrom ggplot2 element_blank
@@ -13,7 +14,7 @@
 #' @importFrom ggplot2 theme
 #' @importFrom ggplot2 theme_bw
 
-plot_cor_1 <- function(out, alpha, df_names, text_labels, col_palette, method){
+plot_cor_single <- function(out, alpha, df_names, text_labels, col_palette, method){
   
   # xlabels
   mth_ind <- grep(paste0("^", method), c("pearson", "kendall", "spearman"), ignore.case = TRUE)
@@ -48,7 +49,7 @@ plot_cor_1 <- function(out, alpha, df_names, text_labels, col_palette, method){
 }
 
 
-plot_cor_2 <- function(out, alpha, df_names, text_labels, col_palette, method){
+plot_cor_pair <- function(out, alpha, df_names, text_labels, col_palette, method){
   # xlabels
   mth_ind <- grep(tolower(paste0("^", method)), c("pearson", "kendal", "spearman"))
   xlab    <- c("Pearson's correlation", 
@@ -103,23 +104,7 @@ plot_cor_2 <- function(out, alpha, df_names, text_labels, col_palette, method){
   print(plt)
 }
 
-# > new_out
-# # A tibble: 63 x 5
-# corr   p_value pair                   data_frame data_frame_n
-# <dbl>     <dbl> <fct>                  <fct>             <int>
-#   1  0.244    9.31e-36 pressure & long        -1                    1
-# 2 -0.212    2.98e-27 pressure & month       -1                    1
-# 3 -0.198    7.59e-24 pressure & year        -1                    1
-# 4 -0.192    1.88e-22 pressure & wind        -1                    1
-# 5  0.0341   8.55e- 2 pressure & hour        -1                    1
-# 6  0.0288   1.46e- 1 pressure & day         -1                    1
-# 7  0.00199  9.20e- 1 pressure & lat         -1                    1
-# 8 NA       NA        pressure & ts_diameter -1                    1
-# 9 NA       NA        pressure & hu_diameter -1                    1
-# 10 -0.695    0.       pressure & wind        0                     2
-
-
-plot_cor_3 <- function(out, df_names, text_labels, col_palette, method, 
+plot_cor_grouped <- function(out, df_names, text_labels, col_palette, method, 
                        plot_type){
   # group variable name
   group_name <- colnames(out)[1]
@@ -149,19 +134,14 @@ plot_cor_3 <- function(out, df_names, text_labels, col_palette, method,
       ggplot(aes(x = data_frame, y = corr, 
                  colour = pair, group = pair)) +
       geom_blank() + theme_bw() + 
+      geom_hline(yintercept = 0, alpha = 0.5, linetype = "dashed") + 
       theme(panel.border = element_blank(), 
-            panel.grid.major = element_blank()) + 
-      geom_line(size = 1.5) + 
-      scale_colour_manual(name = "Data frame", values = bcols) +
-      guides(colour = FALSE) + 
+            panel.grid.major = element_blank(), 
+            axis.text.x = element_text(angle = 45)) + 
+      geom_line(size = 1.5, alpha = 0.65) + 
+      geom_point(size = 2) + 
+      scale_colour_manual(name = "Pair", values = bcols) +
       labs(y = "Correlation", x = group_name)
-    plt + 
-      geom_text(aes(x = data_frame, y = corr, 
-                    label = pair, colour = pair), 
-                data = yloc_lab, inherit.aes = FALSE, 
-                hjust = "left", size = 3, nudge_x = 0.1) +
-      # scale_colour_manual(name = "Data frame", values = bcols) +
-      scale_x_discrete(drop = FALSE)
   }
   if(plot_type == "bar"){
     n_df  <- length(unique(new_out$data_frame))
@@ -169,8 +149,12 @@ plot_cor_3 <- function(out, df_names, text_labels, col_palette, method,
     bcols <- user_colours(n_df, col_palette)
     plt <- new_out %>%
       mutate(pair = gsub("&", "\n&", pair)) %>%
-      ggplot(aes(x = pair, y = corr, fill = data_frame, group = data_frame)) +
-      geom_blank() + theme_bw() +
+      ggplot(aes(x = pair, y = corr, fill = data_frame, 
+                 group = data_frame, label = data_frame)) +
+      geom_blank() + theme_bw() + 
+      geom_hline(yintercept = 0, alpha = 0.5, linetype = "dashed") + 
+      geom_hline(yintercept = 1, alpha = 0.3, linetype = "dashed") + 
+      geom_hline(yintercept = -1, alpha = 0.3, linetype = "dashed") + 
       theme(panel.border = element_blank(), 
             panel.grid.major = element_blank(), 
             axis.text.x = element_text(angle = 45)) +
@@ -178,6 +162,16 @@ plot_cor_3 <- function(out, df_names, text_labels, col_palette, method,
       scale_fill_manual(name = "Data frame", values = bcols) +
       guides(fill = FALSE) + 
       labs(y = "Correlation", x = "")
+    if(text_labels){
+      plt <- plt + geom_bar_text(position = 'dodge', 
+                                 color = "white",
+                                 stat = 'identity',
+                                 angle = 90,
+                                 grow = TRUE, 
+                                 reflow = TRUE, 
+                                 place = "top", 
+                                 min.size = 1)
+    }
   }
   print(plt)
 }

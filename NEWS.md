@@ -3,13 +3,14 @@
 
 #### `inspectdf` 0.0.3.9000
 
+  - Added `tech` dataset.
   - Fix for text annotation of `inspect_cat()` plots when labels are
-    empty strings. By default ‘""’ will be shown. Thanks to [Michael
+    empty strings. By default `""` will be shown. Thanks to [Michael
     Swenson](https://github.com/mwswenson) for the
     [report](https://github.com/alastairrushworth/inspectdf/issues/12)
   - `inspect_cor(method = ...)` argument added. Options for `pearson`,
     `spearman` and `kendall`.
-  - Check for duplicate factor labels in `inspect_cat()` &
+  - Fix error when duplicate factor labels present in `inspect_cat()` &
     `inspect_imb()`.
 
 #### `inspectdf` 0.0.3
@@ -20,7 +21,7 @@
     Thanks to [David Wilkins](https://github.com/wilkox) for the
     [PR](https://github.com/alastairrushworth/inspectdf/pull/9).
   - 6 different color palettes supported in `show_plot()` via
-    `col_palette` argument. Colorblind friendy option specified via
+    `col_palette` argument. Colorblind friendly option specified via
     `show_plot(col_palette = 1)` - thanks to [Richard
     Careaga](https://github.com/technocrat) [for the
     suggestion](https://github.com/alastairrushworth/inspectdf/pull/3).
