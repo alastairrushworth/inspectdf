@@ -123,7 +123,7 @@ inspect_num <- function(df1, df2 = NULL,
       # add feature names to the list
       names(out$hist) <-  as.character(out$col_name)
       # attach attributes required for plotting
-      attr(out, "type") <- list("num", 1)
+      attr(out, "type") <- list(method = "num", 1)
       attr(out, "df_names") <- df_names
     } else {
       out <- tibble(col_name = character(), min = numeric(), 
@@ -149,7 +149,7 @@ inspect_num <- function(df1, df2 = NULL,
       mutate(fisher_p = fisher(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       select(col_name, hist_1 = hist.x, hist_2 = hist.y,  jsd, fisher_p)
     # attach attributes required for plotting
-    attr(out, "type") <- list("num", 2)
+    attr(out, "type") <- list(method = "num", 2)
     attr(out, "df_names") <- df_names
   }
   if(show_plot) plot_deprecated(out)

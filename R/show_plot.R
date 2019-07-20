@@ -14,6 +14,7 @@
 #'  - `3`: [rainbox theme](https://www.color-hex.com/color-palette/79261)
 #'  - `4`: [mario theme](https://www.color-hex.com/color-palette/78663)
 #'  - `5`: [pokemon theme](https://www.color-hex.com/color-palette/78664)
+#' @param plot_type String determining the type of plot to show.  Defaults to `"bar"`.  
 #' @param plot_layout Vector specifying the number of rows and columns 
 #' in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
 #' \code{plot_layout = c(3, 2)}.
@@ -53,12 +54,12 @@
 
 show_plot <- function(x, text_labels = TRUE, alpha = 0.05, 
                       high_cardinality = 0, plot_layout = NULL,
-                      col_palette = 0){
+                      col_palette = 0, plot_type = "bar"){
   type     <- attr(x, "type")
   df_names <- attr(x, "df_names")
   
   # categorical plots
-  if(type[[1]] == "cat"){
+  if(type$method == "cat"){
       plot_cat(x, df_names = df_names,
                text_labels = text_labels, 
                high_cardinality = high_cardinality, 
@@ -66,24 +67,36 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   }
   
   # correlation plots
-  if(type[[1]] == "cor"){
+  if(type$method == "cor"){
     method   <- attr(x, "method")
-    if(type[[2]] == 1){
+    if(type$input_type == "single"){
       x$pair   <- attr(x, "pair")
-      plot_cor_1(x, df_names = df_names, alpha = alpha,
-                 text_labels = text_labels, 
-                 col_palette = col_palette,
-                 method      = method)
-    } else {
-      plot_cor_2(x, df_names = df_names, alpha = alpha,
-                 text_labels = text_labels, 
-                 col_palette = col_palette, 
-                 method      = method)
+      plot_cor_single(x, 
+                      df_names = df_names, alpha = alpha,
+                      text_labels = text_labels, 
+                      col_palette = col_palette,
+                      method      = method)
+    }
+    if(type$input_type == "pair"){
+      plot_cor_pair(x, 
+                    df_names = df_names, 
+                    alpha = alpha,
+                    text_labels = text_labels, 
+                    col_palette = col_palette, 
+                    method      = method)
+    }
+    if(type$input_type == "grouped"){
+      plot_cor_grouped(x, 
+                       df_names = df_names,
+                       text_labels = text_labels, 
+                       col_palette = col_palette, 
+                       method      = method, 
+                       plot_type   = plot_type)
     }
   }
   
   # imbalance plots
-  if(type[[1]] == "imb"){
+  if(type$method == "imb"){
     if(type[[2]] == 1){
       plot_imb_1(x, df_names = df_names,
                  text_labels = text_labels, 
@@ -96,7 +109,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   }
   
   # memory plots
-  if(type[[1]] == "mem"){
+  if(type$method == "mem"){
     sizes <- attr(x, "sizes")
     if(type[[2]] == 1){
       plot_mem_1(x, df_names = df_names, 
@@ -112,7 +125,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   }
   
   # missingness plots
-  if(type[[1]] == "na"){
+  if(type$method == "na"){
     if(type[[2]] == 1){
       plot_na_1(x, df_names = df_names,
                 text_labels = text_labels, 
@@ -125,7 +138,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   }
   
   # missingness plots
-  if(type[[1]] == "num"){
+  if(type$method == "num"){
     if(type[[2]] == 1){
       plot_num_1(x, df_names = df_names,
                  text_labels = text_labels, 
@@ -138,7 +151,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   }
   
   # types plots
-  if(type[[1]] == "types"){
+  if(type$method == "types"){
     if(type[[2]] == 1){
       plot_types_1(x, df_names = df_names,
                    text_labels = text_labels, 
