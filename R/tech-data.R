@@ -21,3 +21,4 @@
 #'   group_by(year) %>%
 #'   inspect_cor() %>%
 #'   show_plot()
+"tech"
