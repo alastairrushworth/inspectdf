@@ -132,6 +132,7 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
     annts <- lvl_df2 %>% mutate(col_num = as.integer(col_name))
     lvl_df2$col_vec <- factor(as.integer(annts$colvalstretch < 0.7), 
                                  levels = c(1, 0))
+    lvl_df2$value[nchar(lvl_df2$value) == 0] <- '""'
     
     plt <- plt + 
       suppressWarnings( 
