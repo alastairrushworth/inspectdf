@@ -8,15 +8,15 @@ inspect_cor(df1, df2 = NULL, method = "pearson", with_col = NULL,
   alpha = 0.05, show_plot = FALSE)
 }
 \arguments{
-\item{df1}{A data frame}
+\item{df1}{A data frame.}
 
 \item{df2}{An optional second data frame for comparing correlation 
 coefficients.  Defaults to \code{NULL}.}
 
-\item{method}{a character string indicating which correlation coefficient is to be used for the test. 
-One of "pearson", "kendall", or "spearman", can be abbreviated.}
+\item{method}{a character string indicating which type of correlation coefficient to use, one 
+of "pearson", "kendall", or "spearman", which can be abbreviated.}
 
-\item{with_col}{Character vector of columns to calculate correlations with.  When set to 
+\item{with_col}{Character vector of column names to calculate correlations with.  When set to 
 the default, \code{NULL}, all pairs of correlations are returned.}
 
 \item{alpha}{Alpha level for correlation confidence intervals.  Defaults to 0.05.}
@@ -41,6 +41,9 @@ contains correlation coefficients
   \item \code{p_value} p-value associated with the null hypothesis of 0 correlation, small values 
   indicate evidence that the true correlation is not equal to 0.
 }
+If `df1` has class `grouped_df`, then correlations will be calculated within the grouping levels 
+and the tibble returned will have an additional column corresponding to the group labels.
+
 When both \code{df1} and \code{df2} are specified, the tibble returned performs a comparison of the 
 correlation coefficients across the dataframes.
 \itemize{
@@ -57,10 +60,16 @@ correlation coefficients across the dataframes.
 data("starwars", package = "dplyr")
 # correlations in numeric columns
 inspect_cor(starwars)
-
 # only show correlations with 'mass' column
 inspect_cor(starwars, with_col = "mass")
-
 # compare correlations with a different data frame
 inspect_cor(starwars, starwars[1:10, ])
+
+# NOT RUN - change in correlation over time
+# library(dplyr)
+# tech_grp <- tech \%>\% 
+#         group_by(year) \%>\%
+#         inspect_cor()
+# tech_grp \%>\% show_plot()     
+
 }

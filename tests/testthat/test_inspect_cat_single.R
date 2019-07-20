@@ -1,4 +1,4 @@
-context("inspect_cat")
+context("inspect_cat single dataframe")
 
 # load in some example data
 data("starwars", package = "dplyr")
@@ -21,23 +21,6 @@ test_that("Output is a data frame", {
   expect_is(inspect_cat(x), "data.frame")
 })
 
-test_that("Output with two identical df inputs data frame", {
-  expect_is(inspect_cat(mtcars, mtcars), "data.frame")
-  expect_is(inspect_cat(band_instruments, band_instruments), "data.frame")
-  expect_is(inspect_cat(starwars, starwars), "data.frame")
-  expect_is(inspect_cat(storms, storms), "data.frame")
-  expect_is(inspect_cat(airquality, airquality), "data.frame")
-})
-
-test_that("Output with two different inputs data frame", {
-  set.seed(10)
-  expect_is(inspect_cat(mtcars, mtcars %>% dplyr::sample_n(100, replace = T)), "data.frame")
-  expect_is(inspect_cat(band_instruments, band_instruments %>% dplyr::sample_n(100, replace = T)) , "data.frame")
-  expect_is(inspect_cat(starwars, starwars %>% dplyr::sample_n(100, replace = T)), "data.frame")
-  expect_is(inspect_cat(storms, storms %>% dplyr::sample_n(100, replace = T)), "data.frame")
-  expect_is(inspect_cat(airquality, airquality%>% dplyr::sample_n(100, replace = T)), "data.frame")
-})
-
 test_that("Output with different columns", {
   set.seed(10)
   expect_is(inspect_cat(mtcars %>% dplyr::select(-1), mtcars %>% dplyr::select(-2)), "data.frame")
@@ -50,5 +33,7 @@ test_that("Output with different columns", {
 test_that("Majority NA in standard dataframes does not throw error", {
   expect_is(inspect_cat(data.frame(misst = c("a", "b", NA, NA))), "data.frame")
 })
+
+
 
 

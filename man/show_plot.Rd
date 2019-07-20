@@ -5,7 +5,7 @@
 \title{Visualise summaries and comparisons of one or two dataframes.}
 \usage{
 show_plot(x, text_labels = TRUE, alpha = 0.05, high_cardinality = 0,
-  plot_layout = NULL, col_palette = 0)
+  plot_layout = NULL, col_palette = 0, plot_type = "bar")
 }
 \arguments{
 \item{x}{Dataframe resulting from a call to an `inspect_` function.}
@@ -31,6 +31,8 @@ Default is \code{TRUE}.}
  - `3`: [rainbox theme](https://www.color-hex.com/color-palette/79261)
  - `4`: [mario theme](https://www.color-hex.com/color-palette/78663)
  - `5`: [pokemon theme](https://www.color-hex.com/color-palette/78664)}
+
+\item{plot_type}{String determining the type of plot to show.  Defaults to `"bar"`.}
 }
 \description{
 Visualise summaries and comparisons of one or two dataframes.

@@ -10,6 +10,7 @@ Description: A collection of utilities for columnwise summary, comparison and vi
 Language: en_GB
 LinkingTo: Rcpp
 LazyLoad: yes
+LazyData: true
 ByteCompile: yes
 Encoding: UTF-8
 Depends: R (>= 3.1.0)

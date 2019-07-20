@@ -1,9 +1,11 @@
+#' @importFrom ggfittext geom_bar_text
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 coord_flip
 #' @importFrom ggplot2 element_blank
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 geom_blank
 #' @importFrom ggplot2 geom_hline
+#' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 geom_rect
 #' @importFrom ggplot2 geom_segment
 #' @importFrom ggplot2 ggplot
@@ -12,7 +14,7 @@
 #' @importFrom ggplot2 theme
 #' @importFrom ggplot2 theme_bw
 
-plot_cor_1 <- function(out, alpha, df_names, text_labels, col_palette, method){
+plot_cor_single <- function(out, alpha, df_names, text_labels, col_palette, method){
   
   # xlabels
   mth_ind <- grep(paste0("^", method), c("pearson", "kendall", "spearman"), ignore.case = TRUE)
@@ -47,7 +49,7 @@ plot_cor_1 <- function(out, alpha, df_names, text_labels, col_palette, method){
 }
 
 
-plot_cor_2 <- function(out, alpha, df_names, text_labels, col_palette, method){
+plot_cor_pair <- function(out, alpha, df_names, text_labels, col_palette, method){
   # xlabels
   mth_ind <- grep(tolower(paste0("^", method)), c("pearson", "kendal", "spearman"))
   xlab    <- c("Pearson's correlation", 
@@ -99,6 +101,78 @@ plot_cor_2 <- function(out, alpha, df_names, text_labels, col_palette, method){
                         " and ", df_names$df2)) +
     scale_fill_manual(name = "Data frame", values = bcols)
   # print plot
+  print(plt)
+}
+
+plot_cor_grouped <- function(out, df_names, text_labels, col_palette, method, 
+                       plot_type){
+  # group variable name
+  group_name <- colnames(out)[1]
+  # if group column is not factor, coerce to one
+  if(sapply(out, class)[1] != "factor"){
+    out[group_name] <- as.factor(unlist(out[group_name]))
+  }
+  new_out <- out %>%
+    mutate(pair = paste(col_1, col_2, sep = " & ")) %>%
+    mutate(pair = factor(pair, levels = rev(unique(as.character(pair))))) %>%
+    select(-col_1, -col_2, -lower, -upper) %>%
+    mutate(data_frame =  .[[1]], data_frame_n = as.integer(as.factor(data_frame))) %>% 
+    select(-1)
+  if(plot_type == "line"){
+    n_df  <- length(unique(new_out$pair))
+    vcols <- c("gray50", user_colours(9, col_palette)[9])
+    bcols <- rep(user_colours(n_df, col_palette), 2)
+    # get the ylocations of the last grouping val
+    yloc_lab <- new_out %>% 
+      filter(data_frame == levels(data_frame)[length(levels(data_frame))]) %>%
+      mutate(pair = gsub("&", "&\n", pair)) %>%
+      select(corr, pair, data_frame) %>%
+      mutate()
+    # add a blank level to data_frame to extend axis to give space to labels
+    levels(new_out$data_frame) <- c(levels(new_out$data_frame),'')
+    plt <- new_out %>%
+      ggplot(aes(x = data_frame, y = corr, 
+                 colour = pair, group = pair)) +
+      geom_blank() + theme_bw() + 
+      geom_hline(yintercept = 0, alpha = 0.5, linetype = "dashed") + 
+      theme(panel.border = element_blank(), 
+            panel.grid.major = element_blank(), 
+            axis.text.x = element_text(angle = 45)) + 
+      geom_line(size = 1.5, alpha = 0.65) + 
+      geom_point(size = 2) + 
+      scale_colour_manual(name = "Pair", values = bcols) +
+      labs(y = "Correlation", x = group_name)
+  }
+  if(plot_type == "bar"){
+    n_df  <- length(unique(new_out$data_frame))
+    vcols <- c("gray50", user_colours(9, col_palette)[9])
+    bcols <- user_colours(n_df, col_palette)
+    plt <- new_out %>%
+      mutate(pair = gsub("&", "\n&", pair)) %>%
+      ggplot(aes(x = pair, y = corr, fill = data_frame, 
+                 group = data_frame, label = data_frame)) +
+      geom_blank() + theme_bw() + 
+      geom_hline(yintercept = 0, alpha = 0.5, linetype = "dashed") + 
+      geom_hline(yintercept = 1, alpha = 0.3, linetype = "dashed") + 
+      geom_hline(yintercept = -1, alpha = 0.3, linetype = "dashed") + 
+      theme(panel.border = element_blank(), 
+            panel.grid.major = element_blank(), 
+            axis.text.x = element_text(angle = 45)) +
+      geom_bar(stat = "identity", position = "dodge") +
+      scale_fill_manual(name = "Data frame", values = bcols) +
+      guides(fill = FALSE) + 
+      labs(y = "Correlation", x = "")
+    if(text_labels){
+      plt <- plt + geom_bar_text(position = 'dodge', 
+                                 color = "white",
+                                 stat = 'identity',
+                                 angle = 90,
+                                 grow = TRUE, 
+                                 reflow = TRUE, 
+                                 place = "top", 
+                                 min.size = 1)
+    }
+  }
   print(plt)
 }
 
