@@ -50,11 +50,11 @@
 
 inspect_na <- function(df1, df2 = NULL, show_plot = FALSE){
   # perform basic column check on dataframe input
-  check_df_cols(df1)
+  input_type <- check_df_cols(df1, df2)
   # capture the data frame names
   df_names <- get_df_names()
   # if ony one df input then inspect na content
-  if(is.null(df2)){
+  if(input_type == "single"){
       n_cols <- ncol(df1)
       names_vec <- colnames(df1)
       # calculate columnwise missingness
@@ -69,11 +69,8 @@ inspect_na <- function(df1, df2 = NULL, show_plot = FALSE){
         mutate(pcnt = 100 * n / nrow(df1)) %>%
         select(col_name = names, cnt = n, pcnt) %>%
         arrange(desc(pcnt))
-      
-      # attach attributes required for plotting
-      attr(out, "type") <- list(method = "na", 1)
-      attr(out, "df_names") <- df_names
-  } else {
+  }
+  if(input_type == "pair"){
     s1 <- inspect_na(df1) 
     s2 <- inspect_na(df2)
     out <- full_join(s1, s2, by = "col_name")
@@ -82,11 +79,12 @@ inspect_na <- function(df1, df2 = NULL, show_plot = FALSE){
                              n_1 = nrow(df1), 
                              n_2 = nrow(df2))
     colnames(out)[2:5] <- c("cnt_1", "pcnt_1", "cnt_2", "pcnt_2")
-    
-    # attach attributes required for plotting
-    attr(out, "type") <- list(method = "na", 2)
-    attr(out, "df_names") <- df_names
   }
+  if(input_type == "grouped"){
+    out <- apply_across_groups(df = df1, fn = inspect_na)
+  }
+  attr(out, "type")     <- list(method = "na", input_type = input_type)
+  attr(out, "df_names") <- df_names
   if(show_plot) plot_deprecated(out)
   return(out)
 }

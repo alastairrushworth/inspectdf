@@ -72,7 +72,8 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
     if(type$input_type == "single"){
       x$pair   <- attr(x, "pair")
       plot_cor_single(x, 
-                      df_names = df_names, alpha = alpha,
+                      df_names = df_names, 
+                      alpha = alpha,
                       text_labels = text_labels, 
                       col_palette = col_palette,
                       method      = method)
@@ -126,18 +127,26 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   
   # missingness plots
   if(type$method == "na"){
-    if(type[[2]] == 1){
-      plot_na_1(x, df_names = df_names,
-                text_labels = text_labels, 
-                col_palette = col_palette)
-    } else {
-      plot_na_2(x, df_names = df_names, alpha = alpha,
-                text_labels = text_labels, 
-                col_palette = col_palette)
+    if(type$input_type == "single"){
+      plot_na_single(x, df_names = df_names,
+                     text_labels = text_labels, 
+                     col_palette = col_palette)
+    }
+    if(type$input_type == "pair"){
+      plot_na_pair(x, df_names = df_names, 
+                   alpha = alpha,
+                   text_labels = text_labels, 
+                   col_palette = col_palette)
+    }
+    if(type$input_type == "grouped"){
+      plot_na_grouped(x, df_names = df_names,
+                      text_labels = text_labels, 
+                      col_palette = col_palette, 
+                      plot_type = plot_type)
     }
   }
   
-  # missingness plots
+  # numeric plots
   if(type$method == "num"){
     if(type[[2]] == 1){
       plot_num_1(x, df_names = df_names,

@@ -1,6 +1,6 @@
 #' @importFrom ggplot2 scale_color_discrete
 
-plot_na_1 <- function(df_plot, df_names, text_labels, col_palette){
+plot_na_single <- function(df_plot, df_names, text_labels, col_palette){
   # convert col_name to factor
   df_plot <- df_plot %>% 
     mutate(col_name = factor(col_name, levels = as.character(col_name)))
@@ -13,8 +13,8 @@ plot_na_1 <- function(df_plot, df_names, text_labels, col_palette){
                                 " have missing values"),
                   ylb = "% of column that is NA", 
                   rotate = TRUE, 
-                  col_palette = col_palette, 
-                  ylim_range = c(0, 1.01 * max(df_plot$pcnt)))
+                  col_palette = col_palette,
+                  ylim_range = c(0, max(df_plot$pcnt) + abs(diff(range(df_plot$pcnt, na.rm = T)))/100))
   # add text annotation to plot if requested
   if(text_labels){
     plt <- add_annotation_to_bars(x = df_plot$col_name, 
@@ -25,7 +25,7 @@ plot_na_1 <- function(df_plot, df_names, text_labels, col_palette){
   print(plt)
 }
 
-plot_na_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
+plot_na_pair <- function(df_plot, df_names, alpha, text_labels, col_palette){
   leg_text <- as.character(unlist(df_names))
   na_tab  <- df_plot
   df_plot <- df_plot %>% 
@@ -59,3 +59,16 @@ plot_na_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
   
   print(plt)
 }
+
+plot_na_grouped <- function(df_plot, df_names, text_labels, col_palette, plot_type){
+  # group variable name
+  group_name <- colnames(df_plot)[1]
+  plt <- plot_grouped(df = df_plot, value = "pcnt", 
+                      series = "col_name", group = group_name, 
+                      plot_type = plot_type, 
+                      col_palette = col_palette, 
+                      text_labels = text_labels)
+  print(plt)
+}
+
+
