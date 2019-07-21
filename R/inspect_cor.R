@@ -65,6 +65,7 @@
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
+#' @importFrom tidyr nest
 
 inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL, 
                         alpha = 0.05, show_plot = FALSE){
@@ -123,16 +124,8 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
                             n_1 = nrow(df1), n_2 = nrow(df2))
   }
   if(input_type == "grouped"){
-    # names of the groups
-    grp_nms <- attr(df1, "groups") %>% select(1)
-    cnm     <- colnames(grp_nms)[1]
-    out_nest <- df1 %>%
-      tidyr::nest()
-    out_list <- lapply(out_nest$data, inspect_cor, method = method, 
-                       with_col = with_col, alpha = alpha)
-    grp_nms <- data.frame(rep(unlist(grp_nms), each = nrow(out_list[[1]])))
-    colnames(grp_nms) <- cnm
-    out <- bind_cols(grp_nms, bind_rows(out_list)) %>% as_tibble()
+    out <- apply_across_groups(df = df1, fn = inspect_cor, 
+                               method = method, with_col = with_col, alpha = alpha)
   }
   attr(out, "type")     <- list(method = "cor", input_type = input_type)
   attr(out, "df_names") <- df_names

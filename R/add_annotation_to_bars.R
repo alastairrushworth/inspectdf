@@ -1,3 +1,4 @@
+#' @importFrom ggfittext geom_fit_text
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 aes_string
 #' @importFrom ggplot2 geom_bar
@@ -25,8 +26,6 @@ add_annotation_to_bars <- function(x, y, z, dodged = 0, plt, thresh = 0.07,
   z_grey[y >= (thresh * max(y, na.rm = T))] <- NA
   nudge <- abs(diff(range(y, na.rm = T))) / 80
   
-  
-  
   if(parse){
     # if percentage is exactly 0 or 100, then underline
     under_txt <- function(v){
@@ -37,32 +36,34 @@ add_annotation_to_bars <- function(x, y, z, dodged = 0, plt, thresh = 0.07,
     z[!is_under] <- gsub(" ", "~", z[!is_under]) 
   }
   # add a white series to the bigger bars
-  plt <- plt + ggfittext::geom_fit_text(aes(x = x, y = y - nudge, label = z_white, 
-                                            group = fill),
-                                 colour = "white",
-                                 angle = angle,
-                                 inherit.aes = inherit.aes,
-                                 na.rm = TRUE,
-                                 size = 12,
-                                 min.size = 6,
-                                 place = "bottom",
-                                 contrast = TRUE,
-                                 position = "dodge",
-                                 outside = TRUE)
+  plt <- plt + geom_fit_text(aes(x = x, y = y - nudge, 
+                                 label = z_white, 
+                                 group = fill),
+                             colour = "white",
+                             angle = angle,
+                             inherit.aes = inherit.aes,
+                             na.rm = TRUE,
+                             size = 12,
+                             min.size = 6,
+                             place = "bottom",
+                             contrast = TRUE,
+                             position = "dodge",
+                             outside = TRUE)
   
   # add a grey series to the smaller bars
-  plt <- plt + ggfittext::geom_fit_text(aes(x = x, y = y + nudge, label = z_grey, 
-                                            group = fill),
-                                 colour = "lightsteelblue4",
-                                 angle = angle,
-                                 inherit.aes = inherit.aes,
-                                 na.rm = TRUE,
-                                 size = 12,
-                                 min.size = 6,
-                                 place = "top",
-                                 contrast = TRUE,
-                                 position = "dodge",
-                                 outside = TRUE)
+  plt <- plt + geom_fit_text(aes(x = x, y = y + nudge, 
+                                 label = z_grey, 
+                                 group = fill),
+                             colour = "lightsteelblue4",
+                             angle = angle,
+                             inherit.aes = inherit.aes,
+                             na.rm = TRUE,
+                             size = 12,
+                             min.size = 6,
+                             place = "top",
+                             contrast = TRUE,
+                             position = "dodge",
+                             outside = TRUE)
 
   # return the plot
   return(plt)
