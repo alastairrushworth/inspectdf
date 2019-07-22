@@ -19,6 +19,9 @@
 #' in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
 #' \code{plot_layout = c(3, 2)}.
 #' Default is \code{TRUE}.
+#' @param label_thresh Minimum percentage frequency of category for a text label to be shown.
+#' Defaults to 0.1.  Smaller values will show potentially smaller labels, but at the expense of longer
+#' rendering time.
 #' @export
 #' @examples 
 #' # Load 'starwars' data
@@ -54,7 +57,7 @@
 
 show_plot <- function(x, text_labels = TRUE, alpha = 0.05, 
                       high_cardinality = 0, plot_layout = NULL,
-                      col_palette = 0, plot_type = "bar"){
+                      col_palette = 0, plot_type = "bar", label_thresh = 0.1){
   type     <- attr(x, "type")
   df_names <- attr(x, "df_names")
   
@@ -63,7 +66,8 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
       plot_cat(x, df_names = df_names,
                text_labels = text_labels, 
                high_cardinality = high_cardinality, 
-               col_palette = col_palette)
+               col_palette = col_palette, 
+               label_thresh = label_thresh)
   }
   
   # correlation plots
