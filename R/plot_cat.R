@@ -129,23 +129,52 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
          subtitle = bquote("Gray segments are missing values")) 
 
   if(text_labels){
-    lvl_df3 <- lvl_df2 %>%
-      filter(prop > 0.1)
+    lvl_df3 <- lvl_df2 
     annts <- lvl_df3 %>% 
       mutate(col_num = as.integer(col_name)) 
-    lvl_df3$col_vec <- factor(as.integer(annts$colvalstretch < 0.7), 
-                              levels = c(1, 0))
+    lvl_df3$col_vec <- factor(as.integer(annts$colvalstretch < 0.7), levels = c(1, 0))
     lvl_df3$value[nchar(lvl_df3$value) == 0] <- '""'
     
+    sum_small_cats <- function(lvldf, prop_thresh){
+      # make levels df as a list
+      lvldf_grp <- lvldf %>% group_by(col_name) %>% tidyr::nest()
+      lvldf_lst <- lvldf_grp$data
+      # loop over list elements, sum and reorder components
+      for(i in 1:length(lvldf_lst)){
+        lst_i <- lvldf_lst[[i]]
+        b1    <- lst_i %>% filter(prop < prop_thresh)
+        if(nrow(b1) > 0){
+          b1top <- b1 %>% slice(1)
+          b1top$prop[1]  <- sum(b1$prop, na.rm = T)
+          b1top$value[1] <- NA
+          # combine the summed part with the rest
+           lst_i <- lst_i %>% 
+            filter(prop >= prop_thresh) %>% 
+            bind_rows(b1top) %>%
+            arrange(value)
+          # if high card is in there, reposition to top
+          hc_i <- which(lst_i$col_vec == 0)
+          if(length(hc_i) > 0) lst_i <- rbind(lst_i[hc_i, ], lst_i[-hc_i, ])
+          lvldf_lst[[i]] <- lst_i
+        } else {
+          lvldf_lst[[i]] <- b1
+        }
+      }
+      lvldf_grp$data <- lvldf_lst
+      return(tidyr::unnest(lvldf_grp))
+    }
+    
+    lvl_df4 <- lvl_df3 %>% sum_small_cats(prop_thresh = 0.1)
+
     plt <- plt + 
       suppressWarnings( 
         ggfittext::geom_fit_text(
-          data = lvl_df3,
+          data = lvl_df4,
           aes(x = col_name,
               y = prop,
               label = value, 
               fill = new_level_key, 
-              colour = as.factor(col_vec)),
+              colour = col_vec),
           inherit.aes = FALSE,
           na.rm = TRUE,
           position = "stack",
