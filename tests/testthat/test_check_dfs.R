@@ -26,4 +26,7 @@ test_that("check_dfs returns correct input type", {
   expect_equal(check_df_cols(df1 = grouped_example), "grouped")
   expect_equal(check_df_cols(df1 = starwars, df2 = starwars), "pair")
   expect_equal(check_df_cols(df1 = starwars, df2 = NULL), "single")
+  expect_error(check_df_cols(df1 = grouped_example, 
+                             df2 = grouped_example))
 })
+
