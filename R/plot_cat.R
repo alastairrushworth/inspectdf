@@ -129,15 +129,18 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
          subtitle = bquote("Gray segments are missing values")) 
 
   if(text_labels){
-    annts <- lvl_df2 %>% mutate(col_num = as.integer(col_name))
-    lvl_df2$col_vec <- factor(as.integer(annts$colvalstretch < 0.7), 
-                                 levels = c(1, 0))
-    lvl_df2$value[nchar(lvl_df2$value) == 0] <- '""'
+    lvl_df3 <- lvl_df2 %>%
+      filter(prop > 0.1)
+    annts <- lvl_df3 %>% 
+      mutate(col_num = as.integer(col_name)) 
+    lvl_df3$col_vec <- factor(as.integer(annts$colvalstretch < 0.7), 
+                              levels = c(1, 0))
+    lvl_df3$value[nchar(lvl_df3$value) == 0] <- '""'
     
     plt <- plt + 
       suppressWarnings( 
         ggfittext::geom_fit_text(
-          data = lvl_df2,
+          data = lvl_df3,
           aes(x = col_name,
               y = prop,
               label = value, 
