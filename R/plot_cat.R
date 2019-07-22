@@ -7,7 +7,7 @@
 #' @importFrom ggplot2 scale_colour_manual
 plot_cat <- function(levels_df, df_names, text_labels, high_cardinality, 
                      cols = c("tomato3", "gray65", "darkmagenta"), 
-                     col_palette){
+                     col_palette, label_thresh){
   # min_freq label
   min_freq_label <- paste0("High cardinality")
 
@@ -157,14 +157,14 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
           if(length(hc_i) > 0) lst_i <- rbind(lst_i[hc_i, ], lst_i[-hc_i, ])
           lvldf_lst[[i]] <- lst_i
         } else {
-          lvldf_lst[[i]] <- b1
+          lvldf_lst[[i]] <- lst_i
         }
       }
       lvldf_grp$data <- lvldf_lst
       return(tidyr::unnest(lvldf_grp))
     }
     
-    lvl_df4 <- lvl_df3 %>% sum_small_cats(prop_thresh = 0.1)
+    lvl_df4 <- lvl_df3 %>% sum_small_cats(prop_thresh = label_thresh)
 
     plt <- plt + 
       suppressWarnings( 

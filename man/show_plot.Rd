@@ -5,7 +5,8 @@
 \title{Visualise summaries and comparisons of one or two dataframes.}
 \usage{
 show_plot(x, text_labels = TRUE, alpha = 0.05, high_cardinality = 0,
-  plot_layout = NULL, col_palette = 0, plot_type = "bar")
+  plot_layout = NULL, col_palette = 0, plot_type = "bar",
+  label_thresh)
 }
 \arguments{
 \item{x}{Dataframe resulting from a call to an `inspect_` function.}
@@ -33,6 +34,10 @@ Default is \code{TRUE}.}
  - `5`: [pokemon theme](https://www.color-hex.com/color-palette/78664)}
 
 \item{plot_type}{String determining the type of plot to show.  Defaults to `"bar"`.}
+
+\item{label_thresh}{Minimum percentage frequency of category for a text label to be shown.
+Defaults to 0.1.  Smaller values will show potentially smaller labels, but at the expense of longer
+rendering time.}
 }
 \description{
 Visualise summaries and comparisons of one or two dataframes.
