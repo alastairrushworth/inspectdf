@@ -26,7 +26,7 @@ plot_imb_1 <- function(df_plot, df_names, text_labels, col_palette){
       parse = TRUE)
   }
   # return plot
-  print(plt)
+  plt
 }
 
 plot_imb_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
@@ -79,5 +79,5 @@ plot_imb_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
     suppressWarnings()
   
   # return the plot 
-  print(plt)
+  plt
 }

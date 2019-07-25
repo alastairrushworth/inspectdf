@@ -27,9 +27,8 @@ plot_types_1 <- function(df_plot, df_names, text_labels, col_palette){
                                   z = df_plot$cnt, 
                                   plt = plt, thresh = 0.1)
   }
-
   # print plot
-  print(plt)
+  plt
 }
 
 plot_types_2 <- function(df_plot, df_names, text_labels, col_palette){
@@ -82,5 +81,5 @@ plot_types_2 <- function(df_plot, df_names, text_labels, col_palette){
                       values = user_colours(3, col_palette)[c(1, 3)])
   
   # return plot
-  print(plt)
+  plt
 }

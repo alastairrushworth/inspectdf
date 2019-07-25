@@ -31,7 +31,7 @@ plot_mem_1 <- function(df_plot, df_names, sizes, text_labels, col_palette){
                                   plt = plt, thresh = 0.2)
   }
   # print plot
-  print(plt)
+  plt
 }
 
 
@@ -85,5 +85,5 @@ plot_mem_2 <- function(df_plot, df_names, sizes, text_labels, col_palette){
                                   dodged = 1, fill = z_tall$df_input)
   }
   
-  print(plt)
+  plt
 }

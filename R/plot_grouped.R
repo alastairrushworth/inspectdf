@@ -1,5 +1,5 @@
 plot_grouped <- function(df, value, series, group, plot_type, 
-                         col_palette, text_labels){
+                         col_palette, text_labels, ylab){
   if(plot_type == "line"){
     n_df  <- length(unlist(unique(df[series])))
     vcols <- c("gray50", user_colours(9, col_palette)[9])
@@ -15,7 +15,7 @@ plot_grouped <- function(df, value, series, group, plot_type,
       geom_line(size = 1.5, alpha = 0.65) + 
       geom_point(size = 2) + 
       scale_colour_manual(name = "Pair", values = bcols) +
-      labs(y = "Correlation", x = group)
+      labs(y = ylab, x = group)
   } 
   if(plot_type == "bar"){
     n_df  <- length(unlist(unique(df[group])))
@@ -31,16 +31,16 @@ plot_grouped <- function(df, value, series, group, plot_type,
       geom_bar(stat = "identity", position = "dodge") +
       scale_fill_manual(values = bcols) +
       guides(fill = FALSE) + 
-      labs(y = "Correlation", x = "")
+      labs(y = ylab, x = "")
     if(text_labels){
-      plt <- plt + geom_bar_text(position = 'dodge', 
+      plt <- plt + geom_bar_text(position = 'dodge',
                                  color = "white",
                                  stat = 'identity',
                                  angle = 90,
-                                 # grow = TRUE, 
-                                 # reflow = TRUE, 
-                                 place = "top", 
-                                 min.size = 1)
+                                 grow = TRUE,
+                                 reflow = TRUE,
+                                 place = "top",
+                                 min.size = 3)
     }
   }
   return(plt)
