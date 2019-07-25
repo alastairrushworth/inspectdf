@@ -63,11 +63,11 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   
   # categorical plots
   if(type$method == "cat"){
-      plot_cat(x, df_names = df_names,
-               text_labels = text_labels, 
-               high_cardinality = high_cardinality, 
-               col_palette = col_palette, 
-               label_thresh = label_thresh)
+    plt <- plot_cat(x, df_names = df_names,
+                    text_labels = text_labels, 
+                    high_cardinality = high_cardinality, 
+                    col_palette = col_palette, 
+                    label_thresh = label_thresh)
   }
   
   # correlation plots
@@ -75,41 +75,41 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
     method   <- attr(x, "method")
     if(type$input_type == "single"){
       x$pair   <- attr(x, "pair")
-      plot_cor_single(x, 
-                      df_names = df_names, 
-                      alpha = alpha,
-                      text_labels = text_labels, 
-                      col_palette = col_palette,
-                      method      = method)
+      plt <- plot_cor_single(x, 
+                             df_names = df_names, 
+                             alpha = alpha,
+                             text_labels = text_labels, 
+                             col_palette = col_palette,
+                             method      = method)
     }
     if(type$input_type == "pair"){
-      plot_cor_pair(x, 
-                    df_names = df_names, 
-                    alpha = alpha,
-                    text_labels = text_labels, 
-                    col_palette = col_palette, 
-                    method      = method)
+      plt <- plot_cor_pair(x, 
+                           df_names = df_names, 
+                           alpha = alpha,
+                           text_labels = text_labels, 
+                           col_palette = col_palette, 
+                           method      = method)
     }
     if(type$input_type == "grouped"){
-      plot_cor_grouped(x, 
-                       df_names = df_names,
-                       text_labels = text_labels, 
-                       col_palette = col_palette, 
-                       method      = method, 
-                       plot_type   = plot_type)
+      plt <- plot_cor_grouped(x, 
+                              df_names = df_names,
+                              text_labels = text_labels, 
+                              col_palette = col_palette, 
+                              method      = method, 
+                              plot_type   = plot_type)
     }
   }
   
   # imbalance plots
   if(type$method == "imb"){
     if(type[[2]] == 1){
-      plot_imb_1(x, df_names = df_names,
-                 text_labels = text_labels, 
-                 col_palette = col_palette)
+      plt <- plot_imb_1(x, df_names = df_names,
+                        text_labels = text_labels, 
+                        col_palette = col_palette)
     } else {
-      plot_imb_2(x, df_names = df_names, alpha = alpha,
-                 text_labels = text_labels, 
-                 col_palette = col_palette)
+      plt <- plot_imb_2(x, df_names = df_names, alpha = alpha,
+                        text_labels = text_labels, 
+                        col_palette = col_palette)
     }
   }
   
@@ -117,62 +117,63 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   if(type$method == "mem"){
     sizes <- attr(x, "sizes")
     if(type[[2]] == 1){
-      plot_mem_1(x, df_names = df_names, 
-                 text_labels = text_labels, 
-                 sizes = sizes, 
-                 col_palette = col_palette)
+      plt <- plot_mem_1(x, df_names = df_names, 
+                        text_labels = text_labels, 
+                        sizes = sizes, 
+                        col_palette = col_palette)
     } else {
-      plot_mem_2(x, df_names = df_names,
-                 text_labels = text_labels, 
-                 sizes = sizes, 
-                 col_palette = col_palette)
+      plt <- plot_mem_2(x, df_names = df_names,
+                        text_labels = text_labels, 
+                        sizes = sizes, 
+                        col_palette = col_palette)
     }
   }
   
   # missingness plots
   if(type$method == "na"){
     if(type$input_type == "single"){
-      plot_na_single(x, df_names = df_names,
-                     text_labels = text_labels, 
-                     col_palette = col_palette)
+      plt <- plot_na_single(x, df_names = df_names,
+                            text_labels = text_labels, 
+                            col_palette = col_palette)
     }
     if(type$input_type == "pair"){
-      plot_na_pair(x, df_names = df_names, 
-                   alpha = alpha,
-                   text_labels = text_labels, 
-                   col_palette = col_palette)
+      plt <- plot_na_pair(x, df_names = df_names, 
+                          alpha = alpha,
+                          text_labels = text_labels, 
+                          col_palette = col_palette)
     }
     if(type$input_type == "grouped"){
-      plot_na_grouped(x, df_names = df_names,
-                      text_labels = text_labels, 
-                      col_palette = col_palette, 
-                      plot_type = plot_type)
+      plt <- plot_na_grouped(x, df_names = df_names,
+                             text_labels = text_labels, 
+                             col_palette = col_palette, 
+                             plot_type = plot_type)
     }
   }
   
   # numeric plots
   if(type$method == "num"){
     if(type[[2]] == 1){
-      plot_num_1(x, df_names = df_names,
-                 text_labels = text_labels, 
-                 plot_layout = plot_layout)
+      plt <- plot_num_1(x, df_names = df_names,
+                        text_labels = text_labels, 
+                        plot_layout = plot_layout)
     } else {
-      plot_num_2(x, df_names = df_names, alpha = alpha,
-                 text_labels = text_labels, 
-                 plot_layout = plot_layout)
+      plt <- plot_num_2(x, df_names = df_names, alpha = alpha,
+                        text_labels = text_labels, 
+                        plot_layout = plot_layout)
     }
   }
   
   # types plots
   if(type$method == "types"){
     if(type[[2]] == 1){
-      plot_types_1(x, df_names = df_names,
-                   text_labels = text_labels, 
-                   col_palette = col_palette)
+      plt <- plot_types_1(x, df_names = df_names,
+                          text_labels = text_labels, 
+                          col_palette = col_palette)
     } else {
-      plot_types_2(x, df_names = df_names,
-                  text_labels = text_labels,
-                  col_palette = col_palette)
+      plt <- plot_types_2(x, df_names = df_names,
+                          text_labels = text_labels,
+                          col_palette = col_palette)
     }
   }
+  suppressWarnings(plt)
 }

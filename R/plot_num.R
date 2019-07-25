@@ -43,7 +43,7 @@ plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels){
                nrow = plot_layout[[1]], 
                ncol = plot_layout[[2]])
   # print plot
-  print(plt)
+  plt
 }
 
 
@@ -120,5 +120,5 @@ plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels, alpha){
     facet_wrap(~ cname, scales = "free", 
                nrow = plot_layout[[1]], 
                ncol = plot_layout[[2]])  
-  print(plt)
+  plt
 }

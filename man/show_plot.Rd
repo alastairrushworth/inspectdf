@@ -6,7 +6,7 @@
 \usage{
 show_plot(x, text_labels = TRUE, alpha = 0.05, high_cardinality = 0,
   plot_layout = NULL, col_palette = 0, plot_type = "bar",
-  label_thresh)
+  label_thresh = 0.1)
 }
 \arguments{
 \item{x}{Dataframe resulting from a call to an `inspect_` function.}

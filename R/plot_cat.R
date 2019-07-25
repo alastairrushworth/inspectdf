@@ -74,7 +74,6 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
 
   # add new keys and arrange
   lvl_df2 <- lvl_df %>% 
-    # arrange(col_name, prop, value) %>%
     mutate(new_level_key = paste0(level_key, "-", dfi)) 
   
   # # move high cardinality to the end of each column block
@@ -114,10 +113,8 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   colour_vector[lvl_df2$value == min_freq_label] <- cols[3]
   # generate plot
   plt <- lvl_df2 %>%
-    ggplot(aes(x = col_name, y = prop, fill = new_level_key, 
-               label = value)) +
-    geom_bar(position = "stack", stat = "identity", 
-             colour = "black", size = 0.2) +
+    ggplot(aes(x = col_name, y = prop, fill = new_level_key)) +
+    geom_bar(stat = "identity", position = "stack", colour = "black", size = 0.2) +
     scale_fill_manual(values = colour_vector) +
     guides(fill = FALSE) + 
     coord_flip() +
@@ -167,23 +164,24 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
     lvl_df4 <- lvl_df3 %>% sum_small_cats(prop_thresh = label_thresh)
 
     plt <- plt + 
-      suppressWarnings( 
-        ggfittext::geom_fit_text(
-          data = lvl_df4,
-          aes(x = col_name,
-              y = prop,
-              label = value, 
-              fill = new_level_key, 
-              colour = col_vec),
-          inherit.aes = FALSE,
-          na.rm = TRUE,
-          position = "stack",
-          place = "middle",
-          grow = FALSE, 
-          outside = FALSE, 
-          show.legend = FALSE
-        )) + 
-          scale_colour_manual(values = c("white", "gray55"))
+      suppressWarnings(ggfittext::geom_fit_text(
+        data = lvl_df4,
+        aes(x = col_name,
+            y = prop,
+            label = value, 
+            fill = new_level_key,
+            colour = col_vec,
+            ymin = 0,
+            ymax = prop),
+        inherit.aes = FALSE,
+        na.rm = TRUE,
+        position = "stack",
+        place = "middle",
+        grow = FALSE,
+        outside = FALSE,
+        show.legend = FALSE
+      )) + 
+      scale_colour_manual(values = c("white", "gray55"))
   }
   
   # if this is a comparison, then add x-axis labels and descriptive title
@@ -200,7 +198,6 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   }
   # add title
   plt <- plt + labs(title = ttl)
-  
-  suppressWarnings(print(plt))
+  plt
 }
 

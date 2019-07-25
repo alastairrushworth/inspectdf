@@ -44,8 +44,7 @@ plot_cor_single <- function(out, alpha, df_names, text_labels, col_palette, meth
     coord_flip() + ylim(min(out$lower), max(out$upper)) + 
     labs(x = "", y = xlab, title = paste0("Correlation of columns in df::", 
                                           df_names$df1))
-  # print plot
-  print(plt)
+  plt
 }
 
 
@@ -100,8 +99,7 @@ plot_cor_pair <- function(out, alpha, df_names, text_labels, col_palette, method
          title = paste0("Comparison of \u03C1 between df::", df_names$df1, 
                         " and ", df_names$df2)) +
     scale_fill_manual(name = "Data frame", values = bcols)
-  # print plot
-  print(plt)
+  plt
 }
 
 plot_cor_grouped <- function(out, df_names, text_labels, col_palette, method, 
@@ -121,12 +119,13 @@ plot_cor_grouped <- function(out, df_names, text_labels, col_palette, method,
                       series = "pair", group = group_name, 
                       plot_type = plot_type, 
                       col_palette = col_palette, 
-                      text_labels = text_labels)
+                      text_labels = text_labels,
+                      ylab = "Correlation")
   plt <- plt + 
     geom_hline(yintercept = 0, alpha = 0.5, linetype = "dashed") + 
     geom_hline(yintercept = 1, alpha = 0.3, linetype = "dashed") + 
     geom_hline(yintercept = -1, alpha = 0.3, linetype = "dashed")
-  print(plt)
+  plt
 }
 
 

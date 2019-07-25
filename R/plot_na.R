@@ -22,7 +22,7 @@ plot_na_single <- function(df_plot, df_names, text_labels, col_palette){
                                   z = df_plot$cnt, 
                                   plt = plt)
   }
-  print(plt)
+  plt
 }
 
 plot_na_pair <- function(df_plot, df_names, alpha, text_labels, col_palette){
@@ -57,7 +57,7 @@ plot_na_pair <- function(df_plot, df_names, alpha, text_labels, col_palette){
     labs(y = "% of column that is NA", x = "") +
     guides(color = guide_legend(override.aes = list(fill = NA)))
   
-  print(plt)
+  plt
 }
 
 plot_na_grouped <- function(df_plot, df_names, text_labels, col_palette, plot_type){
@@ -67,8 +67,9 @@ plot_na_grouped <- function(df_plot, df_names, text_labels, col_palette, plot_ty
                       series = "col_name", group = group_name, 
                       plot_type = plot_type, 
                       col_palette = col_palette, 
-                      text_labels = text_labels)
-  print(plt)
+                      text_labels = text_labels, 
+                      ylab = "% missing")
+  plt
 }
 
 
