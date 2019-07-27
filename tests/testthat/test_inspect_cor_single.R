@@ -74,3 +74,9 @@ test_that("Single df correlation plots work", {
   expect_doppelganger("Inspect-cor-storms_alpha", storms %>% inspect_cor %>% show_plot(alpha = 0.1))
 })
 
+
+test_that("Spaces in column names have no effect", {
+  colnames(starwars)[1] <- "name with spaces"
+  expect_equal("Inspect-cor-spaces-names", starwars %>% inspect_cor %>% show_plot)
+})
+
