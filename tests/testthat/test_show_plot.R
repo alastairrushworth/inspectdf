@@ -5,7 +5,7 @@ data("starwars", package = "dplyr")
 data("storms", package = "dplyr")
 library(vdiffr)
 
-test_that("a", {
+test_that("inspect_cat plots", {
   set.seed(1)
   expect_doppelganger("Inspect-cat-starwars", starwars %>% inspect_cat %>% show_plot)
   expect_doppelganger("Inspect-cat-starwars-card", starwars %>% inspect_cat %>% show_plot(high_cardinality = 1))
@@ -25,7 +25,7 @@ test_that("a", {
   expect_doppelganger("Inspect-cat-storms_col_2",   storms %>% inspect_cat %>% show_plot(col_palette = 2))
 })
 
-test_that("c", {
+test_that("inspect_imb plots", {
   set.seed(1)
   expect_doppelganger("Inspect-imb-starwars", starwars %>% inspect_imb %>% show_plot)
   expect_doppelganger("Inspect-imb-storms",   storms %>%   inspect_imb %>% show_plot)
@@ -43,7 +43,7 @@ test_that("c", {
   
 })
 
-test_that("d", {
+test_that("inspect_mem plots", {
   set.seed(1)
   expect_doppelganger("Inspect-mem-starwars", starwars %>% inspect_mem %>% show_plot)
   expect_doppelganger("Inspect-mem-storms",   storms %>%   inspect_mem %>% show_plot)
@@ -59,19 +59,19 @@ test_that("d", {
   
 })
 
-test_that("e", {
+test_that("inspect_na plots", {
   set.seed(1)
+  expect_doppelganger("Inspect-na-tech", tech %>% inspect_na %>% show_plot)
   expect_doppelganger("Inspect-na-starwars", starwars %>% inspect_na %>% show_plot)
   expect_doppelganger("Inspect-na-storms",   storms %>%   inspect_na %>% show_plot)
-  expect_doppelganger("Inspect-na-starwars2", 
-                              starwars %>% 
-                                inspect_na(
-                                  starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
-                                ) %>% show_plot)
+  expect_doppelganger("Inspect-na-starwars2", starwars %>% 
+                        inspect_na(
+                          starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
+                        ) %>% show_plot)
   expect_doppelganger("Inspect-na-storms2",   storms %>% 
-                                inspect_na(
-                                  storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
-                                ) %>% show_plot)
+                        inspect_na(
+                          storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
+                        ) %>% show_plot)
 })
 
 # test_that("f", {
@@ -89,7 +89,7 @@ test_that("e", {
 #                         ) %>% show_plot)
 # })
 
-test_that("g", {
+test_that("depracated plots", {
   expect_warning(starwars %>% inspect_cat(show_plot = TRUE))
   expect_warning(starwars %>% inspect_cor(show_plot = TRUE))
   expect_warning(starwars %>% inspect_imb(show_plot = TRUE))
@@ -98,7 +98,7 @@ test_that("g", {
 })
 
 
-test_that("h", {
+test_that("inspect_num plots", {
   set.seed(1)
   expect_doppelganger("Inspect-num-starwars", starwars %>% inspect_num %>% show_plot)
   expect_doppelganger("Inspect-num-storms",   storms %>%   inspect_num %>% show_plot)

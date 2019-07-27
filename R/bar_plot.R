@@ -3,13 +3,14 @@
 bar_plot <- function(df_plot, x, y, fill, label, xlb = "", ylb = "", 
                      ttl = "", sttl = "", lgnd = NULL, rotate = FALSE, 
                      col_palette = NULL, ylim_range = NULL){
+  
   # basic bar plot
   plt <- df_plot %>% 
-    ggplot(aes_string(x = x, y = y, fill = fill, label = label)) + 
+    ggplot(aes_string(x = x, y = y, fill = fill, label = label)) +
     geom_bar(stat = "identity") + 
-    labs(x = xlb, y = ylb, title = ttl, subtitle = sttl)
-  # add colors to bars
-  plt <- plt + scale_fill_manual(values = user_colours(nrow(df_plot), col_palette))
+    labs(x = xlb, y = ylb, title = ttl, subtitle = sttl) +
+    scale_fill_manual(values = user_colours(nrow(df_plot), col_palette))
+    
   # if legend is required give a name, otherwise remove
   if(is.null(lgnd)){
     plt <- plt + guides(fill = FALSE)
