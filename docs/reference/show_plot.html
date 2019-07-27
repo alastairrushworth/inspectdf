@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -146,7 +146,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>show_plot</span>(<span class='no'>x</span>, <span class='kw'>text_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>high_cardinality</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>plot_layout</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_palette</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>plot_type</span> <span class='kw'>=</span> <span class='st'>"bar"</span>)</pre>
+  <span class='kw'>plot_layout</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_palette</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>plot_type</span> <span class='kw'>=</span> <span class='st'>"bar"</span>,
+  <span class='kw'>label_thresh</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,6 +190,12 @@ Default is <code>TRUE</code>.</p></td>
     <tr>
       <th>plot_type</th>
       <td><p>String determining the type of plot to show.  Defaults to `"bar"`.</p></td>
+    </tr>
+    <tr>
+      <th>label_thresh</th>
+      <td><p>Minimum percentage frequency of category for a text label to be shown.
+Defaults to 0.1.  Smaller values will show potentially smaller labels, but at the expense of longer
+rendering time.</p></td>
     </tr>
     </table>
     
