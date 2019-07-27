@@ -9,6 +9,7 @@
 ^NEWS\.Rmd$
 ^depracated$
 ^example\.R$
+^Untitled\.R$
 ^inspectdf\.Rproj$
 ^hex$
 ^\.travis\.yml$

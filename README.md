@@ -25,6 +25,10 @@ The package has three aims:
     inconsistencies
   - to support quick visualisation of data frames
 
+Check out the [package
+website](https://alastairrushworth.github.io/inspectdf/) for further
+documentation and examples.
+
 ## Installation
 
 To install the development version of the package, use
@@ -52,3 +56,8 @@ install.packages("inspectdf")
   - [`inspect_num()`](#numeric-summaries) summaries of numeric columns
   - [`inspect_cat()`](#categorical-levels) summaries of categorical
     columns
+
+## Comments? Suggestions? Issues?
+
+Any feedback is welcome\! Feel free to write a github issue or send me a
+message on [twitter](https://twitter.com/rushworth_a).
