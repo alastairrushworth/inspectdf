@@ -40,7 +40,7 @@ cor_test_1 <- function(df_input, df_name, with_col, alpha, method){
   pb <- start_progress(prefix = " Column pair", total = total_its)
   for(i in 1:total_its){
     update_progress(bar = pb, iter = i, total = total_its, what = c_cmbs$pair[i])
-    c_df   <- df_input %>% select_(c_cmbs$col_1[i], c_cmbs$col_2[i])
+    c_df <- df_input[c(c_cmbs$col_1[i], c_cmbs$col_2[i])]
     c_test <- try(cor.test(c_df[, 1, drop = TRUE], 
                            c_df[, 2, drop = T], 
                            conf.level = 1 - alpha, 
