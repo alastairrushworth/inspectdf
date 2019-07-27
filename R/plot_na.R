@@ -2,6 +2,9 @@
 
 plot_na_single <- function(df_plot, df_names, text_labels, col_palette){
   # convert col_name to factor
+  
+  dfpcnt = c(-0.05, max(df_plot$pcnt, na.rm = T) + abs(diff(range(df_plot$pcnt, na.rm = T)))/100)
+  
   df_plot <- df_plot %>% 
     mutate(col_name = factor(col_name, levels = as.character(col_name)))
   # construct bar plot of missingess
@@ -14,7 +17,7 @@ plot_na_single <- function(df_plot, df_names, text_labels, col_palette){
                   ylb = "% of column that is NA", 
                   rotate = TRUE, 
                   col_palette = col_palette,
-                  ylim_range = c(0, max(df_plot$pcnt) + abs(diff(range(df_plot$pcnt, na.rm = T)))/100))
+                  ylim_range = NULL)
   # add text annotation to plot if requested
   if(text_labels){
     plt <- add_annotation_to_bars(x = df_plot$col_name, 
