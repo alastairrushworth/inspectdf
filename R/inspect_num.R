@@ -8,8 +8,6 @@
 #' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' \code{hist(..., breaks)}.  See \code{?hist} for more details. 
-#' @param breakseq For internal use only.  Argument that accepts a pre-specified set of 
-#' break points, default is \code{NULL}.
 #' @return A \code{tibble} containing statistical summaries of the numeric 
 #' columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
 #' @details 
@@ -66,9 +64,10 @@
 #' @importFrom tidyr gather
 #' @importFrom utils tail
 
-inspect_num <- function(df1, df2 = NULL,
-                       breaks = 20, breakseq = NULL, show_plot = FALSE){
+inspect_num <- function(df1, df2 = NULL, breaks = 20, show_plot = FALSE){
 
+  # fish out breaks_seq, if supplied
+  breakseq <- attr(df1, "breakseq")
   # perform basic column check on dataframe input
   check_df_cols(df1)
   # capture the data frame names
@@ -135,12 +134,11 @@ inspect_num <- function(df1, df2 = NULL,
     # get histogram and summaries for first df
     s1 <- inspect_num(df1, breaks = breaks) %>% 
       select(col_name, hist)
-    # extract breaks from the above
-    breaks_table <- tibble(col_name = s1$col_name, 
-                           breaks = lapply(s1$hist, get_break))
+    # extract breaks from the above and as an attribute
+    attr(df2, "breakseq") <- tibble(col_name = s1$col_name, 
+                                    breaks = lapply(s1$hist, get_break))
     # get new histograms and summary stats using breaks from s1
-    s2 <- inspect_num(df2, breakseq = breaks_table) %>% 
-      select(col_name, hist)
+    s2 <- inspect_num(df2) %>% select(col_name, hist)
     out <- full_join(s1, s2, by = "col_name")
     # calculate js-divergence and fisher p-value
     out <- out %>%

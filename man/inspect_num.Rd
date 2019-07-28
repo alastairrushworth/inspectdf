@@ -4,8 +4,7 @@
 \alias{inspect_num}
 \title{Summarise and compare the numeric variables within one or two dataframes}
 \usage{
-inspect_num(df1, df2 = NULL, breaks = 20, breakseq = NULL,
-  show_plot = FALSE)
+inspect_num(df1, df2 = NULL, breaks = 20, show_plot = FALSE)
 }
 \arguments{
 \item{df1}{A dataframe.}
@@ -15,9 +14,6 @@ Defaults to \code{NULL}.}
 
 \item{breaks}{Integer number of breaks used for histogram bins, passed to 
 \code{graphics::hist()}.  Defaults to 20.}
-
-\item{breakseq}{For internal use only.  Argument that accepts a pre-specified set of 
-break points, default is \code{NULL}.}
 
 \item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
 Superseded by the function \code{show_plot()} and will be dropped in a future version.
