@@ -32,8 +32,3 @@ test_that("inspect_cor for tech", {
   expect_equal(colnames(x_quarter)[1], "quarter")
   expect_equal(colnames(x_year)[1], "year")
 })
-
-test_that("Grouped df correlation plots work", {
-  expect_doppelganger("Inspect-cor-grouped-tech-year", tech %>% dplyr::group_by(year) %>% inspect_cor() %>% show_plot)
-  expect_doppelganger("Inspect-cor-grouped-tech-quarter", tech %>% dplyr::group_by(quarter) %>% inspect_cor() %>% show_plot)
-})
