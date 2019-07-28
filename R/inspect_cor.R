@@ -4,37 +4,39 @@
 #' @param df2 An optional second data frame for comparing correlation 
 #' coefficients.  Defaults to \code{NULL}.
 #' @param method a character string indicating which type of correlation coefficient to use, one 
-#' of "pearson", "kendall", or "spearman", which can be abbreviated.
+#' of \code{"pearson"}, \code{"kendall"}, or \code{"spearman"}, which can be abbreviated.
 #' @param alpha Alpha level for correlation confidence intervals.  Defaults to 0.05.
-#' @param with_col Character vector of column names to calculate correlations with.  When set to 
-#' the default, \code{NULL}, all pairs of correlations are returned.
+#' @param with_col Character vector of column names to calculate correlations with all other numeric 
+#' features.  The default \code{with_col = NULL} returns all pairs of correlations.
 #' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
-#' 
 #' @return A tibble summarising and comparing the correlations for each numeric column 
 #' in one or a pair of data frames.
-#' @details When only \code{df1} is specified, a tibble is returned which 
-#' contains correlation coefficients 
+#' @details When \code{df2 = NULL}, a tibble containing correlation coefficients for \code{df1} is 
+#' returned:
 #' \itemize{
-#'   \item \code{col_1}, \code{co1_2} character vectors containing names of numeric columns in \code{df1}.
-#'   \item \code{corr} numeric values of Pearson's correlation coefficient.
-#'   \item \code{lower}, \code{upper} lower and upper values of the confidence interval for the correlations.
-#'   \item \code{p_value} p-value associated with the null hypothesis of 0 correlation, small values 
-#'   indicate evidence that the true correlation is not equal to 0.
+#'   \item \code{col_1}, \code{co1_2} character vectors containing names of numeric 
+#'   columns in \code{df1}.
+#'   \item \code{corr} the calculated correlation coefficient.
+#'   \item \code{lower}, \code{upper} lower and upper values of the confidence interval 
+#'   for the correlations (currently only supported when `method = "pearson"`).
+#'   \item \code{p_value} p-value associated with a test where the null hypothesis is that 
+#'   the numeric pair have 0 correlation. 
 #' }
-#' If `df1` has class `grouped_df`, then correlations will be calculated within the grouping levels 
+#' If \code{df1} has class \code{grouped_df}, then correlations will be calculated within the grouping levels 
 #' and the tibble returned will have an additional column corresponding to the group labels.
 #' 
-#' When both \code{df1} and \code{df2} are specified, the tibble returned performs a comparison of the 
-#' correlation coefficients across the dataframes.
+#' When both \code{df1} and \code{df2} are specified, the tibble returned contains
+#'  a comparison of the correlation coefficients across pairs of columns common to both 
+#'  dataframes.
 #' \itemize{
-#'   \item \code{col_1}, \code{co1_2} character vectors containing names of numeric columns in either 
-#'   \code{df1} or \code{df2}.
-#'   \item \code{corr_1}, \code{corr_2} numeric values of Pearson's correlation coefficient observed in 
+#'   \item \code{col_1}, \code{co1_2} character vectors containing names of numeric columns 
+#'   in either \code{df1} or \code{df2}.
+#'   \item \code{corr_1}, \code{corr_2} numeric columns containing correlation coefficients from
 #'   \code{df1} and \code{df2}, respectively.
-#'   \item \code{p_value} p-value associated with the null hypothesis that the two correlation coefficients 
-#'   are the same.  Small values indicate that the true correlation coefficients differ between the two 
-#'   dataframes.
+#'   \item \code{p_value} p-value associated with the null hypothesis that the two correlation 
+#'   coefficients are the same.  Small values indicate that the true correlation coefficients 
+#'   differ between the two dataframes.
 #' }
 #' @export
 #' @examples

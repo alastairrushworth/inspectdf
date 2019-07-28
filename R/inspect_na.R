@@ -7,25 +7,25 @@
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return A tibble summarising the count and percentage of columnwise missingness 
 #' for one or a pair of data frames.
-#' @details When a single data frame is specified, the a tibble is returned which 
-#' contains the count and percentage of missing values, with column names
+#' @details When \code{df1} is specified and \code{df2 = NULL}, a tibble containing columnwise 
+#' summaries of missing values is returned, with columns:
 #' \itemize{
 #'   \item \code{col_name} character vector containing column names of \code{df1}.
 #'   \item \code{cnt} integer vector containing the number of missing values by 
 #'   column.
-#'   \item \code{pcnt} the percentage of each column with missing values
+#'   \item \code{pcnt} the percentage of records in each columns that is missing.
 #' }
 #' 
-#' When both \code{df1} and \code{df2} are specified, missingness is compared across 
-#' columns occurring in both data frames.  A test of the null hypothesis that the rate 
-#' of missingness is the same across the same column in either dataframe.
+#' When both \code{df1} and \code{df2} are specified, missingness is compared across all columns in 
+#' both dataframes.  A test of the null hypothesis that the rate of missingness is the same across 
+#' the same column in either dataframe.
 #' \itemize{
-#'   \item \code{col_name} the name of the columns occurring in either \code{df1}
+#'   \item \code{col_name} the name of the columns occurring in either \code{df1} or \code{df2}.
 #'   \item \code{cnt_1}, \code{cnt_2} pair of integer vectors containing counts of missing entries
 #'   for each column in \code{df1} and \code{df2}.
 #'   \item \code{pcnt_1}, \code{pcnt_2} pair of columns containing percentage of missing entries
 #'   for each column in \code{df1} and \code{df2}.
-#'   \item \code{p_value} p-value associated with test of the rates of missingness.  Small 
+#'   \item \code{p_value} p-value associated with test of equivalence of rates of missingness.  Small 
 #'   values indicate evidence that the rate of missingness differs for a column occurring 
 #'   in both \code{df1} and \code{df2}.
 #' }
@@ -66,7 +66,7 @@ inspect_na <- function(df1, df2 = NULL, show_plot = FALSE){
       }
       names(na_vec) <- names_vec
       out <- vec_to_tibble(na_vec) %>%
-        mutate(pcnt = 100 * n / nrow(df1)) %>%
+        mutate(pcnt = 100 * n / nrow(df1), n = as.integer(n)) %>%
         select(col_name = names, cnt = n, pcnt) %>%
         arrange(desc(pcnt))
   }

@@ -8,13 +8,13 @@ inspect_num(df1, df2 = NULL, breaks = 20, breakseq = NULL,
   show_plot = FALSE)
 }
 \arguments{
-\item{df1}{A data frame}
+\item{df1}{A dataframe.}
 
-\item{df2}{An optional second data frame for comparing categorical levels.
+\item{df2}{An optional second dataframe for comparing categorical levels.
 Defaults to \code{NULL}.}
 
-\item{breaks}{Optional argument determining how breaks are constructed for 
-histograms when comparing numeric data frame features.  This is passed to}
+\item{breaks}{Integer number of breaks used for histogram bins, passed to 
+\code{graphics::hist()}.  Defaults to 20.}
 
 \item{breakseq}{For internal use only.  Argument that accepts a pre-specified set of 
 break points, default is \code{NULL}.}
@@ -31,16 +31,15 @@ columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
 Summarise and compare the numeric variables within one or two dataframes
 }
 \details{
-If only \code{df1} is specified, \code{inspect_num} returns a tibble with columns
+If only \code{df1} is specified, \code{inspect_num()} returns a tibble with columns
 \itemize{
-  \item \code{col_name} character vector containing the column names in \code{df1}
-  and \code{df2}
+  \item \code{col_name}, a character vector containing the column names in \code{df1}
   \item \code{min}, \code{q1}, \code{median}, \code{mean}, \code{q3}, \code{max} and 
   \code{sd}: the minimum, lower quartile, median, mean, upper quartile, maximum and 
   standard deviation for each numeric column.
-  \item \code{pcnt_na} the percentage of each numeric feature that is missing
-  \item \code{hist} a list of tibbles containing the relative frequency of values in a 
-  set of discrete bins for each column.
+  \item \code{pcnt_na}, the percentage of each numeric feature that is missing
+  \item \code{hist}, a named list of tibbles containing the relative frequency of values in a 
+  falling in bins determined by \code{breaks}.
 }
 If both \code{df1} and \code{df2} are specified, the tibble has columns
 \itemize{

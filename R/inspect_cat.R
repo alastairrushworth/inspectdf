@@ -1,32 +1,33 @@
-#' Summarise and compare the levels within each categorical feature in one or two dataframes.
+#' Summarise and compare the levels for each categorical feature in one or two dataframes.
 #'
 #' @param df1 A dataframe
 #' @param df2 An optional second data frame for comparing categorical levels.  
 #' Defaults to \code{NULL}.
 #' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
-#' @return A tibble summarising and comparing the categorical features 
-#' in one or a pair of data frames.
-#' @details When only \code{df1} is specified, a tibble is returned which 
-#' contains summaries of the categorical levels in \code{df1}.
+#' @return A tibble summarising or comparing the categorical features 
+#' in one or a pair of dataframes.
+#' @details When \code{df2 = NULL}, a tibble containing summaries of the categorical features in 
+#' \code{df1} is returned:
 #' \itemize{
 #'   \item \code{col_name} character vector containing column names of \code{df1}.
-#'   \item \code{cnt} integer column containing count of unique levels found in each column 
-#'   (including \code{NA}).
+#'   \item \code{cnt} integer column containing count of unique levels found in each column, 
+#'   including \code{NA}.
 #'   \item \code{common} character column containing the name of the most common level.
 #'   \item \code{common_pcnt} percentage of each column occupied by the most common level shown in 
 #'   \code{common}.
-#'   \item \code{levels} relative frequency of levels in each column.
+#'   \item \code{levels} names list containing relative frequency tibbles for each feature.
 #' }
-#' When both \code{df1} and \code{df2} are specified, the relative frequencies of levels across columns
-#' common both dataframes are compared.  In particular, the population stability index, and Fisher's 
-#' exact test are performed as part of the comparison.
+#' When \code{df1} and \code{df2} are specified, a comparison of the relative frequencies 
+#' of levels in common columns is performed.  In particular, Jensen-Shannon divergence and 
+#' Fisher's exact test are returned as part of the comparison.
 #' \itemize{
-#'   \item \code{col_name} character vector containing column names of \code{df1} and \code{df2}.
-#'   \item{jsd} numeric column containing the Jensen-Shannon divergence.  This measures the 
-#'   difference in distribution of a pair of categorical features.  Values near to 0 indicate
-#'   agreement of the distributions, while 1 indicates disagreement.
-#'   \item{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
+#'   \item \code{col_name} character vector containing names of columns appearing in both 
+#'   \code{df1} and \code{df2}.
+#'   \item \code{jsd} numeric column containing the Jensen-Shannon divergence.  This measures the 
+#'   difference in relative frequencies of levels in a pair of categorical features.  Values near 
+#'   to 0 indicate agreement of the distributions, while 1 indicates disagreement.
+#'   \item \code{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
 #'   evidence that the the two sets of relative frequencies are actually different.
 #'   \item \code{lvls_1}, \code{lvls_2} relative frequency of levels in each of \code{df1} and \code{df2}.
 #' }
