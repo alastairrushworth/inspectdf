@@ -1,22 +1,23 @@
 #' Summarise and compare the memory usage in one or two dataframes.
 #'
 #' @param df1 A data frame.
-#' @param df2 An optional second data frame for comparing column sizes.  
+#' @param df2 An optional second data frame with which to comparing memory usage.  
 #' Defaults to \code{NULL}.
 #' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return A tibble summarising and comparing the columnwise memory usage 
 #' for one or a pair of data frames.
-#' @details When a single data frame is specified, a tibble is returned which 
-#' contains columnwise memory usage in descending order of size:
+#' @details When \code{df1} is specified and \code{df2 = NULL}, a tibble summarising 
+#' columnwise memory usage in descending order of size is returned:
 #' \itemize{
-#'   \item \code{col_name} character vector containing column names of \code{df1}.
-#'   \item \code{size} character vector containing memory usage of each column.
-#'   \item \code{pcnt} the percentage of total memory usage used by each column.
+#'   \item \code{col_name}   character vector containing column names of \code{df1}.
+#'   \item \code{size}  character vector containing display-friendly memory usage of each column.
+#'   \item \code{pcnt}  the percentage of the dataframe's total memory footprint 
+#'   used by each column.
 #' }
-#' When both \code{df1} and \code{df2} are specified, column sizes are jointly 
-#' tabulated for both data frames, by performing a full join by \code{col_name}.  
-#' Rows are sorted in descending order of size as they appear in \code{df1}:
+#' When both \code{df1} and \code{df2} are specified, column memory usages are jointly 
+#' tabulated for both data frames.  Rows are sorted in descending order of size as 
+#' they appear in \code{df1}:
 #' \itemize{
 #'   \item \code{col_name} character vector containing column names of \code{df1}
 #'   and \code{df2}.

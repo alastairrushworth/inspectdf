@@ -1,33 +1,32 @@
 #' Summarise and compare columnwise imbalance for non-numeric columns in one or two dataframes.
 #'
-#' @param df1 A data frame
+#' @param df1 A dataframe.
 #' @param df2 An optional second data frame for comparing columnwise imbalance.  
 #' Defaults to \code{NULL}.  
 #' @param include_na Logical flag, whether to include missing values as a unique level.  Default
-#' is \code{FALSE} - to ignore NAs.
+#' is \code{FALSE} - to ignore \code{NA} values.
 #' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return  A tibble summarising and comparing the imbalance for each non-numeric column 
 #' in one or a pair of data frames.
-#' @details When a single data frame is specified, a tibble is returned which 
-#' contains columnwise imbalance, with columns
+#' @details When \code{df2 = NULL}, a tibble containing a summary of columnwise imbalance 
+#' is returned, with columns:
 #' \itemize{
 #'   \item \code{col_name} character vector containing column names of \code{df1}.
 #'   \item \code{value} character vector containing the most common categorical level 
 #'   in each column of \code{df1}.
-#'   \item \code{pcnt} the percentage of each column's entries occupied by the level in
-#'   \code{value} column.
+#'   \item \code{pcnt} the relative frequency of each column's most common categorical level 
+#'   expressed as a percentage.
 #'   \item \code{cnt} the number of occurrences of the most common categorical level in each
 #'   column of \code{df1}.
 #' }
-#' When both \code{df1} and \code{df2} are specified, the most common levels in \code{df1} 
-#' are compared to columns in \code{df2}.  If a categorical column appears in
-#' both dataframes, a simple test is performed to test the null hypothesis that the rate of 
-#' occurrence of the common level in \code{df1} is the same in both dataframes.  
+#' When both \code{df1} and \code{df2} are specified, the most common levels in features common 
+#' to both \code{df1} and \code{df2} is returned. A simple test of the null hypothesis that the 
+#' relative frequencies of a common level is the same in both dataframes is performed.  
 #' The resulting tibble has columns
 #' \itemize{
-#'   \item \code{col_name} character vector containing column names of \code{df1} and 
-#'   \code{df2}.
+#'   \item \code{col_name} character vector containing names of the unique columns in \code{df1} 
+#'   and \code{df2}.
 #'   \item \code{value} character vector containing the most common categorical level 
 #'   in each column of \code{df1}.  
 #'   \item \code{pcnt_} the percentage of each column's entries occupied by the level in

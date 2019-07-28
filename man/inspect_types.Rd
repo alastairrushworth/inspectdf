@@ -7,9 +7,9 @@
 inspect_types(df1, df2 = NULL, show_plot = FALSE)
 }
 \arguments{
-\item{df1}{A data frame.}
+\item{df1}{A dataframe.}
 
-\item{df2}{An optional second data frame for comparison.}
+\item{df2}{An optional second dataframe for comparison.}
 
 \item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
 Superseded by the function \code{show_plot()} and will be dropped in a future version.}

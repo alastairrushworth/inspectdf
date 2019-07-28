@@ -1,7 +1,7 @@
 #' Summarise and compare column types in one or two dataframes.
 #'
-#' @param df1 A data frame.
-#' @param df2 An optional second data frame for comparison.  
+#' @param df1 A dataframe.
+#' @param df2 An optional second dataframe for comparison.  
 #' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return A tibble summarising the count and percentage of different 
