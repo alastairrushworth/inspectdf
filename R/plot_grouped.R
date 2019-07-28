@@ -28,7 +28,7 @@ plot_grouped <- function(df, value, series, group, plot_type,
       theme(panel.border = element_blank(), 
             panel.grid.major = element_blank(), 
             axis.text.x = element_text(angle = 45)) +
-      geom_bar(stat = "identity", position = "dodge") +
+      geom_bar(stat = "identity", position = "dodge", na.rm = T) +
       scale_fill_manual(values = bcols) +
       guides(fill = FALSE) + 
       labs(y = ylab, x = "")
@@ -40,7 +40,8 @@ plot_grouped <- function(df, value, series, group, plot_type,
                                  grow = TRUE,
                                  reflow = TRUE,
                                  place = "top",
-                                 min.size = 3)
+                                 min.size = 3, 
+                                 na.rm = TRUE)
     }
   }
   return(plt)
