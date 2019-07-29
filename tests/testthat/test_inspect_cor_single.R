@@ -18,10 +18,10 @@ test_that("Output is a data frame", {
 })
 
 
-diff_correlatations <- function(data_input){
-  x1 <- data_input %>% inspect_cor %>% dplyr::select(corr)
+diff_correlatations <- function(data_input, method){
+  x1 <- data_input %>% inspect_cor(method = method) %>% dplyr::select(corr)
   x <- data_input %>% dplyr::select_if(is.numeric)
-  x <- cor(x, use = "pairwise.complete.obs")
+  x <- cor(x, use = "pairwise.complete.obs", method = method)
   diag(x) <- NA
   x2 <- suppressWarnings(x %>% c %>% tibble::as_tibble() %>% 
     dplyr::rename(corr = value) %>% dplyr::filter(!is.na(corr)) %>%
@@ -29,11 +29,24 @@ diff_correlatations <- function(data_input){
   return(mean(unlist(abs(x1 - x2))))
 }
 
-test_that("Output correlations are correct", {
-  expect_lt(diff_correlatations(mtcars), 10^-15)
-  expect_lt(diff_correlatations(starwars), 10^-15)
-  expect_lt(diff_correlatations(storms), 10^-15)
-  expect_lt(diff_correlatations(airquality), 10^-15)
+test_that("Correctness Kendall", {
+  expect_lt(diff_correlatations(mtcars, method = "kendall"), 10^-15)
+  expect_lt(diff_correlatations(mtcars, method = "kendall"), 10^-15)
+  expect_lt(diff_correlatations(airquality, method = "kendall"), 10^-15)
+})
+
+test_that("Correctness Spearman", {
+  expect_lt(diff_correlatations(mtcars, method = "spearman"), 10^-15)
+  expect_lt(diff_correlatations(starwars, method = "spearman"), 10^-15)
+  expect_lt(diff_correlatations(storms, method = "spearman"), 10^-15)
+  expect_lt(diff_correlatations(airquality, method = "spearman"), 10^-15)
+})
+
+test_that("Correctness Pearson", {
+  expect_lt(diff_correlatations(mtcars, method = "pearson"), 10^-15)
+  expect_lt(diff_correlatations(starwars, method = "pearson"), 10^-15)
+  expect_lt(diff_correlatations(storms, method = "pearson"), 10^-15)
+  expect_lt(diff_correlatations(airquality, method = "pearson"), 10^-15)
 })
 
 test_that("inspect_cor & single column df = empty df", {
