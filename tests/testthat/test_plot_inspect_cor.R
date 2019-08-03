@@ -8,11 +8,17 @@ set.seed(21)
 x2 <- starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
 y2 <- storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
 
-# test_that("inspect_cor plots", {
-#   expect_doppelganger("Inspect-cor-starwars", starwars %>% inspect_cor %>% show_plot)
-#   expect_doppelganger("Inspect-cor-storms",   storms %>%   inspect_cor %>% show_plot)
-#   expect_doppelganger("Inspect-cor-tech",   tech %>%   inspect_cor %>% show_plot)
-# })
+test_that("inspect_cor plots", {
+  expect_doppelganger("Inspect-cor-starwars", starwars %>% inspect_cor %>% show_plot)
+  expect_doppelganger("Inspect-cor-storms",   storms %>%   inspect_cor %>% show_plot)
+  expect_doppelganger("Inspect-cor-tech",   tech %>%   inspect_cor %>% show_plot)
+})
+
+test_that("inspect_cor spearman & kendall", {
+  expect_doppelganger("Inspect-cor-kendall-starwars", starwars %>% inspect_cor(method = 'kendall') %>% show_plot)
+  expect_doppelganger("Inspect-cor-spearman-storms",   storms %>%   inspect_cor(method = 'spearm') %>% show_plot)
+  expect_doppelganger("Inspect-cor-kendall-tech",   tech %>%   inspect_cor(method = 'ken') %>% show_plot)
+})
 
 test_that("inspect_cor plot paired", {
   expect_doppelganger("Inspect-cor-paired-starwars", starwars %>% inspect_cor(x2) %>% show_plot)
@@ -34,4 +40,11 @@ test_that("Grouped df correlation plots work", {
   expect_doppelganger("Inspect-cor-grouped-plot-starwars", starwars %>% dplyr::group_by(gender) %>% inspect_cor %>% show_plot)
   expect_doppelganger("Inspect-cor-grouped-plot-tech-year", tech %>% dplyr::group_by(year) %>% inspect_cor() %>% show_plot)
   expect_doppelganger("Inspect-cor-grouped-plot-tech-quarter", tech %>% dplyr::group_by(quarter) %>% inspect_cor() %>% show_plot)
+})
+
+test_that("Spaces in column names have no effect", {
+  colnames(starwars)[1] <- c("name with spaces")
+  x <- starwars %>% inspect_cor
+  expect_is(x,  "data.frame")
+  expect_doppelganger("inspect-cor-colnames-with-spaces", x %>% show_plot)
 })

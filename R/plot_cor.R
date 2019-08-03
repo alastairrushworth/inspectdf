@@ -32,15 +32,18 @@ plot_cor_single <- function(out, alpha, df_names, text_labels, col_palette, meth
     mutate(index = nrow(.):1)
   # generate coloured CIs and point estimate plot
   plt <- ggplot(out, aes(x = pair, y = corr)) +
-    geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
+    geom_hline(yintercept = 0, linetype = "dashed", 
+               color = "lightsteelblue4", na.rm = TRUE) + 
     geom_rect(
       alpha = 0.4,
       xmin = out$index - 0.4, xmax = out$index + 0.4,
       ymin = out$lower, ymax = out$upper, linetype = 1, 
       fill = vcols[(out$p_value < alpha) + 1], 
       na.rm = TRUE) +
-    geom_segment(x = out$index - 0.4, y = out$corr, xend = out$index + 0.4, 
-                 yend = out$corr, col = "gray40") +
+    geom_segment(x = out$index - 0.4, y = out$corr, 
+                 xend = out$index + 0.4, 
+                 yend = out$corr, col = "gray40", 
+                 na.rm = TRUE) +
     coord_flip() + ylim(min(out$lower), max(out$upper)) + 
     labs(x = "", y = xlab, title = paste0("Correlation of columns in df::", 
                                           df_names$df1))
@@ -93,7 +96,8 @@ plot_cor_pair <- function(out, alpha, df_names, text_labels, col_palette, method
       linetype = "blank",
       xmin = out$bar_dn, xmax = out$bar_up,
       ymin = out$bar_bg, ymax = out$bar_en) +
-    geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
+    geom_hline(yintercept = 0, linetype = "dashed", 
+               color = "lightsteelblue4", na.rm = TRUE) + 
     coord_flip() + 
     labs(y = xlab, x = "",
          title = paste0("Comparison of \u03C1 between df::", df_names$df1, 

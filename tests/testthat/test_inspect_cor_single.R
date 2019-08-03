@@ -81,19 +81,6 @@ test_that("filter & inspect_cor", {
   expect_equal(attr(y, "method"), "pearson")
 })
 
-test_that("Single df correlation plots work", {
-  expect_doppelganger("Inspect-cor-starwars", starwars %>% inspect_cor %>% show_plot)
-  expect_doppelganger("Inspect-cor-storms",   storms %>% inspect_cor %>% show_plot)
-  expect_doppelganger("Inspect-cor-storms_alpha", storms %>% inspect_cor %>% show_plot(alpha = 0.1))
-})
-
-
-test_that("Spaces in column names have no effect", {
-  colnames(starwars)[1] <- c("name with spaces")
-  x <- starwars %>% inspect_cor
-  expect_is(x,  "data.frame")
-  expect_doppelganger("inspect-cor-colnames-with-spaces", x %>% show_plot)
-})
 
 test_that("kendal and spearman work", {
   x <- inspect_cor(iris, method = "spearman")

@@ -19,10 +19,11 @@
 #'   columns in \code{df1}.
 #'   \item \code{corr} the calculated correlation coefficient.
 #'   \item \code{lower}, \code{upper} lower and upper values of the confidence interval 
-#'   for the correlations (currently only supported when `method = "pearson"`).
+#'   for the correlations.
 #'   \item \code{p_value} p-value associated with a test where the null hypothesis is that 
 #'   the numeric pair have 0 correlation. 
 #' }
+#' 
 #' If \code{df1} has class \code{grouped_df}, then correlations will be calculated within the grouping levels 
 #' and the tibble returned will have an additional column corresponding to the group labels.
 #' 
@@ -38,6 +39,9 @@
 #'   coefficients are the same.  Small values indicate that the true correlation coefficients 
 #'   differ between the two dataframes.
 #' }
+#' 
+#' Note that confidence intervals for \code{kendall} and \code{spearman} assume a normal sampling
+#' distribution for the Fisher z-transform of the correlation.
 #' @export
 #' @examples
 #' data("starwars", package = "dplyr")

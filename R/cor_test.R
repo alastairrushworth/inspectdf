@@ -69,8 +69,8 @@ get_corr <- function(x, y, alpha, method){
     }
     if(grepl("kendall", ctest$method, ignore.case = TRUE)){
       # https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/PASS/Confidence_Intervals_for_Kendalls_Tau-b_Correlation.pdf
-      cor_tab$lower <- tanh(atanh(ctest$estimate) - qnorm(1 - (alpha/2)) * sqrt(0.437 / (length(x) - 4)))
-      cor_tab$upper <- tanh(atanh(ctest$estimate) + qnorm(1 - (alpha/2)) * sqrt(0.437 / (length(x) - 4)))
+      cor_tab$lower <- tanh(atanh(ctest$estimate) - qnorm(1 - (alpha/2)) * (1 / sqrt(length(x) - 3)))
+      cor_tab$upper <- tanh(atanh(ctest$estimate) + qnorm(1 - (alpha/2)) * (1 / sqrt(length(x) - 3)))
     }
     if(grepl("spearman", ctest$method, ignore.case = TRUE)){
       # this is an approximate test based on this
