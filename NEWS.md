@@ -1,6 +1,9 @@
 
 # `inspectdf` 0.0.4.9000
 
+  - Added approximate confidence intervals and tests for `method =
+    'kendall'` and `method = 'spearman'` in `inspect_cor()`.
+
 # `inspectdf` 0.0.4
 
   - Fix issue causing `inspect_na() %>% show_plot()` to fail when 0 `NA`
