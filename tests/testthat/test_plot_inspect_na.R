@@ -19,10 +19,16 @@ test_that("inspect_na plot paired", {
   expect_doppelganger("Inspect-na-paired-storms",   storms %>%   inspect_na(y2) %>% show_plot)
 })
 
+test_that("inspect_na grouped plots", {
+  expect_doppelganger("Inspect-na-grouped-starwars", starwars %>% group_by(gender) %>% inspect_na %>% show_plot)
+  expect_doppelganger("Inspect-na-grouped-storms",   storms %>% group_by(month) %>%  inspect_na %>% show_plot)
+  expect_doppelganger("Inspect-na-grouped-tech",   tech %>% group_by(year) %>% inspect_na %>% show_plot)
+})
+
 test_that("inspect_na plot suppress labels", {
   expect_doppelganger("Inspect-na-no-lab-starwars", starwars %>% inspect_na %>% show_plot(text_labels = FALSE))
   expect_doppelganger("Inspect-na-no-lab-tech", tech %>% inspect_na %>% show_plot(text_labels = FALSE))
-  expect_doppelganger("Inspect-na-no-lab-storms",   storms %>%   inspect_na %>% show_plot(text_labels = FALSE))
+  expect_doppelganger("Inspect-na-no-lab-storms", storms %>% inspect_na %>% show_plot(text_labels = FALSE))
 })
 
 test_that("inspect_na plot color palette", {

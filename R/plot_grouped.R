@@ -1,5 +1,8 @@
 plot_grouped <- function(df, value, series, group, plot_type, 
                          col_palette, text_labels, ylab){
+  
+  df[group] <- as.character(unlist(df[group]))
+  df[is.na(df[group]), group] <- 'NA'
   if(plot_type == "line"){
     n_df  <- length(unlist(unique(df[series])))
     vcols <- c("gray50", user_colours(9, col_palette)[9])
@@ -32,7 +35,7 @@ plot_grouped <- function(df, value, series, group, plot_type,
       scale_fill_manual(values = bcols) +
       guides(fill = FALSE) + 
       labs(y = ylab, x = "")
-    if(text_labels){
+    if(text_labels & !all(df[value] == 0)){
       plt <- plt + geom_bar_text(position = 'dodge',
                                  color = "white",
                                  stat = 'identity',
