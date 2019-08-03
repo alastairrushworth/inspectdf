@@ -14,3 +14,4 @@ checks.R
 big_tests.R
 *.gitignore
 Untitled.R
+*.dll
