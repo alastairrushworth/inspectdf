@@ -81,3 +81,17 @@ plot_imb_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
   # return the plot 
   plt
 }
+
+plot_imb_grouped <- function(df_plot, df_names, text_labels, col_palette, plot_type){
+  # group variable name
+  group_name <- colnames(df_plot)[1]
+  plt <- plot_grouped(df = df_plot, 
+                      value = "pcnt", 
+                      series = "col_name", 
+                      group = group_name, 
+                      plot_type = plot_type, 
+                      col_palette = col_palette, 
+                      text_labels = text_labels, 
+                      ylab = "% imbalance")
+  plt
+}

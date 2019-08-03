@@ -49,6 +49,7 @@
 #' @export
 
 inspect_na <- function(df1, df2 = NULL, show_plot = FALSE){
+  
   # perform basic column check on dataframe input
   input_type <- check_df_cols(df1, df2)
   # capture the data frame names

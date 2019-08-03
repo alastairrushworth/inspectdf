@@ -102,14 +102,21 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   
   # imbalance plots
   if(type$method == "imb"){
-    if(type[[2]] == 1){
+    if(type$input_type == "single"){
       plt <- plot_imb_1(x, df_names = df_names,
                         text_labels = text_labels, 
                         col_palette = col_palette)
-    } else {
+    }
+    if(type$input_type == "pair"){
       plt <- plot_imb_2(x, df_names = df_names, alpha = alpha,
                         text_labels = text_labels, 
                         col_palette = col_palette)
+    }
+    if(type$input_type == "grouped"){
+      plt <- plot_na_grouped(x, df_names = df_names,
+                             text_labels = text_labels, 
+                             col_palette = col_palette, 
+                             plot_type = plot_type)
     }
   }
   

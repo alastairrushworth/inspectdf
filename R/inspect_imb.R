@@ -56,11 +56,13 @@
 inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, include_na = FALSE){
   
   # perform basic column check on dataframe input
+  input_type <- check_df_cols(df1, df2)
+  # perform basic column check on dataframe input
   check_df_cols(df1)
   # capture the data frame names
   df_names <- get_df_names()
   
-  if(is.null(df2)){
+  if(input_type == "single"){
     # pick out categorical columns
     df_cat <- df1 %>% 
       select_if(function(v) is.character(v) | is.factor(v) | is.logical(v))
@@ -85,16 +87,12 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, include_na = FALSE){
       # collapse highest imbalance into single dataframe
       names(levels_list) <- names_cat
       imb_cols  <- suppressWarnings(bind_rows(levels_list, .id = "col_name"))
-
+      
       # tidy up table output
       out <- imb_cols %>% 
         mutate(prop = 100 * prop) %>%
         arrange(desc(prop)) %>% 
         select(col_name, value, pcnt = prop, cnt)
-
-      # attach attributes required for plotting
-      attr(out, "type")     <- list(method = "imb", 1)
-      attr(out, "df_names") <- df_names
     } else {
       # return empty dataframe if no categorical columns 
       out <- tibble(col_name = character(), 
@@ -102,7 +100,8 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, include_na = FALSE){
                     pcnt = numeric(), 
                     cnt = integer())
     }
-  } else {
+  }
+  if(input_type == "pair"){
     # summary of df1
     s1 <- inspect_imb(df1, include_na = include_na) %>% 
       rename(pcnt_1 = pcnt, cnt_1 = cnt)
@@ -112,10 +111,13 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, include_na = FALSE){
     # left join summaries together
     out <- left_join(s1, s2, by = c("col_name", "value")) %>%
       mutate(p_value = prop_test_imb(., n_1 = nrow(df1), n_2 = nrow(df2)))
-    # attach attributes required for plotting
-    attr(out, "type")     <- list(method = "imb", 2)
-    attr(out, "df_names") <- df_names
+  } 
+  if(input_type == "grouped"){
+    out <- apply_across_groups(df = df1, fn = inspect_imb)
   }
+  # attach attributes required for plotting
+  attr(out, "type")     <- list(method = "imb", input_type = input_type)
+  attr(out, "df_names") <- df_names
   if(show_plot) plot_deprecated(out)
   return(out)
 }
