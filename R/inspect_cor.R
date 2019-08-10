@@ -96,7 +96,7 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
       # perfom check for 0 variance features, return warning if found
       check_variance(df_numeric)
       # get correlation coefficients for numeric pairs
-      suppressWarnings(cor_df <- cor_test_1(df_numeric,
+      suppressWarnings(cor_df <- cor_test_2(df_numeric,
                                             df_name = df_names[[1]], 
                                             with_col = with_col,
                                             alpha = alpha, 
