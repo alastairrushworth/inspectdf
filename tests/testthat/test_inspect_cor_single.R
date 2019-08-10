@@ -1,4 +1,3 @@
-library(vdiffr)
 context("inspect_cor with single dataframe")
 
 # load in some example data
@@ -16,7 +15,6 @@ test_that("Output is a data frame", {
   expect_is(inspect_cor(storms), "data.frame")
   expect_is(inspect_cor(airquality), "data.frame")
 })
-
 
 diff_correlatations <- function(data_input, method){
   x1 <- data_input %>% inspect_cor(method = method) %>% dplyr::select(corr)
@@ -51,11 +49,6 @@ test_that("Correctness Pearson", {
 
 test_that("inspect_cor & single column df = empty df", {
   expect_equal(nrow(inspect_cor(mtcars %>% select(1))), 0)
-})
-
-test_that("inspect_cor & constant column = NA", {
-  expect_warning(inspect_cor(data.frame(z = 1:10, y = rep(1, 10))))
-  expect_equal(suppressWarnings(sum(is.na(inspect_cor(data.frame(z = 1:10, y = rep(1, 10)))$corr))), 1)
 })
 
 test_that("inspect_cor::with_col", {

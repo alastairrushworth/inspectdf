@@ -1,6 +1,8 @@
 
 # `inspectdf` 0.0.4.9000
 
+  - Speed-up of `inspect_cor()` for large dataframe with many numeric
+    columns.
   - Added approximate confidence intervals and tests for `method =
     'kendall'` and `method = 'spearman'` in `inspect_cor()`.
 
