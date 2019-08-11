@@ -29,6 +29,9 @@ cor_test_2 <- function(df_input, df_name, with_col, alpha, method){
   z2 <- if(is.null(with_col)) z1 else lapply(y, function(v) which(is.na(v)))
   nna <- Vectorize(function(x, y) length(unique(c(x, y))))
   nna_mat <- nrow(df_input) - outer(X = z1, Y = z2, nna)
+  
+  
+  
   if(is.null(with_col)) nna_mat[upper.tri(nna_mat, diag = TRUE)] <- Inf
   # get the number of non-null elements
   nna_df <- nna_mat %>%

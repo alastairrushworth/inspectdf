@@ -5,6 +5,8 @@
 #' Defaults to \code{NULL}.
 #' @param breaks Integer number of breaks used for histogram bins, passed to 
 #' \code{graphics::hist()}.  Defaults to 20.
+#' @param include_int Logical flag, whether to include integer columns in numeric summaries.  
+#' Defaults to \code{TRUE}.
 #' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' \code{hist(..., breaks)}.  See \code{?hist} for more details. 
@@ -64,7 +66,7 @@
 #' @importFrom tidyr gather
 #' @importFrom utils tail
 
-inspect_num <- function(df1, df2 = NULL, breaks = 20, show_plot = FALSE){
+inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE, show_plot = FALSE){
 
   # fish out breaks_seq, if supplied
   breakseq <- attr(df1, "breakseq")
@@ -75,6 +77,7 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, show_plot = FALSE){
   if(is.null(df2)){
     # pick out numeric features
     df_num <- df1 %>% select_if(is.numeric)
+    if(!include_int) df_num <- df_num %>% select_if(is.double)
     n_cols <- ncol(df_num)
     # calculate summary statistics for each
     if(n_cols > 0){
