@@ -7,13 +7,13 @@ data("band_instruments", package = "dplyr")
 data("storms", package = "dplyr")
 data(mtcars, airquality)
 
-test_that("Output is a data frame", {
-  expect_is(inspect_cor(mtcars), "data.frame")
-  expect_is(inspect_cor(band_instruments), "data.frame")
-  expect_error(inspect_cor(nasa))
-  expect_is(inspect_cor(starwars), "data.frame")
-  expect_is(inspect_cor(storms), "data.frame")
-  expect_is(inspect_cor(airquality), "data.frame")
+test_that("Output format checks", {
+  z1 <- inspect_cor(starwars)
+  z2 <- inspect_cor(tech)
+  expect_is(z1, "data.frame")
+  expect_is(z2, "data.frame")
+  expect_equal(colnames(z1), c("col_1", "col_2", "corr", "p_value", "lower", "upper"))
+  expect_equal(colnames(z2), c("col_1", "col_2", "corr", "p_value", "lower", "upper"))
 })
 
 diff_correlatations <- function(data_input, method){
