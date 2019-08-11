@@ -23,13 +23,12 @@ cor_test <- function(cor_1, cor_2, n_1, n_2){
 cor_test_2 <- function(df_input, df_name, with_col, alpha, method){
   # if with_col is specified, then only return a subset
   x <- if(is.null(with_col)) df_input else df_input[with_col]
-  y <- if(is.null(with_col)) df_input else df_input[-which(names(df_input) %in% with_col)]
+  y <- if(is.null(with_col)) NULL else df_input[-which(names(df_input) %in% with_col)]
   # need some way to count how many pairwise complete obs there are
   z1 <- lapply(x, function(v) which(is.na(v)))
-  z2 <- lapply(y, function(v) which(is.na(v)))
+  z2 <- if(is.null(with_col)) z1 else lapply(y, function(v) which(is.na(v)))
   nna <- Vectorize(function(x, y) length(unique(c(x, y))))
   nna_mat <- nrow(df_input) - outer(X = z1, Y = z2, nna)
-  
   if(is.null(with_col)) nna_mat[upper.tri(nna_mat, diag = TRUE)] <- Inf
   # get the number of non-null elements
   nna_df <- nna_mat %>%
@@ -48,8 +47,8 @@ cor_test_2 <- function(df_input, df_name, with_col, alpha, method){
     mutate(p_value = 2 * pnorm(-abs(corr / se))) %>%
     mutate(lower = tanh(atanh(corr) - qnorm(1 - (alpha/2)) * se)) %>%
     mutate(upper = tanh(atanh(corr) + qnorm(1 - (alpha/2)) * se)) %>%
-    mutate(pair = paste(col_1, col_2, sep = " & ")) #%>%
-    #select(-nna, -se)
+    mutate(pair = paste(col_1, col_2, sep = " & ")) %>%
+    select(-nna, -se)
 
   # return tibble of correlations
   return(cor_out)
