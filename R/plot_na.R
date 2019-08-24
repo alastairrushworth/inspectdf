@@ -10,7 +10,7 @@ plot_na_single <- function(df_plot, df_names, text_labels, col_palette){
   # construct bar plot of missingess
   plt <- bar_plot(df_plot = df_plot, x = "col_name", y = "pcnt", 
                   fill = "col_name", label = "cnt",
-                  ttl = paste0("Prevalance of NAs in df::", df_names$df1),
+                  ttl = paste0("Prevalence of NAs in df::", df_names$df1),
                   sttl = paste0("df::", df_names$df1,  " has ", nrow(df_plot), 
                                 " columns, of which ", sum(df_plot$cnt > 0), 
                                 " have missing values"),
