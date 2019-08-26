@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise and compare the levels within each categorical feature in one or two dataframes. — inspect_cat • inspectdf</title>
+<title>Summarise and compare the levels for each categorical feature in one or two dataframes. — inspect_cat • inspectdf</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Summarise and compare the levels within each categorical feature in one or two dataframes. — inspect_cat" />
+<meta property="og:title" content="Summarise and compare the levels for each categorical feature in one or two dataframes. — inspect_cat" />
 
-<meta property="og:description" content="Summarise and compare the levels within each categorical feature in one or two dataframes." />
+<meta property="og:description" content="Summarise and compare the levels for each categorical feature in one or two dataframes." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -116,12 +116,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/alastairrushworth/inspectdf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -134,14 +129,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summarise and compare the levels within each categorical feature in one or two dataframes.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/alastairrushworth/inspectdf/blob/master/R/inspect_cat.R'><code>R/inspect_cat.R</code></a></small>
+    <h1>Summarise and compare the levels for each categorical feature in one or two dataframes.</h1>
+    
     <div class="hidden name"><code>inspect_cat.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Summarise and compare the levels within each categorical feature in one or two dataframes.</p>
+    <p>Summarise and compare the levels for each categorical feature in one or two dataframes.</p>
     
     </div>
 
@@ -168,28 +163,29 @@ Superseded by the function <code><a href='show_plot.html'>show_plot()</a></code>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble summarising and comparing the categorical features 
-in one or a pair of data frames.</p>
+    <p>A tibble summarising or comparing the categorical features 
+in one or a pair of dataframes.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>When only <code>df1</code> is specified, a tibble is returned which 
-contains summaries of the categorical levels in <code>df1</code>.</p><ul>
+    <p>When <code>df2 = NULL</code>, a tibble containing summaries of the categorical features in 
+<code>df1</code> is returned:</p><ul>
 <li><p><code>col_name</code> character vector containing column names of <code>df1</code>.</p></li>
-<li><p><code>cnt</code> integer column containing count of unique levels found in each column 
-  (including <code>NA</code>).</p></li>
+<li><p><code>cnt</code> integer column containing count of unique levels found in each column, 
+  including <code>NA</code>.</p></li>
 <li><p><code>common</code> character column containing the name of the most common level.</p></li>
 <li><p><code>common_pcnt</code> percentage of each column occupied by the most common level shown in 
   <code>common</code>.</p></li>
-<li><p><code>levels</code> relative frequency of levels in each column.</p></li>
-</ul><p>When both <code>df1</code> and <code>df2</code> are specified, the relative frequencies of levels across columns
-common both dataframes are compared.  In particular, the population stability index, and Fisher's 
-exact test are performed as part of the comparison.</p><ul>
-<li><p><code>col_name</code> character vector containing column names of <code>df1</code> and <code>df2</code>.</p></li>
-<li><p>jsd numeric column containing the Jensen-Shannon divergence.  This measures the 
-  difference in distribution of a pair of categorical features.  Values near to 0 indicate
-  agreement of the distributions, while 1 indicates disagreement.</p></li>
-<li><p>fisher_p p-value corresponding to Fisher's exact test.  A small p indicates 
+<li><p><code>levels</code> names list containing relative frequency tibbles for each feature.</p></li>
+</ul><p>When <code>df1</code> and <code>df2</code> are specified, a comparison of the relative frequencies 
+of levels in common columns is performed.  In particular, Jensen-Shannon divergence and 
+Fisher's exact test are returned as part of the comparison.</p><ul>
+<li><p><code>col_name</code> character vector containing names of columns appearing in both 
+  <code>df1</code> and <code>df2</code>.</p></li>
+<li><p><code>jsd</code> numeric column containing the Jensen-Shannon divergence.  This measures the 
+  difference in relative frequencies of levels in a pair of categorical features.  Values near 
+  to 0 indicate agreement of the distributions, while 1 indicates disagreement.</p></li>
+<li><p><code>fisher_p</code> p-value corresponding to Fisher's exact test.  A small p indicates 
   evidence that the the two sets of relative frequencies are actually different.</p></li>
 <li><p><code>lvls_1</code>, <code>lvls_2</code> relative frequency of levels in each of <code>df1</code> and <code>df2</code>.</p></li>
 </ul>

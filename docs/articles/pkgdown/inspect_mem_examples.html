@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -80,14 +80,7 @@
   <a href="../../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/alastairrushworth/inspectdf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -102,7 +95,7 @@
       <h1>Memory usage of dataframe columns</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_mem_examples.Rmd"><code>vignettes/pkgdown/inspect_mem_examples.Rmd</code></a></small>
+      
       <div class="hidden name"><code>inspect_mem_examples.Rmd</code></div>
 
     </div>
@@ -167,21 +160,21 @@
 <p>When a second dataframe is provided, <code><a href="../../reference/inspect_mem.html">inspect_mem()</a></code> will create a dataframe comparing the size of each column for both input dataframes. The summaries for the first and second dataframes are show in columns with names appended with <code>_1</code> and <code>_2</code>, respectively.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../../reference/inspect_mem.html">inspect_mem</a></span>(star_<span class="dv">1</span>, star_<span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 13 x 5
-##    col_name   size_1    size_2    pcnt_1 pcnt_2
-##    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;
-##  1 films      11.37 Kb  11.2 Kb   35.2    39.2 
-##  2 starships  4.51 Kb   4.43 Kb   14.0    15.5 
-##  3 name       3.55 Kb   &lt;NA&gt;      11.0    NA   
-##  4 vehicles   3.41 Kb   3.23 Kb   10.6    11.3 
-##  5 homeworld  2.09 Kb   2.36 Kb    6.47    8.26
-##  6 species    1.78 Kb   1.76 Kb    5.52    6.16
-##  7 skin_color 1.66 Kb   1.88 Kb    5.14    6.57
-##  8 eye_color  1.17 Kb   1.22 Kb    3.63    4.27
-##  9 hair_color 1.06 Kb   976 bytes  3.29    3.34
-## 10 gender     560 bytes 680 bytes  1.70    2.33
-## 11 mass       448 bytes 448 bytes  1.36    1.53
-## 12 birth_year 448 bytes 448 bytes  1.36    1.53
-## 13 height     248 bytes &lt;NA&gt;       0.751  NA</code></pre>
+##    col_name   size_1    size_2     pcnt_1 pcnt_2
+##    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;
+##  1 films      10.92 Kb  11.41 Kb   35.4    40.6 
+##  2 starships  3.57 Kb   4.34 Kb    11.6    15.4 
+##  3 name       3.48 Kb   &lt;NA&gt;       11.3    NA   
+##  4 vehicles   3.09 Kb   3.3 Kb     10.0    11.7 
+##  5 homeworld  2.21 Kb   2.21 Kb     7.17    7.86
+##  6 skin_color 2.07 Kb   1.78 Kb     6.71    6.33
+##  7 species    1.96 Kb   1.79 Kb     6.36    6.36
+##  8 hair_color 904 bytes 848 bytes   2.86    2.94
+##  9 eye_color  904 bytes 1008 bytes  2.86    3.5 
+## 10 gender     680 bytes 616 bytes   2.15    2.14
+## 11 mass       448 bytes 448 bytes   1.42    1.56
+## 12 birth_year 448 bytes 448 bytes   1.42    1.56
+## 13 height     248 bytes &lt;NA&gt;        0.785  NA</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../../reference/inspect_mem.html">inspect_mem</a></span>(star_<span class="dv">1</span>, star_<span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../../reference/show_plot.html">show_plot</a></span>()</a></code></pre></div>
 <p><img src="inspect_mem_examples_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>

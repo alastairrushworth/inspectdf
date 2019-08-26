@@ -5,7 +5,6 @@ output: github_document
 
 ## Illustrative data: `starwars`
 
-
 The examples below make use of the `starwars` and `storms` data from the `dplyr` package
 
 ```{r}
@@ -22,10 +21,7 @@ star_1 <- starwars %>% sample_n(50)
 star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 ```
 
-
-
 ## `inspect_cat()` for a single dataframe
-
 
 `inspect_cat()` returns a tibble summarising categorical features in a data frame, combining the functionality of the `inspect_imb()` and `table()` functions.  The tibble generated contains the columns  
 
@@ -61,9 +57,7 @@ inspect_cat(starwars) %>%
 
 The resulting bundles are shown in purple.
 
-
 ## `inspect_cat()` for two dataframes
-
 
 When two dataframes are compared using `inspect_cat()`, list columns are returned for categorical columns common to both: `lvls_1` and `lvl2_2`.  In addition, the Jensen-Shannon divergence (`jsd`) and _p_ values associated with Fisher's exact test (`fisher_p`) are returned to enable comparison of the distribution of levels in each pair of columns.
 

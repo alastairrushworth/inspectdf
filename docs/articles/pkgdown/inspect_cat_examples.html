@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -80,14 +80,7 @@
   <a href="../../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/alastairrushworth/inspectdf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -102,7 +95,7 @@
       <h1>Exploring and visualising categorical features</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_cat_examples.Rmd"><code>vignettes/pkgdown/inspect_cat_examples.Rmd</code></a></small>
+      
       <div class="hidden name"><code>inspect_cat_examples.Rmd</code></div>
 
     </div>
@@ -185,15 +178,15 @@
 <p>When two dataframes are compared using <code><a href="../../reference/inspect_cat.html">inspect_cat()</a></code>, list columns are returned for categorical columns common to both: <code>lvls_1</code> and <code>lvl2_2</code>. In addition, the Jensen-Shannon divergence (<code>jsd</code>) and <em>p</em> values associated with Fisher’s exact test (<code>fisher_p</code>) are returned to enable comparison of the distribution of levels in each pair of columns.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../../reference/inspect_cat.html">inspect_cat</a></span>(star_<span class="dv">1</span>, star_<span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
-##   col_name        jsd fisher_p lvls_1            lvls_2           
-##   &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt; &lt;named list&gt;      &lt;named list&gt;     
-## 1 eye_color   0.0317     0.997 &lt;tibble [14 × 3]&gt; &lt;tibble [12 × 3]&gt;
-## 2 gender      0.00627    0.886 &lt;tibble [4 × 3]&gt;  &lt;tibble [4 × 3]&gt; 
-## 3 hair_color  0.0337     0.991 &lt;tibble [11 × 3]&gt; &lt;tibble [11 × 3]&gt;
-## 4 homeworld   0.165      0.959 &lt;tibble [32 × 3]&gt; &lt;tibble [36 × 3]&gt;
-## 5 name       NA         NA     &lt;tibble [50 × 3]&gt; &lt;NULL&gt;           
-## 6 skin_color  0.0812     1.000 &lt;tibble [21 × 3]&gt; &lt;tibble [25 × 3]&gt;
-## 7 species     0.0971     1     &lt;tibble [24 × 3]&gt; &lt;tibble [23 × 3]&gt;</code></pre>
+##   col_name         jsd fisher_p lvls_1            lvls_2           
+##   &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt; &lt;named list&gt;      &lt;named list&gt;     
+## 1 eye_color   0.0435      0.995 &lt;tibble [13 × 3]&gt; &lt;tibble [10 × 3]&gt;
+## 2 gender      0.000474    1     &lt;tibble [3 × 3]&gt;  &lt;tibble [3 × 3]&gt; 
+## 3 hair_color  0.0501      0.971 &lt;tibble [10 × 3]&gt; &lt;tibble [8 × 3]&gt; 
+## 4 homeworld   0.198       0.950 &lt;tibble [31 × 3]&gt; &lt;tibble [30 × 3]&gt;
+## 5 name       NA          NA     &lt;tibble [50 × 3]&gt; &lt;NULL&gt;           
+## 6 skin_color  0.118       0.956 &lt;tibble [19 × 3]&gt; &lt;tibble [22 × 3]&gt;
+## 7 species     0.143       0.998 &lt;tibble [23 × 3]&gt; &lt;tibble [26 × 3]&gt;</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="../../reference/inspect_cat.html">inspect_cat</a></span>(star_<span class="dv">1</span>, star_<span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../../reference/show_plot.html">show_plot</a></span>()</a></code></pre></div>
 <p><img src="inspect_cat_examples_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>

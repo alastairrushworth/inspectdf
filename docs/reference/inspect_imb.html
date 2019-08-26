@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -116,12 +116,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/alastairrushworth/inspectdf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -135,7 +130,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summarise and compare columnwise imbalance for non-numeric columns in one or two dataframes.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/alastairrushworth/inspectdf/blob/master/R/inspect_imb.R'><code>R/inspect_imb.R</code></a></small>
+    
     <div class="hidden name"><code>inspect_imb.Rd</code></div>
     </div>
 
@@ -152,7 +147,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df1</th>
-      <td><p>A data frame</p></td>
+      <td><p>A dataframe.</p></td>
     </tr>
     <tr>
       <th>df2</th>
@@ -167,7 +162,7 @@ Superseded by the function <code><a href='show_plot.html'>show_plot()</a></code>
     <tr>
       <th>include_na</th>
       <td><p>Logical flag, whether to include missing values as a unique level.  Default
-is <code>FALSE</code> - to ignore NAs.</p></td>
+is <code>FALSE</code> - to ignore <code>NA</code> values.</p></td>
     </tr>
     </table>
     
@@ -178,22 +173,21 @@ in one or a pair of data frames.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>When a single data frame is specified, a tibble is returned which 
-contains columnwise imbalance, with columns</p><ul>
+    <p>When <code>df2 = NULL</code>, a tibble containing a summary of columnwise imbalance 
+is returned, with columns:</p><ul>
 <li><p><code>col_name</code> character vector containing column names of <code>df1</code>.</p></li>
 <li><p><code>value</code> character vector containing the most common categorical level 
   in each column of <code>df1</code>.</p></li>
-<li><p><code>pcnt</code> the percentage of each column's entries occupied by the level in
-  <code>value</code> column.</p></li>
+<li><p><code>pcnt</code> the relative frequency of each column's most common categorical level 
+  expressed as a percentage.</p></li>
 <li><p><code>cnt</code> the number of occurrences of the most common categorical level in each
   column of <code>df1</code>.</p></li>
-</ul><p>When both <code>df1</code> and <code>df2</code> are specified, the most common levels in <code>df1</code> 
-are compared to columns in <code>df2</code>.  If a categorical column appears in
-both dataframes, a simple test is performed to test the null hypothesis that the rate of 
-occurrence of the common level in <code>df1</code> is the same in both dataframes.  
+</ul><p>When both <code>df1</code> and <code>df2</code> are specified, the most common levels in features common 
+to both <code>df1</code> and <code>df2</code> is returned. A simple test of the null hypothesis that the 
+relative frequencies of a common level is the same in both dataframes is performed.  
 The resulting tibble has columns</p><ul>
-<li><p><code>col_name</code> character vector containing column names of <code>df1</code> and 
-  <code>df2</code>.</p></li>
+<li><p><code>col_name</code> character vector containing names of the unique columns in <code>df1</code> 
+  and <code>df2</code>.</p></li>
 <li><p><code>value</code> character vector containing the most common categorical level 
   in each column of <code>df1</code>.</p></li>
 <li><p><code>pcnt_</code> the percentage of each column's entries occupied by the level in

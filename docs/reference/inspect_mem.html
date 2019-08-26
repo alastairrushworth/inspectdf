@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -116,12 +116,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/alastairrushworth/inspectdf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -135,7 +130,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summarise and compare the memory usage in one or two dataframes.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/alastairrushworth/inspectdf/blob/master/R/inspect_mem.R'><code>R/inspect_mem.R</code></a></small>
+    
     <div class="hidden name"><code>inspect_mem.Rd</code></div>
     </div>
 
@@ -156,7 +151,7 @@
     </tr>
     <tr>
       <th>df2</th>
-      <td><p>An optional second data frame for comparing column sizes.
+      <td><p>An optional second data frame with which to comparing memory usage.
 Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
@@ -173,14 +168,15 @@ for one or a pair of data frames.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>When a single data frame is specified, a tibble is returned which 
-contains columnwise memory usage in descending order of size:</p><ul>
-<li><p><code>col_name</code> character vector containing column names of <code>df1</code>.</p></li>
-<li><p><code>size</code> character vector containing memory usage of each column.</p></li>
-<li><p><code>pcnt</code> the percentage of total memory usage used by each column.</p></li>
-</ul><p>When both <code>df1</code> and <code>df2</code> are specified, column sizes are jointly 
-tabulated for both data frames, by performing a full join by <code>col_name</code>.  
-Rows are sorted in descending order of size as they appear in <code>df1</code>:</p><ul>
+    <p>When <code>df1</code> is specified and <code>df2 = NULL</code>, a tibble summarising 
+columnwise memory usage in descending order of size is returned:</p><ul>
+<li><p><code>col_name</code>   character vector containing column names of <code>df1</code>.</p></li>
+<li><p><code>size</code>  character vector containing display-friendly memory usage of each column.</p></li>
+<li><p><code>pcnt</code>  the percentage of the dataframe's total memory footprint 
+  used by each column.</p></li>
+</ul><p>When both <code>df1</code> and <code>df2</code> are specified, column memory usages are jointly 
+tabulated for both data frames.  Rows are sorted in descending order of size as 
+they appear in <code>df1</code>:</p><ul>
 <li><p><code>col_name</code> character vector containing column names of <code>df1</code>
   and <code>df2</code>.</p></li>
 <li><p><code>size_1</code>, <code>size_2</code> character vector containing memory usage of each column in
