@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -116,12 +116,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/alastairrushworth/inspectdf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -135,7 +130,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summarise and compare the rate of missingness in one or two dataframes.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/alastairrushworth/inspectdf/blob/master/R/inspect_na.R'><code>R/inspect_na.R</code></a></small>
+    
     <div class="hidden name"><code>inspect_na.Rd</code></div>
     </div>
 
@@ -173,22 +168,22 @@ for one or a pair of data frames.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>When a single data frame is specified, the a tibble is returned which 
-contains the count and percentage of missing values, with column names</p><ul>
+    <p>When <code>df1</code> is specified and <code>df2 = NULL</code>, a tibble containing columnwise 
+summaries of missing values is returned, with columns:</p><ul>
 <li><p><code>col_name</code> character vector containing column names of <code>df1</code>.</p></li>
 <li><p><code>cnt</code> integer vector containing the number of missing values by 
   column.</p></li>
-<li><p><code>pcnt</code> the percentage of each column with missing values</p></li>
+<li><p><code>pcnt</code> the percentage of records in each columns that is missing.</p></li>
 </ul>
-    <p>When both <code>df1</code> and <code>df2</code> are specified, missingness is compared across 
-columns occurring in both data frames.  A test of the null hypothesis that the rate 
-of missingness is the same across the same column in either dataframe.</p><ul>
-<li><p><code>col_name</code> the name of the columns occurring in either <code>df1</code></p></li>
+    <p>When both <code>df1</code> and <code>df2</code> are specified, missingness is compared across all columns in 
+both dataframes.  A test of the null hypothesis that the rate of missingness is the same across 
+the same column in either dataframe.</p><ul>
+<li><p><code>col_name</code> the name of the columns occurring in either <code>df1</code> or <code>df2</code>.</p></li>
 <li><p><code>cnt_1</code>, <code>cnt_2</code> pair of integer vectors containing counts of missing entries
   for each column in <code>df1</code> and <code>df2</code>.</p></li>
 <li><p><code>pcnt_1</code>, <code>pcnt_2</code> pair of columns containing percentage of missing entries
   for each column in <code>df1</code> and <code>df2</code>.</p></li>
-<li><p><code>p_value</code> p-value associated with test of the rates of missingness.  Small 
+<li><p><code>p_value</code> p-value associated with test of equivalence of rates of missingness.  Small 
   values indicate evidence that the rate of missingness differs for a column occurring 
   in both <code>df1</code> and <code>df2</code>.</p></li>
 </ul>
@@ -199,7 +194,7 @@ of missingness is the same across the same column in either dataframe.</p><ul>
 <span class='co'># inspect missingness in starwars data</span>
 <span class='fu'>inspect_na</span>(<span class='no'>starwars</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 13 x 3</span><span>
 #&gt;    col_name     cnt  pcnt
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> birth_year    44 50.6 
 #&gt; </span><span style='color: #555555;'> 2</span><span> mass          28 32.2 
 #&gt; </span><span style='color: #555555;'> 3</span><span> homeworld     10 11.5 
@@ -215,7 +210,7 @@ of missingness is the same across the same column in either dataframe.</p><ul>
 #&gt; </span><span style='color: #555555;'>13</span><span> starships      0  0   </div><div class='input'><span class='co'># compare two dataframes</span>
 <span class='fu'>inspect_na</span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>[<span class='fl'>1</span>:<span class='fl'>30</span>, ])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 13 x 6</span><span>
 #&gt;    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2   p_value
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> birth_year    44  50.6      4  13.3   0.000</span><span style='text-decoration: underline;'>777</span><span>
 #&gt; </span><span style='color: #555555;'> 2</span><span> mass          28  32.2      3  10     0.032</span><span style='text-decoration: underline;'>8</span><span>  
 #&gt; </span><span style='color: #555555;'> 3</span><span> homeworld     10  11.5      3  10     1.000   

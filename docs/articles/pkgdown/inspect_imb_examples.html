@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -80,14 +80,7 @@
   <a href="../../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/alastairrushworth/inspectdf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -102,7 +95,7 @@
       <h1>Feature imbalance for categorical columns</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_imb_examples.Rmd"><code>vignettes/pkgdown/inspect_imb_examples.Rmd</code></a></small>
+      
       <div class="hidden name"><code>inspect_imb_examples.Rmd</code></div>
 
     </div>
@@ -148,15 +141,15 @@
 <p>When a second dataframe is provided, <code><a href="../../reference/inspect_imb.html">inspect_imb()</a></code> returns a tibble that compares the frequency of the most common categorical values of the first dataframe to those in the second. The <code>p_value</code> column contains a measure of evidence for whether the true frequencies are equal or not.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../../reference/inspect_imb.html">inspect_imb</a></span>(star_<span class="dv">1</span>, star_<span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 7
-##   col_name   value    pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
-##   &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
-## 1 gender     male        78     39     74    37   0.815
-## 2 species    Human       44     22     36    18   0.540
-## 3 hair_color none        42     21     40    20   1.000
-## 4 eye_color  brown       28.    14     22    11   0.644
-## 5 skin_color fair        20     10     22    11   1.000
-## 6 homeworld  Tatooine    10      5     NA    NA  NA    
-## 7 name       Ackbar       2      1     NA    NA  NA</code></pre>
+##   col_name   value  pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
+##   &lt;chr&gt;      &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
+## 1 gender     male      62     31     66    33   0.835
+## 2 hair_color none      46     23     38    19   0.543
+## 3 species    Human     44     22     44    22   1.000
+## 4 eye_color  brown     28.    14     26    13   1    
+## 5 skin_color light     18      9     NA    NA  NA    
+## 6 homeworld  Naboo     16      8     18     9   1.000
+## 7 name       Ackbar     2      1     NA    NA  NA</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../../reference/inspect_imb.html">inspect_imb</a></span>(star_<span class="dv">1</span>, star_<span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../../reference/show_plot.html">show_plot</a></span>()</a></code></pre></div>
 <p><img src="inspect_imb_examples_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <ul>

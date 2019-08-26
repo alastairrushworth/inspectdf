@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -116,12 +116,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/alastairrushworth/inspectdf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -135,7 +130,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summarise and compare the numeric variables within one or two dataframes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/alastairrushworth/inspectdf/blob/master/R/inspect_num.R'><code>R/inspect_num.R</code></a></small>
+    
     <div class="hidden name"><code>inspect_num.Rd</code></div>
     </div>
 
@@ -145,7 +140,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>inspect_num</span>(<span class='no'>df1</span>, <span class='kw'>df2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>breakseq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>inspect_num</span>(<span class='no'>df1</span>, <span class='kw'>df2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>include_int</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>show_plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -153,22 +148,22 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df1</th>
-      <td><p>A data frame</p></td>
+      <td><p>A dataframe.</p></td>
     </tr>
     <tr>
       <th>df2</th>
-      <td><p>An optional second data frame for comparing categorical levels.
+      <td><p>An optional second dataframe for comparing categorical levels.
 Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>breaks</th>
-      <td><p>Optional argument determining how breaks are constructed for 
-histograms when comparing numeric data frame features.  This is passed to</p></td>
+      <td><p>Integer number of breaks used for histogram bins, passed to 
+<code><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>graphics::hist()</a></code>.  Defaults to 20.</p></td>
     </tr>
     <tr>
-      <th>breakseq</th>
-      <td><p>For internal use only.  Argument that accepts a pre-specified set of 
-break points, default is <code>NULL</code>.</p></td>
+      <th>include_int</th>
+      <td><p>Logical flag, whether to include integer columns in numeric summaries.
+Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>show_plot</th>
@@ -185,15 +180,14 @@ columns of <code>df1</code>, or comparing the histograms of <code>df1</code> and
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If only <code>df1</code> is specified, <code>inspect_num</code> returns a tibble with columns</p><ul>
-<li><p><code>col_name</code> character vector containing the column names in <code>df1</code>
-  and <code>df2</code></p></li>
+    <p>If only <code>df1</code> is specified, <code>inspect_num()</code> returns a tibble with columns</p><ul>
+<li><p><code>col_name</code>, a character vector containing the column names in <code>df1</code></p></li>
 <li><p><code>min</code>, <code>q1</code>, <code>median</code>, <code>mean</code>, <code>q3</code>, <code>max</code> and 
   <code>sd</code>: the minimum, lower quartile, median, mean, upper quartile, maximum and 
   standard deviation for each numeric column.</p></li>
-<li><p><code>pcnt_na</code> the percentage of each numeric feature that is missing</p></li>
-<li><p><code>hist</code> a list of tibbles containing the relative frequency of values in a 
-  set of discrete bins for each column.</p></li>
+<li><p><code>pcnt_na</code>, the percentage of each numeric feature that is missing</p></li>
+<li><p><code>hist</code>, a named list of tibbles containing the relative frequency of values in a 
+  falling in bins determined by <code>breaks</code>.</p></li>
 </ul><p>If both <code>df1</code> and <code>df2</code> are specified, the tibble has columns</p><ul>
 <li><p><code>col_name</code> character vector containing the column names in <code>df1</code>
   and <code>df2</code></p></li>
@@ -214,21 +208,21 @@ columns of <code>df1</code>, or comparing the histograms of <code>df1</code> and
 <span class='fu'>inspect_num</span>(<span class='no'>starwars</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 10</span><span>
 #&gt;   col_name     min    q1 median  mean    q3   max    sd pcnt_na hist            
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> birth_year     8  35       52  87.6  72     896 155.    50.6  </span><span style='color: #555555;'>&lt;tibble [20 × 2</span><span>…
-#&gt; </span><span style='color: #555555;'>2</span><span> height        66 167      180 174.  191     264  34.8    6.90 </span><span style='color: #555555;'>&lt;tibble [23 × 2</span><span>…
-#&gt; </span><span style='color: #555555;'>3</span><span> mass          15  55.6     79  97.3  84.5  </span><span style='text-decoration: underline;'>1</span><span>358 169.    32.2  </span><span style='color: #555555;'>&lt;tibble [30 × 2</span><span>…</div><div class='input'><span class='co'># with a visualisation too - try to limit number of bins</span>
+#&gt; </span><span style='color: #555555;'>1</span><span> height        66 167      180 174.  191     264  34.8    6.90 </span><span style='color: #555555;'>&lt;tibble [23 × 2</span><span>…
+#&gt; </span><span style='color: #555555;'>2</span><span> mass          15  55.6     79  97.3  84.5  </span><span style='text-decoration: underline;'>1</span><span>358 169.    32.2  </span><span style='color: #555555;'>&lt;tibble [30 × 2</span><span>…
+#&gt; </span><span style='color: #555555;'>3</span><span> birth_year     8  35       52  87.6  72     896 155.    50.6  </span><span style='color: #555555;'>&lt;tibble [20 × 2</span><span>…</div><div class='input'><span class='co'># with a visualisation too - try to limit number of bins</span>
 <span class='fu'>inspect_num</span>(<span class='no'>starwars</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 10</span><span>
 #&gt;   col_name     min    q1 median  mean    q3   max    sd pcnt_na hist            
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> birth_year     8  35       52  87.6  72     896 155.    50.6  </span><span style='color: #555555;'>&lt;tibble [11 × 2</span><span>…
-#&gt; </span><span style='color: #555555;'>2</span><span> height        66 167      180 174.  191     264  34.8    6.90 </span><span style='color: #555555;'>&lt;tibble [13 × 2</span><span>…
-#&gt; </span><span style='color: #555555;'>3</span><span> mass          15  55.6     79  97.3  84.5  </span><span style='text-decoration: underline;'>1</span><span>358 169.    32.2  </span><span style='color: #555555;'>&lt;tibble [16 × 2</span><span>…</div><div class='input'><span class='co'># compare two data frames</span>
+#&gt; </span><span style='color: #555555;'>1</span><span> height        66 167      180 174.  191     264  34.8    6.90 </span><span style='color: #555555;'>&lt;tibble [13 × 2</span><span>…
+#&gt; </span><span style='color: #555555;'>2</span><span> mass          15  55.6     79  97.3  84.5  </span><span style='text-decoration: underline;'>1</span><span>358 169.    32.2  </span><span style='color: #555555;'>&lt;tibble [16 × 2</span><span>…
+#&gt; </span><span style='color: #555555;'>3</span><span> birth_year     8  35       52  87.6  72     896 155.    50.6  </span><span style='color: #555555;'>&lt;tibble [11 × 2</span><span>…</div><div class='input'><span class='co'># compare two data frames</span>
 <span class='fu'>inspect_num</span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>[-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>), ], <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 5</span><span>
 #&gt;   col_name   hist_1            hist_2                 jsd fisher_p
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> birth_year </span><span style='color: #555555;'>&lt;tibble [11 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [11 × 2]&gt;</span><span> 0.002</span><span style='text-decoration: underline;'>18</span><span>     0.983
-#&gt; </span><span style='color: #555555;'>2</span><span> height     </span><span style='color: #555555;'>&lt;tibble [13 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [13 × 2]&gt;</span><span> 0.002</span><span style='text-decoration: underline;'>64</span><span>     1.000
-#&gt; </span><span style='color: #555555;'>3</span><span> mass       </span><span style='color: #555555;'>&lt;tibble [16 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [16 × 2]&gt;</span><span> 0.000</span><span style='text-decoration: underline;'>239</span><span>    1    </div></span></pre>
+#&gt; </span><span style='color: #555555;'>1</span><span> height     </span><span style='color: #555555;'>&lt;tibble [13 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [13 × 2]&gt;</span><span> 0.002</span><span style='text-decoration: underline;'>64</span><span>     1.000
+#&gt; </span><span style='color: #555555;'>2</span><span> mass       </span><span style='color: #555555;'>&lt;tibble [16 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [16 × 2]&gt;</span><span> 0.000</span><span style='text-decoration: underline;'>239</span><span>    1    
+#&gt; </span><span style='color: #555555;'>3</span><span> birth_year </span><span style='color: #555555;'>&lt;tibble [11 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [11 × 2]&gt;</span><span> 0.002</span><span style='text-decoration: underline;'>18</span><span>     0.983</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
