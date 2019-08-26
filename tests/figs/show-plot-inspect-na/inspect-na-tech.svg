@@ -75,5 +75,5 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(644.46,541.44) rotate(-45)' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='14.17px' lengthAdjust='spacingAndGlyphs'>ibm</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(13.04,335.83) rotate(-90)' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='111.34px' lengthAdjust='spacingAndGlyphs'>% of column that is NA</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='49.89' y='30.33' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='268.00px' lengthAdjust='spacingAndGlyphs'>df::tech has 6 columns, of which 0 have missing values</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='49.89' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='169.95px' lengthAdjust='spacingAndGlyphs'>Prevalance of NAs in df::tech</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='49.89' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='169.95px' lengthAdjust='spacingAndGlyphs'>Prevalence of NAs in df::tech</text></g>
 </svg>

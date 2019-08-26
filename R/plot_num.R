@@ -13,17 +13,22 @@ plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels){
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
   # get bin midpoints for plotting
   for(i in 1:length(df_plot$hist)){
-    df_plot$hist[[i]]$col_name <- df_plot$col_name[i]
-    diff_nums <- lapply(strsplit(gsub("\\[|,|\\)", "", df_plot$hist[[i]]$value), " "), 
-                        function(v) diff(as.numeric(v))) %>% unlist %>% unique
-    df_plot$hist[[i]]$mid <- lapply(strsplit(gsub("\\[|,|\\)", "", df_plot$hist[[i]]$value), " "), 
-                                    function(v) diff(as.numeric(v))/2 + as.numeric(v)[1]) %>% unlist
-    if(is.nan(df_plot$hist[[i]]$mid[1]) | is.infinite(df_plot$hist[[i]]$mid[1])){
-      df_plot$hist[[i]]$mid[1] <- df_plot$hist[[i]]$mid[2] - (diff_nums[is.finite(diff_nums)])[1]
-    } 
-    last_n <- length(df_plot$hist[[i]]$mid)
-    if(is.nan(df_plot$hist[[i]]$mid[last_n]) | is.infinite(df_plot$hist[[i]]$mid[last_n])){
-      df_plot$hist[[i]]$mid[last_n] <- df_plot$hist[[i]]$mid[last_n - 1] + (diff_nums[is.finite(diff_nums)])[1]
+    # check first if the variable is completely missing
+    if(!(nrow(df_plot$hist[[i]]) == 1 & is.na(df_plot$hist[[i]]$value[1]))){
+      df_plot$hist[[i]]$col_name <- df_plot$col_name[i]
+      diff_nums <- lapply(strsplit(gsub("\\[|,|\\)", "", df_plot$hist[[i]]$value), " "), 
+                          function(v) diff(as.numeric(v))) %>% unlist %>% unique
+      df_plot$hist[[i]]$mid <- lapply(strsplit(gsub("\\[|,|\\)", "", df_plot$hist[[i]]$value), " "), 
+                                      function(v) diff(as.numeric(v))/2 + as.numeric(v)[1]) %>% unlist
+      if(is.nan(df_plot$hist[[i]]$mid[1]) | is.infinite(df_plot$hist[[i]]$mid[1])){
+        df_plot$hist[[i]]$mid[1] <- df_plot$hist[[i]]$mid[2] - (diff_nums[is.finite(diff_nums)])[1]
+      } 
+      last_n <- length(df_plot$hist[[i]]$mid)
+      if(is.nan(df_plot$hist[[i]]$mid[last_n]) | is.infinite(df_plot$hist[[i]]$mid[last_n])){
+        df_plot$hist[[i]]$mid[last_n] <- df_plot$hist[[i]]$mid[last_n - 1] + (diff_nums[is.finite(diff_nums)])[1]
+      }
+    } else {
+      df_plot$hist[[i]] <- NULL
     }
   }
   df_plot <- bind_rows(df_plot$hist)

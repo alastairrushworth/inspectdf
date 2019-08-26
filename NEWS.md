@@ -1,6 +1,10 @@
 
 # `inspectdf` 0.0.5.9000
 
+  - Fixed error causing `inspect_num()` to fail when columns contained
+    all `NA` values. Thanks to [Ryan
+    Tanner](https://github.com/ryanatanner) for the
+    [report](https://github.com/alastairrushworth/inspectdf/issues/18)
   - Speed-up of `inspect_cor()` for large data frames with many numeric
     columns.
   - Added approximate confidence intervals and tests for `method =
