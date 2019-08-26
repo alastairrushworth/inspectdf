@@ -10,8 +10,9 @@
 #' @importFrom progress progress_bar
 #' @importFrom tibble as_tibble
 #' @importFrom tibble tibble
+#' @importFrom stats qnorm
 #' @importFrom stats pnorm
-#' @importFrom stats cor.test
+#' @importFrom stats cor
 
 cor_test <- function(cor_1, cor_2, n_1, n_2){
   var_diff       <- sqrt(1/(n_1 - 3) + 1/(n_2 - 3))

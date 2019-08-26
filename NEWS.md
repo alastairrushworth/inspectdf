@@ -1,5 +1,5 @@
 
-# `inspectdf` 0.0.5.9000
+# `inspectdf` 0.0.5
 
   - Fixed error causing `inspect_num()` to fail when columns contained
     all `NA` values. Thanks to [Ryan

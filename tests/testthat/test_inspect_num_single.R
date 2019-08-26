@@ -27,3 +27,9 @@ test_that("Number of breaks", {
   expect_is(iris %>% inspect_num(breaks = 30), "data.frame")
   expect_is(iris %>% inspect_num(breaks = 10), "data.frame")
 })
+
+test_that("Cope with columns with missing values", {
+  with_missing <- data.frame(a = 1:100, b = rep(NA_real_, 100)) %>% inspect_num
+  expect_equal(with_missing$pcnt_na[2], 100)
+  expect_equal(with_missing$hist$b$value, NA)
+})
