@@ -14,4 +14,6 @@ test_that("Output is a data frame", {
   expect_is(inspect_imb(starwars), "data.frame")
   expect_is(inspect_imb(storms), "data.frame")
   expect_is(inspect_imb(airquality), "data.frame")
+  expect_is(inspect_imb(iris), "data.frame")
 })
+
