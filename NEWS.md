@@ -1,4 +1,11 @@
 
+# `inspectdf` 0.0.6.9000
+
+  - Fixed bug causing `inspect_imb()` to sometimes fail when factors
+    present. Thanks to [Doug Friedman](https://github.com/doug-friedman)
+    for the
+    [report](https://github.com/alastairrushworth/inspectdf/issues/19).
+
 # `inspectdf` 0.0.5
 
   - Fixed error causing `inspect_num()` to fail when columns contained

@@ -8,7 +8,7 @@ check_factors <- function(df_cat){
         return(FALSE)
       }
     }
-    non_unq <- which(sapply(df_cat_fact, are_lvls_unq))
+    non_unq <- which(sapply(df_cat, are_lvls_unq))
     # any non-unique, replace levels
     if(length(non_unq) > 0){
       for(i in 1:length(non_unq)){
