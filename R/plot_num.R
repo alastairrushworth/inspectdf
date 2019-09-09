@@ -6,9 +6,10 @@
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 scale_fill_gradient
+#' @importFrom ggplot2 scale_fill_gradientn
 #' @importFrom ggplot2 theme
 
-plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels){
+plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels, col_palette){
   # set the plot_layout if not specified
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
   # get bin midpoints for plotting
@@ -37,16 +38,38 @@ plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels){
     summarise(bar_width = diff(mid)[1]/1.5)
   df_plot <- df_plot %>% 
     left_join(bin_width, by = "col_name")
+  # add a colour scale variable in df_plot
+  # scale densities to have max of 1 and min 0
+  if(!is.na(col_palette)){
+    df_plot <- df_plot %>%
+      group_by(col_name) %>%
+      mutate(prop_z  = prop / max(prop)) %>%
+      ungroup
+  } else {
+    df_plot['prop_z'] = 'blue'
+  }
+
   # generate plot
   plt <- df_plot %>%
-    ggplot(aes(x = mid, y = prop, width = bar_width)) + 
-    geom_col(fill = "blue") + 
+    ggplot(aes(x = mid, y = prop, width = bar_width, fill = prop_z)) + 
+    geom_col() + 
     labs(x = "", y = "Probability", 
          title =  paste0("Histograms of numeric columns in df::", df_names$df1), 
          subtitle = "") +
-    facet_wrap(~ col_name, scales = "free", 
+    facet_wrap(~ col_name, 
+               scales = "free", 
                nrow = plot_layout[[1]], 
                ncol = plot_layout[[2]])
+  
+  if(!is.na(col_palette)){
+    plt <- plt + 
+      scale_fill_gradientn(colours = print_palette_pairs(col_palette)) +
+      theme(legend.position = "none")
+  } else {
+    plt <- plt + 
+      scale_fill_manual(values = 'blue') + 
+      theme(legend.position = "none")
+  }
   # print plot
   plt
 }
