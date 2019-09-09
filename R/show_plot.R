@@ -162,7 +162,8 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
     if(type[[2]] == 1){
       plt <- plot_num_1(x, df_names = df_names,
                         text_labels = text_labels, 
-                        plot_layout = plot_layout)
+                        plot_layout = plot_layout, 
+                        col_palette = col_palette)
     } else {
       plt <- plot_num_2(x, df_names = df_names, alpha = alpha,
                         text_labels = text_labels, 
