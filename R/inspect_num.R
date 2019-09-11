@@ -166,8 +166,20 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE, show_p
   }
   
   if(input_type == "grouped"){
-    out <- apply_across_groups(df = df1, fn = inspect_num, 
-                               breaks = breaks, include_int = include_int)
+    s_ug <- inspect_num(df1 %>% ungroup)
+    brk_tab <- tibble(col_name = s_ug$col_name, breaks = lapply(s_ug$hist, get_break))
+    out_nest <- df1 %>% nest()
+    grp_nms  <- out_nest[[1]] 
+    cnm      <- colnames(out_nest)[1]
+    out_list <- vector("list", length = length(out_nest))
+    for(i in 1:length(out_nest$data)){
+      dfi <- out_nest$data[[i]]
+      attr(dfi, 'breakseq') <- brk_tab
+      out_list[[i]] <- inspect_num(dfi, include_int = include_int, show_plot = FALSE)
+    }
+    grp_nms <- data.frame(rep(unlist(grp_nms), each = nrow(out_list[[1]])))
+    colnames(grp_nms) <- cnm
+    out <- bind_cols(grp_nms, bind_rows(out_list)) %>% as_tibble() 
   }
   attr(out, "type")     <- list(method = "num", input_type = input_type)
   attr(out, "df_names") <- df_names
