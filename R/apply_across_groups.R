@@ -3,6 +3,7 @@ apply_across_groups <- function(df, fn, ...){
   grp_nms  <- attr(df, "groups") %>% select(1)
   cnm      <- colnames(grp_nms)[1]
   out_nest <- df %>% nest()
+  #grp_nms  <- out_nest[[1]] 
   out_list <- lapply(out_nest$data, fn, ...)
   grp_nms <- data.frame(rep(unlist(grp_nms), each = nrow(out_list[[1]])))
   colnames(grp_nms) <- cnm

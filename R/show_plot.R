@@ -173,8 +173,12 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
                         text_labels = text_labels, 
                         plot_layout = plot_layout)
     }
-    if(type$input_type == "grouped") stop("Grouped plots for inspect_num() not yet implemented.")
-    
+    if(type$input_type == "grouped"){
+      plt <- plot_num_3(x, df_names = df_names, alpha = alpha,
+                        text_labels = text_labels, 
+                        plot_layout = plot_layout, 
+                        col_palette = col_palette)
+    }
   }
   
   # types plots
