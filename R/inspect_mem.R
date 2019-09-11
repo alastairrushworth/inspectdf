@@ -50,7 +50,7 @@
 inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
-  check_df_cols(df1)
+  input_type <- check_df_cols(df1, df2)
   
   # capture the data frame names
   df_names <- get_df_names()
@@ -61,7 +61,8 @@ inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE){
                 ncl_1 = ncol(df1), ncl_2 = ncol(df2), 
                 nrw_1 = nrow(df1), nrw_2 = nrow(df2))
   
-  if(is.null(df2)){
+  # if only a single df input
+  if(input_type == "single"){
     # col_space vectors
     names_vec <- colnames(df1)
     col_space <- vector("list", length = sizes$ncl_1)
@@ -86,24 +87,21 @@ inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE){
       arrange(desc(pcnt)) %>%
       rename(col_name = names, size = n.y) %>% 
       select(-n.x)
-    
-    # attach attributes required for plotting
-    attr(out, "type") <- list(method = "mem", 1)
-    attr(out, "df_names") <- df_names
-    attr(out, "sizes") <- sizes
-  } else {
+  }
+  if(input_type == "pair"){
     # get the space report for both input dfs
     df1 <- inspect_mem(df1)
     df2 <- inspect_mem(df2)
     out <- full_join(df1, df2, by = "col_name") %>%
       select(col_name, contains("size"), contains("pcnt"))
     colnames(out)[2:5] <- c("size_1", "size_2", "pcnt_1", "pcnt_2")
-    
-    # attach attributes required for plotting
-    attr(out, "type") <- list(method = "mem", 2)
-    attr(out, "df_names") <- df_names
-    attr(out, "sizes") <- sizes
   }
+  if(input_type == "grouped"){
+    out <- apply_across_groups(df = df1, fn = inspect_mem)
+  }
+  attr(out, "type")     <- list(method = "mem", input_type = input_type)
+  attr(out, "df_names") <- df_names
+  attr(out, "sizes")    <- sizes
   if(show_plot) plot_deprecated(out)
   return(out)
 }
