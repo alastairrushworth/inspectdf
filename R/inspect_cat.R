@@ -58,11 +58,12 @@
 inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE){
   
   # perform basic column check on dataframe input
-  check_df_cols(df1)
+  input_type <- check_df_cols(df1, df2)
   # capture the data frame names
   df_names <- get_df_names()
   
-  if(is.null(df2)){
+  # if only a single df input
+  if(input_type == "single"){
     # pick out categorical columns
     df_cat <- df1 %>% 
       select_if(function(v) is.character(v) | is.factor(v) | 
@@ -104,16 +105,13 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE){
         arrange(col_name)
       # add names to the list
       names(out$levels) <- out$col_name
-      
-      # attach attributes required for plotting
-      attr(out, "type")     <- list(method = "cat", 1)
-      attr(out, "df_names") <- df_names
     } else {
       out <- tibble(col_name = character(), cnt = integer(), 
                     common = character(), common_pcnt = numeric(), 
                     levels = list())
     }
-  } else {
+  }
+  if(input_type == "pair"){
     # levels for df1
     s1 <- inspect_cat(df1) %>% 
       select(-contains("common"), -cnt)
@@ -126,14 +124,15 @@ inspect_cat <- function(df1, df2 = NULL, show_plot = FALSE){
       mutate(fisher_p = fisher(levels.x, levels.y, n_1 = nrow(df1), 
                                n_2 = nrow(df2))) %>%
       select(col_name, jsd, fisher_p, lvls_1 = levels.x, lvls_2 = levels.y)
-
+    
     # ensure the list names are retained
     names(out[[4]]) <- names(out[[5]]) <- as.character(out$col_name)
-    
-    # attach attributes required for plotting
-    attr(out, "type")     <- list(method = "cat", 2)
-    attr(out, "df_names") <- df_names
   }
+  if(input_type == "grouped"){
+    out <- apply_across_groups(df = df1, fn = inspect_cat)
+  }
+  attr(out, "type")     <- list(method = "cat", input_type = input_type)
+  attr(out, "df_names") <- df_names
   if(show_plot) plot_deprecated(out)
   return(out)
 }

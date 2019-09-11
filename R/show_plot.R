@@ -63,6 +63,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   
   # categorical plots
   if(type$method == "cat"){
+    if(type$input_type == "grouped") stop("Grouped plots for inspect_cat() not yet implemented.")
     plt <- plot_cat(x, df_names = df_names,
                     text_labels = text_labels, 
                     high_cardinality = high_cardinality, 
@@ -123,17 +124,19 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   # memory plots
   if(type$method == "mem"){
     sizes <- attr(x, "sizes")
-    if(type[[2]] == 1){
+    if(type$input_type == "single"){
       plt <- plot_mem_1(x, df_names = df_names, 
                         text_labels = text_labels, 
                         sizes = sizes, 
                         col_palette = col_palette)
-    } else {
+    }
+    if(type$input_type == "pair"){
       plt <- plot_mem_2(x, df_names = df_names,
                         text_labels = text_labels, 
                         sizes = sizes, 
                         col_palette = col_palette)
     }
+    if(type$input_type == "grouped") stop("Grouped plots for inspect_mem() not yet implemented.")
   }
   
   # missingness plots
@@ -159,16 +162,19 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   
   # numeric plots
   if(type$method == "num"){
-    if(type[[2]] == 1){
+    if(type$input_type == "single"){
       plt <- plot_num_1(x, df_names = df_names,
                         text_labels = text_labels, 
                         plot_layout = plot_layout, 
                         col_palette = col_palette)
-    } else {
+    }
+    if(type$input_type == "pair"){
       plt <- plot_num_2(x, df_names = df_names, alpha = alpha,
                         text_labels = text_labels, 
                         plot_layout = plot_layout)
     }
+    if(type$input_type == "grouped") stop("Grouped plots for inspect_num() not yet implemented.")
+    
   }
   
   # types plots

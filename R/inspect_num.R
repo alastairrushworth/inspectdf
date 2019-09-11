@@ -71,10 +71,11 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE, show_p
   # fish out breaks_seq, if supplied
   breakseq <- attr(df1, "breakseq")
   # perform basic column check on dataframe input
-  check_df_cols(df1, df2)
+  input_type <- check_df_cols(df1, df2)
   # capture the data frame names
   df_names <- get_df_names()
-  if(is.null(df2)){
+  # if only a single df input
+  if(input_type == "single"){
     # pick out numeric features
     df_num <- df1 %>% select_if(is.numeric)
     if(!include_int) df_num <- df_num %>% select_if(is.double)
@@ -139,9 +140,6 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE, show_p
         select(-breaks)
       # add feature names to the list
       names(out$hist) <-  as.character(out$col_name)
-      # attach attributes required for plotting
-      attr(out, "type") <- list(method = "num", 1)
-      attr(out, "df_names") <- df_names
     } else {
       out <- tibble(col_name = character(), min = numeric(), 
                     q1 = numeric(), median = numeric(), 
@@ -149,7 +147,8 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE, show_p
                     max = numeric(), sd = numeric(), 
                     pcnt_na = numeric(), hist = list())
     }
-  } else {
+  } 
+  if(input_type == "pair"){
     # get histogram and summaries for first df
     s1 <- inspect_num(df1, breaks = breaks, include_int = include_int) %>% 
       select(col_name, hist)
@@ -164,10 +163,14 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE, show_p
       mutate(jsd = js_divergence_vec(hist.x, hist.y)) %>%
       mutate(fisher_p = fisher(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       select(col_name, hist_1 = hist.x, hist_2 = hist.y,  jsd, fisher_p)
-    # attach attributes required for plotting
-    attr(out, "type") <- list(method = "num", 2)
-    attr(out, "df_names") <- df_names
   }
+  
+  if(input_type == "grouped"){
+    out <- apply_across_groups(df = df1, fn = inspect_num, 
+                               breaks = breaks, include_int = include_int)
+  }
+  attr(out, "type")     <- list(method = "num", input_type = input_type)
+  attr(out, "df_names") <- df_names
   if(show_plot) plot_deprecated(out)
   return(out)
 }
