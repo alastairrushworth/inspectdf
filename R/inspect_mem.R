@@ -1,5 +1,10 @@
-#' Summarise and compare the memory usage in one or two dataframes.
+#' Summary and comparison of memory usage of dataframe columns 
 #'
+#' @description For a single dataframe, summarise the memory usage in each column. 
+#' If two dataframes are supplied, compare memory usage for columns appearing 
+#' in both dataframes.  For grouped dataframes, summarise the memory usage separately 
+#' for each group.
+#' 
 #' @param df1 A data frame.
 #' @param df2 An optional second data frame with which to comparing memory usage.  
 #' Defaults to \code{NULL}.
@@ -7,17 +12,15 @@
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return A tibble summarising and comparing the columnwise memory usage 
 #' for one or a pair of data frames.
-#' @details When \code{df1} is specified and \code{df2 = NULL}, a tibble summarising 
-#' columnwise memory usage in descending order of size is returned:
+#' @details 
+#' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name}   character vector containing column names of \code{df1}.
 #'   \item \code{size}  character vector containing display-friendly memory usage of each column.
 #'   \item \code{pcnt}  the percentage of the dataframe's total memory footprint 
 #'   used by each column.
 #' }
-#' When both \code{df1} and \code{df2} are specified, column memory usages are jointly 
-#' tabulated for both data frames.  Rows are sorted in descending order of size as 
-#' they appear in \code{df1}:
+#' \cr For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name} character vector containing column names of \code{df1}
 #'   and \code{df2}.
@@ -26,12 +29,27 @@
 #'   \item \code{pcnt_1}, \code{pcnt_2} the percentage of total memory usage of each column within 
 #'   each of \code{df1} and \code{df2}.
 #' }
+#' 
+#' #' \cr For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
+#' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
+#' as there are unique combinations of the grouping variables.
+#' 
+#' @export
+#' @author Alastair Rushworth
+#' @seealso \code{\link{show_plot}}
+#' 
 #' @examples
+#' # Starwars data from dplyr
 #' data("starwars", package = "dplyr")
-#' # get tibble of column memory usage for the starwars data
+#' 
+#' # Single dataframe summary
 #' inspect_mem(starwars)
-#' # compare memory usage 
-#' inspect_mem(starwars, starwars[1:10, -3])
+#' 
+#' # Paired dataframe comparison
+#' inspect_mem(starwars, starwars[1:20, ])
+#' 
+#' # Grouped dataframe summary
+#' starwars %>% group_by(gender) %>% inspect_mem()
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -45,7 +63,6 @@
 #' @importFrom dplyr ungroup
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
-#' @export
 
 inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE){
   

@@ -1,4 +1,8 @@
-#' Summarise and compare the numeric variables within one or two dataframes
+#' Summary and comparison of numeric columns
+#' 
+#' @description For a single dataframe, summarise the numeric columns.  If two 
+#' dataframes are supplied, compare numeric columns appearing in both dataframes.  
+#' For grouped dataframes, summarise numeric columns separately for each group.
 #'
 #' @param df1 A dataframe.
 #' @param df2 An optional second dataframe for comparing categorical levels.  
@@ -13,7 +17,7 @@
 #' @return A \code{tibble} containing statistical summaries of the numeric 
 #' columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
 #' @details 
-#' If only \code{df1} is specified, \code{inspect_num()} returns a tibble with columns
+#' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name}, a character vector containing the column names in \code{df1}
 #'   \item \code{min}, \code{q1}, \code{median}, \code{mean}, \code{q3}, \code{max} and 
@@ -23,7 +27,8 @@
 #'   \item \code{hist}, a named list of tibbles containing the relative frequency of values in a 
 #'   falling in bins determined by \code{breaks}.
 #' }
-#' If both \code{df1} and \code{df2} are specified, the tibble has columns
+#' 
+#' \cr For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name} character vector containing the column names in \code{df1}
 #'   and \code{df2}
@@ -36,15 +41,27 @@
 #'   \item{fisher_p} p-value corresponding to Fisher's exact test.  A small p indicates 
 #'   evidence that the two histograms are actually different.
 #' }
+#' 
+#' \cr For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
+#' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
+#' as there are unique combinations of the grouping variables.
+#' 
 #' @export
+#' @author Alastair Rushworth
+#' @seealso \code{\link{show_plot}}
+#' 
 #' @examples
+#' # Starwars data from dplyr
 #' data("starwars", package = "dplyr")
-#' # show summary statistics for starwars
+#' 
+#' # Single dataframe summary
 #' inspect_num(starwars)
-#' # with a visualisation too - try to limit number of bins
-#' inspect_num(starwars, breaks = 10)
-#' # compare two data frames
-#' inspect_num(starwars, starwars[-c(1:10), ], breaks = 10)
+#' 
+#' # Paired dataframe comparison
+#' inspect_num(starwars, starwars[1:20, ])
+#' 
+#' # Grouped dataframe summary
+#' starwars %>% group_by(gender) %>% inspect_num()
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc
@@ -166,20 +183,22 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE, show_p
   }
   
   if(input_type == "grouped"){
-    s_ug <- inspect_num(df1 %>% ungroup)
-    brk_tab <- tibble(col_name = s_ug$col_name, breaks = lapply(s_ug$hist, get_break))
+    # get inspect_num on the ungrouped version
+    s_ug     <- inspect_num(df1 %>% ungroup)
+    # construct a breaks table from s_ug
+    brk_tab  <- tibble(col_name = s_ug$col_name, breaks = lapply(s_ug$hist, get_break))
+    # create a nested version of df1 - break into a list
     out_nest <- df1 %>% nest()
-    grp_nms  <- out_nest[[1]] 
-    cnm      <- colnames(out_nest)[1]
+    grp_nms  <- attr(df1, "groups") %>% select(-ncol(.))
     out_list <- vector("list", length = length(out_nest))
+    # loop over the subcomponents of out_nest
     for(i in 1:length(out_nest$data)){
       dfi <- out_nest$data[[i]]
       attr(dfi, 'breakseq') <- brk_tab
       out_list[[i]] <- inspect_num(dfi, include_int = include_int, show_plot = FALSE)
     }
-    grp_nms <- data.frame(rep(unlist(grp_nms), each = nrow(out_list[[1]])))
-    colnames(grp_nms) <- cnm
-    out <- bind_cols(grp_nms, bind_rows(out_list)) %>% as_tibble() 
+    grp_nms$out_list <- out_list
+    out <- unnest(grp_nms, cols = c('out_list'))
   }
   attr(out, "type")     <- list(method = "num", input_type = input_type)
   attr(out, "df_names") <- df_names

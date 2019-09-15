@@ -1,12 +1,12 @@
 apply_across_groups <- function(df, fn, ...){
-  # names of the groups
-  grp_nms  <- attr(df, "groups") %>% select(1)
-  cnm      <- colnames(grp_nms)[1]
+  # grouping columns
+  grp_nms  <- attr(df, "groups") %>% select(-ncol(.))
+  # split the grouped data into list
   out_nest <- df %>% nest()
-  #grp_nms  <- out_nest[[1]] 
-  out_list <- lapply(out_nest$data, fn, ...)
-  grp_nms <- data.frame(rep(unlist(grp_nms), each = nrow(out_list[[1]])))
-  colnames(grp_nms) <- cnm
-  out <- bind_cols(grp_nms, bind_rows(out_list)) %>% as_tibble()
+  # apply inspect_ over list elements
+  grp_nms$out_list <- lapply(out_nest$data, fn, ...)
+  # repeat each row of the grouping columns
+  out <- unnest(grp_nms, cols = c('out_list'))
+  # return output
   return(out)
 }
