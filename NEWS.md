@@ -1,6 +1,7 @@
 
 # `inspectdf` 0.0.6.9000
 
+  - Updates to documentation throughout.
   - `inspect_*` functions now returns results by group grouped
     dataframes.
   - Added option for `inspect_num() %>% show_plot()` to show histograms

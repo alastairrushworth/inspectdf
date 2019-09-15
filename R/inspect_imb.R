@@ -1,4 +1,9 @@
-#' Summarise and compare columnwise imbalance for non-numeric columns in one or two dataframes.
+#' Summary and comparison of the most common levels in categorical columns 
+#' 
+#' @description For a single dataframe, summarise the most common level in each 
+#' categorical column. If two dataframes are supplied, compare the most common 
+#' levels of categorical features appearing in both dataframes.  For grouped 
+#' dataframes, summarise the levels of categorical features separately for each group.
 #'
 #' @param df1 A dataframe.
 #' @param df2 An optional second data frame for comparing columnwise imbalance.  
@@ -9,8 +14,9 @@
 #' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return  A tibble summarising and comparing the imbalance for each non-numeric column 
 #' in one or a pair of data frames.
-#' @details When \code{df2 = NULL}, a tibble containing a summary of columnwise imbalance 
-#' is returned, with columns:
+#' 
+#' @details 
+#' #' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name} character vector containing column names of \code{df1}.
 #'   \item \code{value} character vector containing the most common categorical level 
@@ -20,10 +26,8 @@
 #'   \item \code{cnt} the number of occurrences of the most common categorical level in each
 #'   column of \code{df1}.
 #' }
-#' When both \code{df1} and \code{df2} are specified, the most common levels in features common 
-#' to both \code{df1} and \code{df2} is returned. A simple test of the null hypothesis that the 
-#' relative frequencies of a common level is the same in both dataframes is performed.  
-#' The resulting tibble has columns
+#' 
+#' \cr For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name} character vector containing names of the unique columns in \code{df1} 
 #'   and \code{df2}.
@@ -34,13 +38,26 @@
 #'   \item \code{cnt_} the number of occurrences of the most common categorical level in each
 #'   column of \code{df1} and \code{df2}.
 #' }
+#' 
+#' \cr For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
+#' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
+#' as there are unique combinations of the grouping variables.
+#' 
+#' @author Alastair Rushworth
+#' @seealso \code{\link{inspect_cat}}, \code{\link{show_plot}}
 #' @export
 #' @examples
+#' # Starwars data from dplyr
 #' data("starwars", package = "dplyr")
-#' # get tibble of most common levels
+#' 
+#' # Single dataframe summary
 #' inspect_imb(starwars)
-#' # compare imbalance 
-#' inspect_imb(starwars, starwars[1:10, -3])
+#' 
+#' # Paired dataframe comparison
+#' inspect_imb(starwars, starwars[1:20, ])
+#' 
+#' # Grouped dataframe summary
+#' starwars %>% group_by(gender) %>% inspect_imb()
 #' @importFrom tibble tibble
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains

@@ -2,7 +2,7 @@
 % Please edit documentation in R/inspect_types.R
 \name{inspect_types}
 \alias{inspect_types}
-\title{Summarise and compare column types in one or two dataframes.}
+\title{Summary and comparison of column types}
 \usage{
 inspect_types(df1, df2 = NULL, show_plot = FALSE)
 }
@@ -19,19 +19,19 @@ A tibble summarising the count and percentage of different
 column types for one or a pair of data frames.
 }
 \description{
-Summarise and compare column types in one or two dataframes.
+For a single dataframe, summarise the column types.  If two 
+dataframes are supplied, compare column type composition of both dataframes.
 }
 \details{
-When \code{df2 = NULL}, a tibble is returned with the columns
+For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 \itemize{
   \item \code{type} character vector containing the column types in \code{df1}.
   \item \code{cnt} integer counts of each type.
   \item \code{pcnt} the percentage of all columns with each type.
   \item \code{col_name} the names of columns with each type.
 }
-When a second data frame \code{df2} is specified, column type summaries 
-are tabulated for both data frames to enable comparison of contents. 
-The resulting tibble has the columns
+
+\cr For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
 \itemize{
   \item \code{type} character vector containing the column types in 
   \code{df1} and \code{df2}.
@@ -40,11 +40,24 @@ The resulting tibble has the columns
   \item \code{pcnt_1}, \code{pcnt_2} pair of columns containing the percentage of 
   columns with each type - the data frame name are appended.
 }
+
+\cr For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
+the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
+as there are unique combinations of the grouping variables.
 }
 \examples{
+# Starwars data from dplyr
 data("starwars", package = "dplyr")
-# get tibble of column types for the starwars data
+
+# Single dataframe summary
 inspect_types(starwars)
-# compare two data frames
-inspect_types(starwars, starwars[, -1])
+
+# Paired dataframe comparison
+inspect_types(starwars, starwars[1:20, ])
+}
+\seealso{
+\code{\link{show_plot}}
+}
+\author{
+Alastair Rushworth
 }

@@ -158,29 +158,31 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
         }
       }
       lvldf_grp$data <- lvldf_lst
-      return(tidyr::unnest(lvldf_grp))
+      return(tidyr::unnest(lvldf_grp, cols = data))
     }
     
     lvl_df4 <- lvl_df3 %>% sum_small_cats(prop_thresh = label_thresh)
 
     plt <- plt + 
-      suppressWarnings(ggfittext::geom_fit_text(
-        data = lvl_df4,
-        aes(x = col_name,
-            y = prop,
-            label = value, 
-            fill = new_level_key,
-            colour = col_vec,
-            ymin = 0,
-            ymax = prop),
-        inherit.aes = FALSE,
-        na.rm = TRUE,
-        position = "stack",
-        place = "middle",
-        grow = FALSE,
-        outside = FALSE,
-        show.legend = FALSE
-      )) + 
+      suppressWarnings(
+        ggfittext::geom_fit_text(
+          data = lvl_df4,
+          aes(x = col_name,
+              y = prop,
+              label = value, 
+              fill = new_level_key,
+              colour = col_vec,
+              ymin = 0,
+              ymax = prop),
+          inherit.aes = FALSE,
+          na.rm = TRUE,
+          position = "stack",
+          place = "middle",
+          grow = FALSE,
+          outside = FALSE,
+          show.legend = FALSE
+        ) 
+      ) + 
       scale_colour_manual(values = c("white", "gray55"))
   }
   
