@@ -47,8 +47,8 @@
 #' @seealso \code{\link{inspect_cat}}, \code{\link{show_plot}}
 #' @export
 #' @examples
-#' # Starwars data from dplyr
-#' data("starwars", package = "dplyr")
+#' # Load dplyr for starwars data & pipe
+#' library(dplyr)
 #' 
 #' # Single dataframe summary
 #' inspect_imb(starwars)

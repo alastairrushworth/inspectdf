@@ -41,8 +41,8 @@
 #' @seealso \code{\link{show_plot}}
 #' 
 #' @examples
-#' # Starwars data from dplyr
-#' data("starwars", package = "dplyr")
+#' # Load dplyr for starwars data & pipe
+#' library(dplyr)
 #' 
 #' # Single dataframe summary
 #' inspect_na(starwars)

@@ -53,8 +53,8 @@ the first \code{k} columns are the grouping columns.  There will be as many rows
 as there are unique combinations of the grouping variables.
 }
 \examples{
-# Starwars data from dplyr
-data("starwars", package = "dplyr")
+# Load dplyr for starwars data & pipe
+library(dplyr)
 
 # Single dataframe summary
 inspect_cat(starwars)

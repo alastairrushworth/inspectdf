@@ -137,6 +137,7 @@ plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels, alpha){
 add_midpoints <- function(df_plot){
   # get bin midpoints for plotting
   for(i in 1:length(df_plot$hist)){
+    print(i)
     # check first if the variable is completely missing
     if(!(nrow(df_plot$hist[[i]]) == 1 & is.na(df_plot$hist[[i]]$value[1]))){
       df_plot$hist[[i]]$col_name <- df_plot$col_name[i]
@@ -162,16 +163,23 @@ add_midpoints <- function(df_plot){
 plot_num_3 <- function(df_plot, df_names, plot_layout, text_labels, alpha, col_palette){
   # set the plot_layout if not specified
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
+  # number of grouping columns
+  n_groups <- ncol(df_plot) - 10
   # add the variable name to the histograms as an extra column
   for(i in 1:nrow(df_plot)) df_plot$hist[[i]]$cname <- df_plot$col_name[i] 
+  df_plot <- bind_cols(
+    tibble( grouping = df_plot %>% select(1:n_groups) %>%
+              apply(., 1, paste, collapse = "-")), 
+    df_plot %>% 
+      select(-c(1:n_groups)))
   # add histogram midpoints
   df_plot <- add_midpoints(df_plot)
+
   # unnest the histograms
   df_hist <- df_plot %>% 
-    select(1, col_name, hist) %>%
+    select(grouping, col_name, hist) %>%
     unnest(hist) %>%
     select(-col_name1)
-  colnames(df_hist)[1] <- 'grouping'
   colour_vector <- user_colours(length(unique(df_hist$grouping)), col_palette)
   # plot the histograms as grouped freq polygons
   plt <- df_hist %>%
