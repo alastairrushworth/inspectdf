@@ -44,12 +44,16 @@
 #' distribution for the Fisher z-transform of the correlation.
 #' @export
 #' @examples
-#' data("starwars", package = "dplyr")
-#' # correlations in numeric columns
+#' 
+#' # Load dplyr for starwars data & pipe
+#' library(dplyr)
+#' 
+#' # Single dataframe summary
 #' inspect_cor(starwars)
-#' # only show correlations with 'mass' column
+#' # Only show correlations with 'mass' column
 #' inspect_cor(starwars, with_col = "mass")
-#' # compare correlations with a different data frame
+#' 
+#' # Paired dataframe summary
 #' inspect_cor(starwars, starwars[1:10, ])
 #' 
 #' # NOT RUN - change in correlation over time
