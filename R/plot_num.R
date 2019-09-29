@@ -137,7 +137,6 @@ plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels, alpha){
 add_midpoints <- function(df_plot){
   # get bin midpoints for plotting
   for(i in 1:length(df_plot$hist)){
-    print(i)
     # check first if the variable is completely missing
     if(!(nrow(df_plot$hist[[i]]) == 1 & is.na(df_plot$hist[[i]]$value[1]))){
       df_plot$hist[[i]]$col_name <- df_plot$col_name[i]
