@@ -6,7 +6,9 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# `inspectdf` 0.0.6.9000
+<!-- # `inspectdf` 0.0.7.9000 -->
+
+# `inspectdf` 0.0.6
 
 - Updates to documentation throughout.
 - `inspect_*` functions now returns results by group grouped dataframes.
@@ -26,7 +28,7 @@ knitr::opts_chunk$set(echo = TRUE)
 - Dramatic speed up of `inspect_cat` plotting by avoiding text labels for small regions.
 - Added `tech` dataset.
 - Fix for text annotation of `inspect_cat()` plots when labels are empty strings.  By default `""` will be shown.  Thanks to [Michael Swenson](https://github.com/mwswenson) for the [report](https://github.com/alastairrushworth/inspectdf/issues/12)
-- `inspect_cor(method = ...)` argument added, thanks to suggestion from (George Dontas)[https://github.com/gd047].  Options for `pearson`, `spearman` and `kendall`.  Note that confidence intervals and tests currently only supported for `pearson`.
+- `inspect_cor(method = ...)` argument added, thanks to suggestion from [George Dontas](https://github.com/gd047).  Options for `pearson`, `spearman` and `kendall`.  Note that confidence intervals and tests currently only supported for `pearson`.
 - Fix error when duplicate factor labels present in `inspect_cat()` & `inspect_imb()`.
 
 # `inspectdf` 0.0.3

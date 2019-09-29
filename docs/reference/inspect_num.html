@@ -6,23 +6,34 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise and compare the numeric variables within one or two dataframes — inspect_num • inspectdf</title>
+<title>Summary and comparison of numeric columns — inspect_num • inspectdf</title>
+
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,12 +41,14 @@
 
 
 
-<meta property="og:title" content="Summarise and compare the numeric variables within one or two dataframes — inspect_num" />
 
-<meta property="og:description" content="Summarise and compare the numeric variables within one or two dataframes" />
-
+<meta property="og:title" content="Summary and comparison of numeric columns — inspect_num" />
+<meta property="og:description" content="For a single dataframe, summarise the numeric columns.  If two 
+dataframes are supplied, compare numeric columns appearing in both dataframes.  
+For grouped dataframes, summarise numeric columns separately for each group." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,6 +60,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -65,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -73,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -114,7 +128,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -124,25 +137,26 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summarise and compare the numeric variables within one or two dataframes</h1>
+    <h1>Summary and comparison of numeric columns</h1>
     
     <div class="hidden name"><code>inspect_num.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
-    <p>Summarise and compare the numeric variables within one or two dataframes</p>
-    
+    <p>For a single dataframe, summarise the numeric columns.  If two 
+dataframes are supplied, compare numeric columns appearing in both dataframes.  
+For grouped dataframes, summarise numeric columns separately for each group.</p>
     </div>
 
     <pre class="usage"><span class='fu'>inspect_num</span>(<span class='no'>df1</span>, <span class='kw'>df2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>include_int</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>show_plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -158,7 +172,7 @@ Defaults to <code>NULL</code>.</p></td>
     <tr>
       <th>breaks</th>
       <td><p>Integer number of breaks used for histogram bins, passed to 
-<code><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>graphics::hist()</a></code>.  Defaults to 20.</p></td>
+<code><a href='https://rdrr.io/r/graphics/hist.html'>graphics::hist()</a></code>.  Defaults to 20.</p></td>
     </tr>
     <tr>
       <th>include_int</th>
@@ -169,75 +183,95 @@ Defaults to <code>TRUE</code>.</p></td>
       <th>show_plot</th>
       <td><p>(Deprecated) Logical flag indicating whether a plot should be shown.
 Superseded by the function <code><a href='show_plot.html'>show_plot()</a></code> and will be dropped in a future version.
-<code><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>hist(..., breaks)</a></code>.  See <code><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>?hist</a></code> for more details.</p></td>
+<code><a href='https://rdrr.io/r/graphics/hist.html'>hist(..., breaks)</a></code>.  See <code><a href='https://rdrr.io/r/graphics/hist.html'>?hist</a></code> for more details.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <code>tibble</code> containing statistical summaries of the numeric 
 columns of <code>df1</code>, or comparing the histograms of <code>df1</code> and <code>df2</code>.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If only <code>df1</code> is specified, <code>inspect_num()</code> returns a tibble with columns</p><ul>
+    <p>For a <strong>single dataframe</strong>, the tibble returned contains the columns: <br /></p><ul>
 <li><p><code>col_name</code>, a character vector containing the column names in <code>df1</code></p></li>
 <li><p><code>min</code>, <code>q1</code>, <code>median</code>, <code>mean</code>, <code>q3</code>, <code>max</code> and 
-  <code>sd</code>: the minimum, lower quartile, median, mean, upper quartile, maximum and 
+  <code>sd</code>, the minimum, lower quartile, median, mean, upper quartile, maximum and 
   standard deviation for each numeric column.</p></li>
 <li><p><code>pcnt_na</code>, the percentage of each numeric feature that is missing</p></li>
 <li><p><code>hist</code>, a named list of tibbles containing the relative frequency of values in a 
   falling in bins determined by <code>breaks</code>.</p></li>
-</ul><p>If both <code>df1</code> and <code>df2</code> are specified, the tibble has columns</p><ul>
-<li><p><code>col_name</code> character vector containing the column names in <code>df1</code>
+</ul><p>For a <strong>pair of dataframes</strong>, the tibble returned contains the columns: <br /></p><ul>
+<li><p><code>col_name</code>, a character vector containing the column names in <code>df1</code>
   and <code>df2</code></p></li>
-<li><p><code>hist_1</code>, <code>hist_2</code> list column for histograms of each of <code>df1</code> and <code>df2</code>.
+<li><p><code>hist_1</code>, <code>hist_2</code>, a list column for histograms of each of <code>df1</code> and <code>df2</code>.
   Where a column appears in both dataframe, the bins used for <code>df1</code> are reused to 
   calculate histograms for <code>df2</code>.</p></li>
-<li><p>jsd numeric column containing the Jensen-Shannon divergence.  This measures the 
+<li><p>jsd, a numeric column containing the Jensen-Shannon divergence.  This measures the 
   difference in distribution of a pair of binned numeric features.  Values near to 0 indicate
   agreement of the distributions, while 1 indicates disagreement.</p></li>
-<li><p>fisher_p p-value corresponding to Fisher's exact test.  A small p indicates 
+<li><p>fisher_p, the p-value corresponding to Fisher's exact test.  A small p indicates 
   evidence that the two histograms are actually different.</p></li>
-</ul>
-    
+</ul><p>For a <strong>grouped dataframe</strong>, the tibble returned is as for a single dataframe, but where 
+the first <code>k</code> columns are the grouping columns.  There will be as many rows in the result 
+as there are unique combinations of the grouping variables.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='show_plot.html'>show_plot</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"starwars"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dplyr"</span>)
-<span class='co'># show summary statistics for starwars</span>
+    <pre class="examples"><div class='input'><span class='co'># Load dplyr for starwars data &amp; pipe</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+
+<span class='co'># Single dataframe summary</span>
 <span class='fu'>inspect_num</span>(<span class='no'>starwars</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 10</span><span>
 #&gt;   col_name     min    q1 median  mean    q3   max    sd pcnt_na hist            
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span>    
 #&gt; </span><span style='color: #555555;'>1</span><span> height        66 167      180 174.  191     264  34.8    6.90 </span><span style='color: #555555;'>&lt;tibble [23 × 2</span><span>…
 #&gt; </span><span style='color: #555555;'>2</span><span> mass          15  55.6     79  97.3  84.5  </span><span style='text-decoration: underline;'>1</span><span>358 169.    32.2  </span><span style='color: #555555;'>&lt;tibble [30 × 2</span><span>…
-#&gt; </span><span style='color: #555555;'>3</span><span> birth_year     8  35       52  87.6  72     896 155.    50.6  </span><span style='color: #555555;'>&lt;tibble [20 × 2</span><span>…</div><div class='input'><span class='co'># with a visualisation too - try to limit number of bins</span>
-<span class='fu'>inspect_num</span>(<span class='no'>starwars</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 10</span><span>
-#&gt;   col_name     min    q1 median  mean    q3   max    sd pcnt_na hist            
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> height        66 167      180 174.  191     264  34.8    6.90 </span><span style='color: #555555;'>&lt;tibble [13 × 2</span><span>…
-#&gt; </span><span style='color: #555555;'>2</span><span> mass          15  55.6     79  97.3  84.5  </span><span style='text-decoration: underline;'>1</span><span>358 169.    32.2  </span><span style='color: #555555;'>&lt;tibble [16 × 2</span><span>…
-#&gt; </span><span style='color: #555555;'>3</span><span> birth_year     8  35       52  87.6  72     896 155.    50.6  </span><span style='color: #555555;'>&lt;tibble [11 × 2</span><span>…</div><div class='input'><span class='co'># compare two data frames</span>
-<span class='fu'>inspect_num</span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>[-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>), ], <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 5</span><span>
-#&gt;   col_name   hist_1            hist_2                 jsd fisher_p
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> height     </span><span style='color: #555555;'>&lt;tibble [13 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [13 × 2]&gt;</span><span> 0.002</span><span style='text-decoration: underline;'>64</span><span>     1.000
-#&gt; </span><span style='color: #555555;'>2</span><span> mass       </span><span style='color: #555555;'>&lt;tibble [16 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [16 × 2]&gt;</span><span> 0.000</span><span style='text-decoration: underline;'>239</span><span>    1    
-#&gt; </span><span style='color: #555555;'>3</span><span> birth_year </span><span style='color: #555555;'>&lt;tibble [11 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [11 × 2]&gt;</span><span> 0.002</span><span style='text-decoration: underline;'>18</span><span>     0.983</div></span></pre>
+#&gt; </span><span style='color: #555555;'>3</span><span> birth_year     8  35       52  87.6  72     896 155.    50.6  </span><span style='color: #555555;'>&lt;tibble [20 × 2</span><span>…</div><div class='input'>
+<span class='co'># Paired dataframe comparison</span>
+<span class='fu'>inspect_num</span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>[<span class='fl'>1</span>:<span class='fl'>20</span>, ])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 5</span><span>
+#&gt;   col_name   hist_1            hist_2               jsd fisher_p
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> height     </span><span style='color: #555555;'>&lt;tibble [23 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [23 × 2]&gt;</span><span> 0.159     0.967
+#&gt; </span><span style='color: #555555;'>2</span><span> mass       </span><span style='color: #555555;'>&lt;tibble [30 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [30 × 2]&gt;</span><span> 0.026</span><span style='text-decoration: underline;'>1</span><span>    0.316
+#&gt; </span><span style='color: #555555;'>3</span><span> birth_year </span><span style='color: #555555;'>&lt;tibble [20 × 2]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [20 × 2]&gt;</span><span> 0.034</span><span style='text-decoration: underline;'>3</span><span>    0.358</div><div class='input'>
+<span class='co'># Grouped dataframe summary</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>inspect_num</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 11</span><span>
+#&gt;    gender  col_name   min     q1 median   mean     q3   max     sd pcnt_na hist 
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;lis&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> female  height      66  174    183    179.   193     264  35.4     4.84 </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'> 2</span><span> female  mass        15   76.5   80     81.0   87.2   159  28.2    29.0  </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'> 3</span><span> female  birth_y…     8   34.2   53     84.8   77     896 155.     50    </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'> 4</span><span> hermap… height      96   96.5   97    120    132     167  40.7     0    </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'> 5</span><span> hermap… mass        32   32     32     46.3   53.5    75  24.8     0    </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'> 6</span><span> hermap… birth_y…    33   52.8   72.5   72.5   92.2   112  55.9    33.3  </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'> 7</span><span> male    height      96  163    166    165.   178     213  23.0    10.5  </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'> 8</span><span> male    mass        45   49.2   52.5   54.0   55.9    75   8.37   47.4  </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'> 9</span><span> male    birth_y…    19   44.5   47.5   47.2   50.5    72  15.0    57.9  </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'>10</span><span> none    height     175  175    175    175    175     175  </span><span style='color: #BB0000;'>NA</span><span>       0    </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'>11</span><span> none    mass      </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='text-decoration: underline;'>1</span><span>358   </span><span style='text-decoration: underline;'>1</span><span>358   </span><span style='text-decoration: underline;'>1</span><span>358   </span><span style='text-decoration: underline;'>1</span><span>358    </span><span style='text-decoration: underline;'>1</span><span>358  </span><span style='color: #BB0000;'>NA</span><span>       0    </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'>12</span><span> none    birth_y…   600  600    600    600    600     600  </span><span style='color: #BB0000;'>NA</span><span>       0    </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'>13</span><span> </span><span style='color: #BB0000;'>NA</span><span>      height     200  200    200    200    200     200  </span><span style='color: #BB0000;'>NA</span><span>      50    </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'>14</span><span> </span><span style='color: #BB0000;'>NA</span><span>      mass       140  140    140    140    140     140  </span><span style='color: #BB0000;'>NA</span><span>      50    </span><span style='color: #555555;'>&lt;tib</span><span>…
+#&gt; </span><span style='color: #555555;'>15</span><span> </span><span style='color: #BB0000;'>NA</span><span>      birth_y…    15   15     15     15     15      15  </span><span style='color: #BB0000;'>NA</span><span>      50    </span><span style='color: #555555;'>&lt;tib</span><span>…</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
+      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Alastair Rushworth</p>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -245,13 +279,16 @@ columns of <code>df1</code>, or comparing the histograms of <code>df1</code> and
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

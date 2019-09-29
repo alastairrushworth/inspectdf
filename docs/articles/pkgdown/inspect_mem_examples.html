@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Memory usage of dataframe columns • inspectdf</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
 <script src="../../pkgdown.js"></script><meta property="og:title" content="Memory usage of dataframe columns">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
@@ -31,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -39,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -89,6 +96,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -108,10 +116,10 @@
 </h2>
 <p>The examples below make use of the <code>starwars</code> and <code>storms</code> data from the <code>dplyr</code> package</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># some example data</span></a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(starwars, <span class="dt">package =</span> <span class="st">"dplyr"</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(storms, <span class="dt">package =</span> <span class="st">"dplyr"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(starwars, <span class="dt">package =</span> <span class="st">"dplyr"</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(storms, <span class="dt">package =</span> <span class="st">"dplyr"</span>)</a></code></pre></div>
 <p>For illustrating comparisons of dataframes, use the <code>starwars</code> data and produce two new dataframes <code>star_1</code> and <code>star_2</code> that randomly sample the rows of the original and drop a couple of columns.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb2-2" title="2">star_<span class="dv">1</span> &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(<span class="dv">50</span>)</a>
 <a class="sourceLine" id="cb2-3" title="3">star_<span class="dv">2</span> &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(<span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-2</span>)</a></code></pre></div>
 </div>
@@ -121,18 +129,18 @@
 </h2>
 <p>The examples below make use of the <code>starwars</code> and <code>storms</code> data from the <code>dplyr</code> package</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># some example data</span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(starwars, <span class="dt">package =</span> <span class="st">"dplyr"</span>)</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(storms, <span class="dt">package =</span> <span class="st">"dplyr"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(starwars, <span class="dt">package =</span> <span class="st">"dplyr"</span>)</a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(storms, <span class="dt">package =</span> <span class="st">"dplyr"</span>)</a></code></pre></div>
 <p>For illustrating comparisons of dataframes, use the <code>starwars</code> data and produce two new dataframes <code>star_1</code> and <code>star_2</code> that randomly sample the rows of the original and drop a couple of columns.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb4-2" title="2">star_<span class="dv">1</span> &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(<span class="dv">50</span>)</a>
 <a class="sourceLine" id="cb4-3" title="3">star_<span class="dv">2</span> &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(<span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-2</span>)</a></code></pre></div>
 </div>
 <div id="inspect_mem-for-a-single-dataframe" class="section level2">
 <h2 class="hasAnchor">
-<a href="#inspect_mem-for-a-single-dataframe" class="anchor"></a><code><a href="../../reference/inspect_mem.html">inspect_mem()</a></code> for a single dataframe</h2>
+<a href="#inspect_mem-for-a-single-dataframe" class="anchor"></a><code>inspect_mem()</code> for a single dataframe</h2>
 <p>To explore the memory usage of the columns in a data frame, use <code><a href="../../reference/inspect_mem.html">inspect_mem()</a></code>. The command returns a <code>tibble</code> containing the size of each column in the dataframe.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(inspectdf)</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(inspectdf)</a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="kw"><a href="../../reference/inspect_mem.html">inspect_mem</a></span>(starwars)</a></code></pre></div>
 <pre><code>## # A tibble: 13 x 3
 ##    col_name   size        pcnt
@@ -156,39 +164,40 @@
 </div>
 <div id="inspect_mem-for-two-dataframes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#inspect_mem-for-two-dataframes" class="anchor"></a><code><a href="../../reference/inspect_mem.html">inspect_mem()</a></code> for two dataframes</h2>
+<a href="#inspect_mem-for-two-dataframes" class="anchor"></a><code>inspect_mem()</code> for two dataframes</h2>
 <p>When a second dataframe is provided, <code><a href="../../reference/inspect_mem.html">inspect_mem()</a></code> will create a dataframe comparing the size of each column for both input dataframes. The summaries for the first and second dataframes are show in columns with names appended with <code>_1</code> and <code>_2</code>, respectively.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../../reference/inspect_mem.html">inspect_mem</a></span>(star_<span class="dv">1</span>, star_<span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 13 x 5
-##    col_name   size_1    size_2     pcnt_1 pcnt_2
-##    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;
-##  1 films      10.92 Kb  11.41 Kb   35.4    40.6 
-##  2 starships  3.57 Kb   4.34 Kb    11.6    15.4 
-##  3 name       3.48 Kb   &lt;NA&gt;       11.3    NA   
-##  4 vehicles   3.09 Kb   3.3 Kb     10.0    11.7 
-##  5 homeworld  2.21 Kb   2.21 Kb     7.17    7.86
-##  6 skin_color 2.07 Kb   1.78 Kb     6.71    6.33
-##  7 species    1.96 Kb   1.79 Kb     6.36    6.36
-##  8 hair_color 904 bytes 848 bytes   2.86    2.94
-##  9 eye_color  904 bytes 1008 bytes  2.86    3.5 
-## 10 gender     680 bytes 616 bytes   2.15    2.14
-## 11 mass       448 bytes 448 bytes   1.42    1.56
-## 12 birth_year 448 bytes 448 bytes   1.42    1.56
-## 13 height     248 bytes &lt;NA&gt;        0.785  NA</code></pre>
+##    col_name   size_1    size_2    pcnt_1 pcnt_2
+##    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;
+##  1 films      10.52 Kb  11.23 Kb  33.7    39.9 
+##  2 starships  4.43 Kb   4.12 Kb   14.2    14.6 
+##  3 name       3.58 Kb   &lt;NA&gt;      11.5    NA   
+##  4 vehicles   3.47 Kb   3.31 Kb   11.1    11.8 
+##  5 homeworld  2.17 Kb   2.31 Kb    6.96    8.21
+##  6 species    1.77 Kb   1.75 Kb    5.68    6.22
+##  7 skin_color 1.65 Kb   1.91 Kb    5.28    6.77
+##  8 hair_color 968 bytes 904 bytes  3.03    3.14
+##  9 eye_color  960 bytes 1.11 Kb    3.01    3.94
+## 10 gender     616 bytes 680 bytes  1.93    2.36
+## 11 mass       448 bytes 448 bytes  1.40    1.55
+## 12 birth_year 448 bytes 448 bytes  1.40    1.55
+## 13 height     248 bytes &lt;NA&gt;       0.776  NA</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../../reference/inspect_mem.html">inspect_mem</a></span>(star_<span class="dv">1</span>, star_<span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../../reference/show_plot.html">show_plot</a></span>()</a></code></pre></div>
 <p><img src="inspect_mem_examples_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#illustrative-data-starwars">Illustrative data: <code>starwars</code></a></li>
       <li><a href="#illustrative-data-starwars-1">Illustrative data: <code>starwars</code></a></li>
-      <li><a href="#inspect_mem-for-a-single-dataframe"><code><a href="--/--/reference/inspect_mem-html">inspect_mem()</a></code> for a single dataframe</a></li>
-      <li><a href="#inspect_mem-for-two-dataframes"><code><a href="--/--/reference/inspect_mem-html">inspect_mem()</a></code> for two dataframes</a></li>
+      <li><a href="#inspect_mem-for-a-single-dataframe"><code>inspect_mem()</code> for a single dataframe</a></li>
+      <li><a href="#inspect_mem-for-two-dataframes"><code>inspect_mem()</code> for two dataframes</a></li>
       </ul>
 </div>
       </div>
@@ -196,17 +205,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Alastair Rushworth.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
