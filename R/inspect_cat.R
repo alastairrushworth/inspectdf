@@ -16,27 +16,26 @@
 #' @details 
 #' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 #' \itemize{
-#'   \item \code{col_name} - character vector containing column names of \code{df1}.
+#'   \item \code{col_name}, character vector containing column names of \code{df1}.
 #'   \item \code{cnt} integer column containing count of unique levels found in each column, 
 #'   including \code{NA}.
-#'   \item \code{common} - character column containing the name of the most common level.
-#'   \item \code{common_pcnt} - percentage of each column occupied by the most common level shown in 
+#'   \item \code{common}, a character column containing the name of the most common level.
+#'   \item \code{common_pcnt}, the percentage of each column occupied by the most common level shown in 
 #'   \code{common}.
-#'   \item \code{levels} - names list containing relative frequency tibbles for each feature.
+#'   \item \code{levels}, a named list containing relative frequency tibbles for each feature.
 #' }
-#' 
-#' \cr For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
+#' For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
 #' \itemize{
-#'   \item \code{col_name} - character vector containing names of columns appearing in both 
+#'   \item \code{col_name}, character vector containing names of columns appearing in both 
 #'   \code{df1} and \code{df2}.
-#'   \item \code{jsd} - numeric column containing the Jensen-Shannon divergence.  This measures the 
+#'   \item \code{jsd}, a numeric column containing the Jensen-Shannon divergence.  This measures the 
 #'   difference in relative frequencies of levels in a pair of categorical features.  Values near 
 #'   to 0 indicate agreement of the distributions, while 1 indicates disagreement.
-#'   \item \code{fisher_p} - p-value corresponding to Fisher's exact test.  A small p indicates 
+#'   \item \code{fisher_p}, the p-value corresponding to Fisher's exact test.  A small p indicates 
 #'   evidence that the the two sets of relative frequencies are actually different.
-#'   \item \code{lvls_1}, \code{lvls_2} - relative frequency of levels in each of \code{df1} and \code{df2}.
+#'   \item \code{lvls_1}, \code{lvls_2}, the relative frequency of levels in each of \code{df1} and \code{df2}.
 #' }
-#' \cr For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
+#' For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
 #' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
 #' as there are unique combinations of the grouping variables.
 #' @author Alastair Rushworth

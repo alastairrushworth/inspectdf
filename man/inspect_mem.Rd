@@ -28,22 +28,21 @@ for each group.
 \details{
 For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 \itemize{
-  \item \code{col_name}   character vector containing column names of \code{df1}.
-  \item \code{size}  character vector containing display-friendly memory usage of each column.
-  \item \code{pcnt}  the percentage of the dataframe's total memory footprint 
+  \item \code{col_name}, a character vector containing column names of \code{df1}.
+  \item \code{size}, a character vector containing display-friendly memory usage of each column.
+  \item \code{pcnt}, the percentage of the dataframe's total memory footprint 
   used by each column.
 }
-\cr For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
+For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
 \itemize{
-  \item \code{col_name} character vector containing column names of \code{df1}
+  \item \code{col_name}, a character vector containing column names of \code{df1}
   and \code{df2}.
-  \item \code{size_1}, \code{size_2} character vector containing memory usage of each column in
+  \item \code{size_1}, \code{size_2}, a character vector containing memory usage of each column in
   each of \code{df1} and \code{df2}.
-  \item \code{pcnt_1}, \code{pcnt_2} the percentage of total memory usage of each column within 
+  \item \code{pcnt_1}, \code{pcnt_2}, the percentage of total memory usage of each column within 
   each of \code{df1} and \code{df2}.
 }
-
-#' \cr For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
+For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
 the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
 as there are unique combinations of the grouping variables.
 }
