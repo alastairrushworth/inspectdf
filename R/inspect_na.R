@@ -15,25 +15,23 @@
 #' @details 
 #' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 #' \itemize{
-#'   \item \code{col_name} character vector containing column names of \code{df1}.
-#'   \item \code{cnt} integer vector containing the number of missing values by 
+#'   \item \code{col_name}, a character vector containing column names of \code{df1}.
+#'   \item \code{cnt}, an integer vector containing the number of missing values by 
 #'   column.
-#'   \item \code{pcnt} the percentage of records in each columns that is missing.
+#'   \item \code{pcnt}, the percentage of records in each columns that is missing.
 #' }
-#' 
-#' \cr For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
+#' For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
 #' \itemize{
-#'   \item \code{col_name} the name of the columns occurring in either \code{df1} or \code{df2}.
-#'   \item \code{cnt_1}, \code{cnt_2} pair of integer vectors containing counts of missing entries
+#'   \item \code{col_name}, the name of the columns occurring in either \code{df1} or \code{df2}.
+#'   \item \code{cnt_1}, \code{cnt_2}, a pair of integer vectors containing counts of missing entries
 #'   for each column in \code{df1} and \code{df2}.
-#'   \item \code{pcnt_1}, \code{pcnt_2} pair of columns containing percentage of missing entries
+#'   \item \code{pcnt_1}, \code{pcnt_2}, a pair of columns containing percentage of missing entries
 #'   for each column in \code{df1} and \code{df2}.
-#'   \item \code{p_value} p-value associated with test of equivalence of rates of missingness.  Small 
+#'   \item \code{p_value}, the p-value associated with test of equivalence of rates of missingness.  Small 
 #'   values indicate evidence that the rate of missingness differs for a column occurring 
 #'   in both \code{df1} and \code{df2}.
 #' }
-#' 
-#' \cr For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
+#' For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
 #' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
 #' as there are unique combinations of the grouping variables.
 #' 

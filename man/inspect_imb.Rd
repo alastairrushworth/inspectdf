@@ -31,28 +31,26 @@ dataframes, summarise the levels of categorical features separately for each gro
 \details{
 #' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 \itemize{
-  \item \code{col_name} character vector containing column names of \code{df1}.
-  \item \code{value} character vector containing the most common categorical level 
+  \item \code{col_name}, a character vector containing column names of \code{df1}.
+  \item \code{value}, a character vector containing the most common categorical level 
   in each column of \code{df1}.
-  \item \code{pcnt} the relative frequency of each column's most common categorical level 
+  \item \code{pcnt}, the relative frequency of each column's most common categorical level 
   expressed as a percentage.
-  \item \code{cnt} the number of occurrences of the most common categorical level in each
+  \item \code{cnt}, the number of occurrences of the most common categorical level in each
   column of \code{df1}.
 }
-
-\cr For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
+For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
 \itemize{
-  \item \code{col_name} character vector containing names of the unique columns in \code{df1} 
+  \item \code{col_name}, a character vector containing names of the unique columns in \code{df1} 
   and \code{df2}.
-  \item \code{value} character vector containing the most common categorical level 
+  \item \code{value}, a character vector containing the most common categorical level 
   in each column of \code{df1}.  
-  \item \code{pcnt_} the percentage of each column's entries occupied by the level in
+  \item \code{pcnt_}, the percentage of each column's entries occupied by the level in
   \code{value} column.
-  \item \code{cnt_} the number of occurrences of the most common categorical level in each
+  \item \code{cnt_}, the number of occurrences of the most common categorical level in each
   column of \code{df1} and \code{df2}.
 }
-
-\cr For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
+For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
 the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
 as there are unique combinations of the grouping variables.
 }
