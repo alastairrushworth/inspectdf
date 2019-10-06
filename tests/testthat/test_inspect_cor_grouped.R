@@ -1,4 +1,5 @@
 library(vdiffr)
+library(tidyverse)
 context("inspect_cor with grouped dataframes")
 
 # load in some example data
@@ -31,4 +32,21 @@ test_that("inspect_cor for tech", {
   expect_equal(attr(x_quarter, "type")$input_type, "grouped")
   expect_equal(colnames(x_quarter)[1], "quarter")
   expect_equal(colnames(x_year)[1], "year")
+})
+
+test_that('inspect_cor grouped equals equivalent cor call', {
+  nr = 100
+  set.seed(22)
+  df1 = tibble(a = rnorm(nr),
+               b = rnorm(nr), 
+               group = sample(c('group_1', 'group_2'), nr, r = T))
+  z_cor <- df1 %>% 
+    group_by(group) %>% 
+    summarize(c = cor(a, b))
+  z_idf <- df1 %>%
+    group_by(group) %>%
+    inspect_cor(with_col = "a") %>%
+    filter(col_2 == "b")
+  expect_equal(z_cor$group, z_idf$group)
+  expect_equal(z_cor$c, z_idf$corr)
 })

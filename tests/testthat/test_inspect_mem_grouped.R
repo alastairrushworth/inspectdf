@@ -25,5 +25,5 @@ test_that("inspect_mem & grouped dataframe = df (storms)", {
 test_that("inspect_mem for multiple groups", {
   x_year_qrt <- try(tech %>% dplyr::group_by(year, quarter) %>% inspect_mem(), silent = TRUE)
   expect_equal(attr(x_year_qrt, "type")$input_type, "grouped")
-  expect_equal(colnames(x_year_qrt)[1:2], c("year", "quarter"))
+  expect_equal(colnames(x_year_qrt)[1:2], rev(c("year", "quarter")))
 })
