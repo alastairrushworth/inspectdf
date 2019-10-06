@@ -1,5 +1,9 @@
 
-<!-- # `inspectdf` 0.0.7.9000 -->
+# `inspectdf` 0.0.7.9000
+
+  - Fixed bug causing order of grouping variable in grouped `inspect_`
+    statements to be incorrect. Thanks to the report from Theo Broekman.
+  - Removed erroneous print statement form `inspect_num()`.
 
 # `inspectdf` 0.0.6
 

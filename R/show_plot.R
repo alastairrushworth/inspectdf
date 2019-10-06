@@ -92,11 +92,11 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
                            method      = method)
     }
     if(type$input_type == "grouped"){
-      plt <- plot_cor_grouped(x, 
+      plt <- plot_cor_grouped(x,
                               df_names = df_names,
-                              text_labels = text_labels, 
-                              col_palette = col_palette, 
-                              method      = method, 
+                              text_labels = text_labels,
+                              col_palette = col_palette,
+                              method      = method,
                               plot_type   = plot_type)
     }
   }

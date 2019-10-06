@@ -110,21 +110,19 @@ plot_cor_grouped <- function(out, df_names, text_labels, col_palette, method,
                        plot_type){
   # group variable name
   group_name <- colnames(out)[1]
-  # if group column is not factor, coerce to one
-  if(sapply(out, class)[1] != "factor"){
-    out[group_name] <- as.factor(unlist(out[group_name]))
-  }
   new_out <- out %>%
     mutate(pair = paste(col_1, col_2, sep = " & ")) %>%
     mutate(pair = factor(pair, levels = rev(unique(as.character(pair))))) %>%
     select(-col_1, -col_2, -lower, -upper, -p_value)
   
-  plt <- plot_grouped(df = new_out, value = "corr", 
-                      series = "pair", group = group_name, 
-                      plot_type = plot_type, 
-                      col_palette = col_palette, 
-                      text_labels = text_labels,
-                      ylab = "Correlation")
+  plt <- plot_grouped(df = new_out, 
+                 value = "corr", 
+                 series = "pair", 
+                 group = group_name, 
+                 plot_type = plot_type, 
+                 col_palette = col_palette, 
+                 text_labels = text_labels,
+                 ylab = "Correlation")
   plt <- plt + 
     geom_hline(yintercept = 0, alpha = 0.5, linetype = "dashed") + 
     geom_hline(yintercept = 1, alpha = 0.3, linetype = "dashed") + 
