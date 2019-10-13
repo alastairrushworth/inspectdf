@@ -38,12 +38,14 @@ returned:
   \item \code{col_1}, \code{co1_2} character vectors containing names of numeric 
   columns in \code{df1}.
   \item \code{corr} the calculated correlation coefficient.
-  \item \code{lower}, \code{upper} lower and upper values of the confidence interval 
-  for the correlations.
   \item \code{p_value} p-value associated with a test where the null hypothesis is that 
   the numeric pair have 0 correlation. 
+  \item \code{lower}, \code{upper} lower and upper values of the confidence interval 
+  for the correlations.
+  \item \code{pcnt_nna} the number of pairs of observations that were non missing for each 
+  pair of columns.  The correlation calculation used by \code{inspect_cor()} uses only 
+  pairwise complete observations.  
 }
-
 If \code{df1} has class \code{grouped_df}, then correlations will be calculated within the grouping levels 
 and the tibble returned will have an additional column corresponding to the group labels.
 

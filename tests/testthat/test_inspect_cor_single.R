@@ -12,8 +12,8 @@ test_that("Output format checks", {
   z2 <- inspect_cor(tech)
   expect_is(z1, "data.frame")
   expect_is(z2, "data.frame")
-  expect_equal(colnames(z1), c("col_1", "col_2", "corr", "p_value", "lower", "upper"))
-  expect_equal(colnames(z2), c("col_1", "col_2", "corr", "p_value", "lower", "upper"))
+  expect_equal(colnames(z1), c("col_1", "col_2", "corr", "p_value", "lower", "upper", "pcnt_nna"))
+  expect_equal(colnames(z2), c("col_1", "col_2", "corr", "p_value", "lower", "upper", "pcnt_nna"))
 })
 
 diff_correlatations <- function(data_input, method){
@@ -80,5 +80,13 @@ test_that("kendal and spearman work", {
   expect_is(x, "data.frame")
   y <- inspect_cor(iris, method = "kendall")
   expect_is(y, "data.frame")
+})
+
+test_that("kendal and spearman work", {
+  z1 <- inspect_cor(starwars)
+  nna_1 = mean((is.na(starwars$birth_year) + is.na(starwars$mass)) > 0) * 100
+  nna_2 = mean((is.na(starwars$birth_year) + is.na(starwars$height)) > 0) * 100
+  expect_equal(z1$pcnt_nna[1], 100 - nna_1)
+  expect_equal(z1$pcnt_nna[2], 100 - nna_2)
 })
 
