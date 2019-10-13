@@ -43,13 +43,13 @@ cor_test_2 <- function(df_input, df_name, with_col, alpha, method){
     as_tibble(rownames = 'col_1') %>% 
     gather(key = "col_2", value = "corr", -col_1) %>%
     filter(!corr == Inf | is.na(corr)) %>%
-    mutate(nna = nna_df$nna, se = (1 / sqrt(nna - 3))) %>%
+    mutate(nna = nna_df$nna, se = (1 / sqrt(nna - 3)), pcnt_nna = 100 * nna / nrow(df_input)) %>%
     arrange(desc(abs(corr))) %>%
     mutate(p_value = 2 * pnorm(-abs(corr / se))) %>%
     mutate(lower = tanh(atanh(corr) - qnorm(1 - (alpha/2)) * se)) %>%
     mutate(upper = tanh(atanh(corr) + qnorm(1 - (alpha/2)) * se)) %>%
     mutate(pair = paste(col_1, col_2, sep = " & ")) %>%
-    select(-nna, -se)
+    select(col_1, col_2, pair, corr, p_value, lower, upper, pcnt_nna)
 
   # return tibble of correlations
   return(cor_out)
