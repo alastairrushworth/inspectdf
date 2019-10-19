@@ -16,6 +16,7 @@
 #' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name}, a character vector containing column names of \code{df1}.
+#'   \item \code{bytes}, integer vector containing the number of bytes in each column of \code{df1}.
 #'   \item \code{size}, a character vector containing display-friendly memory usage of each column.
 #'   \item \code{pcnt}, the percentage of the dataframe's total memory footprint 
 #'   used by each column.
@@ -99,10 +100,11 @@ inspect_mem <- function(df1, df2 = NULL, show_plot = FALSE){
     
     out <- vec_to_tibble(col_space) %>% 
       left_join(vec_to_tibble(col_space_ch), by = "names") %>%
-      mutate(pcnt = 100 * n.x / sum(n.x)) %>%
+      mutate(pcnt = 100 * n.x / sum(n.x), 
+             bytes = as.integer(unlist(col_space))) %>%
       arrange(desc(pcnt)) %>%
       rename(col_name = names, size = n.y) %>% 
-      select(-n.x)
+      select(col_name, bytes, size, pcnt)
   }
   if(input_type == "pair"){
     # get the space report for both input dfs

@@ -1,6 +1,8 @@
 
 # `inspectdf` 0.0.7.9000
 
+  - Added `bytes` column to `inspect_mem()` output, for downstream
+    numeric comparison and consistency with `inspectpd`.
   - Added `pcnt_nna` column to `inspect_cor()` output containin the
     percentage of pairwise complete observations used calculated
     correlations. Thanks to Theo Broekman for the suggestion.

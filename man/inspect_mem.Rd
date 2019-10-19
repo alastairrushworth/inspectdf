@@ -29,6 +29,7 @@ for each group.
 For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 \itemize{
   \item \code{col_name}, a character vector containing column names of \code{df1}.
+  \item \code{bytes}, integer vector containing the number of bytes in each column of \code{df1}.
   \item \code{size}, a character vector containing display-friendly memory usage of each column.
   \item \code{pcnt}, the percentage of the dataframe's total memory footprint 
   used by each column.
