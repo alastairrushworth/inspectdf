@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -197,13 +197,14 @@ returned:</p><ul>
 <li><p><code>col_1</code>, <code>co1_2</code> character vectors containing names of numeric 
   columns in <code>df1</code>.</p></li>
 <li><p><code>corr</code> the calculated correlation coefficient.</p></li>
-<li><p><code>lower</code>, <code>upper</code> lower and upper values of the confidence interval 
-  for the correlations.</p></li>
 <li><p><code>p_value</code> p-value associated with a test where the null hypothesis is that 
   the numeric pair have 0 correlation.</p></li>
-</ul>
-
-<p>If <code>df1</code> has class <code>grouped_df</code>, then correlations will be calculated within the grouping levels 
+<li><p><code>lower</code>, <code>upper</code> lower and upper values of the confidence interval 
+  for the correlations.</p></li>
+<li><p><code>pcnt_nna</code> the number of pairs of observations that were non missing for each 
+  pair of columns.  The correlation calculation used by <code>inspect_cor()</code> uses only 
+  pairwise complete observations.</p></li>
+</ul><p>If <code>df1</code> has class <code>grouped_df</code>, then correlations will be calculated within the grouping levels 
 and the tibble returned will have an additional column corresponding to the group labels.</p>
 <p>When both <code>df1</code> and <code>df2</code> are specified, the tibble returned contains
  a comparison of the correlation coefficients across pairs of columns common to both 
@@ -226,17 +227,17 @@ distribution for the Fisher z-transform of the correlation.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='co'># Single dataframe summary</span>
-<span class='fu'>inspect_cor</span>(<span class='no'>starwars</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 6</span><span>
-#&gt;   col_1      col_2    corr p_value  lower  upper
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> birth_year mass    0.478 0.006</span><span style='text-decoration: underline;'>02</span><span>  0.177  0.697
-#&gt; </span><span style='color: #555555;'>2</span><span> birth_year height -</span><span style='color: #BB0000;'>0.400</span><span> 0.011</span><span style='text-decoration: underline;'>4</span><span>  -</span><span style='color: #BB0000;'>0.625</span><span> -</span><span style='color: #BB0000;'>0.113</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> mass       height  0.134 0.316   -</span><span style='color: #BB0000;'>0.127</span><span>  0.377</div><div class='input'><span class='co'># Only show correlations with 'mass' column</span>
-<span class='fu'>inspect_cor</span>(<span class='no'>starwars</span>, <span class='kw'>with_col</span> <span class='kw'>=</span> <span class='st'>"mass"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 6</span><span>
-#&gt;   col_1 col_2       corr p_value  lower upper
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> mass  birth_year 0.478 0.006</span><span style='text-decoration: underline;'>02</span><span>  0.177 0.697
-#&gt; </span><span style='color: #555555;'>2</span><span> mass  height     0.134 0.316   -</span><span style='color: #BB0000;'>0.127</span><span> 0.377</div><div class='input'>
+<span class='fu'>inspect_cor</span>(<span class='no'>starwars</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 7</span><span>
+#&gt;   col_1      col_2    corr p_value  lower  upper pcnt_nna
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> birth_year mass    0.478 0.006</span><span style='text-decoration: underline;'>02</span><span>  0.177  0.697     41.4
+#&gt; </span><span style='color: #555555;'>2</span><span> birth_year height -</span><span style='color: #BB0000;'>0.400</span><span> 0.011</span><span style='text-decoration: underline;'>4</span><span>  -</span><span style='color: #BB0000;'>0.625</span><span> -</span><span style='color: #BB0000;'>0.113</span><span>     49.4
+#&gt; </span><span style='color: #555555;'>3</span><span> mass       height  0.134 0.316   -</span><span style='color: #BB0000;'>0.127</span><span>  0.377     67.8</div><div class='input'><span class='co'># Only show correlations with 'mass' column</span>
+<span class='fu'>inspect_cor</span>(<span class='no'>starwars</span>, <span class='kw'>with_col</span> <span class='kw'>=</span> <span class='st'>"mass"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 7</span><span>
+#&gt;   col_1 col_2       corr p_value  lower upper pcnt_nna
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> mass  birth_year 0.478 0.006</span><span style='text-decoration: underline;'>02</span><span>  0.177 0.697     41.4
+#&gt; </span><span style='color: #555555;'>2</span><span> mass  height     0.134 0.316   -</span><span style='color: #BB0000;'>0.127</span><span> 0.377     67.8</div><div class='input'>
 <span class='co'># Paired dataframe summary</span>
 <span class='fu'>inspect_cor</span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 5</span><span>
 #&gt;   col_1      col_2  corr_1 corr_2 p_value

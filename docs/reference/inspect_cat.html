@@ -80,7 +80,7 @@ of categorical features separately for each group." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -239,18 +239,19 @@ as there are unique combinations of the grouping variables.</p>
 #&gt; </span><span style='color: #555555;'>7</span><span> species    0.310  0.810    </span><span style='color: #555555;'>&lt;tibble [38 × 3]&gt;</span><span> </span><span style='color: #555555;'>&lt;tibble [6 × 3]&gt;</span><span> </div><div class='input'>
 <span class='co'># Grouped dataframe summary</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>inspect_cat</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 30 x 6</span><span>
-#&gt;    gender        col_name     cnt common   common_pcnt levels           
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>           
-#&gt; </span><span style='color: #555555;'> 1</span><span> female        eye_color     13 brown          25.8  </span><span style='color: #555555;'>&lt;tibble [13 × 3]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span> female        hair_color    10 none           46.8  </span><span style='color: #555555;'>&lt;tibble [10 × 3]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> female        homeworld     43 Naboo          11.3  </span><span style='color: #555555;'>&lt;tibble [43 × 3]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span> female        name          62 Ackbar          1.61 </span><span style='color: #555555;'>&lt;tibble [62 × 3]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> female        skin_color    22 fair           22.6  </span><span style='color: #555555;'>&lt;tibble [22 × 3]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> female        species       32 Human          41.9  </span><span style='color: #555555;'>&lt;tibble [32 × 3]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> hermaphrodite eye_color      2 red            66.7  </span><span style='color: #555555;'>&lt;tibble [2 × 3]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'> 8</span><span> hermaphrodite hair_color     1 </span><span style='color: #BB0000;'>NA</span><span>            100    </span><span style='color: #555555;'>&lt;tibble [1 × 3]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'> 9</span><span> hermaphrodite homeworld      2 Tatooine       66.7  </span><span style='color: #555555;'>&lt;tibble [2 × 3]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>10</span><span> hermaphrodite name           3 C-3PO          33.3  </span><span style='color: #555555;'>&lt;tibble [3 × 3]&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'># Groups:   gender [5]</span><span>
+#&gt;    gender       col_name     cnt common              common_pcnt levels         
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>         
+#&gt; </span><span style='color: #555555;'> 1</span><span> female       eye_color      8 blue                      31.6  </span><span style='color: #555555;'>&lt;tibble [8 × 3</span><span>…
+#&gt; </span><span style='color: #555555;'> 2</span><span> female       hair_color     7 brown                     31.6  </span><span style='color: #555555;'>&lt;tibble [7 × 3</span><span>…
+#&gt; </span><span style='color: #555555;'> 3</span><span> female       homeworld     12 Naboo                     15.8  </span><span style='color: #555555;'>&lt;tibble [12 × </span><span>…
+#&gt; </span><span style='color: #555555;'> 4</span><span> female       name          19 Adi Gallia                 5.26 </span><span style='color: #555555;'>&lt;tibble [19 × </span><span>…
+#&gt; </span><span style='color: #555555;'> 5</span><span> female       skin_color    11 light                     31.6  </span><span style='color: #555555;'>&lt;tibble [11 × </span><span>…
+#&gt; </span><span style='color: #555555;'> 6</span><span> female       species        8 Human                     47.4  </span><span style='color: #555555;'>&lt;tibble [8 × 3</span><span>…
+#&gt; </span><span style='color: #555555;'> 7</span><span> hermaphrodi… eye_color      1 orange                   100    </span><span style='color: #555555;'>&lt;tibble [1 × 3</span><span>…
+#&gt; </span><span style='color: #555555;'> 8</span><span> hermaphrodi… hair_color     1 </span><span style='color: #BB0000;'>NA</span><span>                       100    </span><span style='color: #555555;'>&lt;tibble [1 × 3</span><span>…
+#&gt; </span><span style='color: #555555;'> 9</span><span> hermaphrodi… homeworld      1 Nal Hutta                100    </span><span style='color: #555555;'>&lt;tibble [1 × 3</span><span>…
+#&gt; </span><span style='color: #555555;'>10</span><span> hermaphrodi… name           1 Jabba Desilijic Ti…      100    </span><span style='color: #555555;'>&lt;tibble [1 × 3</span><span>…
 #&gt; </span><span style='color: #555555;'># … with 20 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
