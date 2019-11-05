@@ -1,7 +1,8 @@
+#' @importFrom tidyr unite
+
 plot_grouped <- function(df, value, series, group, plot_type, 
                          col_palette, text_labels, ylab){
   
-  z <- 1 + 1
   # get group names
   grp_attr <- attr(df, 'groups')
   ngroups  <- ncol(grp_attr) - 1
