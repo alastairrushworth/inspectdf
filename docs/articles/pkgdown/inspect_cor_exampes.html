@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -129,19 +129,19 @@
 <p><code><a href="../../reference/inspect_cor.html">inspect_cor()</a></code> returns a tibble containing Pearson’s correlation coefficient, confidence intervals and <span class="math inline">\(p\)</span>-values for pairs of numeric columns . The function combines the functionality of <code><a href="https://rdrr.io/r/stats/cor.html">cor()</a></code> and <code><a href="https://rdrr.io/r/stats/cor.test.html">cor.test()</a></code> in a more convenient wrapper.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(inspectdf)</a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../../reference/inspect_cor.html">inspect_cor</a></span>(storms)</a></code></pre></div>
-<pre><code>## # A tibble: 45 x 6
-##    col_1       col_2         corr  p_value  lower  upper
-##    &lt;chr&gt;       &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-##  1 pressure    wind        -0.942 0.       -0.944 -0.940
-##  2 hu_diameter pressure    -0.842 0.       -0.852 -0.832
-##  3 hu_diameter wind         0.774 0.        0.760  0.787
-##  4 hu_diameter ts_diameter  0.684 0.        0.666  0.701
-##  5 ts_diameter pressure    -0.683 0.       -0.701 -0.665
-##  6 ts_diameter wind         0.640 0.        0.620  0.659
-##  7 ts_diameter lat          0.301 2.50e-70  0.270  0.330
-##  8 day         month       -0.183 6.47e-75 -0.202 -0.164
-##  9 hu_diameter lat          0.164 3.08e-22  0.132  0.197
-## 10 ts_diameter month        0.139 2.34e-16  0.106  0.172
+<pre><code>## # A tibble: 45 x 7
+##    col_1       col_2         corr  p_value  lower  upper pcnt_nna
+##    &lt;chr&gt;       &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+##  1 pressure    wind        -0.942 0.       -0.944 -0.940    100  
+##  2 hu_diameter pressure    -0.842 0.       -0.852 -0.832     34.8
+##  3 hu_diameter wind         0.774 0.        0.760  0.787     34.8
+##  4 hu_diameter ts_diameter  0.684 0.        0.666  0.701     34.8
+##  5 ts_diameter pressure    -0.683 0.       -0.701 -0.665     34.8
+##  6 ts_diameter wind         0.640 0.        0.620  0.659     34.8
+##  7 ts_diameter lat          0.301 2.50e-70  0.270  0.330     34.8
+##  8 day         month       -0.183 6.47e-75 -0.202 -0.164    100  
+##  9 hu_diameter lat          0.164 3.08e-22  0.132  0.197     34.8
+## 10 ts_diameter month        0.139 2.34e-16  0.106  0.172     34.8
 ## # … with 35 more rows</code></pre>
 <p>A plot showing point estimate and confidence intervals is printed when using the <code><a href="../../reference/show_plot.html">show_plot()</a></code> function. Note that intervals that straddle the null value of 0 are shown in gray:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../../reference/inspect_cor.html">inspect_cor</a></span>(storms) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../../reference/show_plot.html">show_plot</a></span>()</a></code></pre></div>
