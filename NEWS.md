@@ -1,14 +1,14 @@
 
-# `inspectdf` 0.0.7.9000
+# `inspectdf` 0.0.7
 
   - Added `bytes` column to `inspect_mem()` output, for downstream
     numeric comparison and consistency with `inspectpd`.
-  - Added `pcnt_nna` column to `inspect_cor()` output containin the
+  - Added `pcnt_nna` column to `inspect_cor()` output containing the
     percentage of pairwise complete observations used calculated
     correlations. Thanks to Theo Broekman for the suggestion.
   - Fixed bug causing order of grouping variable in grouped `inspect_`
     statements to be incorrect. Thanks to the report from Theo Broekman.
-  - Removed erroneous print statement form `inspect_num()`.
+  - Removed erroneous print statement from `inspect_num()`.
 
 # `inspectdf` 0.0.6
 

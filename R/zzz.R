@@ -15,6 +15,7 @@
                              "cnt", "col_names", "white_labs", "black_labs", 
                              "cls", "alpha", "jsd", "significant", "bar_width", 
                              "corr_1", "corr_2", "data_frame_n", "col_vec", "size", 
-                             "df_cat_fact", "ymax", "se", "col_name1", "prop_z", "data"))
+                             "df_cat_fact", "ymax", "se", "col_name1", "prop_z", 
+                             "data", "pcnt_nna", "bytes"))
   invisible()
 }

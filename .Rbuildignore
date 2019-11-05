@@ -1,6 +1,7 @@
 ^tests$
 ^docs$
 ^vignettes/pkgdown$
+^pkgdown$
 ^inst$
 ^checks\.R$
 ^big_tests\.R$
@@ -17,3 +18,4 @@
 ^README.html$
 ^\.Rout$
 ^\.RData
+^new_cor\.R$
