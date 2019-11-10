@@ -26,10 +26,11 @@ cor_test_2 <- function(df_input, df_name, with_col, alpha, method){
   x <- if(is.null(with_col)) df_input else df_input[with_col]
   y <- if(is.null(with_col)) NULL else df_input[-which(names(df_input) %in% with_col)]
   # need some way to count how many pairwise complete obs there are
-  z1 <- lapply(x, function(v) which(is.na(v)))
-  z2 <- if(is.null(with_col)) z1 else lapply(y, function(v) which(is.na(v)))
-  nna <- Vectorize(function(x, y) length(unique(c(x, y))))
-  nna_mat <- nrow(df_input) - outer(X = z1, Y = z2, nna)
+  if(is.null(with_col)){
+    nna_mat <- crossprod(!is.na(x))
+  } else {
+    nna_mat <- t((!is.na(x))) %*% (!is.na(y))  
+  }
   if(is.null(with_col)) nna_mat[upper.tri(nna_mat, diag = TRUE)] <- Inf
   # get the number of non-null elements
   nna_df <- nna_mat %>%
