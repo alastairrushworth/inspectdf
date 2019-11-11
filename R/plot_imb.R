@@ -85,13 +85,37 @@ plot_imb_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
 plot_imb_grouped <- function(df_plot, df_names, text_labels, col_palette, plot_type){
   # group variable name
   group_name <- colnames(df_plot)[1]
-  plt <- plot_grouped(df = df_plot, 
-                      value = "pcnt", 
-                      series = "col_name", 
-                      group = group_name, 
-                      plot_type = plot_type, 
-                      col_palette = col_palette, 
-                      text_labels = text_labels, 
-                      ylab = "% imbalance")
+  if(plot_type == 1){
+    # get ordering of variable pairs by median correlation
+    col_ord <- df_plot %>% 
+      ungroup %>%
+      group_by(col_name) %>%
+      summarize(md_pcnt = median(pcnt, na.rm = T)) %>%
+      arrange(md_pcnt) %>%
+      .$col_name
+    # create pair columns and arrange by col_ord
+    out <- df_plot %>% 
+      ungroup %>%
+      mutate(col_name = factor(col_name, levels = col_ord)) %>%
+      arrange(col_name) 
+    # jitter points if number of column pairs <= 10
+    jitter_width <- ifelse(length(unique(out$col_name)) > 10, 0, 0.25) 
+    plt <- out %>%
+      ggplot(aes_string(x = 'col_name', y = 'pcnt', col = 'col_name', group = group_name)) + 
+      geom_jitter(alpha = 0.5, width = jitter_width, height = 0, size = 1.8) + 
+      theme(legend.position='none') + 
+      coord_flip() + 
+      ylab("Imbalance by group") +
+      xlab("")
+  } else {
+    plt <- plot_grouped(df = df_plot, 
+                        value = "pcnt", 
+                        series = "col_name", 
+                        group = group_name, 
+                        plot_type = plot_type, 
+                        col_palette = col_palette, 
+                        text_labels = text_labels, 
+                        ylab = "% imbalance")
+  }
   plt
 }

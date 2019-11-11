@@ -57,7 +57,7 @@
 
 show_plot <- function(x, text_labels = TRUE, alpha = 0.05, 
                       high_cardinality = 0, plot_layout = NULL,
-                      col_palette = 0, plot_type = "bar", label_thresh = 0.1){
+                      col_palette = 0, plot_type = 1, label_thresh = 0.1){
   type     <- attr(x, "type")
   df_names <- attr(x, "df_names")
   
@@ -114,10 +114,10 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
                         col_palette = col_palette)
     }
     if(type$input_type == "grouped"){
-      plt <- plot_na_grouped(x, df_names = df_names,
-                             text_labels = text_labels, 
-                             col_palette = col_palette, 
-                             plot_type = plot_type)
+      plt <- plot_imb_grouped(x, df_names = df_names,
+                              text_labels = text_labels, 
+                              col_palette = col_palette, 
+                              plot_type = plot_type)
     }
   }
   
