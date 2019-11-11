@@ -14,7 +14,7 @@
 #'  - `3`: [rainbox theme](https://www.color-hex.com/color-palette/79261)
 #'  - `4`: [mario theme](https://www.color-hex.com/color-palette/78663)
 #'  - `5`: [pokemon theme](https://www.color-hex.com/color-palette/78664)
-#' @param plot_type String determining the type of plot to show.  Defaults to `"bar"`.  
+#' @param plot_type Integer determining plot type to print.  Defaults to 1.
 #' @param plot_layout Vector specifying the number of rows and columns 
 #' in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
 #' \code{plot_layout = c(3, 2)}.
