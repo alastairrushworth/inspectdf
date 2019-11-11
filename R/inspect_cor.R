@@ -75,6 +75,7 @@
 #' @importFrom dplyr select_if
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
+#' @importFrom dplyr summarize
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 #' @importFrom tidyr nest
