@@ -106,28 +106,53 @@ plot_cor_pair <- function(out, alpha, df_names, text_labels, col_palette, method
   plt
 }
 
-plot_cor_grouped <- function(out, df_names, text_labels, col_palette, method, 
-                       plot_type){
+plot_cor_grouped <- function(out, df_names, text_labels, col_palette, method, plot_type){
   # group variable name
   group_name <- colnames(out)[1]
-  new_out <- out %>%
-    mutate(pair = paste(col_1, col_2, sep = " & ")) %>%
-    mutate(pair = factor(pair, levels = rev(unique(as.character(pair))))) %>%
-    select(-col_1, -col_2, -lower, -upper, -p_value)
-  
-  plt <- plot_grouped(df = new_out, 
-                 value = "corr", 
-                 series = "pair", 
-                 group = group_name, 
-                 plot_type = plot_type, 
-                 col_palette = col_palette, 
-                 text_labels = text_labels,
-                 ylab = "Correlation")
-  plt <- plt + 
-    geom_hline(yintercept = 0, alpha = 0.5, linetype = "dashed") + 
-    geom_hline(yintercept = 1, alpha = 0.3, linetype = "dashed") + 
-    geom_hline(yintercept = -1, alpha = 0.3, linetype = "dashed")
-  plt
+  if(plot_type == 1){
+    # get ordering of variable pairs by median correlation
+    col_ord <- out %>% 
+      ungroup %>%
+      mutate(pair = paste0(col_1, ' & ', col_2)) %>%
+      group_by(pair) %>%
+      summarize(md_cor = median(corr, na.rm = T)) %>%
+      arrange(md_cor) %>%
+      .$pair
+    # create pair columns and arrange by col_ord
+    out <- out %>% 
+      ungroup %>%
+      mutate(pair = paste0(col_1, ' & ', col_2)) %>%
+      mutate(pair = factor(pair, levels = col_ord)) %>%
+      arrange(pair) 
+    # jitter points if number of column pairs <= 10
+    jitter_width <- ifelse(length(unique(out$pair)) > 10, 0, 0.25) 
+    plt <- out %>%
+      ggplot(aes_string(x = 'pair', y = 'corr', col = 'pair', group = group_name)) + 
+      geom_jitter(alpha = 0.5, width = jitter_width, size = 1.8, na.rm = TRUE) + 
+      theme(legend.position='none') + 
+      coord_flip() + 
+      ylab("Correlation by group") +
+      xlab("")
+  } else {
+    new_out <- out %>%
+      mutate(pair = paste(col_1, col_2, sep = " & ")) %>%
+      mutate(pair = factor(pair, levels = rev(unique(as.character(pair))))) %>%
+      select(-col_1, -col_2, -lower, -upper, -p_value)
+    
+    plt <- plot_grouped(df = new_out, 
+                        value = "corr", 
+                        series = "pair", 
+                        group = group_name, 
+                        plot_type = plot_type, 
+                        col_palette = col_palette, 
+                        text_labels = text_labels,
+                        ylab = "Correlation")
+    plt <- plt + 
+      geom_hline(yintercept = 0, alpha = 0.5, linetype = "dashed") + 
+      geom_hline(yintercept = 1, alpha = 0.3, linetype = "dashed") + 
+      geom_hline(yintercept = -1, alpha = 0.3, linetype = "dashed")
+  }
+  return(plt)
 }
 
 

@@ -1,4 +1,10 @@
 
+# `inspectdf` 0.0.8.9000
+
+  - Plots for grouped summaries: `inspect_cor()`, `inspect_na()` and
+    \`inspect
+  - `inspect_cor()` slight speed up for large number of columns.
+
 # `inspectdf` 0.0.7
 
   - Added `bytes` column to `inspect_mem()` output, for downstream

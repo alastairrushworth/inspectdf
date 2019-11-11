@@ -19,7 +19,7 @@ plot_grouped <- function(df, value, series, group, plot_type,
   group <- 'group'
   df[is.na(df[group]), group] <- 'NA'
   
-  if(plot_type == "line"){
+  if(plot_type == 3){
     n_df  <- length(unlist(unique(df[series])))
     vcols <- c("gray50", user_colours(9, col_palette)[9])
     bcols <- rep(user_colours(n_df, col_palette), 2)
@@ -37,7 +37,7 @@ plot_grouped <- function(df, value, series, group, plot_type,
       scale_colour_manual(name = "Pair", values = bcols) +
       labs(y = ylab, x = group)
   } 
-  if(plot_type == "bar"){
+  if(plot_type == 2){
     n_df  <- length(unlist(unique(df[group])))
     vcols <- c("gray50", user_colours(9, col_palette)[9])
     bcols <- user_colours(n_df, col_palette)
