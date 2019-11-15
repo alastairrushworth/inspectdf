@@ -4,25 +4,32 @@
 \alias{show_plot}
 \title{Visualise summaries and comparisons of one or two dataframes.}
 \usage{
-show_plot(x, text_labels = TRUE, alpha = 0.05, high_cardinality = 0,
-  plot_layout = NULL, col_palette = 0, plot_type = 1,
-  label_thresh = 0.1)
+show_plot(
+  x,
+  text_labels = TRUE,
+  alpha = 0.05,
+  high_cardinality = 0,
+  plot_layout = NULL,
+  col_palette = 0,
+  plot_type = 1,
+  label_thresh = 0.1
+)
 }
 \arguments{
-\item{x}{Dataframe resulting from a call to an `inspect_` function.}
+\item{x}{Dataframe resulting from a call to an `inspect_*()` function.}
 
-\item{text_labels}{Whether to show text annotation on plots (when \code{show_plot = T}).}
+\item{text_labels}{Boolean.  Whether to show text annotation on plots.  Defaults to \code{TRUE}.}
 
-\item{alpha}{Alpha level for performing significance tests.  Defaults to 0.05.}
+\item{alpha}{Alpha level for performing any significance tests.  Defaults to 0.05.}
 
 \item{high_cardinality}{Minimum number of occurrences of category to be shown as a distinct segment 
-in the plot (\code{inspect_cat} only).  Default is 0.  This can help when some columns 
-contain many unique or near-unique levels that take a long time to render.}
+in the plot (\code{inspect_cat()} only).  Default is 0 - all distinct levels are shown.  Setting 
+\code{high_cardinality > 0} can speed up plot rendering when categorical columns contain 
+many near-unique values.}
 
 \item{plot_layout}{Vector specifying the number of rows and columns 
 in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
-\code{plot_layout = c(3, 2)}.
-Default is \code{TRUE}.}
+\code{plot_layout = c(3, 2)}.}
 
 \item{col_palette}{Integer indicating the colour palette to use.
 
@@ -35,9 +42,9 @@ Default is \code{TRUE}.}
 
 \item{plot_type}{Integer determining plot type to print.  Defaults to 1.}
 
-\item{label_thresh}{Minimum percentage frequency of category for a text label to be shown.
-Defaults to 0.1.  Smaller values will show potentially smaller labels, but at the expense of longer
-rendering time.}
+\item{label_thresh}{(\code{inspect_cat()} only.  Minimum occurrence frequency of category for 
+a text label to be shown.  Smaller values of \code{label_thresh} will show labels 
+for less common categories but at the expense of increased plot rendering time.  Defaults to 0.1.}
 }
 \description{
 Visualise summaries and comparisons of one or two dataframes.

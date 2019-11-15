@@ -50,7 +50,16 @@ plot_imb_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
     mutate(is_sig = as.integer(p_value < alpha) + 2, index = 1:nrow(df_plot)) %>%
     replace_na(list(is_sig = 1)) %>%
     select(is_sig, index) 
-  
+  # max extent of percentages
+  yrange <- abs(diff(range(df_plot$pcnt, na.rm = TRUE)))
+  df_plot <- df_plot %>%
+    group_by(col_name) %>%
+    arrange(data_frame) %>%
+    mutate(nudge = as.integer((abs(diff(pcnt)) / yrange) < 0.02)) %>%
+    ungroup 
+  df_plot$nudge[(df_plot$data_frame == unique(df_plot$data_frame)[1]) & (df_plot$nudge == 1)] <- -1
+  nudge_vec <- df_plot$nudge
+  nudge_vec[is.na(nudge_vec)] <- 0
   # generate plot
   plt <- df_plot %>%
     ggplot(aes(x = factor(col_name, levels = unique(df_plot$col_name)), 
@@ -63,18 +72,17 @@ plot_imb_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
       xmin = p_val_tab$index - 0.4, xmax = p_val_tab$index + 0.4,
       ymin = -100, ymax = 200, linetype = "blank") +
     geom_hline(yintercept = 0, linetype = "dashed", color = "lightsteelblue4") + 
-    geom_point(size = 3.7, color = "black", na.rm = TRUE) + 
-    geom_point(size = 3, na.rm = TRUE) +
+    geom_point(size = 3.7, color = "black", na.rm = TRUE, position = position_nudge(x = -0.15 * nudge_vec)) + 
+    geom_point(size = 3, na.rm = TRUE, position = position_nudge(x = -0.15 * nudge_vec)) +
     coord_flip() +
     scale_colour_manual(values = get_best_pair(col_palette), name = "Data frame")
   
   # title & subtitle
   ttl <- paste0("Comparison of most common levels")
-  sttl <- paste0("Blue and orange stripes are equality or", 
-                 " inequality at ", bquote("\u03B1"), " = 0.05")
+  sttl <- bquote("Color/gray stripes mean different/equal imbalance")
   plt <- plt + 
     labs(x = "", title = ttl, subtitle = sttl) + 
-    guides(color = guide_legend(override.aes = list(fill=NA))) + 
+    guides(color = guide_legend(override.aes = list(fill = NA))) + 
     labs(y = "% of column", x = "") %>% 
     suppressWarnings()
   
