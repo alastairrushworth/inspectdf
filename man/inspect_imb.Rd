@@ -19,36 +19,40 @@ Superseded by the function \code{show_plot()} and will be dropped in a future ve
 is \code{FALSE} - to ignore \code{NA} values.}
 }
 \value{
-A tibble summarising and comparing the imbalance for each non-numeric column 
-in one or a pair of data frames.
+A tibble summarising and comparing the imbalance for each categorical column 
+in one or a pair of dataframes.
 }
 \description{
 For a single dataframe, summarise the most common level in each 
 categorical column. If two dataframes are supplied, compare the most common 
 levels of categorical features appearing in both dataframes.  For grouped 
-dataframes, summarise the levels of categorical features separately for each group.
+dataframes, summarise the levels of categorical columns in the dataframe
+split by group.
 }
 \details{
-#' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
+For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 \itemize{
-  \item \code{col_name}, a character vector containing column names of \code{df1}.
-  \item \code{value}, a character vector containing the most common categorical level 
+  \item \code{\strong{col_name}}, a character vector containing column names of \code{df1}.
+  \item \code{\strong{value}}, a character vector containing the most common categorical level 
   in each column of \code{df1}.
-  \item \code{pcnt}, the relative frequency of each column's most common categorical level 
+  \item \code{\strong{pcnt}}, the relative frequency of each column's most common categorical level 
   expressed as a percentage.
-  \item \code{cnt}, the number of occurrences of the most common categorical level in each
+  \item \code{\strong{cnt}}, the number of occurrences of the most common categorical level in each
   column of \code{df1}.
 }
 For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
 \itemize{
-  \item \code{col_name}, a character vector containing names of the unique columns in \code{df1} 
+  \item \code{\strong{col_name}}, a character vector containing names of the unique columns in \code{df1} 
   and \code{df2}.
-  \item \code{value}, a character vector containing the most common categorical level 
+  \item \code{\strong{value}}, a character vector containing the most common categorical level 
   in each column of \code{df1}.  
-  \item \code{pcnt_}, the percentage of each column's entries occupied by the level in
-  \code{value} column.
-  \item \code{cnt_}, the number of occurrences of the most common categorical level in each
-  column of \code{df1} and \code{df2}.
+  \item \code{\strong{pcnt_1}, \strong{pcnt_2}}, the percentage occurence of \code{value} in 
+  the column \code{col_name} for each of \code{df1} and \code{df2}, resepectively.
+  \item \code{\strong{cnt_1}, \strong{cnt_2}}, the number of occurrences of of \code{value} in 
+  the column \code{col_name} for each of \code{df1} and \code{df2}, resepectively.
+  \item \code{\strong{p_value}}, p-value associated with the null hypothesis that the true rate of 
+  occurence is the same for both dataframes.  Small values indicate stronger evidence of a difference
+  in the rate of occurence.
 }
 For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
 the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
