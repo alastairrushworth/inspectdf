@@ -4,8 +4,14 @@
 \alias{inspect_cor}
 \title{Summarise and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.}
 \usage{
-inspect_cor(df1, df2 = NULL, method = "pearson", with_col = NULL,
-  alpha = 0.05, show_plot = FALSE)
+inspect_cor(
+  df1,
+  df2 = NULL,
+  method = "pearson",
+  with_col = NULL,
+  alpha = 0.05,
+  show_plot = FALSE
+)
 }
 \arguments{
 \item{df1}{A data frame.}

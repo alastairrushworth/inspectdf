@@ -1,8 +1,10 @@
 
 # `inspectdf` 0.0.8.9000
 
+  - `show_plot()` improvement that nudges points that might otherwise
+    have coincided for dataframe comparisons of imbalance.  
   - Plots for grouped summaries: `inspect_cor()`, `inspect_na()` and
-    \`inspect
+    \`inspect.
   - `inspect_cor()` slight speed up for large number of columns.
 
 # `inspectdf` 0.0.7

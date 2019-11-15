@@ -1,11 +1,12 @@
 #' Visualise summaries and comparisons of one or two dataframes.
 #' 
-#' @param x Dataframe resulting from a call to an `inspect_` function.
-#' @param alpha Alpha level for performing significance tests.  Defaults to 0.05.
-#' @param text_labels Whether to show text annotation on plots (when \code{show_plot = T}). 
+#' @param x Dataframe resulting from a call to an `inspect_*()` function.
+#' @param alpha Alpha level for performing any significance tests.  Defaults to 0.05.
+#' @param text_labels Boolean.  Whether to show text annotation on plots.  Defaults to \code{TRUE}.
 #' @param high_cardinality Minimum number of occurrences of category to be shown as a distinct segment 
-#' in the plot (\code{inspect_cat} only).  Default is 0.  This can help when some columns 
-#' contain many unique or near-unique levels that take a long time to render.
+#' in the plot (\code{inspect_cat()} only).  Default is 0 - all distinct levels are shown.  Setting 
+#' \code{high_cardinality > 0} can speed up plot rendering when categorical columns contain 
+#' many near-unique values.
 #' @param col_palette Integer indicating the colour palette to use.
 #' 
 #'  - `0`: (default) `ggplot2` color palette
@@ -18,10 +19,9 @@
 #' @param plot_layout Vector specifying the number of rows and columns 
 #' in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
 #' \code{plot_layout = c(3, 2)}.
-#' Default is \code{TRUE}.
-#' @param label_thresh Minimum percentage frequency of category for a text label to be shown.
-#' Defaults to 0.1.  Smaller values will show potentially smaller labels, but at the expense of longer
-#' rendering time.
+#' @param label_thresh (\code{inspect_cat()} only.  Minimum occurrence frequency of category for 
+#' a text label to be shown.  Smaller values of \code{label_thresh} will show labels 
+#' for less common categories but at the expense of increased plot rendering time.  Defaults to 0.1. 
 #' @export
 #' @examples 
 #' # Load 'starwars' data

@@ -4,8 +4,13 @@
 \alias{inspect_num}
 \title{Summary and comparison of numeric columns}
 \usage{
-inspect_num(df1, df2 = NULL, breaks = 20, include_int = TRUE,
-  show_plot = FALSE)
+inspect_num(
+  df1,
+  df2 = NULL,
+  breaks = 20,
+  include_int = TRUE,
+  show_plot = FALSE
+)
 }
 \arguments{
 \item{df1}{A dataframe.}
