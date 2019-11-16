@@ -1,5 +1,9 @@
 #' @importFrom ggplot2 geom_point
 #' @importFrom ggplot2 guide_legend
+#' @importFrom ggplot2 geom_jitter
+#' @importFrom ggplot2 xlab
+#' @importFrom ggplot2 ylab
+#' @importFrom ggplot2 position_nudge
 
 plot_imb_1 <- function(df_plot, df_names, text_labels, col_palette){
   # convert col_name to factor

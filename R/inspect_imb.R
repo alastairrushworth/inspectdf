@@ -19,25 +19,25 @@
 #' @details 
 #' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 #' \itemize{
-#'   \item \code{\strong{col_name}}, a character vector containing column names of \code{df1}.
-#'   \item \code{\strong{value}}, a character vector containing the most common categorical level 
+#'   \item \code{col_name}, a character vector containing column names of \code{df1}.
+#'   \item \code{value}, a character vector containing the most common categorical level 
 #'   in each column of \code{df1}.
-#'   \item \code{\strong{pcnt}}, the relative frequency of each column's most common categorical level 
+#'   \item \code{pcnt}, the relative frequency of each column's most common categorical level 
 #'   expressed as a percentage.
-#'   \item \code{\strong{cnt}}, the number of occurrences of the most common categorical level in each
+#'   \item \code{cnt}, the number of occurrences of the most common categorical level in each
 #'   column of \code{df1}.
 #' }
 #' For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
 #' \itemize{
-#'   \item \code{\strong{col_name}}, a character vector containing names of the unique columns in \code{df1} 
+#'   \item \code{col_name}, a character vector containing names of the unique columns in \code{df1} 
 #'   and \code{df2}.
-#'   \item \code{\strong{value}}, a character vector containing the most common categorical level 
+#'   \item \code{value}, a character vector containing the most common categorical level 
 #'   in each column of \code{df1}.  
-#'   \item \code{\strong{pcnt_1}, \strong{pcnt_2}}, the percentage occurence of \code{value} in 
+#'   \item \code{pcnt_1}, \code{pcnt_2}, the percentage occurence of \code{value} in 
 #'   the column \code{col_name} for each of \code{df1} and \code{df2}, resepectively.
-#'   \item \code{\strong{cnt_1}, \strong{cnt_2}}, the number of occurrences of of \code{value} in 
+#'   \item \code{cnt_1}, \code{cnt_2}, the number of occurrences of of \code{value} in 
 #'   the column \code{col_name} for each of \code{df1} and \code{df2}, resepectively.
-#'   \item \code{\strong{p_value}}, p-value associated with the null hypothesis that the true rate of 
+#'   \item \code{p_value}, p-value associated with the null hypothesis that the true rate of 
 #'   occurence is the same for both dataframes.  Small values indicate stronger evidence of a difference
 #'   in the rate of occurence.
 #' }
