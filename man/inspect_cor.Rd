@@ -2,7 +2,7 @@
 % Please edit documentation in R/inspect_cor.R
 \name{inspect_cor}
 \alias{inspect_cor}
-\title{Summarise and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.}
+\title{Tidy correlation coefficients for numeric columns}
 \usage{
 inspect_cor(
   df1,
@@ -35,7 +35,8 @@ A tibble summarising and comparing the correlations for each numeric column
 in one or a pair of data frames.
 }
 \description{
-Summarise and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.
+Summarise and compare Pearson, Kendall and Spearman correlations for 
+numeric columns in one, two or grouped dataframes.
 }
 \details{
 When \code{df2 = NULL}, a tibble containing correlation coefficients for \code{df1} is 

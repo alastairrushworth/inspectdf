@@ -1,4 +1,7 @@
-#' Summarise and compare Pearson's correlation coefficients for numeric columns in one or two dataframes.
+#' Tidy correlation coefficients for numeric dataframe columns
+#' 
+#' @description Summarise and compare Pearson, Kendall and Spearman correlations for 
+#' numeric columns in one, two or grouped dataframes.
 #'
 #' @param df1 A data frame. 
 #' @param df2 An optional second data frame for comparing correlation 
