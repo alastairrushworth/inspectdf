@@ -2,7 +2,7 @@
 % Please edit documentation in R/show_plot.R
 \name{show_plot}
 \alias{show_plot}
-\title{Visualise summaries and comparisons of one or two dataframes.}
+\title{Simple graphical inspection of dataframe summaries}
 \usage{
 show_plot(
   x,
@@ -16,7 +16,7 @@ show_plot(
 )
 }
 \arguments{
-\item{x}{Dataframe resulting from a call to an `inspect_*()` function.}
+\item{x}{Dataframe resulting from a call to an \code{inspect_*()} function.}
 
 \item{text_labels}{Boolean.  Whether to show text annotation on plots.  Defaults to \code{TRUE}.}
 
@@ -31,53 +31,54 @@ many near-unique values.}
 in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
 \code{plot_layout = c(3, 2)}.}
 
-\item{col_palette}{Integer indicating the colour palette to use.
+\item{col_palette}{Integer indicating the colour palette to use:
+\itemize{
+\item \code{0}: (default) `ggplot2` color palette
+\item \code{1}: a \href{http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/}{colorblind friendly palette}
+\item \code{2}: \href{https://www.color-hex.com/color-palette/25888}{80s theme}
+\item \code{3}: \href{https://www.color-hex.com/color-palette/79261}{rainbox theme}
+\item \code{4}: \href{https://www.color-hex.com/color-palette/78663}{mario theme}
+\item \code{5}: \href{https://www.color-hex.com/color-palette/78664}{pokemon theme}
+}}
 
- - `0`: (default) `ggplot2` color palette
- - `1`: a [colorblind friendly palette](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
- - `2`: [80s theme](https://www.color-hex.com/color-palette/25888)
- - `3`: [rainbox theme](https://www.color-hex.com/color-palette/79261)
- - `4`: [mario theme](https://www.color-hex.com/color-palette/78663)
- - `5`: [pokemon theme](https://www.color-hex.com/color-palette/78664)}
-
-\item{plot_type}{Integer determining plot type to print.  Defaults to 1.}
+\item{plot_type}{Experimental.  Integer determining plot type to print.  Defaults to 1.}
 
 \item{label_thresh}{(\code{inspect_cat()} only.  Minimum occurrence frequency of category for 
 a text label to be shown.  Smaller values of \code{label_thresh} will show labels 
 for less common categories but at the expense of increased plot rendering time.  Defaults to 0.1.}
 }
 \description{
-Visualise summaries and comparisons of one or two dataframes.
+Easily visualise output from \code{inspect_*()} functions.
 }
 \examples{
 # Load 'starwars' data
 data("starwars", package = "dplyr")
 
-# categorical plot
+# Horizontal bar plot for categorical column composition
 x <- inspect_cat(starwars) 
 show_plot(x)
 
-# correlations in numeric columns
+# Correlation betwee numeric columns + confidence intervals
 x <- inspect_cor(starwars)
 show_plot(x)
 
-# feature imbalance bar plot
+# Bar plot of most frequent category for each categorical column
 x <- inspect_imb(starwars)
 show_plot(x)
 
-# memory usage barplot
+# Bar plot showing memory usage for each column
 x <- inspect_mem(starwars)
 show_plot(x)
 
-# missingness barplot
+# Occurence of NAs in each column ranked in descending order
 x <- inspect_na(starwars)
 show_plot(x)
 
-# histograms for numeric columns
+# Histograms for numeric columns
 x <- inspect_num(starwars)
 show_plot(x)
 
-# barplot of column types
+# Barplot of column types
 x <- inspect_types(starwars)
 show_plot(x)
 }

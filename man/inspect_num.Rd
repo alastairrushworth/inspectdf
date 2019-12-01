@@ -45,7 +45,7 @@ For a \strong{single dataframe}, the tibble returned contains the columns: \cr
   \code{sd}, the minimum, lower quartile, median, mean, upper quartile, maximum and 
   standard deviation for each numeric column.
   \item \code{pcnt_na}, the percentage of each numeric feature that is missing
-  \item \code{hist}, a named list of tibbles containing the relative frequency of values in a 
+  \item \code{hist}, a named list of tibbles containing the relative frequency of values 
   falling in bins determined by \code{breaks}.
 } 
 For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr

@@ -2,7 +2,7 @@
 % Please edit documentation in R/inspect_cor.R
 \name{inspect_cor}
 \alias{inspect_cor}
-\title{Tidy correlation coefficients for numeric columns}
+\title{Tidy correlation coefficients for numeric dataframe columns}
 \usage{
 inspect_cor(
   df1,

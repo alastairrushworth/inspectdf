@@ -1,21 +1,24 @@
-#' Visualise summaries and comparisons of one or two dataframes.
+#' Simple graphical inspection of dataframe summaries
 #' 
-#' @param x Dataframe resulting from a call to an `inspect_*()` function.
+#' @description  Easily visualise output from \code{inspect_*()} functions.
+#' 
+#' @param x Dataframe resulting from a call to an \code{inspect_*()} function.
 #' @param alpha Alpha level for performing any significance tests.  Defaults to 0.05.
 #' @param text_labels Boolean.  Whether to show text annotation on plots.  Defaults to \code{TRUE}.
 #' @param high_cardinality Minimum number of occurrences of category to be shown as a distinct segment 
 #' in the plot (\code{inspect_cat()} only).  Default is 0 - all distinct levels are shown.  Setting 
 #' \code{high_cardinality > 0} can speed up plot rendering when categorical columns contain 
 #' many near-unique values.
-#' @param col_palette Integer indicating the colour palette to use.
-#' 
-#'  - `0`: (default) `ggplot2` color palette
-#'  - `1`: a [colorblind friendly palette](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
-#'  - `2`: [80s theme](https://www.color-hex.com/color-palette/25888)
-#'  - `3`: [rainbox theme](https://www.color-hex.com/color-palette/79261)
-#'  - `4`: [mario theme](https://www.color-hex.com/color-palette/78663)
-#'  - `5`: [pokemon theme](https://www.color-hex.com/color-palette/78664)
-#' @param plot_type Integer determining plot type to print.  Defaults to 1.
+#' @param col_palette Integer indicating the colour palette to use:
+#' \itemize{
+#' \item \code{0}: (default) `ggplot2` color palette
+#' \item \code{1}: a \href{http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/}{colorblind friendly palette}
+#' \item \code{2}: \href{https://www.color-hex.com/color-palette/25888}{80s theme}
+#' \item \code{3}: \href{https://www.color-hex.com/color-palette/79261}{rainbox theme}
+#' \item \code{4}: \href{https://www.color-hex.com/color-palette/78663}{mario theme}
+#' \item \code{5}: \href{https://www.color-hex.com/color-palette/78664}{pokemon theme}
+#' }
+#' @param plot_type Experimental.  Integer determining plot type to print.  Defaults to 1.
 #' @param plot_layout Vector specifying the number of rows and columns 
 #' in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
 #' \code{plot_layout = c(3, 2)}.
@@ -27,31 +30,31 @@
 #' # Load 'starwars' data
 #' data("starwars", package = "dplyr")
 #' 
-#' # categorical plot
+#' # Horizontal bar plot for categorical column composition
 #' x <- inspect_cat(starwars) 
 #' show_plot(x)
 #' 
-#' # correlations in numeric columns
+#' # Correlation betwee numeric columns + confidence intervals
 #' x <- inspect_cor(starwars)
 #' show_plot(x)
 #' 
-#' # feature imbalance bar plot
+#' # Bar plot of most frequent category for each categorical column
 #' x <- inspect_imb(starwars)
 #' show_plot(x)
 #' 
-#' # memory usage barplot
+#' # Bar plot showing memory usage for each column
 #' x <- inspect_mem(starwars)
 #' show_plot(x)
 #' 
-#' # missingness barplot
+#' # Occurence of NAs in each column ranked in descending order
 #' x <- inspect_na(starwars)
 #' show_plot(x)
 #' 
-#' # histograms for numeric columns
+#' # Histograms for numeric columns
 #' x <- inspect_num(starwars)
 #' show_plot(x)
 #' 
-#' # barplot of column types
+#' # Barplot of column types
 #' x <- inspect_types(starwars)
 #' show_plot(x)
 
