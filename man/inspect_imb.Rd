@@ -4,16 +4,13 @@
 \alias{inspect_imb}
 \title{Summary and comparison of the most common levels in categorical columns}
 \usage{
-inspect_imb(df1, df2 = NULL, show_plot = FALSE, include_na = FALSE)
+inspect_imb(df1, df2 = NULL, include_na = FALSE)
 }
 \arguments{
 \item{df1}{A dataframe.}
 
 \item{df2}{An optional second data frame for comparing columnwise imbalance.
 Defaults to \code{NULL}.}
-
-\item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
-Superseded by the function \code{show_plot()} and will be dropped in a future version.}
 
 \item{include_na}{Logical flag, whether to include missing values as a unique level.  Default
 is \code{FALSE} - to ignore \code{NA} values.}

@@ -4,16 +4,13 @@
 \alias{inspect_na}
 \title{Summary and comparison of the rate of missingness across dataframe columns}
 \usage{
-inspect_na(df1, df2 = NULL, show_plot = FALSE)
+inspect_na(df1, df2 = NULL)
 }
 \arguments{
 \item{df1}{A data frame}
 
 \item{df2}{An optional second data frame for making columnwise comparison of missingness.
 Defaults to \code{NULL}.}
-
-\item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
-Superseded by the function \code{show_plot()} and will be dropped in a future version.}
 }
 \value{
 A tibble summarising the count and percentage of columnwise missingness 

@@ -8,8 +8,6 @@
 #' @param df1 A data frame
 #' @param df2 An optional second data frame for making columnwise comparison of missingness.  
 #' Defaults to \code{NULL}.
-#' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
-#' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return A tibble summarising the count and percentage of columnwise missingness 
 #' for one or a pair of data frames.
 #' @details 
@@ -62,7 +60,7 @@
 #' @importFrom tibble tibble
 #' @export
 
-inspect_na <- function(df1, df2 = NULL, show_plot = FALSE){
+inspect_na <- function(df1, df2 = NULL){
   
   # perform basic column check on dataframe input
   input_type <- check_df_cols(df1, df2)
@@ -100,6 +98,5 @@ inspect_na <- function(df1, df2 = NULL, show_plot = FALSE){
   }
   attr(out, "type")     <- list(method = "na", input_type = input_type)
   attr(out, "df_names") <- df_names
-  if(show_plot) plot_deprecated(out)
   return(out)
 }

@@ -11,8 +11,6 @@
 #' \code{graphics::hist()}.  Defaults to 20.
 #' @param include_int Logical flag, whether to include integer columns in numeric summaries.  
 #' Defaults to \code{TRUE}.
-#' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
-#' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' \code{hist(..., breaks)}.  See \code{?hist} for more details. 
 #' @return A \code{tibble} containing statistical summaries of the numeric 
 #' columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
@@ -81,7 +79,7 @@
 #' @importFrom tidyr gather
 #' @importFrom utils tail
 
-inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE, show_plot = FALSE){
+inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
 
   # fish out breaks_seq, if supplied
   breakseq <- attr(df1, "breakseq")
@@ -193,14 +191,13 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE, show_p
     for(i in 1:length(out_nest$data)){
       dfi <- out_nest$data[[i]]
       attr(dfi, 'breakseq') <- brk_tab
-      out_list[[i]] <- inspect_num(dfi, include_int = include_int, show_plot = FALSE)
+      out_list[[i]] <- inspect_num(dfi, include_int = include_int)
     }
     grp_nms$out_list <- out_list
     out <- unnest(grp_nms, cols = c('out_list'))
   }
   attr(out, "type")     <- list(method = "num", input_type = input_type)
   attr(out, "df_names") <- df_names
-  if(show_plot) plot_deprecated(out)
   return(out)
 }
 

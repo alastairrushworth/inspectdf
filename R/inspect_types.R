@@ -5,8 +5,6 @@
 #'
 #' @param df1 A dataframe.
 #' @param df2 An optional second dataframe for comparison.  
-#' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
-#' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return A tibble summarising the count and percentage of different 
 #' column types for one or a pair of data frames.
 #' @details 
@@ -62,7 +60,7 @@
 #' @importFrom tidyr replace_na
 #' @useDynLib inspectdf
 
-inspect_types <- function(df1, df2 = NULL, show_plot = FALSE){
+inspect_types <- function(df1, df2 = NULL){
   
   # perform basic column check on dataframe input
   check_df_cols(df1)
@@ -105,7 +103,6 @@ inspect_types <- function(df1, df2 = NULL, show_plot = FALSE){
     attr(out, "type") <- list(method = "types", 2)
     attr(out, "df_names") <- df_names
   }
-  if(show_plot) plot_deprecated(out)
   return(out)
 }
 

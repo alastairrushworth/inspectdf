@@ -11,8 +11,6 @@
 #' Defaults to \code{NULL}.  
 #' @param include_na Logical flag, whether to include missing values as a unique level.  Default
 #' is \code{FALSE} - to ignore \code{NA} values.
-#' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
-#' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return  A tibble summarising and comparing the imbalance for each categorical column 
 #' in one or a pair of dataframes.
 #' 
@@ -72,7 +70,7 @@
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
 
-inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, include_na = FALSE){
+inspect_imb <- function(df1, df2 = NULL, include_na = FALSE){
   
   # perform basic column check on dataframe input
   input_type <- check_df_cols(df1, df2)
@@ -137,6 +135,5 @@ inspect_imb <- function(df1, df2 = NULL, show_plot = FALSE, include_na = FALSE){
   # attach attributes required for plotting
   attr(out, "type")     <- list(method = "imb", input_type = input_type)
   attr(out, "df_names") <- df_names
-  if(show_plot) plot_deprecated(out)
   return(out)
 }
