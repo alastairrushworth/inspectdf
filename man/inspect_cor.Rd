@@ -4,14 +4,7 @@
 \alias{inspect_cor}
 \title{Tidy correlation coefficients for numeric dataframe columns}
 \usage{
-inspect_cor(
-  df1,
-  df2 = NULL,
-  method = "pearson",
-  with_col = NULL,
-  alpha = 0.05,
-  show_plot = FALSE
-)
+inspect_cor(df1, df2 = NULL, method = "pearson", with_col = NULL, alpha = 0.05)
 }
 \arguments{
 \item{df1}{A data frame.}
@@ -26,9 +19,6 @@ of \code{"pearson"}, \code{"kendall"}, or \code{"spearman"}, which can be abbrev
 features.  The default \code{with_col = NULL} returns all pairs of correlations.}
 
 \item{alpha}{Alpha level for correlation confidence intervals.  Defaults to 0.05.}
-
-\item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
-Superseded by the function \code{show_plot()} and will be dropped in a future version.}
 }
 \value{
 A tibble summarising and comparing the correlations for each numeric column 

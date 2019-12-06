@@ -11,8 +11,6 @@
 #' @param alpha Alpha level for correlation confidence intervals.  Defaults to 0.05.
 #' @param with_col Character vector of column names to calculate correlations with all other numeric 
 #' features.  The default \code{with_col = NULL} returns all pairs of correlations.
-#' @param show_plot (Deprecated) Logical flag indicating whether a plot should be shown.  
-#' Superseded by the function \code{show_plot()} and will be dropped in a future version.
 #' @return A tibble summarising and comparing the correlations for each numeric column 
 #' in one or a pair of data frames.
 #' @details When \code{df2 = NULL}, a tibble containing correlation coefficients for \code{df1} is 
@@ -84,7 +82,7 @@
 #' @importFrom tidyr nest
 
 inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL, 
-                        alpha = 0.05, show_plot = FALSE){
+                        alpha = 0.05){
   # perform basic column check on dataframe input
   input_type <- check_df_cols(df1, df2)
   # capture the data frame names
@@ -146,6 +144,5 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
   attr(out, "type")     <- list(method = "cor", input_type = input_type)
   attr(out, "df_names") <- df_names
   attr(out, "method")   <- method
-  if(show_plot) plot_deprecated(out)
   return(out)
 }

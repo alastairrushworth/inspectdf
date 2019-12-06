@@ -6,11 +6,12 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# `inspectdf` 0.0.8.9000
+# `inspectdf` 0.1.0.9000
 
-- `show_plot()` improvement that nudges points that might otherwise have coincided for dataframe comparisons of imbalance.  
+- __Important change:__ the Boolean option `show_plot` has been removed from all `inspect_*()` functions.  To generate visualisations of data frame summaries, use `show_plot(inspect_*())` or using the pipe  `inspect_*() %>% show_plot()`.
+- `show_plot()` improvement that nudges points that might otherwise have coincided for dataframe comparisons of imbalance (eg. with `inspect_imb(df1, df2) %>% show_plot()`)  
 - Plots for grouped summaries: `inspect_cor()`, `inspect_na()` and `inspect.
-- `inspect_cor()` slight speed up for large number of columns.
+- `inspect_cor()` slight speed up for dataframes with large numbers of columns.
 
 # `inspectdf` 0.0.7
 

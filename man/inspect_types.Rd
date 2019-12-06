@@ -4,15 +4,12 @@
 \alias{inspect_types}
 \title{Summary and comparison of column types}
 \usage{
-inspect_types(df1, df2 = NULL, show_plot = FALSE)
+inspect_types(df1, df2 = NULL)
 }
 \arguments{
 \item{df1}{A dataframe.}
 
 \item{df2}{An optional second dataframe for comparison.}
-
-\item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
-Superseded by the function \code{show_plot()} and will be dropped in a future version.}
 }
 \value{
 A tibble summarising the count and percentage of different 

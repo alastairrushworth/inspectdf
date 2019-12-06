@@ -4,16 +4,13 @@
 \alias{inspect_cat}
 \title{Summary and comparison of the levels in categorical columns}
 \usage{
-inspect_cat(df1, df2 = NULL, show_plot = FALSE)
+inspect_cat(df1, df2 = NULL)
 }
 \arguments{
 \item{df1}{A dataframe.}
 
 \item{df2}{An optional second data frame for comparing categorical levels.
 Defaults to \code{NULL}.}
-
-\item{show_plot}{(Deprecated) Logical flag indicating whether a plot should be shown.
-Superseded by the function \code{show_plot()} and will be dropped in a future version.}
 }
 \value{
 A tibble summarising or comparing the categorical features 
