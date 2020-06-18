@@ -3,8 +3,8 @@
 
   - **Important change:** the Boolean option `show_plot` has been
     removed from all `inspect_*()` functions. To generate visualisations
-    of data frame summaries, use `show_plot(inspect_*())` or using the
-    pipe `inspect_*() %>% show_plot()`.
+    of data frame summaries, please use `show_plot(inspect_*())` or
+    using the pipe `inspect_*() %>% show_plot()`.
   - `show_plot()` improvement that nudges points that might otherwise
     have coincided for dataframe comparisons of imbalance (for example,
     with `inspect_imb(df1, df2) %>% show_plot()`)  
@@ -12,6 +12,10 @@
     \`inspect.
   - `inspect_cor()` slight speed up for dataframes with large numbers of
     columns.
+  - `inspect_cor()` can be filtered prior to plotting, for example
+    `inspect_cor(starwars) %>% filter(abs(corr) > 0.2) %>% show_plot()`.
+    Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the
+    [suggestion](https://github.com/alastairrushworth/inspectdf/issues/24)
 
 # `inspectdf` 0.0.7
 
