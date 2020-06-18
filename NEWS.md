@@ -6,8 +6,8 @@
     of data frame summaries, use `show_plot(inspect_*())` or using the
     pipe `inspect_*() %>% show_plot()`.
   - `show_plot()` improvement that nudges points that might otherwise
-    have coincided for dataframe comparisons of imbalance (eg. with
-    `inspect_imb(df1, df2) %>% show_plot()`)  
+    have coincided for dataframe comparisons of imbalance (for example,
+    with `inspect_imb(df1, df2) %>% show_plot()`)  
   - Plots for grouped summaries: `inspect_cor()`, `inspect_na()` and
     \`inspect.
   - `inspect_cor()` slight speed up for dataframes with large numbers of

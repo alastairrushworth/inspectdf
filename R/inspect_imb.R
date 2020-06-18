@@ -31,13 +31,13 @@
 #'   and \code{df2}.
 #'   \item \code{value}, a character vector containing the most common categorical level 
 #'   in each column of \code{df1}.  
-#'   \item \code{pcnt_1}, \code{pcnt_2}, the percentage occurence of \code{value} in 
-#'   the column \code{col_name} for each of \code{df1} and \code{df2}, resepectively.
+#'   \item \code{pcnt_1}, \code{pcnt_2}, the percentage occurrence of \code{value} in 
+#'   the column \code{col_name} for each of \code{df1} and \code{df2}, respectively.
 #'   \item \code{cnt_1}, \code{cnt_2}, the number of occurrences of of \code{value} in 
-#'   the column \code{col_name} for each of \code{df1} and \code{df2}, resepectively.
+#'   the column \code{col_name} for each of \code{df1} and \code{df2}, respectively.
 #'   \item \code{p_value}, p-value associated with the null hypothesis that the true rate of 
-#'   occurence is the same for both dataframes.  Small values indicate stronger evidence of a difference
-#'   in the rate of occurence.
+#'   occurrence is the same for both dataframes.  Small values indicate stronger evidence of a difference
+#'   in the rate of occurrence.
 #' }
 #' For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
 #' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 

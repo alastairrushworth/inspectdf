@@ -4,7 +4,9 @@
 \name{tech}
 \alias{tech}
 \title{Tech stocks closing prices}
-\format{A \code{dataframe} with 3158 rows and 6 columns.}
+\format{
+A \code{dataframe} with 3158 rows and 6 columns.
+}
 \source{
 Data gathered using the \href{https://github.com/joshuaulrich/quantmod}{quantmod}
 package.

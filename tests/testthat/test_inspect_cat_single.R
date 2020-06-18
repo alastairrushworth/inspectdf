@@ -2,7 +2,6 @@ context("inspect_cat single dataframe")
 
 # load in some example data
 data("starwars", package = "dplyr")
-data("nasa", package = "dplyr")
 data("band_instruments", package = "dplyr")
 data("storms", package = "dplyr")
 data(mtcars, airquality)
@@ -14,7 +13,6 @@ x = data.frame(dat  = as.Date("01/10/2017", "%d/%m/%Y") + 1:10,
 test_that("Output is a data frame", {
   expect_is(inspect_cat(mtcars), "data.frame")
   expect_is(inspect_cat(band_instruments), "data.frame")
-  expect_error(inspect_cat(nasa))
   expect_is(inspect_cat(starwars), "data.frame")
   expect_is(inspect_cat(storms), "data.frame")
   expect_is(inspect_cat(airquality), "data.frame")

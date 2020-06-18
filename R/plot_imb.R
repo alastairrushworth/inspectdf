@@ -65,8 +65,9 @@ plot_imb_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
   nudge_vec <- df_plot$nudge
   nudge_vec[is.na(nudge_vec)] <- 0
   # generate plot
+  df_plot_col_name <- df_plot$col_name
   plt <- df_plot %>%
-    ggplot(aes(x = factor(col_name, levels = unique(df_plot$col_name)), 
+    ggplot(aes(x = factor(col_name, levels = unique(df_plot_col_name)), 
                y = pcnt, 
                colour = data_frame)) +
     geom_blank() + theme_bw() + 
@@ -87,8 +88,7 @@ plot_imb_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
   plt <- plt + 
     labs(x = "", title = ttl, subtitle = sttl) + 
     guides(color = guide_legend(override.aes = list(fill = NA))) + 
-    labs(y = "% of column", x = "") %>% 
-    suppressWarnings()
+    labs(y = "% of column", x = "")
   
   # return the plot 
   plt

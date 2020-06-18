@@ -3,6 +3,7 @@
 #' @importFrom ggplot2 facet_wrap
 #' @importFrom ggplot2 geom_col
 #' @importFrom ggplot2 geom_tile
+#' @importFrom ggplot2 geom_histogram
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 scale_fill_gradient
@@ -176,14 +177,20 @@ plot_num_3 <- function(df_plot, df_names, plot_layout, text_labels, alpha, col_p
 
   # unnest the histograms
   df_hist <- df_plot %>% 
-    select(grouping, col_name, hist) %>%
-    unnest(hist) %>%
-    select(-col_name1)
+    select(grouping, hist) %>%
+    unnest(cols = hist)
+  
   colour_vector <- user_colours(length(unique(df_hist$grouping)), col_palette)
+  # add breakpoints to the df_hist
+  df_hist <- df_hist %>%
+    group_by(grouping) %>%
+    mutate(breaks = mid - (mid[2] - mid[1])/2)
   # plot the histograms as grouped freq polygons
+  #plt <- 
+
   plt <- df_hist %>%
-    ggplot(aes(x = mid, y = prop, colour = grouping)) +
-    geom_line(na.rm = TRUE) + 
+    ggplot(aes(x = mid, y = prop, fill = grouping, breaks = breaks)) +
+    geom_histogram(na.rm = TRUE, stat = 'identity', binwidth = mid[1] - mid[2]) + 
     scale_colour_manual(values = colour_vector) +
     facet_wrap(~ col_name, 
                scales = "free", 
@@ -193,9 +200,7 @@ plot_num_3 <- function(df_plot, df_names, plot_layout, text_labels, alpha, col_p
          title =  paste0("Histograms of numeric columns in df::", df_names$df1), 
          subtitle = paste0("Split by grouping variable: ", colnames(df_plot)[1])) + 
     theme(legend.position = "none") 
-  
 
-  
   plt
 }
 
