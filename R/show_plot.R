@@ -78,7 +78,7 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
   if(type$method == "cor"){
     method   <- attr(x, "method")
     if(type$input_type == "single"){
-      x$pair   <- attr(x, "pair")
+      x$pair <- paste(x$col_1, x$col_2, sep = ' & ')
       plt <- plot_cor_single(x, 
                              df_names = df_names, 
                              alpha = alpha,

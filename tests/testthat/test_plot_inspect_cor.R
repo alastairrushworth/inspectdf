@@ -36,6 +36,13 @@ test_that("inspect_cor plot grouped", {
   expect_doppelganger("Inspect-cor-grouped-tech",   tech %>% dplyr::group_by(year) %>%  inspect_cor %>% show_plot)
 })
 
+test_that("inspect_cor filtered plots", {
+  expect_doppelganger("Inspect-cor-filtered-storms-0.5", inspect_cor(storms) %>% dplyr::filter(abs(corr) > 0.5) %>% show_plot)
+  expect_doppelganger("Inspect-cor-filtered-starwars-0.5",   inspect_cor(starwars) %>% dplyr::filter(abs(corr) > 0.1) %>% show_plot)
+})
+
+
+
 test_that("Grouped df correlation plots work", {
   expect_doppelganger("Inspect-cor-grouped-plot-starwars", starwars %>% dplyr::group_by(gender) %>% inspect_cor %>% show_plot)
   expect_doppelganger("Inspect-cor-grouped-plot-tech-year", tech %>% dplyr::group_by(year) %>% inspect_cor() %>% show_plot)
