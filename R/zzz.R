@@ -17,6 +17,6 @@
                              "corr_1", "corr_2", "data_frame_n", "col_vec", "size", 
                              "df_cat_fact", "ymax", "se", "col_name1", "prop_z", 
                              "data", "pcnt_nna", "bytes", "md_cor", "md_pcnt",
-                             "nna"))
+                             "nna", 'breaks'))
   invisible()
 }
