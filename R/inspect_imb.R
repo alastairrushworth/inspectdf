@@ -74,11 +74,8 @@ inspect_imb <- function(df1, df2 = NULL, include_na = FALSE){
   
   # perform basic column check on dataframe input
   input_type <- check_df_cols(df1, df2)
-  # perform basic column check on dataframe input
-  check_df_cols(df1)
   # capture the data frame names
   df_names <- get_df_names()
-  
   if(input_type == "single"){
     # pick out categorical columns
     df_cat <- df1 %>% 
@@ -87,14 +84,14 @@ inspect_imb <- function(df1, df2 = NULL, include_na = FALSE){
     # calculate imbalance if any columns available
     if(n_cols > 0){
       # check any factors for duplicate labels
-      df_cat <- check_factors(df_cat)
+      df_cat    <- check_factors(df_cat)
       names_cat <- colnames(df_cat)
       # function to find the percentage of the most common value in a vector
       levels_list <- vector("list", length = n_cols)
       pb <- start_progress(prefix = " Column", total = n_cols)
       for(i in 1:n_cols){
         update_progress(bar = pb, iter = i, total = n_cols, what = names_cat[i])
-        full_tab <- fast_table(df_cat[[i]], show_cnt = TRUE, show_na = include_na)
+        full_tab  <- fast_table(df_cat[[i]], show_cnt = TRUE, show_na = include_na)
         first_row <- full_tab %>% slice(1)
         if(nrow(first_row) == 0){
           first_row <- tibble(value = "empty", prop = 0, cnt = as.integer(0))

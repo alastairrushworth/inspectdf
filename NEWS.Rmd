@@ -6,13 +6,14 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# `inspectdf` 0.1.0.9000
+# `inspectdf` 0.0.8.9000
 
-- __Important change:__ the Boolean option `show_plot` has been removed from all `inspect_*()` functions.  To generate visualisations of data frame summaries, please use `show_plot(inspect_*())` or using the pipe  `inspect_*() %>% show_plot()`.
+- __Important change:__ the `show_plot` argument has been removed from all `inspect_*()` functions.  To generate visualisations of data frame summaries, please use the more flexible `show_plot(inspect_*())` or via the pipe  `inspect_*() %>% show_plot()`.
 - `show_plot()` improvement that nudges points that might otherwise have coincided for dataframe comparisons of imbalance (for example, with `inspect_imb(df1, df2) %>% show_plot()`)  
 - Plots for grouped summaries: `inspect_cor()`, `inspect_na()` and `inspect.
 - `inspect_cor()` slight speed up for dataframes with large numbers of columns.
 - `inspect_cor()` can be filtered prior to plotting, for example `inspect_cor(starwars) %>% filter(abs(corr) > 0.2) %>% show_plot()`.  Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the [suggestion](https://github.com/alastairrushworth/inspectdf/issues/24)
+- Fixed bug causing `inspect_imb()` to fail on certain types of factor columns.  Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the [report](https://github.com/alastairrushworth/inspectdf/issues/26).
 
 # `inspectdf` 0.0.7
 

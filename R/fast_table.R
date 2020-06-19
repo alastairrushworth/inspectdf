@@ -5,9 +5,11 @@
 #' @importFrom tibble tibble
 
 fast_table <- function(v, show_na = TRUE, show_cnt = FALSE){
+  # convert factors to character
+  if('factor' %in% class(v)) v <- as.character(v)
   vsort  <- sort(v, method = "quick", na.last = TRUE)
   vals   <- unique(vsort)
-  if(any(class(v) %in% c("integer", "numeric", "double", "factor"))){
+  if(any(class(v) %in% c("integer", "numeric", "double"))){
     freq   <- count_levels_num(vsort)
   } else if(any(class(v) %in% c("logical", "character", "Date", "POSIXt"))){
     freq   <- count_levels_char(vsort)
