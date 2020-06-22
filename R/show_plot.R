@@ -22,6 +22,11 @@
 #' @param plot_layout Vector specifying the number of rows and columns 
 #' in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
 #' \code{plot_layout = c(3, 2)}.
+#' @param label_color Character string or character vector specifying colors for text annotation, 
+#' if applicable.  Usually defaults to white and gray.
+#' @param label_angle Numeric value specifying angle with which to rotate text annotation, 
+#' if applicable.  Defaults to 90 for most plots.
+#' @param label_size Numeric value specifying font size for text annotation, if applicable.
 #' @param label_thresh (\code{inspect_cat()} only.  Minimum occurrence frequency of category for 
 #' a text label to be shown.  Smaller values of \code{label_thresh} will show labels 
 #' for less common categories but at the expense of increased plot rendering time.  Defaults to 0.1. 
@@ -58,9 +63,17 @@
 #' x <- inspect_types(starwars)
 #' show_plot(x)
 
-show_plot <- function(x, text_labels = TRUE, alpha = 0.05, 
-                      high_cardinality = 0, plot_layout = NULL,
-                      col_palette = 0, plot_type = 1, label_thresh = 0.1){
+show_plot <- function(x, text_labels = TRUE, 
+                      alpha = 0.05, 
+                      high_cardinality = 0,
+                      plot_layout = NULL,
+                      col_palette = 0, 
+                      plot_type = 1, 
+                      label_thresh = 0.1, 
+                      label_angle = NULL, 
+                      label_color = NULL,
+                      label_size = NULL
+                      ){
   type     <- attr(x, "type")
   df_names <- attr(x, "df_names")
   
@@ -71,7 +84,10 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
                     text_labels = text_labels, 
                     high_cardinality = high_cardinality, 
                     col_palette = col_palette, 
-                    label_thresh = label_thresh)
+                    label_thresh = label_thresh, 
+                    label_angle = label_angle, 
+                    label_color = label_color,
+                    label_size  = label_size)
   }
   
   # correlation plots
@@ -109,7 +125,10 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
     if(type$input_type == "single"){
       plt <- plot_imb_1(x, df_names = df_names,
                         text_labels = text_labels, 
-                        col_palette = col_palette)
+                        col_palette = col_palette, 
+                        label_angle = label_angle, 
+                        label_color = label_color,
+                        label_size  = label_size)
     }
     if(type$input_type == "pair"){
       plt <- plot_imb_2(x, df_names = df_names, alpha = alpha,
@@ -130,14 +149,20 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
     if(type$input_type == "single"){
       plt <- plot_mem_1(x, df_names = df_names, 
                         text_labels = text_labels, 
-                        sizes = sizes, 
-                        col_palette = col_palette)
+                        sizes       = sizes, 
+                        col_palette = col_palette,
+                        label_angle = label_angle, 
+                        label_color = label_color,
+                        label_size  = label_size)
     }
     if(type$input_type == "pair"){
       plt <- plot_mem_2(x, df_names = df_names,
                         text_labels = text_labels, 
                         sizes = sizes, 
-                        col_palette = col_palette)
+                        col_palette = col_palette, 
+                        label_angle = label_angle, 
+                        label_color = label_color,
+                        label_size  = label_size)
     }
     if(type$input_type == "grouped") stop("Grouped plots for inspect_mem() not yet implemented.")
   }
@@ -147,7 +172,10 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
     if(type$input_type == "single"){
       plt <- plot_na_single(x, df_names = df_names,
                             text_labels = text_labels, 
-                            col_palette = col_palette)
+                            col_palette = col_palette, 
+                            label_angle = label_angle, 
+                            label_color = label_color,
+                            label_size = label_size)
     }
     if(type$input_type == "pair"){
       plt <- plot_na_pair(x, df_names = df_names, 
@@ -189,11 +217,17 @@ show_plot <- function(x, text_labels = TRUE, alpha = 0.05,
     if(type[[2]] == 1){
       plt <- plot_types_1(x, df_names = df_names,
                           text_labels = text_labels, 
-                          col_palette = col_palette)
+                          col_palette = col_palette, 
+                          label_angle = label_angle, 
+                          label_color = label_color,
+                          label_size  = label_size)
     } else {
       plt <- plot_types_2(x, df_names = df_names,
                           text_labels = text_labels,
-                          col_palette = col_palette)
+                          col_palette = col_palette, 
+                          label_angle = label_angle, 
+                          label_color = label_color,
+                          label_size  = label_size)
     }
   }
   suppressWarnings(plt)
