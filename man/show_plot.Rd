@@ -12,7 +12,10 @@ show_plot(
   plot_layout = NULL,
   col_palette = 0,
   plot_type = 1,
-  label_thresh = 0.1
+  label_thresh = 0.1,
+  label_angle = NULL,
+  label_color = NULL,
+  label_size = NULL
 )
 }
 \arguments{
@@ -46,6 +49,14 @@ in the plotting grid.  For example, 3 rows and 2 columns would be specified as
 \item{label_thresh}{(\code{inspect_cat()} only.  Minimum occurrence frequency of category for 
 a text label to be shown.  Smaller values of \code{label_thresh} will show labels 
 for less common categories but at the expense of increased plot rendering time.  Defaults to 0.1.}
+
+\item{label_angle}{Numeric value specifying angle with which to rotate text annotation, 
+if applicable.  Defaults to 90 for most plots.}
+
+\item{label_color}{Character string or character vector specifying colors for text annotation, 
+if applicable.  Usually defaults to white and gray.}
+
+\item{label_size}{Numeric value specifying font size for text annotation, if applicable.}
 }
 \description{
 Easily visualise output from \code{inspect_*()} functions.
