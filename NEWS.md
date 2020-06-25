@@ -1,53 +1,46 @@
 
-# `inspectdf` 0.0.8.9000
+# `inspectdf` 0.0.9.9000
+
+# `inspectdf` 0.0.8
 
   - **Important change:** the `show_plot` argument has been removed from
     all `inspect_*()` functions. To generate visualisations of data
     frame summaries, please use the more flexible
     `show_plot(inspect_*())` or via the pipe `inspect_*() %>%
     show_plot()`.
-
   - `show_plot()` improvement that nudges points that might otherwise
     have coincided for dataframe comparisons of imbalance (for example,
     with `inspect_imb(df1, df2) %>% show_plot()`)  
-
   - Plots for grouped summaries: `inspect_cor()`, `inspect_na()` and
     \`inspect.
-
   - `inspect_cor()` slight speed up for dataframes with large numbers of
     columns.
-
   - `inspect_cor()` can be filtered prior to plotting, for example
     `inspect_cor(starwars) %>% filter(abs(corr) > 0.2) %>% show_plot()`.
     Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the
     [suggestion](https://github.com/alastairrushworth/inspectdf/issues/24)
-
   - Fixed bug causing `inspect_imb()` to fail on certain types of factor
     columns. Thanks to [Roel Verbelen](https://github.com/RoelVerbelen)
     for the
     [report](https://github.com/alastairrushworth/inspectdf/issues/26).
-
   - `show_plot()` has new arguments `label_size`, `label_angle` and
     `label_color`. Each provide adjustments to text annotation where
     applicable. Thanks to [Bartosz
     Bursa](https://github.com/bartekbursa) for the
     [suggestion](https://github.com/alastairrushworth/inspectdf/issues/20).
-
   - changes to text annotation to improve how `coord_flip()` works on
     resulting plots. Thanks to [Roel
-    Verbelen](https://github.com/RoelVerbelen) for the report. \#
-    `inspectdf` 0.0.7
+    Verbelen](https://github.com/RoelVerbelen) for the report.
+
+# `inspectdf` 0.0.7
 
   - Added `bytes` column to `inspect_mem()` output, for downstream
     numeric comparison and consistency with `inspectpd`.
-
   - Added `pcnt_nna` column to `inspect_cor()` output containing the
     percentage of pairwise complete observations used calculated
     correlations. Thanks to Theo Broekman for the suggestion.
-
   - Fixed bug causing order of grouping variable in grouped `inspect_`
     statements to be incorrect. Thanks to the report from Theo Broekman.
-
   - Removed erroneous print statement from `inspect_num()`.
 
 # `inspectdf` 0.0.6

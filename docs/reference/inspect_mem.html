@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -48,7 +52,6 @@ If two dataframes are supplied, compare memory usage for columns appearing
 in both dataframes.  For grouped dataframes, summarise the memory usage separately 
 for each group." />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -66,7 +69,7 @@ for each group." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,7 +83,7 @@ for each group." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
       </span>
     </div>
 
@@ -130,7 +133,12 @@ for each group." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="http://github.com/alastairrushworth/inspectdf/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -145,7 +153,7 @@ for each group." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary and comparison of memory usage of dataframe columns</h1>
-    
+    <small class="dont-index">Source: <a href='http://github.com/alastairrushworth/inspectdf/blob/master/R/inspect_mem.R'><code>R/inspect_mem.R</code></a></small>
     <div class="hidden name"><code>inspect_mem.Rd</code></div>
     </div>
 
@@ -156,7 +164,7 @@ in both dataframes.  For grouped dataframes, summarise the memory usage separate
 for each group.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>inspect_mem</span>(<span class='no'>df1</span>, <span class='kw'>df2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show_plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>inspect_mem</span>(<span class='no'>df1</span>, <span class='kw'>df2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,11 +177,6 @@ for each group.</p>
       <th>df2</th>
       <td><p>An optional second data frame with which to comparing memory usage.
 Defaults to <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>show_plot</th>
-      <td><p>(Deprecated) Logical flag indicating whether a plot should be shown.
-Superseded by the function <code><a href='show_plot.html'>show_plot()</a></code> and will be dropped in a future version.</p></td>
     </tr>
     </table>
 
@@ -208,68 +211,62 @@ as there are unique combinations of the grouping variables.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='co'># Single dataframe summary</span>
-<span class='fu'>inspect_mem</span>(<span class='no'>starwars</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 13 x 4</span><span>
+<span class='fu'>inspect_mem</span>(<span class='no'>starwars</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 14 x 4</span><span>
 #&gt;    col_name   bytes size        pcnt
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> films      </span><span style='text-decoration: underline;'>20</span><span>008 19.54 Kb  36.5  
-#&gt; </span><span style='color: #555555;'> 2</span><span> starships   </span><span style='text-decoration: underline;'>7</span><span>448 7.27 Kb   13.6  
-#&gt; </span><span style='color: #555555;'> 3</span><span> name        </span><span style='text-decoration: underline;'>6</span><span>280 6.13 Kb   11.5  
-#&gt; </span><span style='color: #555555;'> 4</span><span> vehicles    </span><span style='text-decoration: underline;'>5</span><span>944 5.8 Kb    10.8  
-#&gt; </span><span style='color: #555555;'> 5</span><span> homeworld   </span><span style='text-decoration: underline;'>3</span><span>608 3.52 Kb    6.58 
-#&gt; </span><span style='color: #555555;'> 6</span><span> species     </span><span style='text-decoration: underline;'>2</span><span>952 2.88 Kb    5.39 
-#&gt; </span><span style='color: #555555;'> 7</span><span> skin_color  </span><span style='text-decoration: underline;'>2</span><span>656 2.59 Kb    4.85 
-#&gt; </span><span style='color: #555555;'> 8</span><span> eye_color   </span><span style='text-decoration: underline;'>1</span><span>608 1.57 Kb    2.93 
-#&gt; </span><span style='color: #555555;'> 9</span><span> hair_color  </span><span style='text-decoration: underline;'>1</span><span>440 1.41 Kb    2.63 
-#&gt; </span><span style='color: #555555;'>10</span><span> gender       976 976 bytes  1.78 
-#&gt; </span><span style='color: #555555;'>11</span><span> mass         744 744 bytes  1.36 
-#&gt; </span><span style='color: #555555;'>12</span><span> birth_year   744 744 bytes  1.36 
-#&gt; </span><span style='color: #555555;'>13</span><span> height       400 400 bytes  0.730</div><div class='input'>
+#&gt; </span><span style='color: #555555;'> 1</span><span> films      </span><span style='text-decoration: underline;'>20</span><span>008 19.54 Kb  35.9  
+#&gt; </span><span style='color: #555555;'> 2</span><span> starships   </span><span style='text-decoration: underline;'>7</span><span>448 7.27 Kb   13.4  
+#&gt; </span><span style='color: #555555;'> 3</span><span> name        </span><span style='text-decoration: underline;'>6</span><span>280 6.13 Kb   11.3  
+#&gt; </span><span style='color: #555555;'> 4</span><span> vehicles    </span><span style='text-decoration: underline;'>5</span><span>944 5.8 Kb    10.7  
+#&gt; </span><span style='color: #555555;'> 5</span><span> homeworld   </span><span style='text-decoration: underline;'>3</span><span>608 3.52 Kb    6.48 
+#&gt; </span><span style='color: #555555;'> 6</span><span> species     </span><span style='text-decoration: underline;'>2</span><span>952 2.88 Kb    5.30 
+#&gt; </span><span style='color: #555555;'> 7</span><span> skin_color  </span><span style='text-decoration: underline;'>2</span><span>656 2.59 Kb    4.77 
+#&gt; </span><span style='color: #555555;'> 8</span><span> eye_color   </span><span style='text-decoration: underline;'>1</span><span>608 1.57 Kb    2.89 
+#&gt; </span><span style='color: #555555;'> 9</span><span> hair_color  </span><span style='text-decoration: underline;'>1</span><span>440 1.41 Kb    2.59 
+#&gt; </span><span style='color: #555555;'>10</span><span> sex          976 976 bytes  1.75 
+#&gt; </span><span style='color: #555555;'>11</span><span> gender       872 872 bytes  1.57 
+#&gt; </span><span style='color: #555555;'>12</span><span> mass         744 744 bytes  1.34 
+#&gt; </span><span style='color: #555555;'>13</span><span> birth_year   744 744 bytes  1.34 
+#&gt; </span><span style='color: #555555;'>14</span><span> height       400 400 bytes  0.718</div><div class='input'>
 <span class='co'># Paired dataframe comparison</span>
-<span class='fu'>inspect_mem</span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>[<span class='fl'>1</span>:<span class='fl'>20</span>, ])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 13 x 5</span><span>
+<span class='fu'>inspect_mem</span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>[<span class='fl'>1</span>:<span class='fl'>20</span>, ])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 14 x 5</span><span>
 #&gt;    col_name   size_1    size_2    pcnt_1 pcnt_2
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> films      19.54 Kb  7.23 Kb   36.5   41.4  
-#&gt; </span><span style='color: #555555;'> 2</span><span> starships  7.27 Kb   2.58 Kb   13.6   14.7  
-#&gt; </span><span style='color: #555555;'> 3</span><span> name       6.13 Kb   1.49 Kb   11.5    8.53 
-#&gt; </span><span style='color: #555555;'> 4</span><span> vehicles   5.8 Kb    1.74 Kb   10.8    9.96 
-#&gt; </span><span style='color: #555555;'> 5</span><span> homeworld  3.52 Kb   816 bytes  6.58   4.56 
-#&gt; </span><span style='color: #555555;'> 6</span><span> species    2.88 Kb   552 bytes  5.39   3.08 
-#&gt; </span><span style='color: #555555;'> 7</span><span> skin_color 2.59 Kb   808 bytes  4.85   4.51 
-#&gt; </span><span style='color: #555555;'> 8</span><span> eye_color  1.57 Kb   664 bytes  2.93   3.71 
-#&gt; </span><span style='color: #555555;'> 9</span><span> hair_color 1.41 Kb   736 bytes  2.63   4.11 
-#&gt; </span><span style='color: #555555;'>10</span><span> gender     976 bytes 384 bytes  1.78   2.14 
-#&gt; </span><span style='color: #555555;'>11</span><span> mass       744 bytes 208 bytes  1.36   1.16 
-#&gt; </span><span style='color: #555555;'>12</span><span> birth_year 744 bytes 208 bytes  1.36   1.16 
-#&gt; </span><span style='color: #555555;'>13</span><span> height     400 bytes 176 bytes  0.730  0.983</div><div class='input'>
+#&gt; </span><span style='color: #555555;'> 1</span><span> films      19.54 Kb  7.23 Kb   35.9   40.5  
+#&gt; </span><span style='color: #555555;'> 2</span><span> starships  7.27 Kb   2.58 Kb   13.4   14.4  
+#&gt; </span><span style='color: #555555;'> 3</span><span> name       6.13 Kb   1.49 Kb   11.3    8.35 
+#&gt; </span><span style='color: #555555;'> 4</span><span> vehicles   5.8 Kb    1.74 Kb   10.7    9.75 
+#&gt; </span><span style='color: #555555;'> 5</span><span> homeworld  3.52 Kb   816 bytes  6.48   4.46 
+#&gt; </span><span style='color: #555555;'> 6</span><span> species    2.88 Kb   552 bytes  5.30   3.02 
+#&gt; </span><span style='color: #555555;'> 7</span><span> skin_color 2.59 Kb   808 bytes  4.77   4.41 
+#&gt; </span><span style='color: #555555;'> 8</span><span> eye_color  1.57 Kb   664 bytes  2.89   3.63 
+#&gt; </span><span style='color: #555555;'> 9</span><span> hair_color 1.41 Kb   736 bytes  2.59   4.02 
+#&gt; </span><span style='color: #555555;'>10</span><span> sex        976 bytes 440 bytes  1.75   2.40 
+#&gt; </span><span style='color: #555555;'>11</span><span> gender     872 bytes 336 bytes  1.57   1.84 
+#&gt; </span><span style='color: #555555;'>12</span><span> mass       744 bytes 208 bytes  1.34   1.14 
+#&gt; </span><span style='color: #555555;'>13</span><span> birth_year 744 bytes 208 bytes  1.34   1.14 
+#&gt; </span><span style='color: #555555;'>14</span><span> height     400 bytes 176 bytes  0.718  0.962</div><div class='input'>
 <span class='co'># Grouped dataframe summary</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>inspect_mem</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 60 x 5</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   gender [5]</span><span>
-#&gt;    gender col_name   bytes size       pcnt
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> female films       </span><span style='text-decoration: underline;'>4</span><span>192 4.09 Kb   33.8 
-#&gt; </span><span style='color: #555555;'> 2</span><span> female name        </span><span style='text-decoration: underline;'>1</span><span>392 1.36 Kb   11.2 
-#&gt; </span><span style='color: #555555;'> 3</span><span> female starships   </span><span style='text-decoration: underline;'>1</span><span>368 1.34 Kb   11.0 
-#&gt; </span><span style='color: #555555;'> 4</span><span> female vehicles    </span><span style='text-decoration: underline;'>1</span><span>288 1.26 Kb   10.4 
-#&gt; </span><span style='color: #555555;'> 5</span><span> female skin_color   872 872 bytes  7.03
-#&gt; </span><span style='color: #555555;'> 6</span><span> female homeworld    848 848 bytes  6.83
-#&gt; </span><span style='color: #555555;'> 7</span><span> female eye_color    656 656 bytes  5.29
-#&gt; </span><span style='color: #555555;'> 8</span><span> female species      624 624 bytes  5.03
-#&gt; </span><span style='color: #555555;'> 9</span><span> female hair_color   592 592 bytes  4.77
-#&gt; </span><span style='color: #555555;'>10</span><span> female mass         200 200 bytes  1.61
-#&gt; </span><span style='color: #555555;'># … with 50 more rows</span><span></div></span></pre>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>inspect_mem</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 39 x 5</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   gender [3]</span><span>
+#&gt;    gender   col_name   bytes size       pcnt
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> feminine films       </span><span style='text-decoration: underline;'>3</span><span>816 3.73 Kb   33.0 
+#&gt; </span><span style='color: #555555;'> 2</span><span> feminine starships   </span><span style='text-decoration: underline;'>1</span><span>256 1.23 Kb   10.9 
+#&gt; </span><span style='color: #555555;'> 3</span><span> feminine name        </span><span style='text-decoration: underline;'>1</span><span>248 1.22 Kb   10.8 
+#&gt; </span><span style='color: #555555;'> 4</span><span> feminine vehicles    </span><span style='text-decoration: underline;'>1</span><span>176 1.15 Kb   10.2 
+#&gt; </span><span style='color: #555555;'> 5</span><span> feminine homeworld    776 776 bytes  6.71
+#&gt; </span><span style='color: #555555;'> 6</span><span> feminine skin_color   744 744 bytes  6.43
+#&gt; </span><span style='color: #555555;'> 7</span><span> feminine species      664 664 bytes  5.74
+#&gt; </span><span style='color: #555555;'> 8</span><span> feminine eye_color    528 528 bytes  4.56
+#&gt; </span><span style='color: #555555;'> 9</span><span> feminine hair_color   520 520 bytes  4.50
+#&gt; </span><span style='color: #555555;'>10</span><span> feminine sex          296 296 bytes  2.56
+#&gt; </span><span style='color: #555555;'># … with 29 more rows</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Alastair Rushworth</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -280,7 +277,7 @@ as there are unique combinations of the grouping variables.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

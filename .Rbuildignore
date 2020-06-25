@@ -7,6 +7,7 @@
 ^big_tests\.R$
 ^deprecated$
 ^README\.Rmd$
+^README\.md$
 ^NEWS\.Rmd$
 ^depracated$
 ^example\.R$
