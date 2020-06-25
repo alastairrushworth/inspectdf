@@ -1,5 +1,5 @@
-pandoc: 2.7.2
-pkgdown: 1.4.1
+pandoc: 2.7.3
+pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
   inspect_cat_examples: pkgdown/inspect_cat_examples.html
@@ -9,4 +9,5 @@ articles:
   inspect_na_examples: pkgdown/inspect_na_examples.html
   inspect_num_examples: pkgdown/inspect_num_examples.html
   inspect_types_examples: pkgdown/inspect_types_examples.html
+last_built: 2020-06-25T13:47Z
 
