@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -194,16 +194,16 @@
 <p>When two dataframes are compared using <code><a href="../../reference/inspect_cat.html">inspect_cat()</a></code>, list columns are returned for categorical columns common to both: <code>lvls_1</code> and <code>lvl2_2</code>. In addition, the Jensen-Shannon divergence (<code>jsd</code>) and <em>p</em> values associated with Fisher’s exact test (<code>fisher_p</code>) are returned to enable comparison of the distribution of levels in each pair of columns.</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span>(<span class="no">star_1</span>, <span class="no">star_2</span>)</pre></body></html></div>
 <pre><code>## # A tibble: 8 x 5
-##   col_name        jsd fisher_p lvls_1            lvls_2           
-##   &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt; &lt;named list&gt;      &lt;named list&gt;     
-## 1 eye_color   0.0310     0.983 &lt;tibble [12 × 3]&gt; &lt;tibble [11 × 3]&gt;
-## 2 gender      0.00876    0.645 &lt;tibble [3 × 3]&gt;  &lt;tibble [3 × 3]&gt; 
-## 3 hair_color  0.0355     0.987 &lt;tibble [9 × 3]&gt;  &lt;tibble [11 × 3]&gt;
-## 4 homeworld   0.274      0.937 &lt;tibble [33 × 3]&gt; &lt;tibble [31 × 3]&gt;
-## 5 name       NA         NA     &lt;tibble [50 × 3]&gt; &lt;NULL&gt;           
-## 6 sex         0.0199     0.792 &lt;tibble [5 × 3]&gt;  &lt;tibble [4 × 3]&gt; 
-## 7 skin_color  0.169      0.757 &lt;tibble [24 × 3]&gt; &lt;tibble [24 × 3]&gt;
-## 8 species     0.191      0.984 &lt;tibble [26 × 3]&gt; &lt;tibble [26 × 3]&gt;</code></pre>
+##   col_name       jsd fisher_p lvls_1            lvls_2           
+##   &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt; &lt;named list&gt;      &lt;named list&gt;     
+## 1 eye_color   0.0420    0.996 &lt;tibble [11 × 3]&gt; &lt;tibble [12 × 3]&gt;
+## 2 gender      0.0154    0.435 &lt;tibble [3 × 3]&gt;  &lt;tibble [3 × 3]&gt; 
+## 3 hair_color  0.0677    0.934 &lt;tibble [11 × 3]&gt; &lt;tibble [9 × 3]&gt; 
+## 4 homeworld   0.323     0.974 &lt;tibble [31 × 3]&gt; &lt;tibble [27 × 3]&gt;
+## 5 name       NA        NA     &lt;tibble [50 × 3]&gt; &lt;NULL&gt;           
+## 6 sex         0.0261    0.655 &lt;tibble [5 × 3]&gt;  &lt;tibble [4 × 3]&gt; 
+## 7 skin_color  0.167     0.966 &lt;tibble [22 × 3]&gt; &lt;tibble [21 × 3]&gt;
+## 8 species     0.223     0.987 &lt;tibble [27 × 3]&gt; &lt;tibble [20 × 3]&gt;</code></pre>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span>(<span class="no">star_1</span>, <span class="no">star_2</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span>()</pre></body></html></div>
 <p><img src="inspect_cat_examples_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>

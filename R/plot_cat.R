@@ -23,7 +23,7 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   
   # the only thing that is used to plot is the levels field
   collapse_levels <- function(dfi, i){
-    dfi %>% 
+    out <- dfi %>% 
       dplyr::pull(i) %>%
       bind_rows(., .id = 'col_name') %>% 
       group_by(col_name) %>%
@@ -32,8 +32,8 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
                (max(colval) - min(colval) + 0.001)) %>%
       ungroup %>%
       arrange(col_name) %>%
-      mutate(level_key = paste0(value, "-", col_name)) %>% 
-      return()
+      mutate(level_key = paste0(value, "-", col_name))
+      return(out)
   }
   
   # select the list column conataining frequency tables

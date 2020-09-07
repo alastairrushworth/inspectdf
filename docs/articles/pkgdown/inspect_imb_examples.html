@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -157,16 +157,16 @@
 <p>When a second dataframe is provided, <code><a href="../../reference/inspect_imb.html">inspect_imb()</a></code> returns a tibble that compares the frequency of the most common categorical values of the first dataframe to those in the second. The <code>p_value</code> column contains a measure of evidence for whether the true frequencies are equal or not.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_imb.html">inspect_imb</a></span>(<span class="no">star_1</span>, <span class="no">star_2</span>)</pre></body></html></div>
 <pre><code>## # A tibble: 8 x 7
-##   col_name   value            pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
-##   &lt;chr&gt;      &lt;chr&gt;             &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
-## 1 gender     masculine            70    35     84    42   0.154
-## 2 sex        male                 62    31     78    39   0.127
-## 3 species    Human                40    20     48    24   0.546
-## 4 hair_color none                 38    19     36    18   1    
-## 5 eye_color  blue                 24    12     30    15   0.652
-## 6 skin_color fair                 20    10     22    11   1.00 
-## 7 homeworld  Naboo                18     9     NA    NA  NA    
-## 8 name       Anakin Skywalker      2     1     NA    NA  NA</code></pre>
+##   col_name   value     pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
+##   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
+## 1 gender     masculine    74     37     78    39   0.815
+## 2 sex        male         64     32     70    35   0.671
+## 3 hair_color none         42     21     40    20   1.00 
+## 4 species    Human        34     17     34    17   1.00 
+## 5 eye_color  brown        28.    14     NA    NA  NA    
+## 6 skin_color fair         16      8     20    10   0.795
+## 7 homeworld  Naboo        14.     7     NA    NA  NA    
+## 8 name       Ackbar        2      1     NA    NA  NA</code></pre>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_imb.html">inspect_imb</a></span>(<span class="no">star_1</span>, <span class="no">star_2</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span>()</pre></body></html></div>
 <p><img src="inspect_imb_examples_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <ul>
