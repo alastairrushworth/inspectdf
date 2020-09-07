@@ -1,5 +1,7 @@
 
-# `inspectdf` 0.0.9.9000
+# `inspectdf` 0.0.9
+
+  - Minor change, ensuring all functions use `return` properly.
 
 # `inspectdf` 0.0.8
 

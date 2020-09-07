@@ -88,9 +88,7 @@ plot_imb_1 <- function(df_plot, df_names, text_labels, label_angle = NULL,
         )
     }
   }
-  plt
-  
-  
+  # plt
   # # add text annotation to plot
   # if(text_labels){
   #   plt <- add_annotation_to_bars(

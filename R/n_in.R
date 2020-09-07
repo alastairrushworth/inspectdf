@@ -13,8 +13,9 @@ n_in <- function(v1, v2){
 }
 
 get_break <- function(L){
-  strsplit(gsub("\\[|,|\\)", "", L$value), " ") %>%
-    unlist %>% as.numeric %>% unique %>% sort %>% return
+  out <- strsplit(gsub("\\[|,|\\)", "", L$value), " ") %>%
+    unlist %>% as.numeric %>% unique %>% sort
+  return(out)
 }
 
 
