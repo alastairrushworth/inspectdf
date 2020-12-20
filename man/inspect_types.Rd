@@ -4,12 +4,15 @@
 \alias{inspect_types}
 \title{Summary and comparison of column types}
 \usage{
-inspect_types(df1, df2 = NULL)
+inspect_types(df1, df2 = NULL, compare_index = FALSE)
 }
 \arguments{
 \item{df1}{A dataframe.}
 
 \item{df2}{An optional second dataframe for comparison.}
+
+\item{compare_index}{Whether to check column positions as well as types when comparing dataframes.
+Defaults to \code{FALSE}.}
 }
 \value{
 A tibble summarising the count and percentage of different 
