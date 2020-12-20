@@ -71,13 +71,19 @@ inspect_types <- function(df1, df2 = NULL){
   if(is.null(df2)){
     # number of columns
     ncl         <- ncol(df1)
-    # summarise the types
+    # sweep out column types
     classes     <- sapply(df1, class)
-    # more than one class - append them
-    classes     <- unlist(lapply(classes, function(v) paste(v, collapse = " ")))
+    # if more than one class per column - paste together into single string
+    classes     <- sapply(classes, paste0, collapse = " ")
     # get column names by type
-    nms_cls     <- tibble(nms = names(df1), cls = classes) %>% arrange(cls)
-    nms_lst     <- split(nms_cls$nms, nms_cls$cls)
+    nms_cls     <- tibble(
+      pos = 1:ncl, 
+      nms = names(df1), 
+      cls = classes
+    ) %>% 
+      arrange(cls)
+    nms_lst     <- split(nms_cls, nms_cls$cls)
+    nms_lst     <- lapply(nms_lst, function(v) {dd <- v$nms; names(dd) <- v$pos; dd})
     nms_df      <- tibble(type = names(nms_lst), col_name = nms_lst) 
     # combine with type frequencies
     classes     <- sapply(classes, paste, collapse = " ")
