@@ -2,6 +2,7 @@ get_df_names <- function(){
   # capture the data frame name from the function call
   df1_subs <- substitute(df1, env = parent.frame())
   df2_subs <- substitute(df2, env = parent.frame())
+
   # check for calls - usually if some subsetting going on
   df_name1 <- as.character(df1_subs)
   df_name2 <- as.character(df2_subs)
