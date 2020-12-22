@@ -71,6 +71,6 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(517.64,556.64) rotate(-45)' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='35.67px' lengthAdjust='spacingAndGlyphs'>microsoft</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(642.80,541.44) rotate(-45)' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='14.17px' lengthAdjust='spacingAndGlyphs'>ibm</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(13.04,314.42) rotate(-90)' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='68.53px' lengthAdjust='spacingAndGlyphs'>% of total size</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='32.78' y='30.33' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='289.50px' lengthAdjust='spacingAndGlyphs'>df::tech has 6 columns, 3158 rows &amp; total size of 153.05 Kb</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='32.78' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='139.92px' lengthAdjust='spacingAndGlyphs'>Column sizes in df::tech</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='32.78' y='30.33' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='321.34px' lengthAdjust='spacingAndGlyphs'>df::Piped data has 6 columns, 3158 rows &amp; total size of 153.05 Kb</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='32.78' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='178.03px' lengthAdjust='spacingAndGlyphs'>Column sizes in df::Piped data</text></g>
 </svg>

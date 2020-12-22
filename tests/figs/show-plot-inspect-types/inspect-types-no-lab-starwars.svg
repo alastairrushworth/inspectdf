@@ -61,6 +61,6 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(601.70,549.73) rotate(-45)' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='26.88px' lengthAdjust='spacingAndGlyphs'>integer</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='359.27' y='568.24' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='23.86px' lengthAdjust='spacingAndGlyphs'>Type</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(13.04,327.51) rotate(-90)' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='95.41px' lengthAdjust='spacingAndGlyphs'>Number of columns</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='27.89' y='30.33' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='140.09px' lengthAdjust='spacingAndGlyphs'>df::starwars has 14 columns.</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='27.89' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='149.42px' lengthAdjust='spacingAndGlyphs'>df::starwars column types</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='27.89' y='30.33' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='151.19px' lengthAdjust='spacingAndGlyphs'>df::Piped data has 14 columns.</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='27.89' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='162.62px' lengthAdjust='spacingAndGlyphs'>df::Piped data column types</text></g>
 </svg>

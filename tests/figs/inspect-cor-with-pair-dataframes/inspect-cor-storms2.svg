@@ -260,7 +260,7 @@
 <rect x='574.35' y='275.04' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #F8766D;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <rect x='573.64' y='291.61' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <rect x='574.35' y='292.32' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #619CFF;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='596.40' y='286.00' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='26.39px' lengthAdjust='spacingAndGlyphs'>storms</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='596.40' y='286.00' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='42.05px' lengthAdjust='spacingAndGlyphs'>Piped data</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='596.40' y='303.28' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='112.64px' lengthAdjust='spacingAndGlyphs'>storms %&gt;% dplyr::select(-2)</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='128.56' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='409.98px' lengthAdjust='spacingAndGlyphs'>Comparison of ρ between df::storms and storms %&gt;% dplyr::select(-2)</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='128.56' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='433.45px' lengthAdjust='spacingAndGlyphs'>Comparison of ρ between df::Piped data and storms %&gt;% dplyr::select(-2)</text></g>
 </svg>

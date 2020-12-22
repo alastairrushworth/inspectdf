@@ -257,5 +257,5 @@
 <polyline points='32.47,157.70 35.21,157.70 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <polyline points='32.47,66.41 35.21,66.41 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(13.04,325.62) rotate(-90)' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='51.38px' lengthAdjust='spacingAndGlyphs'>Probability</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='35.21' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='270.30px' lengthAdjust='spacingAndGlyphs'>Histograms of numeric columns in df::starwars</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='35.21' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='283.50px' lengthAdjust='spacingAndGlyphs'>Histograms of numeric columns in df::Piped data</text></g>
 </svg>
