@@ -53,18 +53,6 @@ plot_grouped <- function(df, value, series, group, plot_type,
       scale_fill_manual(values = bcols) +
       guides(fill = FALSE) + 
       labs(y = ylab, x = "")
-    # if(text_labels & !all(df[value] == 0)){
-    #   plt <- plt + 
-    #     geom_bar_text(position = 'dodge',
-    #                   color = "white",
-    #                   stat = 'identity',
-    #                   angle = 90,
-    #                   grow = TRUE,
-    #                   reflow = TRUE,
-    #                   place = "top",
-    #                   min.size = 3, 
-    #                   na.rm = TRUE)
-    # }
   }
   return(plt)
 }

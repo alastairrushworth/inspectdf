@@ -60,6 +60,7 @@ plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels, col_palette)
 
 
 plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels, alpha){
+  
   # set the plot_layout if not specified
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
   # chop stuff off
@@ -118,12 +119,21 @@ plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels, alpha){
               xmin = -Inf, xmax = Inf, 
               ymin = -Inf, ymax = Inf, alpha = 0.5, 
               inherit.aes = FALSE) +
-    geom_tile(colour = "white") + 
-    ggfittext::geom_fit_text(
+    geom_tile(colour = "white")
+  # check for ggfittext install
+  if(requireNamespace("ggfittext", quietly = TRUE)){
+    plt <- plt + ggfittext::geom_fit_text(
       aes(label = round(prop * 100, 1)),
       contrast = TRUE,
-      na.rm = TRUE
-    ) + 
+      na.rm = TRUE)
+  } else {
+    plt <- plt + ggfittext::geom_fit_text(
+      aes(label = round(prop * 100, 1)),
+      contrast = TRUE,
+      na.rm = TRUE)
+  }
+
+  plt <- plt + 
     scale_fill_gradient(low = "white", high = "steelblue") +
     theme(legend.position = "none") +
     labs(x = "", y = "", 

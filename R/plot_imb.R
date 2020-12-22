@@ -50,56 +50,46 @@ plot_imb_1 <- function(df_plot, df_names, text_labels, label_angle = NULL,
     # add white labels at the top of the bigger bars
     if(nrow(label_white) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_white$col_name,
-                 y = label_white$pcnt - nudge,
-                 label = label_white$label,
-                 color = ifelse(is.null(label_color), "white", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 1, 
-                 
+        annotate(
+          'text',
+          x = label_white$col_name,
+          y = label_white$pcnt - nudge,
+          label = label_white$label,
+          color = ifelse(is.null(label_color), "white", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 1
         )
     }
     # add grey labels to relatively short bars, if any
     if(nrow(label_grey) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_grey$col_name,
-                 y = label_grey$pcnt + nudge,
-                 label = label_grey$label,
-                 color = ifelse(is.null(label_color), "gray50", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 0
+        annotate(
+          'text',
+          x = label_grey$col_name,
+          y = label_grey$pcnt + nudge,
+          label = label_grey$label,
+          color = ifelse(is.null(label_color), "gray50", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 0
         )
     }
     # add 0 labels, if any
     if(nrow(label_zero) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_zero$col_name,
-                 y = nudge,
-                 label = 0,
-                 color = ifelse(is.null(label_color), "gray50", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 0
+        annotate(
+          'text',
+          x = label_zero$col_name,
+          y = nudge,
+          label = 0,
+          color = ifelse(is.null(label_color), "gray50", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 0
         )
     }
   }
-  # plt
-  # # add text annotation to plot
-  # if(text_labels){
-  #   plt <- add_annotation_to_bars(
-  #     x = df_plot$col_name,
-  #     y = df_plot$pcnt,
-  #     z = df_plot$value,
-  #     plt = plt, 
-  #     thresh = 0.5, 
-  #     parse = TRUE)
-  # }
-  # return plot
   plt
 }
 
@@ -190,14 +180,16 @@ plot_imb_grouped <- function(df_plot, df_names, text_labels, col_palette, plot_t
       ylab("Imbalance by group") +
       xlab("")
   } else {
-    plt <- plot_grouped(df = df_plot, 
-                        value = "pcnt", 
-                        series = "col_name", 
-                        group = group_name, 
-                        plot_type = plot_type, 
-                        col_palette = col_palette, 
-                        text_labels = text_labels, 
-                        ylab = "% imbalance")
+    plt <- plot_grouped(
+      df = df_plot, 
+      value = "pcnt", 
+      series = "col_name", 
+      group = group_name, 
+      plot_type = plot_type, 
+      col_palette = col_palette, 
+      text_labels = text_labels, 
+      ylab = "% imbalance"
+    )
   }
   plt
 }

@@ -50,41 +50,43 @@ plot_types_1 <- function(df_plot, df_names, text_labels, col_palette,
     # add white labels at the top of the bigger bars
     if(nrow(label_white) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_white$type,
-                 y = label_white$cnt - nudge,
-                 label = label_white$cnt,
-                 color = ifelse(is.null(label_color), "white", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 1, 
-                 
+        annotate(
+          'text',
+          x = label_white$type,
+          y = label_white$cnt - nudge,
+          label = label_white$cnt,
+          color = ifelse(is.null(label_color), "white", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 1  
         )
     }
     # add grey labels to relatively short bars, if any
     if(nrow(label_grey) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_grey$type,
-                 y = label_grey$cnt + nudge,
-                 label = label_grey$cnt,
-                 color = ifelse(is.null(label_color), "gray50", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 0
+        annotate(
+          'text',
+          x = label_grey$type,
+          y = label_grey$cnt + nudge,
+          label = label_grey$cnt,
+          color = ifelse(is.null(label_color), "gray50", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 0
         )
     }
     # add 0 labels, if any
     if(nrow(label_zero) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_zero$type,
-                 y = nudge,
-                 label = 0,
-                 color = ifelse(is.null(label_color), "gray50", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 0
+        annotate(
+          'text',
+          x = label_zero$type,
+          y = nudge,
+          label = 0,
+          color = ifelse(is.null(label_color), "gray50", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 0
         )
     }
   }
@@ -126,14 +128,16 @@ plot_types_2 <- function(df_plot, df_names, text_labels, col_palette,
   
   # add anotations if requested
   if(text_labels){
-    plt <- add_annotation_to_bars(x = z_tall$type, 
-                                  y = z_tall$cnt, 
-                                  z = z_tall$cnt, 
-                                  plt = plt, thresh = 0.1, 
-                                  dodged = 1,
-                                  fill = as.factor(z_tall$df_input), 
-                                  label_color = label_color, 
-                                  label_size  = label_size)
+    plt <- add_annotation_to_bars(
+      x = z_tall$type, 
+      y = z_tall$cnt, 
+      z = z_tall$cnt, 
+      plt = plt, thresh = 0.1, 
+      dodged = 1,
+      fill = as.factor(z_tall$df_input), 
+      label_color = label_color, 
+      label_size  = label_size
+    )
   }
   
   # labels the axes, add title and subtitle
@@ -142,8 +146,9 @@ plot_types_2 <- function(df_plot, df_names, text_labels, col_palette,
          title = ttl_plt, 
          subtitle = sttl) + 
     # label the legend 
-    scale_fill_manual(name = "Data frame",  
-                      values = user_colours(3, col_palette)[c(1, 3)])
+    scale_fill_manual(
+      name = "Data frame",  
+      values = user_colours(3, col_palette)[c(1, 3)])
   
   # return plot
   plt

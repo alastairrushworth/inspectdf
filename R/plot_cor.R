@@ -1,4 +1,3 @@
-#' @importFrom ggfittext geom_bar_text
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 coord_flip
 #' @importFrom ggplot2 element_blank
@@ -45,8 +44,8 @@ plot_cor_single <- function(out, alpha, df_names, text_labels, col_palette, meth
                  yend = out$corr, col = "gray40", 
                  na.rm = TRUE) +
     coord_flip() + ylim(min(out$lower), max(out$upper)) + 
-    labs(x = "", y = xlab, title = paste0("Correlation of columns in df::", 
-                                          df_names$df1))
+    labs(x = "", y = xlab, 
+         title = paste0("Correlation of columns in df::", df_names$df1))
   plt
 }
 
@@ -139,14 +138,15 @@ plot_cor_grouped <- function(out, df_names, text_labels, col_palette, method, pl
       mutate(pair = factor(pair, levels = rev(unique(as.character(pair))))) %>%
       select(-col_1, -col_2, -lower, -upper, -p_value)
     
-    plt <- plot_grouped(df = new_out, 
-                        value = "corr", 
-                        series = "pair", 
-                        group = group_name, 
-                        plot_type = plot_type, 
-                        col_palette = col_palette, 
-                        text_labels = text_labels,
-                        ylab = "Correlation")
+    plt <- plot_grouped(
+      df = new_out, 
+      value = "corr", 
+      series = "pair", 
+      group = group_name, 
+      plot_type = plot_type, 
+      col_palette = col_palette, 
+      text_labels = text_labels,
+      ylab = "Correlation")
     plt <- plt + 
       geom_hline(yintercept = 0, alpha = 0.5, linetype = "dashed") + 
       geom_hline(yintercept = 1, alpha = 0.3, linetype = "dashed") + 

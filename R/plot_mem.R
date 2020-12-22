@@ -54,41 +54,43 @@ plot_mem_1 <- function(df_plot, df_names, sizes, text_labels, col_palette,
     # add white labels at the top of the bigger bars
     if(nrow(label_white) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_white$col_name,
-                 y = label_white$pcnt - nudge,
-                 label = label_white$label,
-                 color = ifelse(is.null(label_color), "white", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 1, 
-                 
+        annotate(
+          'text',
+          x = label_white$col_name,
+          y = label_white$pcnt - nudge,
+          label = label_white$label,
+          color = ifelse(is.null(label_color), "white", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 1
         )
     }
     # add grey labels to relatively short bars, if any
     if(nrow(label_grey) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_grey$col_name,
-                 y = label_grey$pcnt + nudge,
-                 label = label_grey$label,
-                 color = ifelse(is.null(label_color), "gray50", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 0
+        annotate(
+          'text',
+          x = label_grey$col_name,
+          y = label_grey$pcnt + nudge,
+          label = label_grey$label,
+          color = ifelse(is.null(label_color), "gray50", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 0
         )
     }
     # add 0 labels, if any
     if(nrow(label_zero) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_zero$col_name,
-                 y = nudge,
-                 label = 0,
-                 color = ifelse(is.null(label_color), "gray50", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 0
+        annotate(
+          'text',
+          x = label_zero$col_name,
+          y = nudge,
+          label = 0,
+          color = ifelse(is.null(label_color), "gray50", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 0
         )
     }
   }
@@ -142,15 +144,16 @@ plot_mem_2 <- function(df_plot, df_names, sizes, text_labels, col_palette,
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
   
   if(text_labels){
-    plt <- add_annotation_to_bars(x = z_tall$col_name,
-                                  y = z_tall$pcnt,
-                                  z = z_tall$size,
-                                  plt = plt, thresh = 0.2,
-                                  dodged = 1, 
-                                  fill = z_tall$df_input, 
-                                  label_color = label_color, 
-                                  label_size  = label_size)
+    plt <- add_annotation_to_bars(
+      x = z_tall$col_name,
+      y = z_tall$pcnt,
+      z = z_tall$size,
+      plt = plt, thresh = 0.2,
+      dodged = 1, 
+      fill = z_tall$df_input, 
+      label_color = label_color, 
+      label_size  = label_size)
   }
-  
+
   plt
 }
