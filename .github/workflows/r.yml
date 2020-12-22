@@ -19,7 +19,7 @@ jobs:
     runs-on: macOS-latest
     strategy:
       matrix:
-        r-version: [3.5, 3.6]
+        r-version: [3.6, 4.0]
 
     steps:
       - uses: actions/checkout@v2
@@ -29,9 +29,12 @@ jobs:
           r-version: ${{ matrix.r-version }}
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck"))
+          install.packages(c("remotes", "rcmdcheck", "covr", "vdiffr"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Check
-        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
+        run: rcmdcheck::rcmdcheck(args = "--as-cran", error_on = "warning")
         shell: Rscript {0}
+
+after_success:
+  - Rscript -e 'library(covr); codecov(token = "780be628-6f7e-42da-b4f5-34cf308a43f8")'
