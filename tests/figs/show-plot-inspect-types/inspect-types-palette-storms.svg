@@ -62,6 +62,6 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(582.01,556.64) rotate(-45)' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='54.72px' lengthAdjust='spacingAndGlyphs'>ordered factor</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='359.27' y='568.24' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='23.86px' lengthAdjust='spacingAndGlyphs'>Type</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(13.04,321.12) rotate(-90)' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='95.41px' lengthAdjust='spacingAndGlyphs'>Number of columns</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='27.89' y='30.33' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='131.53px' lengthAdjust='spacingAndGlyphs'>df::storms has 13 columns.</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='27.89' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='139.16px' lengthAdjust='spacingAndGlyphs'>df::storms column types</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='27.89' y='30.33' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='151.19px' lengthAdjust='spacingAndGlyphs'>df::Piped data has 13 columns.</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='27.89' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='162.62px' lengthAdjust='spacingAndGlyphs'>df::Piped data column types</text></g>
 </svg>

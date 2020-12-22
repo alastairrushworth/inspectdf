@@ -11,7 +11,7 @@ y <- rnorm(length(x))
 z <- 1 + (0.5 + x / 50) * y + rnorm(length(x))
 grp_dat  <- tibble(x = as.factor(x), y = y, z = z)
 
-# get groupwed correlation
+# get grouped correlation
 grouped_example <- grp_dat %>% group_by(x) 
 
 test_that("check_dfs", {
