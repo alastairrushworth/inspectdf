@@ -1,8 +1,7 @@
 
 # inspectdf <img src="man/figures/logo.png" align="right" width="120" />
 
-[![Build
-Status](https://travis-ci.org/alastairrushworth/inspectdf.svg?branch=master)](https://travis-ci.org/alastairrushworth/inspectdf)
+![build](https://github.com/alastairrushworth/inspectdf/workflows/R-CMD-check/badge.svg)
 [![codecov](https://codecov.io/gh/alastairrushworth/inspectdf/branch/master/graph/badge.svg)](https://codecov.io/gh/alastairrushworth/inspectdf)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/inspectdf)](https://cran.r-project.org/package=inspectdf)

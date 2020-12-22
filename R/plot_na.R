@@ -26,9 +26,6 @@ plot_na_single <- function(df_plot, df_names, text_labels, col_palette, label_an
   if(text_labels){
     x = df_plot$col_name
     y = df_plot$pcnt
-    # z = df_plot$cnt
-    # if any zero length characters, replace with double quotes
-    # z[nchar(z) == 0] <- NA
     # whether ys are zero or not
     big_bar <- 0.15 * max(y, na.rm = T)
     # label_df
@@ -47,41 +44,43 @@ plot_na_single <- function(df_plot, df_names, text_labels, col_palette, label_an
     # add white labels at the top of the bigger bars
     if(nrow(label_white) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_white$col_name,
-                 y = label_white$pcnt - nudge,
-                 label = round(label_white$pcnt, 1),
-                 color = ifelse(is.null(label_color), "white", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 1, 
-                 
+        annotate(
+          'text',
+          x = label_white$col_name,
+          y = label_white$pcnt - nudge,
+          label = round(label_white$pcnt, 1),
+          color = ifelse(is.null(label_color), "white", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 1    
         )
     }
     # add grey labels to relatively short bars, if any
     if(nrow(label_grey) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_grey$col_name,
-                 y = label_grey$pcnt + nudge,
-                 label = round(label_grey$pcnt, 1),
-                 color = ifelse(is.null(label_color), "gray50", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 0
+        annotate(
+          'text',
+          x = label_grey$col_name,
+          y = label_grey$pcnt + nudge,
+          label = round(label_grey$pcnt, 1),
+          color = ifelse(is.null(label_color), "gray50", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 0
         )
     }
     # add 0 labels, if any
     if(nrow(label_zero) > 0){
       plt <- plt + 
-        annotate('text',
-                 x = label_zero$col_name,
-                 y = nudge,
-                 label = 0,
-                 color = ifelse(is.null(label_color), "gray50", label_color),
-                 angle = ifelse(is.null(label_angle), 90, label_angle), 
-                 size  = ifelse(is.null(label_size), 3.5, label_size), 
-                 hjust = 0
+        annotate(
+          'text',
+          x = label_zero$col_name,
+          y = nudge,
+          label = 0,
+          color = ifelse(is.null(label_color), "gray50", label_color),
+          angle = ifelse(is.null(label_angle), 90, label_angle), 
+          size  = ifelse(is.null(label_size), 3.5, label_size), 
+          hjust = 0
         )
     }
   }
@@ -149,14 +148,15 @@ plot_na_grouped <- function(df_plot, df_names, text_labels, col_palette, plot_ty
       ylab("Missingness by group") +
       xlab("")
   } else {
-    plt <- plot_grouped(df = df_plot, 
-                        value = "pcnt", 
-                        series = "col_name", 
-                        group = group_name, 
-                        plot_type = plot_type, 
-                        col_palette = col_palette, 
-                        text_labels = text_labels, 
-                        ylab = "% missing")
+    plt <- plot_grouped(
+      df = df_plot, 
+      value = "pcnt", 
+      series = "col_name", 
+      group = group_name, 
+      plot_type = plot_type, 
+      col_palette = col_palette, 
+      text_labels = text_labels, 
+      ylab = "% missing")
   } 
   plt
 }

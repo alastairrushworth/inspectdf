@@ -172,27 +172,45 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
         label_color
       }
     }
-    plt <- plt + 
-      suppressWarnings(
-        ggfittext::geom_fit_text(
-          data = lvl_df4,
-          aes(x = col_name,
-              y = prop,
-              label = value, 
-              fill = new_level_key,
-              colour = col_vec,
-              ymin = 0,
-              ymax = prop),
-          inherit.aes = FALSE,
-          na.rm = TRUE,
-          position = "stack",
-          place = "middle",
-          grow = FALSE,
-          outside = FALSE,
-          show.legend = FALSE
-        ) 
-      ) + 
-      scale_colour_manual(values = label_color)
+    # check for ggfittext install
+    if(requireNamespace("ggfittext", quietly = TRUE)){
+      plt <- plt + 
+        suppressWarnings(
+          ggfittext::geom_fit_text(
+            data = lvl_df4,
+            aes(x = col_name,
+                y = prop,
+                label = value, 
+                fill = new_level_key,
+                colour = col_vec,
+                ymin = 0,
+                ymax = prop),
+            inherit.aes = FALSE,
+            na.rm = TRUE,
+            position = "stack",
+            place = "middle",
+            grow = FALSE,
+            outside = FALSE,
+            show.legend = FALSE
+          ) 
+        )
+    } else {
+      lvl_df4$value[lvl_df4$prop < 0.15] <- NA
+      col_vec <- ifelse((lvl_df4$colvalstretch > 0.7), 2, 1)
+      plt <- plt + 
+        suppressWarnings(
+          geom_text(
+            data = lvl_df4,
+            aes(x = col_name, 
+                y = colval - prop / 2, 
+                label = value), 
+            color = c("white", "gray55")[col_vec], 
+            inherit.aes = FALSE, 
+            na.rm = TRUE, 
+            hjust = 0.5)
+        )
+    }
+    plt <- plt + scale_colour_manual(values = label_color)
   }
   
   # if this is a comparison, then add x-axis labels and descriptive title

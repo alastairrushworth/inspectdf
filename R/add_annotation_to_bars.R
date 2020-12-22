@@ -1,4 +1,3 @@
-#' @importFrom ggfittext geom_fit_text
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 aes_string
 #' @importFrom ggplot2 geom_bar
@@ -10,15 +9,19 @@
 #' @importFrom ggplot2 theme
 
 # annotate a bar plot
-add_annotation_to_bars <- function(x, y, z, dodged = 0, plt, thresh = 0.07, 
-                                   nudge = 1, 
-                                   angle = 90, 
-                                   hjust = c("left", "right"), 
-                                   size = 24, inherit.aes = FALSE, 
-                                   fill = NULL, parse = FALSE, 
-                                   label_color = NULL, 
-                                   label_size = NULL){
- 
+add_annotation_to_bars <- function(
+  x, y, z, dodged = 0, plt, thresh = 0.07, 
+  nudge = 1, 
+  angle = 90, 
+  hjust = c("left", "right"), 
+  size = 24, 
+  inherit.aes = FALSE, 
+  fill = NULL, 
+  parse = FALSE, 
+  label_color = NULL, 
+  label_size = NULL){
+
+
   # if any zero length characters, replace with double quotes
   z[nchar(z) == 0] <- NA
   # whether ys are zero or not
@@ -53,76 +56,139 @@ add_annotation_to_bars <- function(x, y, z, dodged = 0, plt, thresh = 0.07,
     z[is_under] <- under_txt(z[is_under])
     z[!is_under] <- gsub(" ", "~", z[!is_under]) 
   }
-  # add white labels at the top of the bigger bars
-  if(nrow(label_white) > 0){
-    plt <- plt + suppressWarnings(
-      geom_fit_text(
-        aes(x = x, y = y, 
-            label = z, 
-            group = fill, 
-            ymin = 0, ymax = y),
-        data = label_white,
-        color = 'white',
-        angle = angle,
-        inherit.aes = inherit.aes,
-        na.rm = TRUE,
-        size = ifelse(is.null(label_size), 12, label_size),
-        min.size = 6,
-        place = "top",
-        contrast = TRUE,
-        position = "dodge",
-        outside = FALSE, 
-        padding.y = grid::unit(2, "mm"))
-    )
-  }
-  # add grey labels to relatively short bars, if any
-  if(nrow(label_grey) > 0){
-    # add a grey series to the smaller bars
-    plt <- plt + suppressWarnings(
-      geom_fit_text(aes(x = x, 
-                        y = y,
-                        label = z,
-                        group = fill,
-                        ymin = y, 
-                        ymax = ymax),
-                    data = label_grey,
-                    colour = ifelse(is.null(label_color), "lightsteelblue4", label_color[2]),
-                    angle = angle,
-                    inherit.aes = inherit.aes,
-                    na.rm = TRUE,
-                    size = ifelse(is.null(label_size), 12, label_size),
-                    place = "bottom",
-                    min.size = 8,
-                    contrast = TRUE,
-                    position = "dodge",
-                    outside = TRUE, 
-                    padding.y = grid::unit(2, "mm"))
-    )
-  }
-  # add 0 labels, if any
-  if(nrow(label_zero) > 0){
-    label_zero$y <- ifelse(all(y_zr), 0.01, 0.5 * max(y, na.rm = T))
-    # add a grey series to the smaller bars
-    plt <- plt + suppressWarnings(
-      geom_fit_text(aes(x = x,
-                        y = y,
-                        label = z,
-                        group = fill,
-                        ymin = 0,
-                        ymax = y),
-                    data = label_zero,
-                    colour = ifelse(is.null(label_color), "lightsteelblue4", label_color[2]),
-                    angle = angle,
-                    inherit.aes = inherit.aes,
-                    na.rm = TRUE,
-                    min.size = 8,
-                    size = ifelse(is.null(label_size), 12, label_size),
-                    place = "bottom",
-                    contrast = TRUE,
-                    position = "dodge",
-                    outside = TRUE, 
-                    padding.y = grid::unit(2, "mm"))
-    )
+  
+  # check for ggfittext install
+  if(requireNamespace("ggfittext", quietly = TRUE)){
+    # add white labels at the top of the bigger bars
+    if(nrow(label_white) > 0){
+      plt <- plt + suppressWarnings(
+        ggfittext::geom_fit_text(
+          aes(x = x, y = y, 
+              label = z, 
+              group = fill, 
+              ymin = 0, ymax = y),
+          data = label_white,
+          color = 'white',
+          angle = angle,
+          inherit.aes = inherit.aes,
+          na.rm = TRUE,
+          size = ifelse(is.null(label_size), 12, label_size),
+          min.size = 6,
+          place = "top",
+          contrast = TRUE,
+          position = "dodge",
+          outside = FALSE, 
+          padding.y = grid::unit(2, "mm"))
+      )
+    }
+    # add grey labels to relatively short bars, if any
+    if(nrow(label_grey) > 0){
+      # add a grey series to the smaller bars
+      plt <- plt + suppressWarnings(
+        ggfittext::geom_fit_text(
+          aes(x = x, 
+              y = y,
+              label = z,
+              group = fill,
+              ymin = y, 
+              ymax = ymax),
+          data = label_grey,
+          colour = ifelse(is.null(label_color), "lightsteelblue4", label_color[2]),
+          angle = angle,
+          inherit.aes = inherit.aes,
+          na.rm = TRUE,
+          size = ifelse(is.null(label_size), 12, label_size),
+          place = "bottom",
+          min.size = 8,
+          contrast = TRUE,
+          position = "dodge",
+          outside = TRUE, 
+          padding.y = grid::unit(2, "mm"))
+      )
+    }
+    # add 0 labels, if any
+    if(nrow(label_zero) > 0){
+      label_zero$y <- ifelse(all(y_zr), 0.01, 0.5 * max(y, na.rm = T))
+      # add a grey series to the smaller bars
+      plt <- plt + suppressWarnings(
+        ggfittext::geom_fit_text(
+          aes(x = x,
+              y = y,
+              label = z,
+              group = fill,
+              ymin = 0,
+              ymax = y),
+          data = label_zero,
+          colour = ifelse(is.null(label_color), "lightsteelblue4", label_color[2]),
+          angle = angle,
+          inherit.aes = inherit.aes,
+          na.rm = TRUE,
+          min.size = 8,
+          size = ifelse(is.null(label_size), 12, label_size),
+          place = "bottom",
+          contrast = TRUE,
+          position = "dodge",
+          outside = TRUE, 
+          padding.y = grid::unit(2, "mm"))
+      )
+    }
+  } else {
+    # add white labels at the top of the bigger bars
+    if(nrow(label_white) > 0){
+      plt <- plt + suppressWarnings(
+        ggplot2::geom_text(
+          aes(x = x, 
+              y = y - nudge, 
+              label = z, 
+              group = fill),
+          data = label_white,
+          hjust = hjust[2],
+          color = 'white',
+          angle = angle,
+          inherit.aes = inherit.aes,
+          na.rm = TRUE,
+          position = position_dodge(width = 1)
+        )
+      )
+    }
+    # add grey labels to relatively short bars, if any
+    if(nrow(label_grey) > 0){
+      # add a grey series to the smaller bars
+      plt <- plt + suppressWarnings(
+        ggplot2::geom_text(
+          aes(x = x, 
+              y = y,
+              label = z,
+              group = fill),
+          data = label_grey,
+          colour = ifelse(is.null(label_color), "lightsteelblue4", label_color[2]),
+          angle = angle,
+          hjust = hjust[1],
+          inherit.aes = inherit.aes,
+          na.rm = TRUE,
+          position = position_dodge(width = 1)
+        )
+      )
+    }
+    # add 0 labels, if any
+    if(nrow(label_zero) > 0){
+      label_zero$y <- ifelse(all(y_zr), 0.01, 0.5 * max(y, na.rm = T))
+      # add a grey series to the smaller bars
+      plt <- plt + suppressWarnings(
+        ggplot2::geom_text(
+          aes(x = x,
+              y = y,
+              label = z,
+              group = fill),
+          data = label_zero,
+          colour = ifelse(is.null(label_color), "lightsteelblue4", label_color[2]),
+          angle = angle,
+          inherit.aes = inherit.aes,
+          na.rm = TRUE,
+          hjust = hjust[1],
+          position = position_dodge(width = 1))
+      )
+    }
   }
   # return the plot
   return(plt)
