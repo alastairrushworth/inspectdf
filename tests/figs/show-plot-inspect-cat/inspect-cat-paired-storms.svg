@@ -323,5 +323,5 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='38.23' y='177.81' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='47.91px' lengthAdjust='spacingAndGlyphs'>y2: category</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='5.48' y='92.38' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='80.66px' lengthAdjust='spacingAndGlyphs'>Piped data: category</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='91.07' y='30.33' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='168.81px' lengthAdjust='spacingAndGlyphs'>Gray segments are missing values</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='91.07' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='312.08px' lengthAdjust='spacingAndGlyphs'>Categorical levels in df::Piped data vs. df:: Piped data</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='91.07' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='259.33px' lengthAdjust='spacingAndGlyphs'>Categorical levels in df::Piped data vs. df::y2</text></g>
 </svg>

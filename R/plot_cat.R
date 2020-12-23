@@ -10,6 +10,9 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
                      col_palette, label_thresh, label_color, label_angle, label_size){
   # min_freq label
   min_freq_label <- paste0("High cardinality")
+  
+  # retain order of column names for plotting
+  column_name_order <- rev(levels_df$col_name)
 
   # function to merge high cardinality entries into a single collapsed level
   merge_card <- function(z, high_cardinality){
@@ -49,14 +52,11 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
                             high_cardinality = high_cardinality)
     lvl_df <- collapse_levels(lvl_df, 1)
     lvl_df$dfi <- df_names[[1]]
-    lvl_df <- lvl_df %>%
-      mutate(col_name2 = col_name)
+    lvl_df <- lvl_df %>% mutate(col_name2 = col_name)
   } else {
     # first remove column
-    if(anyNA(levels_df$jsd)){
-      levels_df <- levels_df[-which(is.na(levels_df$jsd)), ]
-    }
-    lvl_df <- levels_df %>% select_if(is.list) 
+    if(anyNA(levels_df$jsd)) levels_df <- levels_df[-which(is.na(levels_df$jsd)), ]
+    lvl_df        <- levels_df %>% select_if(is.list) 
     lvl_df$lvls_1 <- lapply(lvl_df$lvls_1, merge_card, 
                             high_cardinality = high_cardinality)
     lvl_df$lvls_2 <- lapply(lvl_df$lvls_2, merge_card, 
@@ -70,6 +70,11 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
     lvl_df <- lvl_df %>% 
       mutate(col_name2 = col_name) %>%
       mutate(col_name = paste0(col_name, ": ", dfi))
+    # update the column name order 
+    column_name_order <- apply(
+      expand.grid(rev(unique(lvl_df$dfi)), column_name_order),
+      1, function(v) paste0(v[2], ': ', v[1])
+    )
   }
 
   # add new keys and arrange
@@ -86,7 +91,7 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
     }
     return(M)
   }
-  lvl_df2 <- split(lvl_df2, f = factor(lvl_df2$col_name, levels = rev(sort(unique(lvl_df2$col_name)))))
+  lvl_df2 <- split(lvl_df2, f = factor(lvl_df2$col_name, levels = column_name_order))
   lvl_df2 <- bind_rows(lapply(lvl_df2, move_card))
   
   # create keys for plotting
@@ -95,10 +100,8 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
                                   levels = unique(new_level_key))) %>%
     mutate(level_key = factor(level_key, 
                               levels = unique(level_key))) %>%
-    mutate(col_name = factor(col_name, 
-                             levels = rev(sort(unique(col_name))))) %>%
-    mutate(col_name2 = factor(col_name2, 
-                             levels = rev(sort(unique(col_name2)))))
+    mutate(col_name  = factor(col_name, levels = column_name_order)) %>%
+    mutate(col_name2 = factor(col_name2, levels = rev(sort(unique(col_name2)))))
 
   # vector of colours for plotting
   ncolumns <- length(unique(lvl_df2$col_name2))
@@ -116,15 +119,20 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
     ggplot(aes(x = col_name, y = prop, fill = new_level_key)) +
     geom_bar(stat = "identity", position = "stack", colour = "black", size = 0.2) +
     scale_fill_manual(values = colour_vector) +
-    #guides(fill = FALSE) + 
-    theme(legend.position='none') + 
+    theme(legend.position = 'none') + 
     coord_flip() +
-    theme(axis.title.y = element_blank(), panel.background = element_blank(),
-          axis.ticks.y = element_blank(), panel.border = element_blank(), 
-          panel.grid.major = element_blank(), axis.title.x = element_blank(), 
-          axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
-    labs(x = "", y = "", 
-         subtitle = bquote("Gray segments are missing values")) 
+    theme(
+      axis.title.y     = element_blank(), 
+      panel.background = element_blank(),
+      axis.ticks.y     = element_blank(), 
+      panel.border     = element_blank(), 
+      panel.grid.major = element_blank(), 
+      axis.title.x     = element_blank(), 
+      axis.text.x      = element_blank(), 
+      axis.ticks.x     = element_blank()) +
+    labs(
+      x = "", y = "", 
+      subtitle = bquote("Gray segments are missing values")) 
 
   if(text_labels){
     lvl_df3 <- lvl_df2 
@@ -221,7 +229,7 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
     split_labs <- strsplit(levels(lvl_df2$col_name), ": ")
     newlabs   <- sapply(split_labs, function(v) paste(rev(v), collapse = ": "))
     ttl <- paste0("Categorical levels in df::", 
-                  df_names$df1, " vs. df:: ", df_names$df1)
+                  df_names$df1, " vs. df::", df_names$df2)
     plt <- plt + 
       scale_x_discrete(labels = newlabs)
   }

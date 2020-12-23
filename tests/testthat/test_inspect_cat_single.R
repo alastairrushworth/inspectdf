@@ -31,7 +31,3 @@ test_that("Output with different columns", {
 test_that("Majority NA in standard dataframes does not throw error", {
   expect_is(inspect_cat(data.frame(misst = c("a", "b", NA, NA))), "data.frame")
 })
-
-
-
-
