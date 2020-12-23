@@ -49,8 +49,9 @@ For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
   \item{jsd}, a numeric column containing the Jensen-Shannon divergence.  This measures the 
   difference in distribution of a pair of binned numeric features.  Values near to 0 indicate
   agreement of the distributions, while 1 indicates disagreement.
-  \item{fisher_p}, the p-value corresponding to Fisher's exact test.  A small p indicates 
-  evidence that the two histograms are actually different.
+  \item \code{pval}, the p-value corresponding to a NHT that the true frequencies of histogram bins are equal.
+  A small p indicates evidence that the the two sets of relative frequencies are actually different.  The test
+  is based on a modified Chi-squared statistic.
 }
 For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
 the first \code{k} columns are the grouping columns.  There will be as many rows in the result 

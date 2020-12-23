@@ -1,6 +1,9 @@
 
 # `inspectdf` 0.1.0
 
+  - Improved p-values associated with categorical and numeric
+    comparisons. This is now based on a modified chi-squared test and is
+    labelled as `pval` in the resulting output.
   - Fixed
     [\#27](https://github.com/alastairrushworth/inspectdf/issues/27)
     ensuring plots for `inspect_cat()` respect any filtering or sorting

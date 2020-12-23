@@ -55,7 +55,7 @@ test_that("Filter top 3 most significant difference pairs", {
   expect_doppelganger(
     "Inspect-cat-pairs-filter-3", 
     inspect_cat(starwars, starwars %>% dplyr::sample_n(100, replace = T)) %>%
-      dplyr::arrange(fisher_p) %>%
+      dplyr::arrange(pval) %>%
       dplyr::slice(1:3) %>%
       show_plot())
 })
