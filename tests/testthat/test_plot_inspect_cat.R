@@ -41,3 +41,23 @@ test_that("inspect_cat plot label_thresh ", {
   expect_doppelganger("Inspect-cat-thresh-starwars_1", starwars %>% inspect_cat %>% show_plot(label_thresh = 0.1))
   expect_doppelganger("Inspect-cat-thresh-starwars_5", starwars %>% inspect_cat %>% show_plot(label_thresh = 0.5))
 })
+
+test_that("Plot descending by imbalance", {
+  expect_doppelganger(
+    "Inspect-cat-single-descending-imbalance", 
+    inspect_cat(starwars) %>% 
+      dplyr::arrange(desc(common)) %>%
+      show_plot())
+})
+
+test_that("Filter top 3 most significant difference pairs", {
+  set.seed(10)
+  expect_doppelganger(
+    "Inspect-cat-pairs-filter-3", 
+    inspect_cat(starwars, starwars %>% dplyr::sample_n(100, replace = T)) %>%
+      dplyr::arrange(fisher_p) %>%
+      dplyr::slice(1:3) %>%
+      show_plot())
+})
+
+

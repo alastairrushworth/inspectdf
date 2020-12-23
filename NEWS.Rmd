@@ -6,6 +6,12 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# `inspectdf` 0.1.0
+
+- Fixed [#27](https://github.com/alastairrushworth/inspectdf/issues/27) ensuring plots for `inspect_cat()` respect any filtering or sorting of the summary output prior to `show_plot()`.  Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the report.
+- Additional detail in `inspect_type()` comparison of two dataframes to make it easier to see which columns and types differ.
+- `ggfittext` moved to Suggests to support R versions prior to 3.6
+
 # `inspectdf` 0.0.9
 
 - Minor change, ensuring all functions use `return` properly.  
