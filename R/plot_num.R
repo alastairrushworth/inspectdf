@@ -101,8 +101,8 @@ plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels, alpha){
     return(first_dig)
   }
   xy <- df_plot %>% 
-    select(cname = col_name, fisher_p) %>%
-    mutate(significant = as.integer(fisher_p < alpha) + 2) %>%
+    select(cname = col_name, pval) %>%
+    mutate(significant = as.integer(pval < alpha) + 2) %>%
     replace_na(list(significant = 1)) %>%
     mutate(significant = c("gray30", "lightskyblue1", "red3")[significant])
   

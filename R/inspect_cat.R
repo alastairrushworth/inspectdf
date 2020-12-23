@@ -29,8 +29,9 @@
 #'   \item \code{jsd}, a numeric column containing the Jensen-Shannon divergence.  This measures the 
 #'   difference in relative frequencies of levels in a pair of categorical features.  Values near 
 #'   to 0 indicate agreement of the distributions, while 1 indicates disagreement.
-#'   \item \code{fisher_p}, the p-value corresponding to Fisher's exact test.  A small p indicates 
-#'   evidence that the the two sets of relative frequencies are actually different.
+#'   \item \code{pval}, the p-value corresponding to a NHT that the true frequencies of the categories are equal.
+#'   A small p indicates evidence that the the two sets of relative frequencies are actually different.  The test
+#'   is based on a modified Chi-squared statistic.
 #'   \item \code{lvls_1}, \code{lvls_2}, the relative frequency of levels in each of \code{df1} and \code{df2}.
 #' }
 #' For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
@@ -135,10 +136,8 @@ inspect_cat <- function(df1, df2 = NULL){
     # combine and clean up levels
     out <- full_join(s1, s2, by = "col_name") %>% 
       mutate(jsd = js_divergence_vec(levels.x, levels.y)) %>%
-      mutate(fisher_p = fisher(levels.x, levels.y, n_1 = nrow(df1), 
-                               n_2 = nrow(df2))) %>%
-      select(col_name, jsd, fisher_p, lvls_1 = levels.x, lvls_2 = levels.y)
-    
+      mutate(pval = chisq(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
+      select(col_name, jsd, pval, lvls_1 = levels.x, lvls_2 = levels.y)
     # ensure the list names are retained
     names(out[[4]]) <- names(out[[5]]) <- as.character(out$col_name)
   }

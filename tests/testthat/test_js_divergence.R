@@ -1,22 +1,19 @@
 context("js_divergence_vec")
 
-test_that("jensen-shannon is correctly calculated", {
+test_that("jensen-shannon divergence is 1 when no distribution overlap", {
   suppressWarnings(library(dplyr))
-  set.seed(10)
-  star_1 <- starwars %>% sample_n(50) %>% select(-birth_year)
-  star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
-  # find out why cat needs fisher to be approx?
-  z <- inspect_num(star_1, star_2)
-  p <- z$hist_1[[2]]$prop
-  q <- z$hist_2[[2]]$prop
-  log_zero <- function(g){
-    ifelse(g == 0, NA, log(g)/log(2.0))
-  }
-  js_divergence <- function(p, q){
-    m <- 0.5 * (p + q)
-    0.5 * (sum(p * log_zero(p / m), na.rm = T) + sum(q * log_zero(q / m), na.rm = T))
-  }
-  js_stat <- js_divergence(p, q)
-  js_stat2 <- z$jsd[2]
-  expect_equal(js_stat, js_stat2)
+  js_stat <- js_divergence(
+    c(0, 0, 0, 1), 
+    c(1, 0, 0, 0)
+  )
+  expect_equal(js_stat, 1)
+})
+
+test_that("jensen-shannon divergence is 0 when distributions identical", {
+  suppressWarnings(library(dplyr))
+  js_stat <- js_divergence(
+    c(0, 0, 0, 1), 
+    c(0, 0, 0, 1)
+  )
+  expect_equal(js_stat, 0)
 })

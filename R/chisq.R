@@ -4,7 +4,7 @@
 #' @importFrom stats fisher.test
 #' @importFrom tidyr replace_na
 
-fisher <- function(Mlist1, Mlist2, n_1, n_2){
+chisq <- function(Mlist1, Mlist2, n_1, n_2){
   out_vec <- vector("numeric", length = length(Mlist1))
   if(length(Mlist1) > 0){
     for(i in 1:length(out_vec)){
@@ -21,13 +21,13 @@ fisher <- function(Mlist1, Mlist2, n_1, n_2){
             # drop the values column
             select(-value, -contains("cnt")) %>% 
             # drop rows where both are exactly 0
-            filter(prop.x > 0 & prop.y > 0) %>%
-            # pool groups if there are too many
-            pool_groups(., 10) %>%
+            filter(prop.x > 0 | prop.y > 0) %>%
             # convert to a matrix and transpose to a pair of row vectors
             as.matrix %>% t)
         # apply fisher's exact test and extract the statistic
-        go_fish <- try(fisher.test(counts, hybrid = FALSE) %>% .$p.value, silent = TRUE)
+        small_cats <- which(colSums(counts) <= 10)
+        if(length(small_cats) > 1) counts <- cbind(counts[, -small_cats], rowSums(counts[, small_cats]))
+        go_fish <- try(suppressWarnings(chisq.test(counts)$p.value), silent = TRUE)
         out_vec[i] <- ifelse("try-error" %in% class(go_fish), NA, go_fish)
       }
     }
@@ -35,16 +35,4 @@ fisher <- function(Mlist1, Mlist2, n_1, n_2){
   return(out_vec)
 }
 
-pool_groups <- function(df, nrw){
-  df_sub <- df
-  while(nrow(df_sub) > nrw){
-    # combine the two smallest levels
-    df_last_two <- tail(df_sub, 2) %>% colSums
-    df_sub <- df_sub %>% 
-      slice(1:(nrow(df_sub) - 2)) %>% 
-      bind_rows(df_last_two) %>% 
-      arrange(desc(prop.x))
-  }
-  return(df_sub)
-}
 
