@@ -35,9 +35,7 @@ For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
   \item \code{type}, a character vector containing the column types in 
   \code{df1} and \code{df2}.
   \item \code{cnt_1}, \code{cnt_2}, pair of integer columns containing counts of each type - 
-  in each of \code{df1} and \code{df2}.
-  \item \code{pcnt_1}, \code{pcnt_2}, pair of columns containing the percentage of 
-  columns with each type - the data frame name are appended.
+  in each of \code{df1} and \code{df2}
 }
 For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
 the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
