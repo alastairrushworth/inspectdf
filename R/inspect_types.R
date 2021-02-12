@@ -22,9 +22,7 @@
 #'   \item \code{type}, a character vector containing the column types in 
 #'   \code{df1} and \code{df2}.
 #'   \item \code{cnt_1}, \code{cnt_2}, pair of integer columns containing counts of each type - 
-#'   in each of \code{df1} and \code{df2}.
-#'   \item \code{pcnt_1}, \code{pcnt_2}, pair of columns containing the percentage of 
-#'   columns with each type - the data frame name are appended.
+#'   in each of \code{df1} and \code{df2}
 #' }
 #' For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
 #' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
@@ -101,14 +99,28 @@ inspect_types <- function(df1, df2 = NULL, compare_index = FALSE){
     attr(out, "type") <- list(method = "types", 1)
     attr(out, "df_names") <- df_names
   } else {
-    # inspect tyoes for first df
-    s1  <- inspect_types(df1)
-    colnames(s1)[2:3] <- paste0(c("cnt_", "pcnt_"), 1)
-    # inspect tyoes for second df
-    s2  <- inspect_types(df2)
-    colnames(s2)[2:3] <- paste0(c("cnt_", "pcnt_"), 2)
+    # inspect types for first df
+    s1  <- inspect_types(df1) %>% select(-pcnt)
+    colnames(s1)[2] <- 'cnt_1'
+    # inspect types for second df
+    s2  <- inspect_types(df2) %>% select(-pcnt)
+    colnames(s2)[2] <- 'cnt_2'
     # join together
     out <- full_join(s1, s2, by = "type") 
+    column_tibble <- function(x, y){
+      part_1 <-  if(is.null(x)) {
+        tibble(col_name = character(), data_arg = character())
+      } else {
+        tibble(col_name = x, data_arg = df_names$df1)
+      }
+      part_2 <-  if(is.null(y)) {
+        tibble(col_name = character(), data_arg = character())
+      } else {
+        tibble(col_name = y, data_arg = df_names$df2)
+      }
+      bind_rows(part_1, part_2)
+    }
+    out$columns <- mapply(column_tibble, x = out$col_name.x, y = out$col_name.y, SIMPLIFY = FALSE)
     # create an log column flagging issues 
     if(compare_index){
       log_logical <- as.integer(mapply(identical, x = out$col_name.x, y = out$col_name.y)) + 1
@@ -117,42 +129,38 @@ inspect_types <- function(df1, df2 = NULL, compare_index = FALSE){
         ifelse(length(x) == 0 | length(y) == 0, FALSE, 
                ifelse(length(x) != length(y), FALSE, all(sort(x) == sort(y))))
       }
-
       log_logical <- as.integer(mapply(sort_check, x = out$col_name.x, y = out$col_name.y)) + 1
     }
     out$equal     <- c('\u2718', '\u2714')[log_logical]
-    
-    
     s1$col_name <- lapply(s1$col_name, function(v) tibble(position = names(v), col_name = v))
     s2$col_name <- lapply(s2$col_name, function(v) tibble(position = names(v), col_name = v))
-    
-    a <- s1 %>% select(type, col_name) %>% unnest(col_name)
-    b <- s2 %>% select(type, col_name) %>% unnest(col_name)
+    a           <- s1 %>% select(type, col_name) %>% unnest(col_name)
+    b           <- s2 %>% select(type, col_name) %>% unnest(col_name)
     
     drudge <- full_join(a, b, by = 'col_name') %>%
       mutate(type_diff = case_when(
         type.x != type.y ~ paste0(
-          '\u2718 ',
           df_names$df1, '::', col_name, ' ~ ',
-          type.x, '() <!> ', df_names$df2, '::', 
-          col_name, ' ~ ', type.y, '()'
+          type.x, ' <!> ', df_names$df2, '::', 
+          col_name, ' ~ ', type.y, ''
         )
       )) %>%
       mutate(missing_col = case_when(
         is.na(type.x) ~ paste0(
-          '\u2718 ', df_names$df2, '::',
+          df_names$df2, '::',
           col_name, ' ~ ', type.y, 
-          '()  missing from data::', 
+          '  missing from ', 
           df_names$df1
         ), 
         is.na(type.y) ~ paste0(
-          '\u2718 ', df_names$df1, '::',
+          df_names$df1, '::',
           col_name, ' ~ ', type.x, 
-          '()  missing from data::', 
+          '  missing from ', 
           df_names$df2
         )
       )) 
-    
+    names(drudge$missing_col) <- drudge$col_name
+    names(drudge$type_diff)   <- drudge$col_name
     drudge_nest <- bind_rows(
       drudge %>% select(type = type.x, comment = type_diff), 
       drudge %>% select(type = type.y, comment = type_diff), 
@@ -165,8 +173,10 @@ inspect_types <- function(df1, df2 = NULL, compare_index = FALSE){
     out <- out %>%
       left_join(drudge_nest, by = 'type') %>% 
       select(-matches('col_name')) %>% 
-      replace(is.na(.), 0)
-    
+      replace(is.na(.), 0) %>%
+      mutate(issues = lapply(issues, function(v) v$comment)) %>%
+      select(type, equal, cnt_1, cnt_2, columns, issues)
+     
     # attach attributes required for plotting
     attr(out, "type") <- list(method = "types", 2)
     attr(out, "df_names") <- df_names

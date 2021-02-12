@@ -63,7 +63,8 @@
 #' x <- inspect_types(starwars)
 #' show_plot(x)
 
-show_plot <- function(x, text_labels = TRUE, 
+show_plot <- function(x, 
+                      text_labels = TRUE, 
                       alpha = 0.05, 
                       high_cardinality = 0,
                       plot_layout = NULL,

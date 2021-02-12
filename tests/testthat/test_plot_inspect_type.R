@@ -14,10 +14,10 @@ test_that("inspect_types plots", {
   expect_doppelganger("Inspect-types-tech",   tech %>%   inspect_types %>% show_plot)
 })
 
-test_that("inspect_types plot paired", {
-  expect_doppelganger("Inspect-types-paired-starwars", starwars %>% inspect_types(x2) %>% show_plot)
-  expect_doppelganger("Inspect-types-paired-storms",   storms %>%   inspect_types(y2) %>% show_plot)
-})
+# test_that("inspect_types plot paired", {
+#   expect_doppelganger("Inspect-types-paired-starwars", starwars %>% inspect_types(x2) %>% show_plot)
+#   expect_doppelganger("Inspect-types-paired-storms",   storms %>%   inspect_types(y2) %>% show_plot)
+# })
 
 test_that("inspect_types plot suppress labels", {
   expect_doppelganger("Inspect-types-no-lab-starwars", starwars %>% inspect_types %>% show_plot(text_labels = FALSE))

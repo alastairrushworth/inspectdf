@@ -1,154 +1,222 @@
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 geom_bar
+#' @importFrom ggplot2 geom_rect
+#' @importFrom ggplot2 geom_text
+#' @importFrom ggplot2 coord_polar
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 position_dodge
 #' @importFrom ggplot2 scale_fill_discrete
+#' @importFrom ggplot2 xlim
 #' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme_void
 
-plot_types_1 <- function(df_plot, df_names, text_labels, col_palette, 
-                         label_angle, label_color, label_size){
-  # define a plot wide nudge interval
-  nudge <- max(df_plot$cnt) / 50
-  # convert column names to factor
-  df_plot <- df_plot %>% 
-    mutate(type = factor(type, levels = as.character(type)))
-  # construct bar plot of column types
-  plt <- df_plot %>% 
-    ggplot(aes(x = type, y = cnt, fill = type, label = cnt)) +
-    geom_bar(stat = "identity") + 
-    labs(x = 'Type', y = "Number of columns", 
-         title = paste0("df::", df_names$df1, " column types"), 
-         subtitle = paste0("df::", df_names$df1,  " has ", 
-                           sum(df_plot$cnt), " columns.")) +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    scale_fill_manual(values = user_colours(nrow(df_plot), col_palette)) +
-    guides(fill = FALSE)
-  # add text annotation to plot if requested
-  if(text_labels){
-    x = df_plot$type
-    y = df_plot$cnt
-    z = df_plot$cnt
-    # if any zero length characters, replace with double quotes
-    z[nchar(z) == 0] <- NA
-    # whether ys are zero or not
-    big_bar <- 0.15 * max(y, na.rm = T)
-    # label_df
-    label_df <- tibble(type = x, cnt = y)
-    label_df$fill <- NA
-    # labels white 
-    label_white <- label_df %>% filter(cnt > big_bar) 
-    max_lab <- ifelse(all(is.na(label_white$cnt)), NA, max(label_white$cnt, na.rm = T))
-    # labels grey
-    label_grey <- label_df %>% 
-      filter(cnt <= big_bar, cnt > 0) %>%
-      mutate(ymax = cnt + 0.5 * max_lab)
-    # labels zero
-    label_zero <- label_df %>% filter(cnt == 0)
-    
-    # add white labels at the top of the bigger bars
-    if(nrow(label_white) > 0){
-      plt <- plt + 
-        annotate(
-          'text',
-          x = label_white$type,
-          y = label_white$cnt - nudge,
-          label = label_white$cnt,
-          color = ifelse(is.null(label_color), "white", label_color),
-          angle = ifelse(is.null(label_angle), 90, label_angle), 
-          size  = ifelse(is.null(label_size), 3.5, label_size), 
-          hjust = 1  
-        )
-    }
-    # add grey labels to relatively short bars, if any
-    if(nrow(label_grey) > 0){
-      plt <- plt + 
-        annotate(
-          'text',
-          x = label_grey$type,
-          y = label_grey$cnt + nudge,
-          label = label_grey$cnt,
-          color = ifelse(is.null(label_color), "gray50", label_color),
-          angle = ifelse(is.null(label_angle), 90, label_angle), 
-          size  = ifelse(is.null(label_size), 3.5, label_size), 
-          hjust = 0
-        )
-    }
-    # add 0 labels, if any
-    if(nrow(label_zero) > 0){
-      plt <- plt + 
-        annotate(
-          'text',
-          x = label_zero$type,
-          y = nudge,
-          label = 0,
-          color = ifelse(is.null(label_color), "gray50", label_color),
-          angle = ifelse(is.null(label_angle), 90, label_angle), 
-          size  = ifelse(is.null(label_size), 3.5, label_size), 
-          hjust = 0
-        )
-    }
-  }
-  # print plot
+plot_types_1 <- function(df_plot, 
+                         df_names, 
+                         text_labels, 
+                         col_palette, 
+                         label_angle, 
+                         label_color, 
+                         label_size){
+  
+  # Get summary of the columns ready for radial plot
+  column_layout <- df_plot %>%
+    unnest(col_name) %>%
+    select(-cnt, -pcnt) %>%
+    mutate(ones       = 1, 
+           tops       = cumsum(ones) / sum(ones), 
+           bottoms    = c(0, head(tops, n = -1)), 
+           label_pos  = (tops + bottoms) / 2, 
+           text_just  = ifelse(label_pos > 0.5, 'right', 'left'), 
+           text_rotn  = ifelse(label_pos > 0.5, -1, 1) * 90 - (label_pos * 360)) 
+  # Get summary of the column types ready for radial plot
+  types_layout <- 
+    column_layout %>%
+    group_by(type) %>%
+    count() %>%
+    ungroup %>%
+    arrange(desc(n)) %>%
+    mutate(
+      tops       = cumsum(n) / sum(n), 
+      bottoms    = c(0, head(tops, n = -1)), 
+      label_pos  = (tops + bottoms) / 2, 
+      text_just  = ifelse(label_pos > 0.5, 'center', 'center'), 
+      text_rotn  = ifelse(label_pos > 0.5, -1, 1) * 90 - (label_pos * 360), 
+      type_label = ifelse(label_pos > 0.5, paste0(type, ' (', n, ')'), paste0('(', n, ') ', type))
+    )
+  # Generate radial plot
+  plt <- column_layout %>%
+    ggplot(aes(ymax = tops, ymin = bottoms, xmax = 4, xmin = 3, fill = type)) +
+    geom_rect() +
+    geom_rect(aes(ymax = tops, ymin = bottoms, xmax = 3, xmin = -1, fill = type), alpha = 0.7) +
+    geom_text(x = 5, 
+              aes(y = label_pos, label = col_name, color = type, 
+                  hjust = text_just, angle = text_rotn), size = 4) + 
+    geom_text(x = 1.5, data = types_layout,
+              aes(y = label_pos, label = type_label, 
+                  hjust = text_just, angle = text_rotn),
+              inherit.aes = FALSE,
+              color = 'white',
+              size = 3) +
+    scale_fill_manual(values = user_colours(nrow(types_layout), col_palette)) + 
+    coord_polar(theta = "y") +
+    xlim(c(-1, 8)) +
+    theme_void() +
+    theme(legend.position = "none")
+  # Return plot object
   plt
 }
 
 plot_types_2 <- function(df_plot, df_names, text_labels, col_palette, 
                          label_angle, label_color, label_size){
-  # convert to a taller df for plotting
-  d1 <- df_plot %>% select(1, 2:3) %>% mutate(df_input = df_names$df1)
-  d2 <- df_plot %>% select(1, 4:5) %>% mutate(df_input = df_names$df2)
-  colnames(d1) <- colnames(d2) <- c("type", "cnt", "pcnt", "df_input")
-  z_tall <- bind_rows(d1, d2)
-
-  # make axis names
-  ttl_plt <- paste0(df_names$df1, " & ", df_names$df2, " column types.")
-  # if same number of columns, print different subtitle
-  if(sum(d1$cnt) == sum(d2$cnt)){
-    sttl <- paste0("Both have ",  sum(d1$cnt), " columns")
-  } else {
-    sttl <- paste(paste0(unlist(df_names), " has ", 
-                   c(sum(d1$cnt), sum(d2$cnt)), " columns"), 
-                  collapse = " & ")
-  }
   
-  # labels above 0.8 max
-  z_tall$black_labs <- z_tall$white_labs <- z_tall$cnt
-  z_tall$black_labs[z_tall$black_labs >  0.7 * max(z_tall$black_labs)] <- NA
-  z_tall$white_labs[z_tall$white_labs <= 0.7 * max(z_tall$white_labs)] <- NA
+  # Get summary of the columns ready for radial plot
+  column_list <- 
+    df_plot %>%
+    select(type, columns) %>%
+    unnest(columns) %>%
+    split(f = .$data_arg)
+  # dfnames for labelling
+  df_names <- names(column_list)
+  df_names <- tibble(df = df_names, y = 1.04, x = c(2.5, 3.5))
   
-  # plot the result
-  plt <- z_tall %>%
-    mutate(type = factor(type, levels = df_plot$type)) %>%
-    ggplot(aes(x = type, y = cnt, fill = as.factor(df_input),
-               group = as.factor(df_input))) + 
-    geom_bar(stat = "identity", position = "dodge", 
-             na.rm = TRUE)
   
-  # add anotations if requested
-  if(text_labels){
-    plt <- add_annotation_to_bars(
-      x = z_tall$type, 
-      y = z_tall$cnt, 
-      z = z_tall$cnt, 
-      plt = plt, thresh = 0.1, 
-      dodged = 1,
-      fill = as.factor(z_tall$df_input), 
-      label_color = label_color, 
-      label_size  = label_size
-    )
-  }
+  # Layout of columns, polar coordinates and text rotations
+  column_layout <- 
+    full_join(x = column_list[[1]], y = column_list[[2]], by = c('col_name')) %>%
+    select(-starts_with('data_arg'), df1 = type.x, df2 = type.y, col_name) %>%
+    mutate(ones       = 1, 
+           tops       = cumsum(ones) / sum(ones), 
+           bottoms    = c(0, head(tops, n = -1)), 
+           label_pos  = (tops + bottoms) / 2) 
+  type_order <- as.character(na.omit(unique(c(column_layout$df1, column_layout$df2))))
+  col_types  <- c(user_colours(length(type_order), 0), 'gray90', 'gray90', 'white', 'tomato')
+  type_order <- c(type_order, 'Missing', 'Type mismatch', 'No issue', 'Issue')
+  names(col_types) <- type_order
   
-  # labels the axes, add title and subtitle
-  plt <- plt + 
-    labs(x = "", y = "Number of columns", 
-         title = ttl_plt, 
-         subtitle = sttl) + 
-    # label the legend 
-    scale_fill_manual(
-      name = "Data frame",  
-      values = user_colours(3, col_palette)[c(1, 3)])
+  # extract tibble of issue comments
+  issue_vec <- unlist(df_plot$issues)
+  issue_df  <- tibble(
+    col_name = names(issue_vec), 
+    cmmnt = issue_vec) %>%
+    distinct(.keep_all = TRUE)
+  column_layout <- column_layout %>%
+    left_join(issue_df, by = 'col_name') %>%
+    mutate(issue_fill = ifelse(is.na(cmmnt), NA, 
+                               ifelse(grepl('missing', cmmnt), 'Missing', 
+                                      ifelse(grepl('<!>', cmmnt), 'Type mismatch', 'Else')))) %>%
+    mutate(has_issue = ifelse(is.na(issue_fill), 'No issue', 'Issue')) %>%
+    mutate(issue_x = as.numeric(!is.na(df1)))
+  
+  
+  # Get summary of the column types ready for radial plot
+  types_layout <-
+    column_layout %>%
+    group_by(df1) %>%
+    count() %>%
+    ungroup %>%
+    arrange(desc(n)) %>%
+    mutate(
+      tops       = cumsum(n) / sum(n),
+      bottoms    = c(0, head(tops, n = -1)),
+      label_pos  = (tops + bottoms) / 2,
+      type_label = paste0(df1, ' (', n, ')')
+    ) %>%
+    filter(!is.na(df1))
+  
+  # Generate radial plot
+  plt <- column_layout %>%
+    mutate(
+      df1 = factor(df1, levels = type_order), 
+      df2 = factor(df2, levels = type_order)) %>%
+    ggplot(aes(ymax = tops, ymin = bottoms, xmax = 3, xmin = 2, fill = df1)) +
+    # shaded rectangles containing comments
+    geom_fit_text(aes(ymax = tops, ymin = bottoms, xmax = 4, xmin = 4.1, color = has_issue), label = '!') +
+    # show the columns for df1
+    geom_rect(color = 'white', size = 0.06) +
+    # show the columns for df2
+    geom_rect(aes(ymax = tops, ymin = bottoms, xmax = 4, xmin = 3, fill = df2), 
+              alpha = 0.7, color = 'white', size = 0.06) +
+    geom_fit_text(
+      aes(xmin = 2, xmax = 3, ymin = bottoms, ymax = tops,
+          label = type_label), colour = 'white',
+      inherit.aes = FALSE, data = types_layout, angle = 0) +
+    geom_fit_text(
+      aes(xmin = 2 + issue_x, xmax = 3 + issue_x, 
+          ymin = bottoms, ymax = tops, label = issue_fill), 
+      angle = 0, color = 'white', inherit.aes = FALSE, 
+      data = column_layout %>% filter(!is.na(issue_fill))) +
+    geom_text(
+      aes(y = label_pos, label = col_name, colour = df1,
+          hjust = 'right', angle = 0), x = 1.8, size = 4) + 
+    # add the data frame names at the top
+    geom_text(aes(x = x, y = y, label = df), data = df_names, 
+              hjust = 'center', vjust = 'center', angle = 0,
+              size = 4, color = 'gray40', inherit.aes = FALSE) + 
+    scale_fill_manual(values  = col_types, na.value = 'gray60') + 
+    scale_color_manual(values = col_types, na.value = 'gray60') + 
+    xlim(c(1, 5)) +
+    ylim(c(0, 1.05)) +
+    theme_void() +
+    theme(legend.position = "none")
+  
+  
+  
+  
+  # # convert to a taller df for plotting
+  # d1 <- df_plot %>% select(1, 2:3) %>% mutate(df_input = df_names$df1)
+  # d2 <- df_plot %>% select(1, 4:5) %>% mutate(df_input = df_names$df2)
+  # colnames(d1) <- colnames(d2) <- c("type", "cnt", "pcnt", "df_input")
+  # z_tall <- bind_rows(d1, d2)
+  # 
+  # # make axis names
+  # ttl_plt <- paste0(df_names$df1, " & ", df_names$df2, " column types.")
+  # # if same number of columns, print different subtitle
+  # if(sum(d1$cnt) == sum(d2$cnt)){
+  #   sttl <- paste0("Both have ",  sum(d1$cnt), " columns")
+  # } else {
+  #   sttl <- paste(paste0(unlist(df_names), " has ", 
+  #                  c(sum(d1$cnt), sum(d2$cnt)), " columns"), 
+  #                 collapse = " & ")
+  # }
+  # 
+  # # labels above 0.8 max
+  # z_tall$black_labs <- z_tall$white_labs <- z_tall$cnt
+  # z_tall$black_labs[z_tall$black_labs >  0.7 * max(z_tall$black_labs)] <- NA
+  # z_tall$white_labs[z_tall$white_labs <= 0.7 * max(z_tall$white_labs)] <- NA
+  # 
+  # # plot the result
+  # plt <- z_tall %>%
+  #   mutate(type = factor(type, levels = df_plot$type)) %>%
+  #   ggplot(aes(x = type, y = cnt, fill = as.factor(df_input),
+  #              group = as.factor(df_input))) + 
+  #   geom_bar(stat = "identity", position = "dodge", 
+  #            na.rm = TRUE)
+  # 
+  # # add anotations if requested
+  # if(text_labels){
+  #   plt <- add_annotation_to_bars(
+  #     x = z_tall$type, 
+  #     y = z_tall$cnt, 
+  #     z = z_tall$cnt, 
+  #     plt = plt, thresh = 0.1, 
+  #     dodged = 1,
+  #     fill = as.factor(z_tall$df_input), 
+  #     label_color = label_color, 
+  #     label_size  = label_size
+  #   )
+  # }
+  # 
+  # # labels the axes, add title and subtitle
+  # plt <- plt + 
+  #   labs(x = "", y = "Number of columns", 
+  #        title = ttl_plt, 
+  #        subtitle = sttl) + 
+  #   # label the legend 
+  #   scale_fill_manual(
+  #     name = "Data frame",  
+  #     values = user_colours(3, col_palette)[c(1, 3)])
   
   # return plot
   plt
