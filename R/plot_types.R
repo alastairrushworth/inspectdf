@@ -1,3 +1,5 @@
+#' @importFrom dplyr matches
+#' @importFrom dplyr count
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 geom_bar
@@ -8,9 +10,14 @@
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 position_dodge
 #' @importFrom ggplot2 scale_fill_discrete
+#' @importFrom ggplot2 scale_color_manual
 #' @importFrom ggplot2 xlim
 #' @importFrom ggplot2 theme
 #' @importFrom ggplot2 theme_void
+#' @importFrom ggfittext geom_fit_text
+#' @importFrom stats chisq.test
+#' @importFrom stats na.omit
+#' @importFrom utils head
 
 plot_types_1 <- function(df_plot, 
                          df_names, 
