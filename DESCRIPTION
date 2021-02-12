@@ -14,8 +14,8 @@ LazyData: true
 ByteCompile: yes
 Encoding: UTF-8
 Depends: R (>= 3.5.0)
-Imports: dplyr, ggplot2, magrittr, progress, Rcpp, tibble, tidyr
-Suggests: ggfittext, testthat
+Imports: dplyr, ggplot2, ggfittext, magrittr, progress, Rcpp, tibble, tidyr
+Suggests: testthat
 License: GPL-2
 URL: https://alastairrushworth.github.io/inspectdf/
 BugReports: https://github.com/alastairrushworth/inspectdf/issues
