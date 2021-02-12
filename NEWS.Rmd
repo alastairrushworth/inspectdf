@@ -8,6 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # `inspectdf` 0.1.0
 
+- Add `include_int` option in `inspect_cat()` to allow treatment of integer columns as categorical.
 - Improved p-values associated with categorical and numeric comparisons.  This is now based on a modified chi-squared test and is labelled as `pval` in the resulting output.
 - Fixed [#27](https://github.com/alastairrushworth/inspectdf/issues/27) ensuring plots for `inspect_cat()` respect any filtering or sorting of the summary output prior to `show_plot()`.  Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the report.
 - Additional detail in `inspect_type()` comparison of two dataframes to make it easier to see which columns and types differ.

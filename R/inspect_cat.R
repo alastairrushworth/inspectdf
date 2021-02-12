@@ -8,6 +8,7 @@
 #' @param df1 A dataframe.
 #' @param df2 An optional second data frame for comparing categorical levels.  
 #' Defaults to \code{NULL}.
+#' @param include_int Logical flag - whether to treat integer columns as categories.  Default is \code{FALSE}.
 #' @return A tibble summarising or comparing the categorical features 
 #' in one or a pair of dataframes.
 #' 
@@ -70,7 +71,7 @@
 #' @importFrom progress progress_bar
 #' @importFrom Rcpp compileAttributes
 
-inspect_cat <- function(df1, df2 = NULL){
+inspect_cat <- function(df1, df2 = NULL, include_int = FALSE){
   
   # perform basic column check on dataframe input
   input_type <- check_df_cols(df1, df2)
@@ -80,10 +81,13 @@ inspect_cat <- function(df1, df2 = NULL){
   # if only a single df input
   if(input_type == "single"){
     # pick out categorical columns
+    # is.date_or_time <- function(v) 
+    col_cats <- function(v) is.character(v) |  is.factor(v) | is.logical(v) | any(c("Date", "datetime") %in% class(v))
+    if(include_int) col_cats <- function(v) is.character(v) |  is.factor(v) | is.logical(v) | any(c("Date", "datetime") %in% class(v)) | is.integer(v)
     df_cat <- df1 %>% 
-      select_if(function(v) is.character(v) | is.factor(v) | 
-                  is.logical(v) | any(c("Date", "datetime") %in% class(v))) %>%
-      mutate_if(is.factor, as.character)
+      select_if(col_cats) %>%
+      mutate_if(is.factor, as.character) %>%
+      mutate_if(is.integer, as.character)
   
     # calculate association if categorical columns exist
     if(ncol(df_cat) > 0){
@@ -148,3 +152,4 @@ inspect_cat <- function(df1, df2 = NULL){
   attr(out, "df_names") <- df_names
   return(out)
 }
+
