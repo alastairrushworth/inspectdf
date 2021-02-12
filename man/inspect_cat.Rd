@@ -4,13 +4,15 @@
 \alias{inspect_cat}
 \title{Summary and comparison of the levels in categorical columns}
 \usage{
-inspect_cat(df1, df2 = NULL)
+inspect_cat(df1, df2 = NULL, include_int = FALSE)
 }
 \arguments{
 \item{df1}{A dataframe.}
 
 \item{df2}{An optional second data frame for comparing categorical levels.
 Defaults to \code{NULL}.}
+
+\item{include_int}{Logical flag - whether to treat integer columns as categories.  Default is \code{FALSE}.}
 }
 \value{
 A tibble summarising or comparing the categorical features 
