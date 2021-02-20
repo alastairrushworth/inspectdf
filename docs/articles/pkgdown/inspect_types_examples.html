@@ -121,16 +121,24 @@
 <h2 class="hasAnchor">
 <a href="#illustrative-data-starwars" class="anchor"></a>Illustrative data: <code>starwars</code>
 </h2>
-<p>The examples below make use of the <code>starwars</code> and <code>storms</code> data from the <code>dplyr</code> package</p>
+<p>The examples below make use of the <code>starwars</code> from the <code>dplyr</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># some example data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">storms</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
-<p>For illustrating comparisons of dataframes, use the <code>starwars</code> data and produce two new dataframes <code>star_1</code> and <code>star_2</code> that randomly sample the rows of the original and drop a couple of columns.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
-<span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span>
+
+<span class="co"># print the first few rows</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 Luke…    172    77 blond      fair       blue            19   male  mascu…
+## 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
+## 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
+## 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
+## 5 Leia…    150    49 brown      light      brown           19   fema… femin…
+## 6 Owen…    178   120 brown, gr… light      blue            52   male  mascu…
+## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 </div>
 <div id="inspect_types-for-a-single-dataframe" class="section level2">
 <h2 class="hasAnchor">
@@ -138,8 +146,10 @@
 <p>To explore the column types in a data frame, use the function <code><a href="../../reference/inspect_types.html">inspect_types()</a></code>. The command returns a <code>tibble</code> summarising the counts and percentages of columns with particular types.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/">inspectdf</a></span><span class="op">)</span>
+
 <span class="co"># return tibble showing columns types</span>
-<span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></code></pre></div>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span>
+<span class="va">x</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 4
 ##   type        cnt  pcnt col_name    
 ##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;named list&gt;
@@ -147,29 +157,67 @@
 ## 2 list          3 21.4  &lt;chr [3]&gt;   
 ## 3 numeric       2 14.3  &lt;chr [2]&gt;   
 ## 4 integer       1  7.14 &lt;chr [1]&gt;</code></pre>
-<p>A barplot can be produced by passing the result to <code><a href="../../reference/show_plot.html">show_plot()</a></code>:</p>
+<p>The names of columns with specific type can be accessed in the list columns <code>col_name</code>, for example the list columns are found using</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># print visualisation of column types</span>
-<span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">x</span><span class="op">$</span><span class="va">col_name</span><span class="op">$</span><span class="va">list</span></code></pre></div>
+<pre><code>##          12          13          14 
+##     "films"  "vehicles" "starships"</code></pre>
+<p>A radial visualisation of all columns and types is returned by the <code><a href="../../reference/show_plot.html">show_plot()</a></code> command:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># radial visualisation of column types</span>
+<span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="inspect_types_examples_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
-<div id="inspect_types-for-two-dataframes" class="section level2">
+<div id="inspect_types-for-comparing-two-data-frames" class="section level2">
 <h2 class="hasAnchor">
-<a href="#inspect_types-for-two-dataframes" class="anchor"></a><code>inspect_types()</code> for two dataframes</h2>
-<p>When a second dataframe is provided, <code><a href="../../reference/inspect_types.html">inspect_types()</a></code> will create a dataframe comparing the count and percentage of each column type for each of the input dataframes. The summaries for the first and second dataframes are show in columns with names appended with <code>_1</code> and <code>_2</code>, respectively.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span></code></pre></div>
+<a href="#inspect_types-for-comparing-two-data-frames" class="anchor"></a><code>inspect_types()</code> for comparing two data frames</h2>
+<p>To illustrate the comparison of two data frames, we create two new data frames by randomly sampling the rows of <code>starwars</code> and also dropping some of the columns, and . The results are assigned to the objects <code>star_1</code> and <code>star_2</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># sample 50 rows from `starwars`</span>
+<span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
+<span class="co"># recode the mass column to character</span>
+<span class="va">star_1</span><span class="op">$</span><span class="va">mass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">star_1</span><span class="op">$</span><span class="va">mass</span><span class="op">)</span>
+<span class="co"># sample 50 rows from `starwars` and drop the first two columns</span>
+<span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<p>When a second dataframe is provided, <code><a href="../../reference/inspect_types.html">inspect_types()</a></code> returns a tibble that compares the column names and types found in each of the input data frames. The columns <code>cnt_1</code> and <code>cnt_2</code> contain the total number of columns with each type found in the first and second inputs, respectively:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># compare the column types for star_1 and star_2</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span>
+<span class="va">x</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 6
 ##   type      equal cnt_1 cnt_2 columns           issues   
 ##   &lt;chr&gt;     &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;named list&gt;      &lt;list&gt;   
-## 1 character ✘         8     7 &lt;tibble [15 × 2]&gt; &lt;chr [1]&gt;
+## 1 character ✘         9     7 &lt;tibble [16 × 2]&gt; &lt;chr [2]&gt;
 ## 2 list      ✔        3     3 &lt;tibble [6 × 2]&gt;  &lt;NULL&gt;   
-## 3 numeric   ✔        2     2 &lt;tibble [4 × 2]&gt;  &lt;NULL&gt;   
-## 4 integer   ✘         1     0 &lt;tibble [1 × 2]&gt;  &lt;chr [1]&gt;</code></pre>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+## 3 integer   ✘         1     0 &lt;tibble [1 × 2]&gt;  &lt;chr [1]&gt;
+## 4 numeric   ✘         1     2 &lt;tibble [3 × 2]&gt;  &lt;chr [1]&gt;</code></pre>
+<p><code>columns</code> is a named list column containing a list of tibbles. Each tibble records the names of columns with each type. As an example, all numeric column names is accessed using:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># tibble of numeric columns in star_1 or star_2</span>
+<span class="va">x</span><span class="op">$</span><span class="va">columns</span><span class="op">$</span><span class="va">numeric</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   col_name   data_arg
+##   &lt;chr&gt;      &lt;chr&gt;   
+## 1 birth_year star_1  
+## 2 mass       star_2  
+## 3 birth_year star_2</code></pre>
+<p>The <code>issues</code> column contains a list of character vectors describing specific points of type or columns mismatch between the two data frame inputs. The simplest way to view all of the issues is to use the <code><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest()</a></code> function from the <code>tidyr</code> package:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="co"># unnest the issue columns so we can see where the differences are between star_1 and star_2</span>
+<span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">issues</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">issues</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 2
+##   type      issues                                             
+##   &lt;chr&gt;     &lt;chr&gt;                                              
+## 1 character star_1::mass ~ character &lt;!&gt; star_2::mass ~ numeric
+## 2 character star_1::name ~ character  missing from star_2      
+## 3 integer   star_1::height ~ integer  missing from star_2      
+## 4 numeric   star_1::mass ~ character &lt;!&gt; star_2::mass ~ numeric</code></pre>
+<p>Finally, we can produce a simple visualisation showing the differences between <code>star_1</code> and <code>star_2</code> using <code><a href="../../reference/show_plot.html">show_plot()</a></code>:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># print visualisation of column type comparison</span>
 <span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="inspect_types_examples_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="inspect_types_examples_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
   </div>
 
