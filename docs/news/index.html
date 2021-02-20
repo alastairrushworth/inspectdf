@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.10</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -130,8 +130,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="http://github.com/alastairrushworth/inspectdf/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/alastairrushworth/inspectdf/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -149,12 +149,22 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='http://github.com/alastairrushworth/inspectdf/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+      <small>Source: <a href='https://github.com/alastairrushworth/inspectdf/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="inspectdf-0010" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.10">
+<a href="#inspectdf-0010" class="anchor"></a><small> Unreleased </small><code>inspectdf</code> 0.0.10</h1>
+<ul>
+<li>Add <code>include_int</code> option in <code><a href="../reference/inspect_cat.html">inspect_cat()</a></code> to allow treatment of integer columns as categorical.</li>
+<li>Improved p-values associated with binned categorical and numeric comparisons. This is now based on a modified chi-squared test and is labelled as <code>pval</code> in the resulting output.</li>
+<li>Fixed <a href="https://github.com/alastairrushworth/inspectdf/issues/27"><a href='https://github.com/alastairrushworth/inspectdf/issues/27'>#27</a></a> ensuring plots for <code><a href="../reference/inspect_cat.html">inspect_cat()</a></code> respect any filtering or sorting of the summary output prior to <code><a href="../reference/show_plot.html">show_plot()</a></code>. Thanks to <a href="https://github.com/RoelVerbelen">Roel Verbelen</a> for the report.</li>
+<li>Additional detail in <code>inspect_type()</code> comparison of two dataframes to make it easier to see which columns and types differ.</li>
+</ul>
+</div>
     <div id="inspectdf-009" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.9">
-<a href="#inspectdf-009" class="anchor"></a><small> Unreleased </small><code>inspectdf</code> 0.0.9</h1>
+<a href="#inspectdf-009" class="anchor"></a><small> 2020-09-07 </small><code>inspectdf</code> 0.0.9</h1>
 <ul>
 <li>Minor change, ensuring all functions use <code>return</code> properly.</li>
 </ul>
@@ -232,7 +242,7 @@
 <a href="#inspectdf-003" class="anchor"></a><small> 2019-06-27 </small><code>inspectdf</code> 0.0.3</h1>
 <ul>
 <li>
-<code>text_labels</code> autoscale size using <code><a href="https://rdrr.io/pkg/ggfittext/man/geom_fit_text.html">ggfittext::geom_fit_text()</a></code>. For an example see <a href="https://github.com/alastairrushworth/inspectdf#categorical-levels"><code><a href="../reference/inspect_cat.html">inspect_cat()</a></code></a>. Thanks to <a href="https://github.com/wilkox">David Wilkins</a> for the <a href="https://github.com/alastairrushworth/inspectdf/pull/9">PR</a>.</li>
+<code>text_labels</code> autoscale size using <code><a href="https://wilkox.org/ggfittext/reference/geom_fit_text.html">ggfittext::geom_fit_text()</a></code>. For an example see <a href="https://github.com/alastairrushworth/inspectdf#categorical-levels"><code>inspect_cat()</code></a>. Thanks to <a href="https://github.com/wilkox">David Wilkins</a> for the <a href="https://github.com/alastairrushworth/inspectdf/pull/9">PR</a>.</li>
 <li>6 different color palettes supported in <code><a href="../reference/show_plot.html">show_plot()</a></code> via <code>col_palette</code> argument. Colorblind friendly option specified via <code><a href="../reference/show_plot.html">show_plot(col_palette = 1)</a></code> - thanks to <a href="https://github.com/technocrat">Richard Careaga</a> <a href="https://github.com/alastairrushworth/inspectdf/pull/3">for the suggestion</a>.</li>
 <li>
 <code><a href="../reference/inspect_imb.html">inspect_imb()</a></code>.
@@ -291,7 +301,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
