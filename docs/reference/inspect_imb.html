@@ -84,7 +84,7 @@ split by group." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.10</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@ split by group." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -135,8 +135,8 @@ split by group." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="http://github.com/alastairrushworth/inspectdf/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/alastairrushworth/inspectdf/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -154,7 +154,7 @@ split by group." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary and comparison of the most common levels in categorical columns</h1>
-    <small class="dont-index">Source: <a href='http://github.com/alastairrushworth/inspectdf/blob/master/R/inspect_imb.R'><code>R/inspect_imb.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/alastairrushworth/inspectdf/blob/master/R/inspect_imb.R'><code>R/inspect_imb.R</code></a></small>
     <div class="hidden name"><code>inspect_imb.Rd</code></div>
     </div>
 
@@ -166,7 +166,7 @@ dataframes, summarise the levels of categorical columns in the dataframe
 split by group.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>inspect_imb</span>(<span class='no'>df1</span>, <span class='kw'>df2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>include_na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>inspect_imb</span><span class='op'>(</span><span class='va'>df1</span>, df2 <span class='op'>=</span> <span class='cn'>NULL</span>, include_na <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -219,51 +219,57 @@ as there are unique combinations of the grouping variables.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='inspect_cat.html'>inspect_cat</a></code>, <code><a href='show_plot.html'>show_plot</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Alastair Rushworth</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load dplyr for starwars data &amp; pipe</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
 
 <span class='co'># Single dataframe summary</span>
-<span class='fu'>inspect_imb</span>(<span class='no'>starwars</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 8 x 4</span><span>
+<span class='fu'>inspect_imb</span><span class='op'>(</span><span class='va'>starwars</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 4</span><span>
 #&gt;   col_name   value      pcnt   cnt
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> gender     masculine 75.9     66
-#&gt; </span><span style='color: #555555;'>2</span><span> sex        male      69.0     60
-#&gt; </span><span style='color: #555555;'>3</span><span> hair_color none      42.5     37
-#&gt; </span><span style='color: #555555;'>4</span><span> species    Human     40.2     35
-#&gt; </span><span style='color: #555555;'>5</span><span> eye_color  brown     24.1     21
-#&gt; </span><span style='color: #555555;'>6</span><span> skin_color fair      19.5     17
-#&gt; </span><span style='color: #555555;'>7</span><span> homeworld  Naboo     12.6     11
-#&gt; </span><span style='color: #555555;'>8</span><span> name       Ackbar     1.15     1</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> gender     masculine 75.9     66
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> sex        male      69.0     60
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> hair_color none      42.5     37
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> species    Human     40.2     35
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> eye_color  brown     24.1     21
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> skin_color fair      19.5     17
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> homeworld  Naboo     12.6     11
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> name       Ackbar     1.15     1</div><div class='input'>
 <span class='co'># Paired dataframe comparison</span>
-<span class='fu'>inspect_imb</span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>[<span class='fl'>1</span>:<span class='fl'>20</span>, ])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 7</span><span>
+<span class='fu'>inspect_imb</span><span class='op'>(</span><span class='va'>starwars</span>, <span class='va'>starwars</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>20</span>, <span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 8 x 7</span><span>
 #&gt;   col_name   value     pcnt_1 cnt_1 pcnt_2 cnt_2 p_value
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> gender     masculine  75.9     66     90    18  0.277 
-#&gt; </span><span style='color: #555555;'>2</span><span> sex        male       69.0     60     70    14  1.00  
-#&gt; </span><span style='color: #555555;'>3</span><span> hair_color none       42.5     37     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>     
-#&gt; </span><span style='color: #555555;'>4</span><span> species    Human      40.2     35     65    13  0.078</span><span style='text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> eye_color  brown      24.1     21     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>     
-#&gt; </span><span style='color: #555555;'>6</span><span> skin_color fair       19.5     17     35     7  0.231 
-#&gt; </span><span style='color: #555555;'>7</span><span> homeworld  Naboo      12.6     11     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>     
-#&gt; </span><span style='color: #555555;'>8</span><span> name       Ackbar      1.15     1     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>     </div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> gender     masculine  75.9     66     90    18  0.277 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> sex        male       69.0     60     70    14  1.00  
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> hair_color none       42.5     37     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>     
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> species    Human      40.2     35     65    13  0.078</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> eye_color  brown      24.1     21     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>     
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> skin_color fair       19.5     17     35     7  0.231 
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> homeworld  Naboo      12.6     11     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>     
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> name       Ackbar      1.15     1     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>     </div><div class='input'>
 <span class='co'># Grouped dataframe summary</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>inspect_imb</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 21 x 5</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   gender [3]</span><span>
+<span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>gender</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>inspect_imb</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 21 x 5</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   gender [3]</span><span>
 #&gt;    gender    col_name   value       pcnt   cnt
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> feminine  sex        female     94.1     16
-#&gt; </span><span style='color: #555555;'> 2</span><span> feminine  species    Human      52.9      9
-#&gt; </span><span style='color: #555555;'> 3</span><span> feminine  hair_color brown      35.3      6
-#&gt; </span><span style='color: #555555;'> 4</span><span> feminine  skin_color light      35.3      6
-#&gt; </span><span style='color: #555555;'> 5</span><span> feminine  eye_color  blue       35.3      6
-#&gt; </span><span style='color: #555555;'> 6</span><span> feminine  homeworld  Naboo      17.6      3
-#&gt; </span><span style='color: #555555;'> 7</span><span> feminine  name       Adi Gallia  5.88     1
-#&gt; </span><span style='color: #555555;'> 8</span><span> masculine sex        male       90.9     60
-#&gt; </span><span style='color: #555555;'> 9</span><span> masculine hair_color none       47.0     31
-#&gt; </span><span style='color: #555555;'>10</span><span> masculine species    Human      39.4     26
-#&gt; </span><span style='color: #555555;'># … with 11 more rows</span><span></div></span></pre>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> feminine  sex        female     94.1     16
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> feminine  species    Human      52.9      9
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> feminine  hair_color brown      35.3      6
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> feminine  skin_color light      35.3      6
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> feminine  eye_color  blue       35.3      6
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> feminine  homeworld  Naboo      17.6      3
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> feminine  name       Adi Gallia  5.88     1
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> masculine sex        male       90.9     60
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> masculine hair_color none       47.0     31
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> masculine species    Human      39.4     26
+#&gt; </span><span style='color: #949494;'># … with 11 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -279,7 +285,7 @@ as there are unique combinations of the grouping variables.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

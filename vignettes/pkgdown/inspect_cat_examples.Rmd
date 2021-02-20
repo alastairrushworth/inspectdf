@@ -65,8 +65,8 @@ When two dataframes are compared using `inspect_cat()`, list columns are returne
 inspect_cat(star_1, star_2)
 ```
 
-```{r}
-inspect_cat(star_1, star_2) %>% show_plot()
-```
+<!-- # ```{r} -->
+<!-- # inspect_cat(star_1, star_2) %>% show_plot() -->
+<!-- # ``` -->
 
 

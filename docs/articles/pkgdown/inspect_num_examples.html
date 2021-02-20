@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.10</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -89,8 +89,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="http://github.com/alastairrushworth/inspectdf/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/alastairrushworth/inspectdf/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -104,13 +104,13 @@
 
       
 
-      </header><script src="inspect_num_examples_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="inspect_num_examples_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Numeric column summaries and visualisations</h1>
             
       
-      <small class="dont-index">Source: <a href="http://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_num_examples.Rmd"><code>vignettes/pkgdown/inspect_num_examples.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_num_examples.Rmd"><code>vignettes/pkgdown/inspect_num_examples.Rmd</code></a></small>
       <div class="hidden name"><code>inspect_num_examples.Rmd</code></div>
 
     </div>
@@ -122,20 +122,23 @@
 <a href="#illustrative-data-starwars" class="anchor"></a>Illustrative data: <code>starwars</code>
 </h2>
 <p>The examples below make use of the <code>starwars</code> and <code>storms</code> data from the <code>dplyr</code> package</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># some example data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">starwars</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"dplyr"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">storms</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"dplyr"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># some example data</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">storms</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
 <p>For illustrating comparisons of dataframes, use the <code>starwars</code> data and produce two new dataframes <code>star_1</code> and <code>star_2</code> that randomly sample the rows of the original and drop a couple of columns.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="no">star_1</span> <span class="kw">&lt;-</span> <span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="fl">50</span>)
-<span class="no">star_2</span> <span class="kw">&lt;-</span> <span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="fl">50</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="fl">1</span>, -<span class="fl">2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
+<span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="inspect_num-for-a-single-dataframe" class="section level2">
 <h2 class="hasAnchor">
 <a href="#inspect_num-for-a-single-dataframe" class="anchor"></a><code>inspect_num()</code> for a single dataframe</h2>
 <p><code><a href="../../reference/inspect_num.html">inspect_num()</a></code> combining some of the functionality of <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> and <code><a href="https://rdrr.io/r/graphics/hist.html">hist()</a></code> by returning summaries of numeric columns. <code><a href="../../reference/inspect_num.html">inspect_num()</a></code> returns standard numerical summaries (<code>min</code>, <code>q1</code>, <code>mean</code>, <code>median</code>,<code>q3</code>, <code>max</code>, <code>sd</code>), but also the percentage of missing entries (<code>pcnt_na</code>) and a simple histogram (<code>hist</code>).</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">inspectdf</span>)
-<span class="fu"><a href="../../reference/inspect_num.html">inspect_num</a></span>(<span class="no">storms</span>, <span class="kw">breaks</span> <span class="kw">=</span> <span class="fl">10</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/">inspectdf</a></span><span class="op">)</span>
+<span class="fu"><a href="../../reference/inspect_num.html">inspect_num</a></span><span class="op">(</span><span class="va">storms</span>, breaks <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 10
 ##    col_name     min     q1 median    mean     q3    max     sd pcnt_na hist     
 ##    &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;named l&gt;
@@ -150,7 +153,8 @@
 ##  9 ts_diame…    0     69.0  138.   167.    242.  1001.  141.      65.2 &lt;tibble …
 ## 10 hu_diame…    0      0      0     21.4    28.8  345.   41.3     65.2 &lt;tibble …</code></pre>
 <p>The <code>hist</code> column is a list whose elements are tibbles each containing the relative frequencies of bins for each feature. These tibbles are used to generate the histograms when <code>show_plot = TRUE</code>. For example, the histogram for <code>starwars$birth_year</code> is</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_num.html">inspect_num</a></span>(<span class="no">storms</span>)$<span class="no">hist</span>$<span class="no">pressure</span></pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_num.html">inspect_num</a></span><span class="op">(</span><span class="va">storms</span><span class="op">)</span><span class="op">$</span><span class="va">hist</span><span class="op">$</span><span class="va">pressure</span></code></pre></div>
 <pre><code>## # A tibble: 31 x 2
 ##    value            prop
 ##    &lt;chr&gt;           &lt;dbl&gt;
@@ -166,8 +170,9 @@
 ## 10 [920, 925)  0.00390  
 ## # … with 21 more rows</code></pre>
 <p>A histogram is generated for each numeric feature by passing the result to the <code><a href="../../reference/show_plot.html">show_plot()</a></code> function:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_num.html">inspect_num</a></span>(<span class="no">storms</span>, <span class="kw">breaks</span> <span class="kw">=</span> <span class="fl">10</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_num.html">inspect_num</a></span><span class="op">(</span><span class="va">storms</span>, breaks <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="inspect_num_examples_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 <div id="inspect_num-for-two-dataframes" class="section level2">
@@ -175,22 +180,24 @@
 <a href="#inspect_num-for-two-dataframes" class="anchor"></a><code>inspect_num()</code> for two dataframes</h2>
 <p>When comparing a pair of dataframes using <code><a href="../../reference/inspect_num.html">inspect_num()</a></code>, the histograms of common numeric features are calculated, using identical bins. The list columns <code>hist_1</code> and <code>hist_2</code> contain the histograms of the features in the first and second dataframes. A formal statistical comparison of each pair of histograms is calculated using Fisher’s exact test, the resulting <em>p</em> value is reported in the column <code>fisher_p</code>.</p>
 <p>When <code>show_plot = TRUE</code>, heat plot comparisons are returned for each numeric column in each dataframe. Where a column is present in only one of the dataframes, grey cells are shown in the comparison. The significance of Fisher’s test is illustrated by coloured vertical bands around each plot: if the colour is grey, no <em>p</em> value could be calculated, if blue, the histograms are not found to be significantly different otherwise the bands are red.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_num.html">inspect_num</a></span>(<span class="no">storms</span>, <span class="no">storms</span>[-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fl">10</span>), -<span class="fl">1</span>])</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_num.html">inspect_num</a></span><span class="op">(</span><span class="va">storms</span>, <span class="va">storms</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 5
-##    col_name    hist_1            hist_2                    jsd fisher_p
+##    col_name    hist_1            hist_2                    jsd     pval
 ##    &lt;chr&gt;       &lt;named list&gt;      &lt;named list&gt;            &lt;dbl&gt;    &lt;dbl&gt;
-##  1 year        &lt;tibble [23 × 2]&gt; &lt;tibble [23 × 2]&gt; 0.0000221      NA   
-##  2 month       &lt;tibble [24 × 2]&gt; &lt;tibble [24 × 2]&gt; 0.0125         NA   
-##  3 day         &lt;tibble [18 × 2]&gt; &lt;tibble [18 × 2]&gt; 0.00000119     NA   
-##  4 hour        &lt;tibble [25 × 2]&gt; &lt;tibble [25 × 2]&gt; 0.000539       NA   
-##  5 lat         &lt;tibble [25 × 2]&gt; &lt;tibble [25 × 2]&gt; 0.000000460    NA   
-##  6 long        &lt;tibble [23 × 2]&gt; &lt;tibble [23 × 2]&gt; 0.00000174     NA   
-##  7 wind        &lt;tibble [17 × 2]&gt; &lt;tibble [17 × 2]&gt; 0.000104       NA   
-##  8 pressure    &lt;tibble [31 × 2]&gt; &lt;tibble [31 × 2]&gt; 0.00000102     NA   
-##  9 ts_diameter &lt;tibble [23 × 2]&gt; &lt;tibble [23 × 2]&gt; 0               1.00
-## 10 hu_diameter &lt;tibble [20 × 2]&gt; &lt;tibble [20 × 2]&gt; 0               1.00</code></pre>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_num.html">inspect_num</a></span>(<span class="no">storms</span>, <span class="no">storms</span>[-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fl">10</span>), -<span class="fl">1</span>]) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span>()</pre></body></html></div>
+##  1 year        &lt;tibble [23 × 2]&gt; &lt;tibble [23 × 2]&gt; 0.0000221   1.00e+ 0
+##  2 month       &lt;tibble [24 × 2]&gt; &lt;tibble [24 × 2]&gt; 0.0125      5.03e-48
+##  3 day         &lt;tibble [18 × 2]&gt; &lt;tibble [18 × 2]&gt; 0.00000119  1.00e+ 0
+##  4 hour        &lt;tibble [25 × 2]&gt; &lt;tibble [25 × 2]&gt; 0.000539    9.65e- 1
+##  5 lat         &lt;tibble [25 × 2]&gt; &lt;tibble [25 × 2]&gt; 0.000000460 1.00e+ 0
+##  6 long        &lt;tibble [23 × 2]&gt; &lt;tibble [23 × 2]&gt; 0.00000174  1.00e+ 0
+##  7 wind        &lt;tibble [17 × 2]&gt; &lt;tibble [17 × 2]&gt; 0.000104    1.00e+ 0
+##  8 pressure    &lt;tibble [31 × 2]&gt; &lt;tibble [31 × 2]&gt; 0.00000102  1.00e+ 0
+##  9 ts_diameter &lt;tibble [23 × 2]&gt; &lt;tibble [23 × 2]&gt; 0           1.00e+ 0
+## 10 hu_diameter &lt;tibble [20 × 2]&gt; &lt;tibble [20 × 2]&gt; 0           1.00e+ 0</code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_num.html">inspect_num</a></span><span class="op">(</span><span class="va">storms</span>, <span class="va">storms</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="inspect_num_examples_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
   </div>
@@ -210,7 +217,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

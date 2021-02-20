@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.10</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -89,8 +89,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="http://github.com/alastairrushworth/inspectdf/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/alastairrushworth/inspectdf/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -104,13 +104,13 @@
 
       
 
-      </header><script src="inspect_types_examples_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="inspect_types_examples_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Exploring dataframe column types</h1>
             
       
-      <small class="dont-index">Source: <a href="http://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_types_examples.Rmd"><code>vignettes/pkgdown/inspect_types_examples.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_types_examples.Rmd"><code>vignettes/pkgdown/inspect_types_examples.Rmd</code></a></small>
       <div class="hidden name"><code>inspect_types_examples.Rmd</code></div>
 
     </div>
@@ -122,21 +122,24 @@
 <a href="#illustrative-data-starwars" class="anchor"></a>Illustrative data: <code>starwars</code>
 </h2>
 <p>The examples below make use of the <code>starwars</code> and <code>storms</code> data from the <code>dplyr</code> package</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># some example data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">starwars</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"dplyr"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">storms</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"dplyr"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># some example data</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">storms</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
 <p>For illustrating comparisons of dataframes, use the <code>starwars</code> data and produce two new dataframes <code>star_1</code> and <code>star_2</code> that randomly sample the rows of the original and drop a couple of columns.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="no">star_1</span> <span class="kw">&lt;-</span> <span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="fl">50</span>)
-<span class="no">star_2</span> <span class="kw">&lt;-</span> <span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="fl">50</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="fl">1</span>, -<span class="fl">2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
+<span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="inspect_types-for-a-single-dataframe" class="section level2">
 <h2 class="hasAnchor">
 <a href="#inspect_types-for-a-single-dataframe" class="anchor"></a><code>inspect_types()</code> for a single dataframe</h2>
 <p>To explore the column types in a data frame, use the function <code><a href="../../reference/inspect_types.html">inspect_types()</a></code>. The command returns a <code>tibble</code> summarising the counts and percentages of columns with particular types.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">inspectdf</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/">inspectdf</a></span><span class="op">)</span>
 <span class="co"># return tibble showing columns types</span>
-<span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span>(<span class="no">starwars</span>)</pre></body></html></div>
+<span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 4
 ##   type        cnt  pcnt col_name    
 ##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;named list&gt;
@@ -145,24 +148,27 @@
 ## 3 numeric       2 14.3  &lt;chr [2]&gt;   
 ## 4 integer       1  7.14 &lt;chr [1]&gt;</code></pre>
 <p>A barplot can be produced by passing the result to <code><a href="../../reference/show_plot.html">show_plot()</a></code>:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># print visualisation of column types</span>
-<span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span>(<span class="no">starwars</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># print visualisation of column types</span>
+<span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="inspect_types_examples_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
 <div id="inspect_types-for-two-dataframes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#inspect_types-for-two-dataframes" class="anchor"></a><code>inspect_types()</code> for two dataframes</h2>
 <p>When a second dataframe is provided, <code><a href="../../reference/inspect_types.html">inspect_types()</a></code> will create a dataframe comparing the count and percentage of each column type for each of the input dataframes. The summaries for the first and second dataframes are show in columns with names appended with <code>_1</code> and <code>_2</code>, respectively.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span>(<span class="no">star_1</span>, <span class="no">star_2</span>)</pre></body></html></div>
-<pre><code>## # A tibble: 4 x 5
-##   type      cnt_1 pcnt_1 cnt_2 pcnt_2
-##   &lt;chr&gt;     &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
-## 1 character     8  57.1      7   58.3
-## 2 list          3  21.4      3   25  
-## 3 numeric       2  14.3      2   16.7
-## 4 integer       1   7.14     0    0</code></pre>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co"># print visualisation of column type comparison</span>
-<span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span>(<span class="no">star_1</span>, <span class="no">star_2</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 6
+##   type      equal cnt_1 cnt_2 columns           issues   
+##   &lt;chr&gt;     &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;named list&gt;      &lt;list&gt;   
+## 1 character ✘         8     7 &lt;tibble [15 × 2]&gt; &lt;chr [1]&gt;
+## 2 list      ✔        3     3 &lt;tibble [6 × 2]&gt;  &lt;NULL&gt;   
+## 3 numeric   ✔        2     2 &lt;tibble [4 × 2]&gt;  &lt;NULL&gt;   
+## 4 integer   ✘         1     0 &lt;tibble [1 × 2]&gt;  &lt;chr [1]&gt;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># print visualisation of column type comparison</span>
+<span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="inspect_types_examples_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
   </div>
@@ -182,7 +188,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.10</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -89,8 +89,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="http://github.com/alastairrushworth/inspectdf/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/alastairrushworth/inspectdf/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -104,13 +104,13 @@
 
       
 
-      </header><script src="inspect_cat_examples_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="inspect_cat_examples_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Exploring and visualising categorical features</h1>
             
       
-      <small class="dont-index">Source: <a href="http://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_cat_examples.Rmd"><code>vignettes/pkgdown/inspect_cat_examples.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_cat_examples.Rmd"><code>vignettes/pkgdown/inspect_cat_examples.Rmd</code></a></small>
       <div class="hidden name"><code>inspect_cat_examples.Rmd</code></div>
 
     </div>
@@ -122,13 +122,15 @@
 <a href="#illustrative-data-starwars" class="anchor"></a>Illustrative data: <code>starwars</code>
 </h2>
 <p>The examples below make use of the <code>starwars</code> and <code>storms</code> data from the <code>dplyr</code> package</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># some example data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">starwars</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"dplyr"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">storms</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"dplyr"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># some example data</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">storms</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
 <p>For illustrating comparisons of dataframes, use the <code>starwars</code> data and produce two new dataframes <code>star_1</code> and <code>star_2</code> that randomly sample the rows of the original and drop a couple of columns.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="no">star_1</span> <span class="kw">&lt;-</span> <span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="fl">50</span>)
-<span class="no">star_2</span> <span class="kw">&lt;-</span> <span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="fl">50</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="fl">1</span>, -<span class="fl">2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
+<span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="inspect_cat-for-a-single-dataframe" class="section level2">
 <h2 class="hasAnchor">
@@ -148,8 +150,9 @@
 <li>
 <code>levels</code> a list of tibbles each containing frequency tabulations of all levels</li>
 </ul>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">inspectdf</span>)
-<span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span>(<span class="no">starwars</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/">inspectdf</a></span><span class="op">)</span>
+<span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 8 x 5
 ##   col_name     cnt common    common_pcnt levels           
 ##   &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;named list&gt;     
@@ -162,7 +165,8 @@
 ## 7 skin_color    31 fair            19.5  &lt;tibble [31 × 3]&gt;
 ## 8 species       38 Human           40.2  &lt;tibble [38 × 3]&gt;</code></pre>
 <p>For example, the levels for the <code>hair_color</code> column are</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span>(<span class="no">starwars</span>)$<span class="no">levels</span>$<span class="no">hair_color</span></pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span><span class="op">$</span><span class="va">levels</span><span class="op">$</span><span class="va">hair_color</span></code></pre></div>
 <pre><code>## # A tibble: 13 x 3
 ##    value           prop   cnt
 ##    &lt;chr&gt;          &lt;dbl&gt; &lt;int&gt;
@@ -180,11 +184,13 @@
 ## 12 grey          0.0115     1
 ## 13 unknown       0.0115     1</code></pre>
 <p>Note that by default, if <code>NA</code> values are present, they are counted as a distinct categorical level. A barplot is printed showing the relative split when passing the result to <code><a href="../../reference/show_plot.html">show_plot()</a></code>:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span>(<span class="no">starwars</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="inspect_cat_examples_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>The argument <code>high_cardinality</code> in the <code><a href="../../reference/show_plot.html">show_plot()</a></code> function can be used to bundle together categories that occur only a small number of times. For example, to combine categories only occurring once, use:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span>(<span class="no">starwars</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span>(<span class="kw">high_cardinality</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span>high_cardinality <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="inspect_cat_examples_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>The resulting bundles are shown in purple.</p>
 </div>
@@ -192,20 +198,22 @@
 <h2 class="hasAnchor">
 <a href="#inspect_cat-for-two-dataframes" class="anchor"></a><code>inspect_cat()</code> for two dataframes</h2>
 <p>When two dataframes are compared using <code><a href="../../reference/inspect_cat.html">inspect_cat()</a></code>, list columns are returned for categorical columns common to both: <code>lvls_1</code> and <code>lvl2_2</code>. In addition, the Jensen-Shannon divergence (<code>jsd</code>) and <em>p</em> values associated with Fisher’s exact test (<code>fisher_p</code>) are returned to enable comparison of the distribution of levels in each pair of columns.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span>(<span class="no">star_1</span>, <span class="no">star_2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 8 x 5
-##   col_name       jsd fisher_p lvls_1            lvls_2           
-##   &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt; &lt;named list&gt;      &lt;named list&gt;     
-## 1 eye_color   0.0420    0.996 &lt;tibble [11 × 3]&gt; &lt;tibble [12 × 3]&gt;
-## 2 gender      0.0154    0.435 &lt;tibble [3 × 3]&gt;  &lt;tibble [3 × 3]&gt; 
-## 3 hair_color  0.0677    0.934 &lt;tibble [11 × 3]&gt; &lt;tibble [9 × 3]&gt; 
-## 4 homeworld   0.323     0.974 &lt;tibble [31 × 3]&gt; &lt;tibble [27 × 3]&gt;
-## 5 name       NA        NA     &lt;tibble [50 × 3]&gt; &lt;NULL&gt;           
-## 6 sex         0.0261    0.655 &lt;tibble [5 × 3]&gt;  &lt;tibble [4 × 3]&gt; 
-## 7 skin_color  0.167     0.966 &lt;tibble [22 × 3]&gt; &lt;tibble [21 × 3]&gt;
-## 8 species     0.223     0.987 &lt;tibble [27 × 3]&gt; &lt;tibble [20 × 3]&gt;</code></pre>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span>(<span class="no">star_1</span>, <span class="no">star_2</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span>()</pre></body></html></div>
-<p><img src="inspect_cat_examples_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+##   col_name        jsd   pval lvls_1            lvls_2           
+##   &lt;chr&gt;         &lt;dbl&gt;  &lt;dbl&gt; &lt;named list&gt;      &lt;named list&gt;     
+## 1 eye_color   0.0410   0.712 &lt;tibble [13 × 3]&gt; &lt;tibble [13 × 3]&gt;
+## 2 gender      0.00593  0.665 &lt;tibble [3 × 3]&gt;  &lt;tibble [3 × 3]&gt; 
+## 3 hair_color  0.0523   0.390 &lt;tibble [11 × 3]&gt; &lt;tibble [10 × 3]&gt;
+## 4 homeworld   0.238    0.906 &lt;tibble [30 × 3]&gt; &lt;tibble [32 × 3]&gt;
+## 5 name       NA       NA     &lt;tibble [50 × 3]&gt; &lt;NULL&gt;           
+## 6 sex         0.0156   0.379 &lt;tibble [5 × 3]&gt;  &lt;tibble [5 × 3]&gt; 
+## 7 skin_color  0.176    1     &lt;tibble [24 × 3]&gt; &lt;tibble [22 × 3]&gt;
+## 8 species     0.202    1     &lt;tibble [23 × 3]&gt; &lt;tibble [27 × 3]&gt;</code></pre>
+<!-- # ```{r} -->
+<!-- # inspect_cat(star_1, star_2) %>% show_plot() -->
+<!-- # ``` -->
 </div>
   </div>
 
@@ -224,7 +232,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

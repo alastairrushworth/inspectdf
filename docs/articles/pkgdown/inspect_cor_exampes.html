@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.10</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -89,8 +89,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="http://github.com/alastairrushworth/inspectdf/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/alastairrushworth/inspectdf/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -104,13 +104,13 @@
 
       
 
-      </header><script src="inspect_cor_exampes_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="inspect_cor_exampes_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Correlation diagnostics for numeric columns</h1>
             
       
-      <small class="dont-index">Source: <a href="http://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_cor_exampes.Rmd"><code>vignettes/pkgdown/inspect_cor_exampes.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_cor_exampes.Rmd"><code>vignettes/pkgdown/inspect_cor_exampes.Rmd</code></a></small>
       <div class="hidden name"><code>inspect_cor_exampes.Rmd</code></div>
 
     </div>
@@ -122,20 +122,23 @@
 <a href="#illustrative-data-starwars" class="anchor"></a>Illustrative data: <code>starwars</code>
 </h2>
 <p>The examples below make use of the <code>starwars</code> and <code>storms</code> data from the <code>dplyr</code> package</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># some example data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">starwars</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"dplyr"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">storms</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"dplyr"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># some example data</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">storms</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
 <p>For illustrating comparisons of dataframes, use the <code>starwars</code> data and produce two new dataframes <code>star_1</code> and <code>star_2</code> that randomly sample the rows of the original and drop a couple of columns.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="no">star_1</span> <span class="kw">&lt;-</span> <span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="fl">50</span>)
-<span class="no">star_2</span> <span class="kw">&lt;-</span> <span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="fl">50</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="fl">1</span>, -<span class="fl">2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
+<span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="inspect_cor-for-a-single-dataframe" class="section level2">
 <h2 class="hasAnchor">
 <a href="#inspect_cor-for-a-single-dataframe" class="anchor"></a><code>inspect_cor()</code> for a single dataframe</h2>
 <p><code><a href="../../reference/inspect_cor.html">inspect_cor()</a></code> returns a tibble containing Pearson’s correlation coefficient, confidence intervals and <span class="math inline">\(p\)</span>-values for pairs of numeric columns . The function combines the functionality of <code><a href="https://rdrr.io/r/stats/cor.html">cor()</a></code> and <code><a href="https://rdrr.io/r/stats/cor.test.html">cor.test()</a></code> in a more convenient wrapper.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">inspectdf</span>)
-<span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span>(<span class="no">storms</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/">inspectdf</a></span><span class="op">)</span>
+<span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 45 x 7
 ##    col_1       col_2         corr  p_value  lower  upper pcnt_nna
 ##    &lt;chr&gt;       &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
@@ -151,7 +154,8 @@
 ## 10 ts_diameter month        0.139 2.34e-16  0.106  0.172     34.8
 ## # … with 35 more rows</code></pre>
 <p>A plot showing point estimate and confidence intervals is printed when using the <code><a href="../../reference/show_plot.html">show_plot()</a></code> function. Note that intervals that straddle the null value of 0 are shown in gray:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span>(<span class="no">storms</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="inspect_cor_exampes_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>Notes:</p>
 <ul>
@@ -166,7 +170,8 @@
 <h2 class="hasAnchor">
 <a href="#inspect_cor-for-two-dataframes" class="anchor"></a><code>inspect_cor()</code> for two dataframes</h2>
 <p>When a second dataframe is provided, <code><a href="../../reference/inspect_cor.html">inspect_cor()</a></code> returns a tibble that compares correlation coefficients of the first dataframe to those in the second. The <code>p_value</code> column contains a measure of evidence for whether the two correlation coefficients are equal or not.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span>(<span class="no">storms</span>, <span class="no">storms</span>[-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fl">200</span>), ])</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span>, <span class="va">storms</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 45 x 5
 ##    col_1       col_2       corr_1 corr_2 p_value
 ##    &lt;chr&gt;       &lt;chr&gt;        &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
@@ -182,9 +187,10 @@
 ## 10 ts_diameter month        0.139  0.139   1    
 ## # … with 35 more rows</code></pre>
 <p>To plot the comparison of the top 20 correlation coefficients:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span>(<span class="no">storms</span>, <span class="no">storms</span>[-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fl">200</span>), ]) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(<span class="fl">1</span>:<span class="fl">20</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span>, <span class="va">storms</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="inspect_cor_exampes_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Notes:</p>
 <ul>
@@ -212,7 +218,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
