@@ -48,11 +48,11 @@ Key functions
 
 + [`inspect_types()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_types_examples.html) summary of column types
 + [`inspect_mem()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_mem_examples.html) summary of memory usage of columns
-+ [`inspect_na()`](https://alastairrushworth.github.io/Missing-values-in-dataframes-with-inspectdf/) columnwise prevalence of missing values
-+ [`inspect_cor()`](https://alastairrushworth.github.io/Calculating-and-visualising-correlation-coefficients-with-inspectdf/) correlation coefficients of numeric columns
++ [`inspect_na()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_na_examples.html) columnwise prevalence of missing values
++ [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_cor_exampes.html) correlation coefficients of numeric columns
 + [`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_imb_examples.html) feature imbalance of categorical columns
 + [`inspect_num()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_num_examples.html) summaries of numeric columns
-+ [`inspect_cat()`](https://alastairrushworth.github.io/Exploring-categorical-data-with-inspectdf/) summaries of categorical columns
++ [`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_cat_examples.html) summaries of categorical columns
 
 
 Comments? Suggestions? Issues?

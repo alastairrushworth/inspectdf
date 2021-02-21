@@ -50,7 +50,7 @@ x %>% show_plot()
 ---
 
 
-To illustrate the comparison of two data frames, we create two new data frames by randomly sampling the rows of `starwars` and also dropping some of the columns, and .  The results are assigned to the objects `star_1` and `star_2`:
+To illustrate the comparison of two data frames, we create two new data frames by randomly sampling the rows of `starwars`, dropping some of the columns and recoding the colums `mass` to character.  The results are assigned to the objects `star_1` and `star_2`:
 
 ```{r}
 # sample 50 rows from `starwars`
