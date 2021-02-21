@@ -171,7 +171,7 @@
 <div id="inspect_types-for-comparing-two-data-frames" class="section level2">
 <h2 class="hasAnchor">
 <a href="#inspect_types-for-comparing-two-data-frames" class="anchor"></a><code>inspect_types()</code> for comparing two data frames</h2>
-<p>To illustrate the comparison of two data frames, we create two new data frames by randomly sampling the rows of <code>starwars</code> and also dropping some of the columns, and . The results are assigned to the objects <code>star_1</code> and <code>star_2</code>:</p>
+<p>To illustrate the comparison of two data frames, we create two new data frames by randomly sampling the rows of <code>starwars</code>, dropping some of the columns and recoding the colums <code>mass</code> to character. The results are assigned to the objects <code>star_1</code> and <code>star_2</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># sample 50 rows from `starwars`</span>
 <span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>

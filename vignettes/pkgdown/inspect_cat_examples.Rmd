@@ -3,25 +3,24 @@ title: "Exploring and visualising categorical features"
 output: github_document
 ---
 
-## Illustrative data: `starwars`
 
-The examples below make use of the `starwars` and `storms` data from the `dplyr` package
 
-```{r}
-# some example data
-data(starwars, package = "dplyr")
-data(storms, package = "dplyr")
-```
+Illustrative data: `starwars`
+---
 
-For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+The examples below make use of the `starwars` from the `dplyr` package. 
 
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
-star_1 <- starwars %>% sample_n(50)
-star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+data(starwars, package = "dplyr")
+
+# print the first few rows
+head(starwars)
 ```
 
-## `inspect_cat()` for a single dataframe
+
+
+## `inspect_cat()` for a single data frame
 
 `inspect_cat()` returns a tibble summarising categorical features in a data frame, combining the functionality of the `inspect_imb()` and `table()` functions.  The tibble generated contains the columns  
 
@@ -33,37 +32,57 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 
 ```{r}
 library(inspectdf)
-inspect_cat(starwars)
+
+# explore the categorical features 
+x <- inspect_cat(starwars)
+x
 ```
 
 For example, the levels for the `hair_color` column are
 
 ```{r}
-inspect_cat(starwars)$levels$hair_color
+# show frequency tibble for `hair_color` column:
+x$levels$hair_color
 ```
 
-Note that by default, if `NA` values are present, they are counted as a distinct categorical level.  A barplot is printed showing the relative split when passing the result to `show_plot()`:
+Note that by default, if missing (`NA`) values are present, they are counted as a distinct categorical level.  A barplot showing the composition of each categorical column can be created using the `show_plot()` function.  Note how missing values are shown as grey bars:
 
 ```{r}
-inspect_cat(starwars) %>% show_plot()
+x %>% show_plot()
 ```
 
 The argument `high_cardinality` in the `show_plot()` function can be used to bundle together categories that occur only a small number of times.  For example, to combine categories only occurring once, use:
 
 ```{r}
-inspect_cat(starwars) %>% 
+x %>% 
   show_plot(high_cardinality = 1)
 ```
 
 The resulting bundles are shown in purple.
 
-## `inspect_cat()` for two dataframes
+## `inspect_cat()` for two data frames
 
-When two dataframes are compared using `inspect_cat()`, list columns are returned for categorical columns common to both: `lvls_1` and `lvl2_2`.  In addition, the Jensen-Shannon divergence (`jsd`) and _p_ values associated with Fisher's exact test (`fisher_p`) are returned to enable comparison of the distribution of levels in each pair of columns.
+To illustrate the comparison of two data frames, we first create two new data frames by randomly sampling the rows of `starwars` and also dropping some of the columns.  The results are assigned to the objects `star_1` and `star_2`:
+
+```{r}
+# sample 50 rows from `starwars`
+star_1 <- starwars %>% sample_n(50)
+# sample 50 rows from `starwars` and drop the first two columns
+star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+```
+
+
+To compare the character columns in a pair of data frames, use the  `inspect_cat()`: 
 
 ```{r}
 inspect_cat(star_1, star_2)
 ```
+
+The tibble returned has the following columns
+
++ `jsd`, the Jensen-Shannon divergence: a measure of how different the distribution of levels are between columns with the same name present in both data frames.  Values are between 0 and 1 - values closer to 1 indicate bigger differences in distribution.
++ `pval`, _p_ values associated with a modified $\chi^2$ test of the relative frequencies of levels in columns with the same name present in both data frames.  
++ `lvls_1` and `lvl2_2` are named list columns containing the frequency tables for each column in the first and second data frame input to `inspect_cat()`
 
 <!-- # ```{r} -->
 <!-- # inspect_cat(star_1, star_2) %>% show_plot() -->

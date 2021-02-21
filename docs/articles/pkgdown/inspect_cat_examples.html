@@ -121,20 +121,28 @@
 <h2 class="hasAnchor">
 <a href="#illustrative-data-starwars" class="anchor"></a>Illustrative data: <code>starwars</code>
 </h2>
-<p>The examples below make use of the <code>starwars</code> and <code>storms</code> data from the <code>dplyr</code> package</p>
+<p>The examples below make use of the <code>starwars</code> from the <code>dplyr</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># some example data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">storms</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
-<p>For illustrating comparisons of dataframes, use the <code>starwars</code> data and produce two new dataframes <code>star_1</code> and <code>star_2</code> that randomly sample the rows of the original and drop a couple of columns.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
-<span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span>
+
+<span class="co"># print the first few rows</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 Luke…    172    77 blond      fair       blue            19   male  mascu…
+## 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
+## 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
+## 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
+## 5 Leia…    150    49 brown      light      brown           19   fema… femin…
+## 6 Owen…    178   120 brown, gr… light      blue            52   male  mascu…
+## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 </div>
-<div id="inspect_cat-for-a-single-dataframe" class="section level2">
+<div id="inspect_cat-for-a-single-data-frame" class="section level2">
 <h2 class="hasAnchor">
-<a href="#inspect_cat-for-a-single-dataframe" class="anchor"></a><code>inspect_cat()</code> for a single dataframe</h2>
+<a href="#inspect_cat-for-a-single-data-frame" class="anchor"></a><code>inspect_cat()</code> for a single data frame</h2>
 <p><code><a href="../../reference/inspect_cat.html">inspect_cat()</a></code> returns a tibble summarising categorical features in a data frame, combining the functionality of the <code><a href="../../reference/inspect_imb.html">inspect_imb()</a></code> and <code><a href="https://rdrr.io/r/base/table.html">table()</a></code> functions. The tibble generated contains the columns</p>
 <ul>
 <li>
@@ -152,7 +160,10 @@
 </ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/">inspectdf</a></span><span class="op">)</span>
-<span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></code></pre></div>
+
+<span class="co"># explore the categorical features </span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span>
+<span class="va">x</span></code></pre></div>
 <pre><code>## # A tibble: 8 x 5
 ##   col_name     cnt common    common_pcnt levels           
 ##   &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;named list&gt;     
@@ -166,7 +177,8 @@
 ## 8 species       38 Human           40.2  &lt;tibble [38 × 3]&gt;</code></pre>
 <p>For example, the levels for the <code>hair_color</code> column are</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span><span class="op">$</span><span class="va">levels</span><span class="op">$</span><span class="va">hair_color</span></code></pre></div>
+<code class="sourceCode R"><span class="co"># show frequency tibble for `hair_color` column:</span>
+<span class="va">x</span><span class="op">$</span><span class="va">levels</span><span class="op">$</span><span class="va">hair_color</span></code></pre></div>
 <pre><code>## # A tibble: 13 x 3
 ##    value           prop   cnt
 ##    &lt;chr&gt;          &lt;dbl&gt; &lt;int&gt;
@@ -183,37 +195,52 @@
 ## 11 brown, grey   0.0115     1
 ## 12 grey          0.0115     1
 ## 13 unknown       0.0115     1</code></pre>
-<p>Note that by default, if <code>NA</code> values are present, they are counted as a distinct categorical level. A barplot is printed showing the relative split when passing the result to <code><a href="../../reference/show_plot.html">show_plot()</a></code>:</p>
+<p>Note that by default, if missing (<code>NA</code>) values are present, they are counted as a distinct categorical level. A barplot showing the composition of each categorical column can be created using the <code><a href="../../reference/show_plot.html">show_plot()</a></code> function. Note how missing values are shown as grey bars:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="inspect_cat_examples_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<code class="sourceCode R"><span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="inspect_cat_examples_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>The argument <code>high_cardinality</code> in the <code><a href="../../reference/show_plot.html">show_plot()</a></code> function can be used to bundle together categories that occur only a small number of times. For example, to combine categories only occurring once, use:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">x</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span>high_cardinality <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<p><img src="inspect_cat_examples_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="inspect_cat_examples_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>The resulting bundles are shown in purple.</p>
 </div>
-<div id="inspect_cat-for-two-dataframes" class="section level2">
+<div id="inspect_cat-for-two-data-frames" class="section level2">
 <h2 class="hasAnchor">
-<a href="#inspect_cat-for-two-dataframes" class="anchor"></a><code>inspect_cat()</code> for two dataframes</h2>
-<p>When two dataframes are compared using <code><a href="../../reference/inspect_cat.html">inspect_cat()</a></code>, list columns are returned for categorical columns common to both: <code>lvls_1</code> and <code>lvl2_2</code>. In addition, the Jensen-Shannon divergence (<code>jsd</code>) and <em>p</em> values associated with Fisher’s exact test (<code>fisher_p</code>) are returned to enable comparison of the distribution of levels in each pair of columns.</p>
+<a href="#inspect_cat-for-two-data-frames" class="anchor"></a><code>inspect_cat()</code> for two data frames</h2>
+<p>To illustrate the comparison of two data frames, we first create two new data frames by randomly sampling the rows of <code>starwars</code> and also dropping some of the columns. The results are assigned to the objects <code>star_1</code> and <code>star_2</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># sample 50 rows from `starwars`</span>
+<span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
+<span class="co"># sample 50 rows from `starwars` and drop the first two columns</span>
+<span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<p>To compare the character columns in a pair of data frames, use the <code><a href="../../reference/inspect_cat.html">inspect_cat()</a></code>:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 8 x 5
 ##   col_name        jsd   pval lvls_1            lvls_2           
 ##   &lt;chr&gt;         &lt;dbl&gt;  &lt;dbl&gt; &lt;named list&gt;      &lt;named list&gt;     
-## 1 eye_color   0.0253   0.762 &lt;tibble [13 × 3]&gt; &lt;tibble [12 × 3]&gt;
-## 2 gender      0.00644  0.641 &lt;tibble [3 × 3]&gt;  &lt;tibble [3 × 3]&gt; 
-## 3 hair_color  0.0348   0.683 &lt;tibble [13 × 3]&gt; &lt;tibble [11 × 3]&gt;
-## 4 homeworld   0.157    1     &lt;tibble [33 × 3]&gt; &lt;tibble [33 × 3]&gt;
+## 1 eye_color   0.0617   0.892 &lt;tibble [11 × 3]&gt; &lt;tibble [12 × 3]&gt;
+## 2 gender      0.00538  0.693 &lt;tibble [3 × 3]&gt;  &lt;tibble [3 × 3]&gt; 
+## 3 hair_color  0.0564   0.569 &lt;tibble [11 × 3]&gt; &lt;tibble [9 × 3]&gt; 
+## 4 homeworld   0.226    1     &lt;tibble [36 × 3]&gt; &lt;tibble [33 × 3]&gt;
 ## 5 name       NA       NA     &lt;tibble [50 × 3]&gt; &lt;NULL&gt;           
-## 6 sex         0.00825  0.634 &lt;tibble [5 × 3]&gt;  &lt;tibble [5 × 3]&gt; 
-## 7 skin_color  0.0866   0.613 &lt;tibble [19 × 3]&gt; &lt;tibble [21 × 3]&gt;
-## 8 species     0.109    0.688 &lt;tibble [24 × 3]&gt; &lt;tibble [24 × 3]&gt;</code></pre>
-<!-- # ```{r} -->
-<!-- # inspect_cat(star_1, star_2) %>% show_plot() -->
-<!-- # ``` -->
+## 6 sex         0.0145   0.446 &lt;tibble [5 × 3]&gt;  &lt;tibble [5 × 3]&gt; 
+## 7 skin_color  0.111    0.498 &lt;tibble [23 × 3]&gt; &lt;tibble [24 × 3]&gt;
+## 8 species     0.173    0.532 &lt;tibble [28 × 3]&gt; &lt;tibble [27 × 3]&gt;</code></pre>
+<p>The tibble returned has the following columns</p>
+<ul>
+<li>
+<code>jsd</code>, the Jensen-Shannon divergence: a measure of how different the distribution of levels are between columns with the same name present in both data frames. Values are between 0 and 1 - values closer to 1 indicate bigger differences in distribution.</li>
+<li>
+<code>pval</code>, <em>p</em> values associated with a modified <span class="math inline">\(\chi^2\)</span> test of the relative frequencies of levels in columns with the same name present in both data frames.<br>
+</li>
+<li>
+<code>lvls_1</code> and <code>lvl2_2</code> are named list columns containing the frequency tables for each column in the first and second data frame input to <code><a href="../../reference/inspect_cat.html">inspect_cat()</a></code>
+</li>
+</ul>
+<!-- # ```{r} --><!-- # inspect_cat(star_1, star_2) %>% show_plot() --><!-- # ``` -->
 </div>
   </div>
 
