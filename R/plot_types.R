@@ -1,5 +1,6 @@
 #' @importFrom dplyr matches
 #' @importFrom dplyr count
+#' @importFrom dplyr row_number
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 geom_bar
@@ -19,13 +20,14 @@
 #' @importFrom stats na.omit
 #' @importFrom utils head
 
-plot_types_1 <- function(df_plot, 
-                         df_names, 
-                         text_labels, 
-                         col_palette, 
-                         label_angle, 
-                         label_color, 
-                         label_size){
+plot_types_1 <- function(
+  df_plot, 
+  df_names, 
+  text_labels, 
+  col_palette, 
+  label_angle, 
+  label_color, 
+  label_size){
   
   # Get summary of the columns ready for radial plot
   column_layout <- df_plot %>%
@@ -76,7 +78,7 @@ plot_types_1 <- function(df_plot,
 }
 
 plot_types_2 <- function(df_plot, df_names, text_labels, col_palette, 
-                         label_angle, label_color, label_size){
+                         label_angle, label_color, label_size, plot_type){
   
   # Get summary of the columns ready for radial plot
   column_list <- 
@@ -84,71 +86,122 @@ plot_types_2 <- function(df_plot, df_names, text_labels, col_palette,
     select(type, columns) %>%
     unnest(columns) %>%
     split(f = .$data_arg)
-  # dfnames for labelling
-  df_names <- names(column_list)
-  df_names <- tibble(df = df_names, y = 1.04, x = c(2.5, 3.5))
+  # df_names for labelling
+  df_names_labels <- tibble(df = df_names, y = 1.04, x = c(2.5, 3.5))
   
   
-  # Layout of columns, polar coordinates and text rotations
+  # Join column names and types across the pair of inputs
   column_layout <- 
-    full_join(x = column_list[[1]], y = column_list[[2]], by = c('col_name')) %>%
+    full_join(x = column_list[[df_names[[1]]]], y = column_list[[df_names[[2]]]], by = c('col_name')) 
+  
+  # filter out non-issues if plottype != 1
+  if(plot_type != 1) {
+    column_layout <- 
+      column_layout %>% 
+      filter((type.x != type.y) | is.na(type.x) | is.na(type.y))
+  }
+  
+  column_layout <- column_layout %>%
     select(-starts_with('data_arg'), df1 = type.x, df2 = type.y, col_name) %>%
     mutate(ones       = 1, 
            tops       = cumsum(ones) / sum(ones), 
            bottoms    = c(0, head(tops, n = -1)), 
            label_pos  = (tops + bottoms) / 2) 
-  type_order <- as.character(na.omit(unique(c(column_layout$df1, column_layout$df2))))
-  col_types  <- c(user_colours(length(type_order), 0), 'gray90', 'gray90', 'white', 'tomato')
-  type_order <- c(type_order, 'Missing', 'Type mismatch', 'No issue', 'Issue')
-  names(col_types) <- type_order
   
-  # extract tibble of issue comments
+  # extract tibble of issue comments and combine with column df
   issue_vec <- unlist(df_plot$issues)
-  issue_df  <- tibble(
-    col_name = names(issue_vec), 
-    cmmnt = issue_vec) %>%
-    distinct(.keep_all = TRUE)
-  column_layout <- column_layout %>%
-    left_join(issue_df, by = 'col_name') %>%
+  if(!is.null(issue_vec)){
+    column_layout <- 
+      column_layout %>%
+      left_join(tibble(
+        col_name = names(issue_vec), 
+        cmmnt = issue_vec) %>%
+          distinct(.keep_all = TRUE), by = 'col_name')
+  } else {
+    column_layout <- column_layout %>% mutate(cmmnt = NA)
+  }
+  
+  # create an issue indicator
+  column_layout <- 
+    column_layout %>%
     mutate(issue_fill = ifelse(is.na(cmmnt), NA, 
-                               ifelse(grepl('missing', cmmnt), 'Missing', 
-                                      ifelse(grepl('<!>', cmmnt), 'Type mismatch', 'Else')))) %>%
+                               ifelse(grepl('missing', cmmnt), NA, 
+                                      ifelse(grepl('<!>', cmmnt), df2, 'Else')))) %>%
     mutate(has_issue = ifelse(is.na(issue_fill), 'No issue', 'Issue')) %>%
     mutate(issue_x = as.numeric(!is.na(df1)))
   
+  # create a color-scale based on types present
+  type_order <- as.character(na.omit(unique(c(column_layout$df1, column_layout$df2))))
+  col_types  <- c(user_colours(length(type_order), col_palette), 'gray90', 'gray90', 'white', 'tomato')
+  type_order <- c(type_order, 'Missing', 'Type mismatch', 'No issue', 'Issue')
+  names(col_types) <- type_order
   
-  # Get summary of the column types ready for radial plot
-  types_layout <-
+  # LHS overlay information text 
+  lhs_types_layout <-
     column_layout %>%
     group_by(df1) %>%
     count() %>%
     ungroup %>%
     arrange(desc(n)) %>%
+    arrange(is.na(df1)) %>%
     mutate(
       tops       = cumsum(n) / sum(n),
       bottoms    = c(0, head(tops, n = -1)),
       label_pos  = (tops + bottoms) / 2,
-      type_label = paste0(df1, ' (', n, ')')
-    ) %>%
-    filter(!is.na(df1))
+      type_label = paste0(ifelse(is.na(df1), 'missing', df1), ' (', n, ')')
+    )
   
-  # Generate radial plot
+  # RHS overlay information text (LHS missing)
+  if(any(is.na(column_layout$df1))){
+    rhs_types_layout <- 
+      column_layout %>%
+      filter(is.na(df1)) %>%
+      arrange(-dplyr::row_number()) %>%
+      mutate(n = 1:nrow(.)) %>%
+      select(n, df1 = df2) %>%
+      mutate(
+        tops       = n / sum(lhs_types_layout$n),
+        bottoms    = c(0, head(tops, n = -1)),
+        label_pos  = (tops + bottoms) / 2,
+        type_label = df1) 
+  } else {
+    rhs_types_layout <- tibble()
+  }
+
+
+  # Generate two-column comparison plot
   plt <- column_layout %>%
     mutate(
       df1 = factor(df1, levels = type_order), 
       df2 = factor(df2, levels = type_order)) %>%
-    ggplot(aes(ymax = tops, ymin = bottoms, xmax = 3, xmin = 2, fill = df1)) +
-    # shaded rectangles containing comments
-    geom_fit_text(aes(ymax = tops, ymin = bottoms, xmax = 4, xmin = 4.1, color = has_issue), label = '!') +
-    # show the columns for df1
+    ggplot(aes(ymax = tops, ymin = bottoms, xmax = 3, xmin = 2, 
+               fill = df1)) +
+    # show the filled cells for the first data frame
     geom_rect(color = 'white', size = 0.06) +
-    # show the columns for df2
+    # show the filled cells for the second data frame
     geom_rect(aes(ymax = tops, ymin = bottoms, xmax = 4, xmin = 3, fill = df2), 
               alpha = 0.7, color = 'white', size = 0.06) +
-    geom_fit_text(
+    # Add exclamation marks to indicate problems
+    geom_fit_text(aes(ymax = tops, ymin = bottoms, xmax = 4, 
+                    xmin = 4.1, color = has_issue), label = '!')
+  
+  # LHS text overlay
+  if(nrow(lhs_types_layout) > 0){
+    plt <- plt + geom_fit_text(
       aes(xmin = 2, xmax = 3, ymin = bottoms, ymax = tops,
           label = type_label), colour = 'white',
-      inherit.aes = FALSE, data = types_layout, angle = 0) +
+      inherit.aes = FALSE, data = lhs_types_layout, angle = 0)
+  }
+
+  # RHS text overlay
+  if(nrow(rhs_types_layout) > 0){
+    plt <- plt + geom_fit_text(
+      aes(xmin = 3, xmax = 4, ymin = 1 - bottoms, ymax = 1 - tops,
+          label = type_label), colour = 'white',
+      inherit.aes = FALSE, data = rhs_types_layout, angle = 0)
+  }
+  
+  plt <- plt + 
     geom_fit_text(
       aes(xmin = 2 + issue_x, xmax = 3 + issue_x, 
           ymin = bottoms, ymax = tops, label = issue_fill), 
@@ -158,7 +211,7 @@ plot_types_2 <- function(df_plot, df_names, text_labels, col_palette,
       aes(y = label_pos, label = col_name, colour = df1,
           hjust = 'right', angle = 0), x = 1.8, size = 4) + 
     # add the data frame names at the top
-    geom_text(aes(x = x, y = y, label = df), data = df_names, 
+    geom_text(aes(x = x, y = y, label = df), data = df_names_labels, 
               hjust = 'center', vjust = 'center', angle = 0,
               size = 4, color = 'gray40', inherit.aes = FALSE) + 
     scale_fill_manual(values  = col_types, na.value = 'gray60') + 

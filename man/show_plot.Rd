@@ -39,7 +39,7 @@ in the plotting grid.  For example, 3 rows and 2 columns would be specified as
 \item \code{0}: (default) `ggplot2` color palette
 \item \code{1}: a \href{http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/}{colorblind friendly palette}
 \item \code{2}: \href{https://www.color-hex.com/color-palette/25888}{80s theme}
-\item \code{3}: \href{https://www.color-hex.com/color-palette/79261}{rainbox theme}
+\item \code{3}: \href{https://www.color-hex.com/color-palette/79261}{rainbow theme}
 \item \code{4}: \href{https://www.color-hex.com/color-palette/78663}{mario theme}
 \item \code{5}: \href{https://www.color-hex.com/color-palette/78664}{pokemon theme}
 }}
