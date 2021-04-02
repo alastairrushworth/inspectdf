@@ -1,4 +1,9 @@
 
+# `inspectdf` 0.0.11
+
+-   Bug fixes to `inspect_types()` for pairwise comparison plots
+-   Updated tests for `inspect_types()` for pairwise comparisons
+
 # `inspectdf` 0.0.10
 
 -   Add `include_int` option in `inspect_cat()` to allow treatment of

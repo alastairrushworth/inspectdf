@@ -1,6 +1,6 @@
 Package: inspectdf
 Title: Inspection, Comparison and Visualisation of Data Frames
-Version: 0.0.10
+Version: 0.0.11
 Authors@R: c(
     person("Alastair", "Rushworth", email = "alastairmrushworth@gmail.com", role = c("aut", "cre")),
     person("David", "Wilkins", email = "david@wilkox.org", role = "ctb")
