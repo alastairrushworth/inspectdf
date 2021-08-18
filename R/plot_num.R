@@ -176,18 +176,16 @@ plot_num_3 <- function(df_plot, df_names, plot_layout, text_labels, alpha, col_p
   # number of grouping columns
   n_groups <- ncol(df_plot) - 10
   # add the variable name to the histograms as an extra column
-  for(i in 1:nrow(df_plot)) df_plot$hist[[i]]$cname <- df_plot$col_name[i] 
-  df_plot <- bind_cols(
-    tibble( grouping = df_plot %>% select(1:n_groups) %>%
-              apply(., 1, paste, collapse = "-")), 
-    df_plot %>% 
-      select(-c(1:n_groups)))
+  for(i in 1:nrow(df_plot)) df_plot$hist[[i]]$cname <- df_plot$col_name[i]
+  # collapse group names and collapse group columns
+  grp_names <- df_plot %>% select(all_of(1:n_groups)) %>% colnames %>% paste(collapse = "-")
+  df_plot <- df_plot %>% unite(all_of(1:n_groups), col=!!grp_names, sep="-")
   # add histogram midpoints
   df_plot <- add_midpoints(df_plot)
 
   # unnest the histograms
   df_hist <- df_plot %>% 
-    select(grouping, hist) %>%
+    select(grouping=!!grp_names, hist) %>%
     unnest(cols = hist)
   
   colour_vector <- user_colours(length(unique(df_hist$grouping)), col_palette)
@@ -200,7 +198,7 @@ plot_num_3 <- function(df_plot, df_names, plot_layout, text_labels, alpha, col_p
 
   plt <- df_hist %>%
     ggplot(aes(x = mid, y = prop, fill = grouping, breaks = breaks)) +
-    geom_histogram(na.rm = TRUE, stat = 'identity', binwidth = df_hist$mid[1] - df_hist$mid[2]) + 
+    geom_histogram(na.rm = TRUE, stat = 'identity', binwidth = df_hist$mid[2] - df_hist$mid[1]) + 
     scale_colour_manual(values = colour_vector) +
     facet_wrap(~ col_name, 
                scales = "free", 
