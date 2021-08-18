@@ -19,6 +19,11 @@ test_that("inspect_num plot paired", {
   expect_doppelganger("Inspect-num-paired-storms",   storms %>%   inspect_num(y2) %>% show_plot)
 })
 
+test_that("inspect_num plot grouped", {
+  expect_doppelganger("Inspect-num-grouped-starwars", starwars %>% group_by(sex)  %>% inspect_num %>% show_plot)
+  expect_doppelganger("Inspect-num-grouped-storms",   storms %>% group_by(status) %>% inspect_num %>% show_plot)
+})
+
 test_that("inspect_num plot suppress labels", {
   expect_doppelganger("Inspect-num-no-lab-starwars", starwars %>% inspect_num %>% show_plot(text_labels = FALSE))
   expect_doppelganger("Inspect-num-no-lab-tech", tech %>% inspect_num %>% show_plot(text_labels = FALSE))

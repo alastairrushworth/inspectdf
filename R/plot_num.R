@@ -200,7 +200,7 @@ plot_num_3 <- function(df_plot, df_names, plot_layout, text_labels, alpha, col_p
 
   plt <- df_hist %>%
     ggplot(aes(x = mid, y = prop, fill = grouping, breaks = breaks)) +
-    geom_histogram(na.rm = TRUE, stat = 'identity', binwidth = mid[1] - mid[2]) + 
+    geom_histogram(na.rm = TRUE, stat = 'identity', binwidth = df_hist$mid[1] - df_hist$mid[2]) + 
     scale_colour_manual(values = colour_vector) +
     facet_wrap(~ col_name, 
                scales = "free", 
