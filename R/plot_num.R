@@ -14,12 +14,21 @@
 plot_num_1 <- function(df_plot, df_names, plot_layout, text_labels, col_palette){
   # set the plot_layout if not specified
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
+  # pull out breaks attribute from df_plot
+  brks <- attr(df_plot, 'brks_list')
+  # loop over rows in df_plot, add midpoints to the hist df
+  for(nm in df_plot$col_name){
+    hist_i  <- df_plot$hist[[nm]]
+    brks_i  <- brks[[nm]]
+    hist_i$mid <- brks_i[1:(length(brks_i) - 1)] + diff(brks_i ) / 2
+    hist_i$col_name <- nm
+    df_plot$hist[[nm]] <- hist_i
+  }
   # add histogram midpoints
-  df_plot <- add_midpoints(df_plot)
   df_plot <- bind_rows(df_plot$hist)
   bin_width <- df_plot %>% 
     group_by(col_name) %>%
-    summarise(bar_width = diff(mid)[1]/1.5)
+    summarise(bar_width = diff(mid)[1] * 0.9)
   df_plot <- df_plot %>% 
     left_join(bin_width, by = "col_name")
   # add a colour scale variable in df_plot
@@ -143,32 +152,6 @@ plot_num_2 <- function(df_plot, df_names, plot_layout, text_labels, alpha){
                ncol = plot_layout[[2]])  
   plt
 }
-
-
-add_midpoints <- function(df_plot){
-  # get bin midpoints for plotting
-  for(i in 1:length(df_plot$hist)){
-    # check first if the variable is completely missing
-    if(!(nrow(df_plot$hist[[i]]) == 1 & is.na(df_plot$hist[[i]]$value[1]))){
-      df_plot$hist[[i]]$col_name <- df_plot$col_name[i]
-      diff_nums <- lapply(strsplit(gsub("\\[|,|\\)", "", df_plot$hist[[i]]$value), " "), 
-                          function(v) diff(as.numeric(v))) %>% unlist %>% unique
-      df_plot$hist[[i]]$mid <- lapply(strsplit(gsub("\\[|,|\\)", "", df_plot$hist[[i]]$value), " "), 
-                                      function(v) diff(as.numeric(v))/2 + as.numeric(v)[1]) %>% unlist
-      if(is.nan(df_plot$hist[[i]]$mid[1]) | is.infinite(df_plot$hist[[i]]$mid[1])){
-        df_plot$hist[[i]]$mid[1] <- df_plot$hist[[i]]$mid[2] - (diff_nums[is.finite(diff_nums)])[1]
-      } 
-      last_n <- length(df_plot$hist[[i]]$mid)
-      if(is.nan(df_plot$hist[[i]]$mid[last_n]) | is.infinite(df_plot$hist[[i]]$mid[last_n])){
-        df_plot$hist[[i]]$mid[last_n] <- df_plot$hist[[i]]$mid[last_n - 1] + (diff_nums[is.finite(diff_nums)])[1]
-      }
-    } else {
-      df_plot$hist[[i]] <- NULL
-    }
-  }
-  return(df_plot)
-}
-
 
 plot_num_3 <- function(df_plot, df_names, plot_layout, text_labels, alpha, col_palette){
   # set the plot_layout if not specified

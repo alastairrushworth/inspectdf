@@ -4,7 +4,7 @@
 ^pkgdown$
 ^inst$
 ^checks\.R$
-^big_tests\.R$
+^testing\.R$
 ^deprecated$
 ^README\.Rmd$
 ^README\.md$
