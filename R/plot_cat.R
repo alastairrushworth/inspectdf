@@ -49,7 +49,6 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   # add new keys and arrange
   lvl_df2 <- lvl_df %>% 
     mutate(new_level_key = paste0(level_key, "-", dfi)) 
-  
   lvl_df2 <- split(lvl_df2, f = factor(lvl_df2$col_name, levels = column_name_order))
   # ensure high cardinality categories appear at the end (if specified)
   lvl_df2 <- bind_rows(lapply(lvl_df2, move_card))
@@ -64,13 +63,9 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
     mutate(col_name2 = factor(col_name2, levels = rev(sort(unique(col_name2)))))
 
   # vector of colours for plotting
-  ncolumns <- length(unique(lvl_df2$col_name2))
-  get_shade_ramp <- function(col){
-    b <- colorRampPalette(c(col, "white"))
-    b(1001)
-  }
-  vcols <- sapply(user_colours(ncolumns, col_palette), get_shade_ramp)
-  col_inds <- cbind(round(lvl_df2$colvalstretch * 1000, 0), as.integer(lvl_df2$col_name2))
+  ncolumns   <- length(unique(lvl_df2$col_name2))
+  vcols      <- sapply(user_colours(ncolumns, col_palette), get_shade_ramp)
+  col_inds   <- cbind(round(lvl_df2$colvalstretch * 1000, 0), as.integer(lvl_df2$col_name2))
   colour_vector <- vcols[col_inds]
   colour_vector[is.na(lvl_df2$value)] <- cols[2]
   colour_vector[lvl_df2$value == "High cardinality"] <- cols[3]
@@ -198,7 +193,11 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   plt
 }
 
-
+# function generates a color palette
+get_shade_ramp <- function(col){
+  b <- colorRampPalette(c(col, "white"))
+  b(1001)
+}
 
 # function to merge high cardinality categories entries into a single level
 merge_high_cardinality <- function(z, card_thresh){
@@ -219,6 +218,7 @@ collapse_levels <- function(dfi, i){
     mutate(colval = cumsum(prop)) %>% 
     mutate(colvalstretch = (colval - min(colval) + 0.001)/
              (max(colval) - min(colval) + 0.001)) %>%
+    mutate(colvalstretch = colvalstretch * (1 - 0.8 * (1/length(colval)))) %>%
     ungroup %>%
     arrange(col_name) %>%
     mutate(level_key = paste0(value, "-", col_name))
