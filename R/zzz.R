@@ -50,8 +50,9 @@
                              "issue_fill", 
                              "type_label", 
                              "issue_x", 
-                             "has_issue"
-                             
+                             "has_issue",
+                             "add_midpoints", 
+                             "colvalstretch"
                              ))
   invisible()
 }
