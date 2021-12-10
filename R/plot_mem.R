@@ -28,7 +28,7 @@ plot_mem_1 <- function(df_plot, df_names, sizes, text_labels, col_palette,
                            " rows & total size of ", sizes$sz_1)) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     scale_fill_manual(values = user_colours(nrow(df_plot), col_palette)) +
-    guides(fill = FALSE)
+    guides(fill = 'none')
   
   if(text_labels){
     x = df_plot$col_name

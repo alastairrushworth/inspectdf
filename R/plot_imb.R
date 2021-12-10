@@ -23,7 +23,7 @@ plot_imb_1 <- function(df_plot, df_names, text_labels, label_angle = NULL,
          title = paste0("df::", df_names$df1, " most common levels by column")) + 
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     scale_fill_manual(values = user_colours(nrow(df_plot), col_palette)) +
-    guides(fill = FALSE)
+    guides(fill = 'none')
   
   # add text annotation to plot if requested
   if(text_labels){
