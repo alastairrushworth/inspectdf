@@ -1,4 +1,7 @@
+#' @importFrom dplyr across
+#' @importFrom dplyr any_of
 #' @importFrom dplyr pull
+#' @importFrom dplyr select_if
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 ylim
 #' @importFrom ggplot2 scale_fill_manual
@@ -7,69 +10,35 @@
 #' @importFrom ggplot2 scale_colour_manual
 plot_cat <- function(levels_df, df_names, text_labels, high_cardinality, 
                      cols = c("tomato3", "gray65", "darkmagenta"), 
-                     col_palette, label_thresh, label_color, label_angle, label_size){
-  # min_freq label
-  min_freq_label <- paste0("High cardinality")
-  
+                     col_palette, label_thresh, label_color, label_angle, 
+                     label_size){
+
   # retain order of column names for plotting
+  # axes are flipped by default so reverse colnames should appear in reverse
   column_name_order <- rev(levels_df$col_name)
 
-  # function to merge high cardinality entries into a single collapsed level
-  merge_card <- function(z, high_cardinality){
-    z %>% 
-      filter(cnt <= high_cardinality) %>%
-      summarise(prop = sum(prop), cnt = sum(cnt)) %>%
-      bind_cols(value = min_freq_label, .) %>%
-      bind_rows(z %>% filter(cnt > high_cardinality), .) %>% 
-      select(-cnt)
-  }
-  
-  # the only thing that is used to plot is the levels field
-  collapse_levels <- function(dfi, i){
-    out <- dfi %>% 
-      dplyr::pull(i) %>%
-      bind_rows(., .id = 'col_name') %>% 
-      group_by(col_name) %>%
-      mutate(colval = cumsum(prop)) %>% 
-      mutate(colvalstretch = (colval - min(colval) + 0.001)/
-               (max(colval) - min(colval) + 0.001)) %>%
-      ungroup %>%
-      arrange(col_name) %>%
-      mutate(level_key = paste0(value, "-", col_name))
-      return(out)
-  }
-  
-  # select the list column conataining frequency tables
+  # select the list column containing frequency tables
   # either there are one or two columns depending on whether this is 
-  # summary of one or two dataframes
-  # if there are two then need an extra column
-  lvl_df <- levels_df %>% select_if(is.list) 
+  # a summary of a comparison
+  levels_df <- levels_df %>% filter(across(any_of("jsd"), ~!is.na(.x)))
+  lvl_df   <- levels_df %>% select_if(is.list) 
+  lstnms   <- colnames(lvl_df)
   is_onedf <- ncol(lvl_df) == 1
-  if(is_onedf){
-    # merge high cardinality entries in the level list
-    # ensure that the high cardinality bit goes at the end
-    lvl_df$levels <- lapply(lvl_df$levels, merge_card, 
-                            high_cardinality = high_cardinality)
-    lvl_df <- collapse_levels(lvl_df, 1)
-    lvl_df$dfi <- df_names[[1]]
-    lvl_df <- lvl_df %>% mutate(col_name2 = col_name)
-  } else {
-    # first remove column
-    if(anyNA(levels_df$jsd)) levels_df <- levels_df[-which(is.na(levels_df$jsd)), ]
-    lvl_df        <- levels_df %>% select_if(is.list) 
-    lvl_df$lvls_1 <- lapply(lvl_df$lvls_1, merge_card, 
-                            high_cardinality = high_cardinality)
-    lvl_df$lvls_2 <- lapply(lvl_df$lvls_2, merge_card, 
-                            high_cardinality = high_cardinality)
-    a1 <- collapse_levels(lvl_df, 1)
-    a2 <- collapse_levels(lvl_df, 2)
-    a1$dfi <- df_names[[1]]
-    a2$dfi <- df_names[[2]]
-    lvl_df <- bind_rows(a1, a2)
-    # combine df into col_name
-    lvl_df <- lvl_df %>% 
-      mutate(col_name2 = col_name) %>%
-      mutate(col_name = paste0(col_name, ": ", dfi))
+  
+  # loop over columns to collapse out high cardinality categories
+  new_lvls <- list()
+  for(i in seq_along(lstnms)){
+    nm         <- lstnms[i]
+    lvl_df[[nm]] <- lapply(lvl_df[[nm]], merge_high_cardinality, card_thresh = high_cardinality)
+    new_lvls[[i]] <- collapse_levels(lvl_df, i)
+    new_lvls[[i]]$dfi <- df_names[[i]]
+  }
+  # combine into a single dataframe (if more than a single list)
+  lvl_df <- bind_rows(new_lvls) %>% mutate(col_name2 = col_name)
+  
+  # some extra steps for comparisons
+  if(!is_onedf){
+    lvl_df <- lvl_df %>% mutate(col_name = paste0(col_name, ": ", dfi))
     # update the column name order 
     column_name_order <- apply(
       expand.grid(rev(unique(lvl_df$dfi)), column_name_order),
@@ -81,17 +50,8 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   lvl_df2 <- lvl_df %>% 
     mutate(new_level_key = paste0(level_key, "-", dfi)) 
   
-  # # move high cardinality to the end of each column block
-  move_card <- function(M){
-    which_card <- which(M$value == min_freq_label)
-    if(which_card > 0 & nrow(M) > 1){
-      wo_c <- M[-which_card[1], ]
-      wo_c_r <- wo_c[nrow(wo_c):1, ]
-      M <- rbind(M[which_card[1], ], wo_c_r)
-    }
-    return(M)
-  }
   lvl_df2 <- split(lvl_df2, f = factor(lvl_df2$col_name, levels = column_name_order))
+  # ensure high cardinality categories appear at the end (if specified)
   lvl_df2 <- bind_rows(lapply(lvl_df2, move_card))
   
   # create keys for plotting
@@ -113,7 +73,7 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   col_inds <- cbind(round(lvl_df2$colvalstretch * 1000, 0), as.integer(lvl_df2$col_name2))
   colour_vector <- vcols[col_inds]
   colour_vector[is.na(lvl_df2$value)] <- cols[2]
-  colour_vector[lvl_df2$value == min_freq_label] <- cols[3]
+  colour_vector[lvl_df2$value == "High cardinality"] <- cols[3]
   # generate plot
   plt <- lvl_df2 %>%
     ggplot(aes(x = col_name, y = prop, fill = new_level_key)) +
@@ -238,3 +198,40 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   plt
 }
 
+
+
+# function to merge high cardinality categories entries into a single level
+merge_high_cardinality <- function(z, card_thresh){
+  z %>% 
+    filter(cnt <= card_thresh) %>%
+    summarise(prop = sum(prop), cnt = sum(cnt)) %>%
+    bind_cols(value = "High cardinality", .) %>%
+    bind_rows(z %>% filter(cnt > card_thresh), .) %>% 
+    select(-cnt)
+}
+
+# function
+collapse_levels <- function(dfi, i){
+  out <- dfi %>% 
+    dplyr::pull(i) %>%
+    bind_rows(., .id = 'col_name') %>% 
+    group_by(col_name) %>%
+    mutate(colval = cumsum(prop)) %>% 
+    mutate(colvalstretch = (colval - min(colval) + 0.001)/
+             (max(colval) - min(colval) + 0.001)) %>%
+    ungroup %>%
+    arrange(col_name) %>%
+    mutate(level_key = paste0(value, "-", col_name))
+  return(out)
+}
+
+# # move high cardinality to the end of each column block
+move_card <- function(M){
+  which_card <- which(M$value == "High cardinality")
+  if(which_card > 0 & nrow(M) > 1){
+    wo_c <- M[-which_card[1], ]
+    wo_c_r <- wo_c[nrow(wo_c):1, ]
+    M <- rbind(M[which_card[1], ], wo_c_r)
+  }
+  return(M)
+}
