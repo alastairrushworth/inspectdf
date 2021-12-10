@@ -20,7 +20,7 @@ plot_na_single <- function(df_plot, df_names, text_labels, col_palette, label_an
                            " have missing values")) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     scale_fill_manual(values = user_colours(nrow(df_plot), col_palette)) +
-    guides(fill = FALSE)
+    guides(fill = 'none')
   
   # add text annotation to plot if requested
   if(text_labels){
