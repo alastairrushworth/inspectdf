@@ -3,6 +3,12 @@
 
 -   Bug fixes to `inspect_types()` for pairwise comparison plots
 -   Updated tests for `inspect_types()` for pairwise comparisons
+-   Migrate to `vdiffr` 1.0.0 for graphics tests
+-   Fixed
+    [\#32](https://github.com/alastairrushworth/inspectdf/issues/32)
+    Improved appearance of `inspect_cat()` plots when number of
+    categories is small. Thanks to [Ivo
+    Kwee](https://github.com/ivokwee) for the suggestion.
 
 # `inspectdf` 0.0.10
 
