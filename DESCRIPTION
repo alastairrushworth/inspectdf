@@ -19,4 +19,4 @@ Suggests: testthat
 License: GPL-2
 URL: https://alastairrushworth.github.io/inspectdf/
 BugReports: https://github.com/alastairrushworth/inspectdf/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
