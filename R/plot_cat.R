@@ -193,12 +193,6 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   plt
 }
 
-# function generates a color palette
-get_shade_ramp <- function(col){
-  b <- colorRampPalette(c(col, "white"))
-  b(1001)
-}
-
 # function to merge high cardinality categories entries into a single level
 merge_high_cardinality <- function(z, card_thresh){
   z %>% 
