@@ -49,4 +49,11 @@ get_best_pair <- function(i){
   return(out)
 }
 
+# function generates a color palette
+get_shade_ramp <- function(col){
+  b <- colorRampPalette(c(col, "white"))
+  b(1001)
+}
+
+
 

@@ -78,6 +78,7 @@
 #' @importFrom stats sd
 #' @importFrom tibble tibble
 #' @importFrom tidyr gather
+#' @importFrom tidyr replace_na
 #' @importFrom utils tail
 
 inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
@@ -86,6 +87,9 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
   input_type <- check_df_cols(df1, df2)
   # capture the data frame names
   df_names <- get_df_names()
+  # list of all supplied colnames
+  cnames <- if(is.null(df2)) colnames(df1) else c(colnames(df1), colnames(df2))
+  
   # if only a single df input
   if(input_type == "single"){
     # pick out numeric features
@@ -100,8 +104,10 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
       breaks_tbl <- tibble(col_name = names_vec) 
       # join to the breaks argument if supplied
       if(is.list(breaks)){
-        breaks_tbl <- tibble(col_name = names(breaks), breaks = breaks) %>%
-          full_join(breaks_tbl, ., by = "col_name")
+        breaks_tbl <- 
+          tibble(col_name = names(breaks), breaks = breaks) %>%
+          full_join(breaks_tbl, ., by = "col_name") %>%
+          filter(col_name %in% cnames)
       } else {
         # if not supplied, create placeholder list of NULLs
         breaks_tbl$breaks <- vector('list', length = nrow(breaks_tbl))
@@ -119,27 +125,34 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
         # if breaks already exist, then use them, otherwise create new breaks
         update_progress(bar = pb, iter = i, total = nrow(breaks_tbl), 
                         what = names_vec[i])
+        # histogram breaks
+        brks_null <- is.null(breaks_tbl$breaks[[i]])
+        # decide what to pass to hist in terms of breaks
+        hist_breaks <- 
+          if(brks_null & (!is.list(breaks))){
+            breaks[1] 
+          } else if(brks_null & (is.list(breaks))){
+            20
+          } else {
+            breaks_tbl$breaks[[i]]
+          }
         if(any(!is.na(col_i))){
           # get summary statistics for this column
           stats_list[[i]] <- get_stats(col_i, col_nm)
-          brks_null <- is.null(breaks_tbl$breaks[[i]])
-          # decide what to pass to hist in terms of breaks
-          hist_breaks <- 
-            if(brks_null & (!is.list(breaks))){
-              breaks[1] 
-            } else if(brks_null & (is.list(breaks))){
-              20
-            } else {
-              breaks_tbl$breaks[[i]]
-            }
           hist_i <- hist(col_i, plot = FALSE, right = TRUE, breaks = hist_breaks)
-        
           # extract basic info for constructing hist
           breaks_tbl$hist[[i]] <- prop_value(hist_i)
           brks_list[[i]]       <- hist_i$breaks
         } else {
           brks_list[[i]]       <- list(NA)
-          breaks_tbl$hist[[i]] <- tibble(value = NA, prop = 1)
+          if(length(hist_breaks) > 1){
+            hist_i <- hist(col_i, plot = FALSE, right = TRUE, breaks = hist_breaks)
+            # extract basic info for constructing hist
+            breaks_tbl$hist[[i]] <- prop_value(hist_i)
+            brks_list[[i]]       <- hist_i$breaks
+          } else{
+            breaks_tbl$hist[[i]] <- tibble(value = NA, prop = 1)
+          }
           stats_list[[i]]      <- tibble(
             col_name = col_nm, min = NA, q1 = NA, median = NA,
             mean = NA, q3 = NA, max = NA, sd = NA, pcnt_na = 100
@@ -166,39 +179,61 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
     # get histogram and summaries for first df
     s1 <- inspect_num(df1, breaks = breaks, include_int = include_int)
     brks_list <- attr(s1, 'brks_list')
-    s1 <- s1 %>% select(col_name, hist)
+    s1_sub <- s1 %>% select(col_name, hist)
     # get new histograms and summary stats using breaks from s1
-    s2 <- inspect_num(df2, breaks = brks_list, include_int = include_int) %>% 
-      select(col_name, hist)
-    out <- full_join(s1, s2, by = "col_name")
+    s2 <- inspect_num(df2, breaks = brks_list, include_int = include_int) 
+    s2_sub <- s2 %>% select(col_name, hist)
+    out <- full_join(s1_sub, s2_sub, by = "col_name")
     # calculate js-divergence and fisher p-value
     out <- out %>%
       mutate(jsd = js_divergence_vec(hist.x, hist.y)) %>%
       mutate(pval = chisq(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       select(col_name, hist_1 = hist.x, hist_2 = hist.y,  jsd, pval)
+    # add summary stats as attributes
+    attr(out, "inspected") <- 
+      list(
+        df1 = s1 %>% select(-hist), 
+        df2 = s2 %>% select(-hist)
+      )
+    attr(out, "group_lengths") <- tibble(name = c('df1', 'df2'), rows = c(nrow(df1), nrow(df2)))
   }
   if(input_type == "grouped"){
     # get inspect_num on the ungrouped version
-    s_ug     <- inspect_num(df1 %>% ungroup)
+    s_ug      <- inspect_num(df1 %>% ungroup)
     brks_list <- attr(s_ug, 'brks_list')
-    # create a nested version of df1 - break into a list
+    # create a nested version of df1 -reak into a list
     out_nest <- df1 %>% nest()
-    grp_nms  <- attr(df1, "groups") %>% select(-ncol(.))
-    out_list <- vector("list", length = length(out_nest))
+    if(is.numeric(out_nest[[1]])) out_nest <- out_nest %>% arrange(.[[1]])
+    grp_nms  <- out_nest %>% select(-ncol(.)) %>% ungroup 
+    out_list <- vector("list", length = nrow(out_nest))
     # loop over the subcomponents of out_nest
-    for(i in 1:length(out_nest$data)){
-      dfi <- out_nest$data[[i]]
+    for(i in 1:nrow(out_nest)){
       out_list[[i]] <- inspect_num(
-        dfi, breaks = brks_list, 
+        out_nest$data[[i]], 
+        breaks = brks_list, 
         include_int = include_int
       )
     }
     grp_nms$out_list <- out_list
     out <- unnest(grp_nms, cols = c('out_list'))
+    group_df   <- attr(df1, "groups") 
+    group_vars <- colnames(group_df %>% select(-.rows)) 
+    group_lengths <- group_df %>%
+      mutate(rows = lengths(.rows)) %>% 
+      select(-.rows) %>%
+      left_join(
+        out %>%
+          group_by(col_name) %>%
+          mutate(rank_mean = rank(mean)) %>%
+          ungroup %>% group_by(.data[[group_vars]]) %>%
+          summarise(rank_mean = mean(rank_mean)), 
+        by = group_vars)
+    
+    attr(out, "group_lengths") <- group_lengths
   }
   attr(out, "type")      <- list(method = "num", input_type = input_type)
   attr(out, "df_names")  <- df_names
-  attr(out ,"brks_list") <- brks_list
+  attr(out, "brks_list") <- brks_list
   return(out)
 }
 
