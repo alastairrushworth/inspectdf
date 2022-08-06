@@ -32,11 +32,11 @@ test_that("inspect_na for tech", {
   expect_equal(colnames(x_year)[1], "year")
 })
 
-test_that("Grouped df correlation plots work", {
-  set.seed(10)
-  tech$apple[sample.int(nrow(tech), sample.int(500))] <- NA
-  tech$microsoft[sample.int(nrow(tech), sample.int(500))] <- NA
-  tech$ibm[sample.int(nrow(tech), sample.int(500))] <- NA
-  expect_doppelganger("Inspect-na-grouped-tech-year", tech %>% dplyr::group_by(year) %>% inspect_na() %>% show_plot)
-  expect_doppelganger("Inspect-na-grouped-tech-quarter", tech %>% dplyr::group_by(quarter) %>% inspect_na() %>% show_plot)
-})
+# test_that("Grouped df correlation plots work", {
+#   set.seed(10)
+#   tech$apple[sample.int(nrow(tech), sample.int(500))] <- NA
+#   tech$microsoft[sample.int(nrow(tech), sample.int(500))] <- NA
+#   tech$ibm[sample.int(nrow(tech), sample.int(500))] <- NA
+#   expect_doppelganger("Inspect-na-grouped-tech-year", tech %>% dplyr::group_by(year) %>% inspect_na() %>% show_plot)
+#   expect_doppelganger("Inspect-na-grouped-tech-quarter", tech %>% dplyr::group_by(quarter) %>% inspect_na() %>% show_plot)
+# })
