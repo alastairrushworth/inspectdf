@@ -1,3 +1,4 @@
+#' @importFrom dplyr all_of
 #' @importFrom dplyr pull
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 coord_cartesian
@@ -12,6 +13,7 @@
 #' @importFrom ggplot2 scale_x_continuous
 #' @importFrom ggplot2 sec_axis
 #' @importFrom ggplot2 theme
+#' @importFrom rlang :=
 #' @importFrom tidyr unnest
 #' @importFrom tidyr pivot_longer
 
@@ -37,7 +39,7 @@ plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_pa
   
   # convert first column of df_plot to a factor
   # ensure order is correct if grouping variable was numeric
-  if(class(grp_nms) == 'numeric'){
+  if(inherits(grp_nms, 'numeric')){
     group_order  <- as.character(sort(unique(grp_nms)))
   } else {
     # group_order  <- as.character(unique(grp_nms))
@@ -74,7 +76,7 @@ plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_pa
     names(hist_col_names) <- df_names
     df_plot <- df_plot %>% 
       rename(all_of(hist_col_names)) %>%
-      pivot_longer(col = c(as.character(df_names)), values_to = 'hist')
+      pivot_longer(cols = c(as.character(df_names)), values_to = 'hist')
   }
   
   # loop over rows in df_plot, add midpoints to each hist df for plotting

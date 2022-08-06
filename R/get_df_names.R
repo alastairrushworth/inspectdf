@@ -6,8 +6,8 @@ get_df_names <- function(){
   df_name1 <- as.character(df1_subs)
   df_name2 <- as.character(df2_subs)
   # if class is call then get second arg
-  if(class(df1_subs) == "call") df_name1 <- df_name1[2]
-  if(class(df2_subs) == "call") df_name2 <- df_name2[2]
+  if(inherits(df1_subs, "call")) df_name1 <- df_name1[2]
+  if(inherits(df2_subs, "call")) df_name2 <- df_name2[2]
   # if either is a vector with pipe as first element then choose second
   df_name1 <- ifelse(
     df_name1 %>% length > 1 & df_name1[1] == "%>%", 
