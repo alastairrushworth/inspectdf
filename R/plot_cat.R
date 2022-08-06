@@ -1,4 +1,4 @@
-#' @importFrom dplyr across
+#' @importFrom dplyr if_any
 #' @importFrom dplyr any_of
 #' @importFrom dplyr pull
 #' @importFrom dplyr select_if
@@ -20,7 +20,7 @@ plot_cat <- function(levels_df, df_names, text_labels, high_cardinality,
   # select the list column containing frequency tables
   # either there are one or two columns depending on whether this is 
   # a summary of a comparison
-  levels_df <- levels_df %>% filter(across(any_of("jsd"), ~!is.na(.x)))
+  levels_df <- levels_df %>% filter(if_any(any_of("jsd"), ~!is.na(.x)))
   lvl_df   <- levels_df %>% select_if(is.list) 
   lstnms   <- colnames(lvl_df)
   is_onedf <- ncol(lvl_df) == 1
