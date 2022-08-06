@@ -15,7 +15,8 @@ on:
   pull_request:
     branches:
       - master
-  R4_0:
+jobs:
+  R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -29,6 +30,7 @@ on:
           - {os: ubuntu-18.04,   r: 'release'}
           - {os: windows-latest, r: '3.6'}
           - {os: ubuntu-18.04,   r: '3.6'}
+
 
     env:
       R_CHECK_FORCE_SUGGESTS: false
@@ -67,7 +69,7 @@ on:
           while read -r cmd
           do
             eval sudo $cmd
-          done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "16.04"), sep = "\n")')
+          done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "18.04"), sep = "\n")')
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
