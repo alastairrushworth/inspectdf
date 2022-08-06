@@ -52,7 +52,17 @@
                              "issue_x", 
                              "has_issue",
                              "add_midpoints", 
-                             "colvalstretch"
+                             "colvalstretch", 
+                             '.rows', 
+                             'print_value',
+                             'xcoord',
+                             'name',
+                             'linetype',
+                             'key_to_color',
+                             'df_int', 
+                             'rank_mean',
+                             '.data', 
+                             'rows'
                              ))
   invisible()
 }

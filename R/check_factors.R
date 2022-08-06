@@ -2,7 +2,7 @@ check_factors <- function(df_cat){
   if("factor" %in% sapply(df_cat, class)){
     # is levels as long as unique levels
     are_lvls_unq <- function(fct){
-      if(class(fct) == "factor"){
+      if(inherits(fct, "factor")){
         return(!length(levels(fct)) == length(unique(levels(fct))))
       } else {
         return(FALSE)

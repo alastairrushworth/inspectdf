@@ -6,13 +6,17 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# `inspectdf` 0.0.12
+
+- Migrate to `vdiffr` 1.0.0 for graphics tests
+- Fixed [#32](https://github.com/alastairrushworth/inspectdf/issues/32), improved appearance of `inspect_cat()` plots when number of categories is small. Thanks to [Ivo Kwee](https://github.com/ivokwee) for the suggestion.
+- Fixed [#40](https://github.com/alastairrushworth/inspectdf/issues/40), ensuring `inspect_num()` histogram bins are correct in comparisons of data frames.  Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the report.
+- Added grouped graphical comparison for `inspect_num()` [#41](https://github.com/alastairrushworth/inspectdf/issues/41), thanks to [cregouby](https://github.com/cregouby) for the report.
+
 # `inspectdf` 0.0.11
 
 - Bug fixes to `inspect_types()` for pairwise comparison plots
 - Updated tests for `inspect_types()` for pairwise comparisons
-- Migrate to `vdiffr` 1.0.0 for graphics tests
-- Fixed [#32](https://github.com/alastairrushworth/inspectdf/issues/32), improved appearance of `inspect_cat()` plots when number of categories is small. Thanks to [Ivo Kwee](https://github.com/ivokwee) for the suggestion.
-- Fixed [#40](https://github.com/alastairrushworth/inspectdf/issues/40), ensuring `inspect_num()` histogram bins are correct in comparisons of data frames.  Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the report.
 
 # `inspectdf` 0.0.10
 
