@@ -224,13 +224,24 @@ show_plot <- function(
   if(type$method == "num"){
     if(type$input_type == "single"){
       plt <- plot_num_single(
-        x, df_names = df_names,
+        x, 
+        df_names = df_names,
         text_labels = text_labels, 
         plot_layout = plot_layout, 
         col_palette = col_palette
       )
     }
-    if(type$input_type %in% c("pair", "grouped")){
+    if(type$input_type == "pair"){
+      plt <- plot_num_pair(
+        x, 
+        df_names = df_names, 
+        alpha = alpha,
+        text_labels = text_labels, 
+        plot_layout = plot_layout, 
+        col_palette = col_palette
+      )
+    }
+    if(type$input_type == "grouped"){
       plt <- plot_num_grouped(
         x, 
         df_names = df_names, 
