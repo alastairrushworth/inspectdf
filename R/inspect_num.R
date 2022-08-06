@@ -218,17 +218,18 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
     out <- unnest(grp_nms, cols = c('out_list'))
     group_df   <- attr(df1, "groups") 
     group_vars <- colnames(group_df %>% select(-.rows)) 
+    # get the average value by group - for plotting purposes
+    rank_mean_by_group <- out %>%
+      group_by(col_name) %>%
+      mutate(rank_mean = rank(mean)) %>%
+      ungroup %>% group_by(.data[[group_vars]]) %>%
+      summarise(rank_mean = mean(rank_mean))
+    # combine group lengths with group means - this is set as an attr &
+    # used for graphics in show_plot
     group_lengths <- group_df %>%
       mutate(rows = lengths(.rows)) %>% 
       select(-.rows) %>%
-      left_join(
-        out %>%
-          group_by(col_name) %>%
-          mutate(rank_mean = rank(mean)) %>%
-          ungroup %>% group_by(.data[[group_vars]]) %>%
-          summarise(rank_mean = mean(rank_mean)), 
-        by = group_vars)
-    
+      left_join(rank_mean_by_group, by = group_vars)
     attr(out, "group_lengths") <- group_lengths
   }
   attr(out, "type")      <- list(method = "num", input_type = input_type)

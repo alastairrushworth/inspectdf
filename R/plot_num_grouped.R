@@ -26,7 +26,6 @@ plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_pa
     return(out)
   }
 
-  
   # extract plot type
   plot_type   <- attr(df_plot, 'type')$input_type
   # grouping variable
@@ -42,8 +41,13 @@ plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_pa
     group_order  <- as.character(sort(unique(grp_nms)))
   } else {
     # group_order  <- as.character(unique(grp_nms))
-    group_order <- attr(df_plot, 'group_lengths') %>% arrange(rank_mean) %>% pull(grp_var)
+    group_order <- attr(df_plot, 'group_lengths') %>%
+      arrange(rank_mean) %>%
+      pull(grp_var)
   }
+  attr(df_plot, 'group_lengths') %>%
+    mutate(!!(grp_var) := as.character(.data[[grp_var]]))
+  
   df_plot <- df_plot %>%
     mutate(!!(grp_var) := factor(as.character(grp_nms), levels = group_order)) %>%
     mutate(df_int = as.integer(.data[[grp_var]]))
@@ -182,7 +186,7 @@ plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_pa
     #     labels = pretty_print_num(grp_lengths$rows)
     #   )
     # )
-  xlabs %>% arrange(df_int) %>% print(n = 50)
+  # xlabs %>% arrange(df_int) %>% print(n = 50)
   xlabs$yax <- rep(-0.5, nrow(xlabs))
   xlabs$col_name <- rev(sort(hists_long$col_name))[1]
   # pp <- pp + geom_label(
@@ -247,7 +251,10 @@ plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_pa
   max_min_stats <- stats %>% 
     select(min, max, bar_width, df_int, col_name) %>% 
     distinct()
-  max_min_stats<- bind_rows(max_min_stats, (max_min_stats %>% mutate(df_int = df_int + 0.87)))
+  max_min_stats <- bind_rows(
+    max_min_stats, 
+    (max_min_stats %>% mutate(df_int = df_int + 0.87))
+  )
   pp <- 
     pp + 
     geom_segment(

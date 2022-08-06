@@ -64,6 +64,6 @@ plot_num_single <- function(df_plot, df_names, plot_layout, text_labels, col_pal
       theme(legend.position = "none")
   }
   # print plot
-  plt
+  return(plt)
 }
 
