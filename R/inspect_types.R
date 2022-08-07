@@ -61,10 +61,8 @@
 #' @useDynLib inspectdf
 
 inspect_types <- function(df1, df2 = NULL, compare_index = FALSE){
-  
   # perform basic column check on dataframe input
-  check_df_cols(df1)
-  
+  input_type <- check_df_cols(df1, df2)
   # capture the data frame names
   df_names <- get_df_names()
   
@@ -95,9 +93,6 @@ inspect_types <- function(df1, df2 = NULL, compare_index = FALSE){
       arrange(desc(pcnt))  %>% 
       left_join(nms_df, by = "type") %>%
       filter(pcnt > 0) 
-    # attach attributes required for plotting
-    attr(out, "type") <- list(method = "types", 1)
-    attr(out, "df_names") <- df_names
   } else {
     # inspect types for first df
     s1  <- inspect_types(df1) %>% select(-pcnt)
@@ -176,11 +171,10 @@ inspect_types <- function(df1, df2 = NULL, compare_index = FALSE){
       replace(is.na(.), 0) %>%
       mutate(issues = lapply(issues, function(v) v$comment)) %>%
       select(type, equal, cnt_1, cnt_2, columns, issues)
-     
-    # attach attributes required for plotting
-    attr(out, "type") <- list(method = "types", 2)
-    attr(out, "df_names") <- df_names
   }
+  # attach attributes required for plotting
+  attr(out, "type") <- list(method = "types", input_type = input_type)
+  attr(out, "df_names") <- df_names
   return(out)
 }
 

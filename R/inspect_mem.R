@@ -71,10 +71,12 @@ inspect_mem <- function(df1, df2 = NULL){
   df_names <- get_df_names()
   
   # max size of both dfs
-  sizes <- list(sz_1  = format_size(object.size(df1)), 
-                sz_2  = format_size(object.size(df2)), 
-                ncl_1 = ncol(df1), ncl_2 = ncol(df2), 
-                nrw_1 = nrow(df1), nrw_2 = nrow(df2))
+  sizes <- list(
+    sz_1  = format_size(object.size(df1)), 
+    sz_2  = format_size(object.size(df2)), 
+    ncl_1 = ncol(df1), ncl_2 = ncol(df2), 
+    nrw_1 = nrow(df1), nrw_2 = nrow(df2)
+  )
   
   # if only a single df input
   if(input_type == "single"){

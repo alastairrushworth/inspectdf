@@ -6,8 +6,16 @@
 #' @importFrom ggplot2 scale_fill_discrete
 #' @importFrom ggplot2 theme
 
-plot_mem_1 <- function(df_plot, df_names, sizes, text_labels, col_palette, 
-                       label_angle = NULL, label_color, label_size){
+plot_mem_single <- function(
+    df_plot, 
+    text_labels = TRUE, 
+    col_palette = 0, 
+    label_angle = NULL, 
+    label_color = NULL, 
+    label_size = NULL
+    ){
+  sizes <- attr(df_plot, "sizes")
+  df_names <- attr(df_plot, "df_names")
   # define a plot wide nudge interval
   nudge <- max(df_plot$pcnt) / 50
   # convert column names to factor
@@ -99,9 +107,16 @@ plot_mem_1 <- function(df_plot, df_names, sizes, text_labels, col_palette,
 }
 
 
-plot_mem_2 <- function(df_plot, df_names, sizes, text_labels, col_palette, 
-                       label_angle = NULL, label_color, label_size){
-
+plot_mem_pair <- function(
+    df_plot, 
+    text_labels = TRUE, 
+    col_palette = 0, 
+    label_angle = NULL, 
+    label_color = NULL, 
+    label_size = NULL
+){
+  sizes <- attr(df_plot, "sizes")
+  df_names <- attr(df_plot, "df_names")
   leg_text <- as.character(unlist(df_names))
   # gather percents
   z1 <- df_plot %>% select(-contains("size")) %>% 

@@ -63,218 +63,76 @@
 #' x <- inspect_types(starwars)
 #' show_plot(x)
 
-show_plot <- function(
-  x, 
-  text_labels = TRUE, 
-  alpha = 0.05, 
-  high_cardinality = 0,
-  plot_layout = NULL,
-  col_palette = 0, 
-  plot_type = 1, 
-  label_thresh = 0.1, 
-  label_angle = NULL, 
-  label_color = NULL,
-  label_size = NULL
-){
+show_plot <- function(x, ...){
   type     <- attr(x, "type")
-  df_names <- attr(x, "df_names")
+  stat_type <- type$method
+  inspect_type <- type$input_type
   
   # categorical plots
-  if(type$method == "cat"){
-    if(type$input_type == "grouped") stop("Grouped plots for inspect_cat() not yet implemented.")
-    plt <- plot_cat(
-      x, 
-      df_names = df_names,
-      text_labels = text_labels, 
-      high_cardinality = high_cardinality, 
-      col_palette = col_palette, 
-      label_thresh = label_thresh, 
-      label_angle = label_angle, 
-      label_color = label_color,
-      label_size  = label_size
-      )
+  if(stat_type == "cat"){
+    if(inspect_type == "grouped") ("Grouped plots for inspect_cat() not yet implemented.")
+    plt <- plot_cat(x, ...)
   }
   
   # correlation plots
-  if(type$method == "cor"){
-    method   <- attr(x, "method")
-    if(type$input_type == "single"){
-      x$pair <- paste(x$col_1, x$col_2, sep = ' & ')
-      plt <- plot_cor_single(
-        x, 
-        df_names = df_names, 
-        alpha = alpha,
-        text_labels = text_labels, 
-        col_palette = col_palette,
-        method      = method
-        )
-    }
-    if(type$input_type == "pair"){
-      plt <- plot_cor_pair(
-        x, 
-        df_names = df_names, 
-        alpha = alpha,
-        text_labels = text_labels, 
-        col_palette = col_palette, 
-        method      = method
-        )
-    }
-    if(type$input_type == "grouped"){
-      plt <- plot_cor_grouped(
-        x,
-        df_names = df_names,
-        text_labels = text_labels,
-        col_palette = col_palette,
-        method      = method,
-        plot_type   = plot_type
-        )
-    }
+  if(stat_type == "cor"){
+    plt <- switch(
+      inspect_type, 
+      single = plot_cor_single(x, ...), 
+      pair = plot_cor_pair(x, ...), 
+      grouped = plot_cor_grouped(x, ...)
+    )
   }
   
   # imbalance plots
-  if(type$method == "imb"){
-    if(type$input_type == "single"){
-      plt <- plot_imb_1(
-        x, 
-        df_names = df_names,
-        text_labels = text_labels, 
-        col_palette = col_palette, 
-        label_angle = label_angle, 
-        label_color = label_color,
-        label_size  = label_size
-      )
-    }
-    if(type$input_type == "pair"){
-      plt <- plot_imb_2(
-        x, 
-        df_names = df_names, alpha = alpha,
-        text_labels = text_labels, 
-        col_palette = col_palette
-      )
-    }
-    if(type$input_type == "grouped"){
-      plt <- plot_imb_grouped(
-        x, df_names = df_names,
-        text_labels = text_labels, 
-        col_palette = col_palette, 
-        plot_type = plot_type
-      )
-    }
+  if(stat_type == "imb"){
+    plt <- switch(
+      inspect_type, 
+      single = plot_imb_single(x, ...), 
+      pair = plot_imb_pair(x, ...), 
+      grouped = plot_imb_grouped(x, ...)
+    )
   }
-  
+
   # memory plots
-  if(type$method == "mem"){
-    sizes <- attr(x, "sizes")
-    if(type$input_type == "single"){
-      plt <- plot_mem_1(
-        x, df_names = df_names, 
-        text_labels = text_labels, 
-        sizes       = sizes, 
-        col_palette = col_palette,
-        label_angle = label_angle, 
-        label_color = label_color,
-        label_size  = label_size
-      )
-    }
-    if(type$input_type == "pair"){
-      plt <- plot_mem_2(
-        x, df_names = df_names,
-        text_labels = text_labels, 
-        sizes = sizes, 
-        col_palette = col_palette, 
-        label_angle = label_angle, 
-        label_color = label_color,
-        label_size  = label_size
-      )
-    }
-    if(type$input_type == "grouped") stop("Grouped plots for inspect_mem() not yet implemented.")
+  if(stat_type == "mem"){
+    plt <- switch(
+      inspect_type, 
+      single = plot_mem_single(x, ...), 
+      pair = plot_mem_pair(x, ...), 
+      grouped = stop("Grouped plots for inspect_mem() not yet implemented.")
+    )
   }
-  
+
   # missingness plots
-  if(type$method == "na"){
-    if(type$input_type == "single"){
-      plt <- plot_na_single(
-        x, df_names = df_names,
-        text_labels = text_labels, 
-        col_palette = col_palette, 
-        label_angle = label_angle, 
-        label_color = label_color,
-        label_size = label_size
-      )
-    }
-    if(type$input_type == "pair"){
-      plt <- plot_na_pair(
-        x, df_names = df_names, 
-        alpha = alpha,
-        text_labels = text_labels, 
-        col_palette = col_palette
-      )
-    }
-    if(type$input_type == "grouped"){
-      plt <- plot_na_grouped(
-        x, df_names = df_names,
-        text_labels = text_labels, 
-        col_palette = col_palette, 
-        plot_type = plot_type
-      )
-    }
+  if(stat_type == "na"){
+    plt <- switch(
+      inspect_type, 
+      single = plot_na_single(x, ...), 
+      pair = plot_na_pair(x, ...), 
+      grouped = plot_na_grouped(x, ...)
+    )
   }
   
   # numeric plots
-  if(type$method == "num"){
-    if(type$input_type == "single"){
-      plt <- plot_num_single(
-        x, 
-        df_names = df_names,
-        text_labels = text_labels, 
-        plot_layout = plot_layout, 
-        col_palette = col_palette
-      )
-    }
-    if(type$input_type == "pair"){
-      plt <- plot_num_pair(
-        x, 
-        df_names = df_names, 
-        alpha = alpha,
-        text_labels = text_labels, 
-        plot_layout = plot_layout, 
-        col_palette = col_palette
-      )
-    }
-    if(type$input_type == "grouped"){
-      plt <- plot_num_grouped(
-        x, 
-        df_names = df_names, 
-        alpha = alpha,
-        text_labels = text_labels, 
-        plot_layout = plot_layout, 
-        col_palette = col_palette
-      )
-    }
+  if(stat_type == "num"){
+    plt <- switch(
+      inspect_type, 
+      single = plot_num_single(x, ...), 
+      pair = plot_num_pair(x, ...), 
+      grouped = plot_num_grouped(x, ...)
+    )
   }
   
   # types plots
-  if(type$method == "types"){
-    if(type[[2]] == 1){
-      plt <- plot_types_1(
-        x, df_names = df_names,
-        text_labels = text_labels, 
-        col_palette = col_palette, 
-        label_angle = label_angle, 
-        label_color = label_color,
-        label_size  = label_size
-      )
-    } else {
-      plt <- plot_types_2(
-        x, df_names = df_names,
-        text_labels = text_labels,
-        col_palette = col_palette, 
-        label_angle = label_angle, 
-        label_color = label_color,
-        label_size  = label_size, 
-        plot_type   = plot_type
-      )
-    }
+  if(stat_type == "types"){
+    print(inspect_type)
+    plt <- switch(
+      inspect_type, 
+      single = plot_types_single(x, ...), 
+      pair = plot_types_pair(x, ...), 
+      grouped = plot_num_grouped(x, ...)
+    )
   }
   suppressWarnings(plt)
 }
