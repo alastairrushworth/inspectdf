@@ -20,15 +20,16 @@
 #' @importFrom stats na.omit
 #' @importFrom utils head
 
-plot_types_1 <- function(
+plot_types_single <- function(
   df_plot, 
-  df_names, 
-  text_labels, 
-  col_palette, 
-  label_angle, 
-  label_color, 
-  label_size){
-  
+  text_labels = TRUE, 
+  col_palette = 0, 
+  label_angle = NULL, 
+  label_color = NULL, 
+  label_size = NULL, 
+  plot_type = 1
+){
+  df_names <- attr(df_plot, "df_names")
   # Get summary of the columns ready for radial plot
   column_layout <- df_plot %>%
     unnest(col_name) %>%
@@ -77,9 +78,16 @@ plot_types_1 <- function(
   plt
 }
 
-plot_types_2 <- function(df_plot, df_names, text_labels, col_palette, 
-                         label_angle, label_color, label_size, plot_type){
-  
+plot_types_pair <- function(
+    df_plot, 
+    text_labels = TRUE, 
+    col_palette = 0, 
+    label_angle = NULL, 
+    label_color = NULL, 
+    label_size = NULL, 
+    plot_type = 1
+){
+  df_names <- attr(df_plot, "df_names")
   # Get summary of the columns ready for radial plot
   column_list <- 
     df_plot %>%

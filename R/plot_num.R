@@ -2,22 +2,192 @@
 #' @importFrom dplyr pull
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 coord_cartesian
-#' @importFrom ggplot2 facet_grid
 #' @importFrom ggplot2 facet_wrap
+#' @importFrom ggplot2 facet_grid
 #' @importFrom ggplot2 geom_col
+#' @importFrom ggplot2 geom_tile
+#' @importFrom ggplot2 geom_histogram
 #' @importFrom ggplot2 geom_label
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 scale_fill_gradient
 #' @importFrom ggplot2 scale_fill_gradientn
-#' @importFrom ggplot2 scale_x_continuous
+#' @importFrom ggplot2 scale_fill_manual
 #' @importFrom ggplot2 sec_axis
 #' @importFrom ggplot2 theme
 #' @importFrom rlang :=
 #' @importFrom tidyr unnest
-#' @importFrom tidyr pivot_longer
 
-plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_palette, alpha){
+plot_num_single <- function(
+    df_plot, 
+    plot_layout = NULL, 
+    text_labels = TRUE, 
+    col_palette = 0
+){
+  df_names <- attr(df_plot, "df_names")
+  # set the plot_layout if not specified
+  if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
+  # pull out breaks attribute from df_plot
+  brks <- attr(df_plot, 'brks_list')
+  # loop over rows in df_plot, add midpoints to the hist df
+  for(nm in df_plot$col_name){
+    hist_i     <- df_plot$hist[[nm]]
+    brks_i     <- brks[[nm]]
+    hist_i$mid <- brks_i[1:(length(brks_i) - 1)] + diff(brks_i ) / 2
+    hist_i$col_name <- nm
+    df_plot$hist[[nm]] <- hist_i
+  }
+  # add histogram midpoints
+  df_plot <- bind_rows(df_plot$hist)
+  bin_width <- df_plot %>% 
+    group_by(col_name) %>%
+    summarise(bar_width = diff(mid)[1] * 0.9)
+  df_plot <- df_plot %>% 
+    left_join(bin_width, by = "col_name")
+  # add a colour scale variable in df_plot
+  # scale densities to have max of 1 and min 0
+  if(!is.na(col_palette)){
+    df_plot <- df_plot %>%
+      group_by(col_name) %>%
+      mutate(prop_z  = prop / max(prop)) %>%
+      ungroup
+  } else {
+    df_plot['prop_z'] = 'blue'
+  }
+  
+  # generate basic plot with columns
+  plt <- df_plot %>%
+    ggplot(aes(x = mid, y = prop, width = bar_width, fill = prop_z)) + 
+    geom_col() + 
+    labs(
+      x = "", y = "Probability", 
+      title =  paste0("Histograms of numeric columns in df::", df_names$df1), 
+      subtitle = ""
+    ) +
+    facet_wrap(
+      ~ col_name, 
+      scales = "free", 
+      nrow = plot_layout[[1]], 
+      ncol = plot_layout[[2]]
+    )
+  # colour fill can depend on user input, if provided
+  if(!is.na(col_palette)){
+    plt <- plt + 
+      scale_fill_gradientn(colours = print_palette_pairs(col_palette)) +
+      theme(legend.position = "none")
+  } else {
+    plt <- plt + 
+      scale_fill_manual(values = 'blue') + 
+      theme(legend.position = "none")
+  }
+  # print plot
+  return(plt)
+}
+
+
+
+
+plot_num_pair <- function(
+    df_plot, 
+    plot_layout = NULL, 
+    text_labels = TRUE, 
+    col_palette = 0,
+    alpha = 0.05
+){
+  df_names <- attr(df_plot, "df_names")
+  # set the plot_layout if not specified
+  if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
+  # chop stuff off
+  df_plot <- df_plot %>% select(-jsd) 
+  # if columns missing in either dataframe, use buckets from the other
+  # replace frequencies with NA.
+  x_1 <- which(unlist(lapply(df_plot$hist_1, is.null)))
+  x_2 <- which(unlist(lapply(df_plot$hist_2, is.null)))
+  if(length(x_1) > 0){
+    for(i in x_1){
+      df_plot$hist_1[[i]] <- df_plot$hist_2[[i]]
+      df_plot$hist_1[[i]]$prop <- NA
+    }
+  }
+  if(length(x_2) > 0){
+    for(i in x_2){
+      df_plot$hist_2[[i]] <- df_plot$hist_1[[i]]
+      df_plot$hist_2[[i]]$prop <- NA
+    }
+  }
+  
+  # add the variable name to the histograms as an extra column
+  for(i in 1:nrow(df_plot)){
+    df_plot[[2]][[i]]$cname <- df_plot[[3]][[i]]$cname <- df_plot$col_name[i] 
+  }
+  
+  # combine the histograms
+  trns_plot <- bind_rows(bind_rows(df_plot[[2]]), bind_rows(df_plot[[3]]))
+  trns_plot$dfn <- rep(unlist(df_names), each = nrow(trns_plot) / 2)
+  # apply an ordering to the categories
+  get_num <- function(st){
+    first_dig <- gsub("\\[|\\(", "", unlist(strsplit(st, ","))[1])
+    first_dig <- ifelse(grepl("Inf", first_dig), 
+                        as.numeric(first_dig), 
+                        as.integer(first_dig))
+    return(first_dig)
+  }
+  xy <- df_plot %>% 
+    select(cname = col_name, pval) %>%
+    mutate(significant = as.integer(pval < alpha) + 2) %>%
+    replace_na(list(significant = 1)) %>%
+    mutate(significant = c("gray30", "lightskyblue1", "red3")[significant])
+  
+  get_numV <- Vectorize(get_num)
+  ord_vals <- trns_plot %>%
+    select(value) %>%
+    distinct() %>%
+    mutate(first_num = suppressWarnings(get_numV(value))) %>%
+    arrange(first_num)
+  # generate a heatplot
+  plt <- trns_plot %>%
+    ggplot(aes(x = dfn, y = factor(value, levels = ord_vals$value), fill = prop)) +
+    geom_rect(data = xy, fill = xy$significant,  
+              xmin = -Inf, xmax = Inf, 
+              ymin = -Inf, ymax = Inf, alpha = 0.5, 
+              inherit.aes = FALSE) +
+    geom_tile(colour = "white")
+  # check for ggfittext install
+  if(requireNamespace("ggfittext", quietly = TRUE)){
+    plt <- plt + ggfittext::geom_fit_text(
+      aes(label = round(prop * 100, 1)),
+      contrast = TRUE,
+      na.rm = TRUE)
+  } else {
+    plt <- plt + ggfittext::geom_fit_text(
+      aes(label = round(prop * 100, 1)),
+      contrast = TRUE,
+      na.rm = TRUE)
+  }
+  
+  plt <- plt + 
+    scale_fill_gradient(low = "white", high = "steelblue") +
+    theme(legend.position = "none") +
+    labs(x = "", y = "", 
+         title =  paste0("Heat plot comparison of numeric columns")) + 
+    facet_wrap(~ cname, scales = "free", 
+               nrow = plot_layout[[1]], 
+               ncol = plot_layout[[2]])  
+  return(plt)
+}
+
+
+
+
+
+
+plot_num_grouped <- function(
+    df_plot,
+    plot_layout = 1, 
+    text_labels = TRUE, 
+    col_palette = 0, 
+    alpha = 0.05
+){
   pretty_print_num <- function(x){
     out <- 
       ifelse(x >= 1e12, sprintf("~%.1fT", x/1e12),
@@ -27,7 +197,7 @@ plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_pa
                                   prettyNum(x, digits = 4)))))
     return(out)
   }
-
+  df_names <- attr(df_plot, "df_names")
   # extract plot type
   plot_type   <- attr(df_plot, 'type')$input_type
   # grouping variable
@@ -58,7 +228,7 @@ plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_pa
     left_join(attr(df_plot, 'group_lengths') %>%
                 mutate(!!(grp_var) := as.character(.data[[grp_var]])), by = grp_var) %>%
     mutate(!!(grp_var) := factor(as.character(.data[[grp_var]]), levels = group_order))
-    
+  
   # get global mean, min and max for graphics
   global_stats <- df_plot %>% 
     left_join(grp_lengths, by = grp_var) %>%
@@ -112,13 +282,13 @@ plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_pa
   )
   col_inds[col_inds[,1] == 0, 1] <- 1
   colour_vector <- vcols[col_inds]
-
+  
   # statistics associated with each data frame
   stats <- df_plot %>% 
     filter(col_name %in% df_plot$col_name) %>% 
     left_join(bin_width, by = 'col_name') %>% 
     select(.data[[grp_var]], col_name, min, mean, max, bar_width, df_int)
-
+  
   # pivot the stats dataframe to long
   stats_mn <- stats %>%
     pivot_longer(cols = c('mean'), names_to = "stat_type") %>%
@@ -179,15 +349,15 @@ plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_pa
       x = grp_var,
       y = ''  
     )
-    # scale_x_continuous(
-    #   breaks = xlabs$df_int - 0.55, 
-    #   labels = xlabs[[grp_var]],
-    #   sec.axis = sec_axis(
-    #     trans ~.,
-    #     breaks = xlabs$df_int - 0.55,
-    #     labels = pretty_print_num(grp_lengths$rows)
-    #   )
-    # )
+  # scale_x_continuous(
+  #   breaks = xlabs$df_int - 0.55, 
+  #   labels = xlabs[[grp_var]],
+  #   sec.axis = sec_axis(
+  #     trans ~.,
+  #     breaks = xlabs$df_int - 0.55,
+  #     labels = pretty_print_num(grp_lengths$rows)
+  #   )
+  # )
   # xlabs %>% arrange(df_int) %>% print(n = 50)
   xlabs$yax <- rep(-0.5, nrow(xlabs))
   xlabs$col_name <- rev(sort(hists_long$col_name))[1]
@@ -293,3 +463,4 @@ plot_num_grouped <- function(df_plot, df_names, plot_layout, text_labels, col_pa
   return(pp)
   
 }
+

@@ -1,8 +1,15 @@
 #' @importFrom ggplot2 scale_color_discrete
 #' @importFrom ggplot2 annotate
-plot_na_single <- function(df_plot, df_names, text_labels, col_palette, label_angle = NULL, 
-                           label_color, label_size){
-
+#' 
+plot_na_single <- function(
+    df_plot, 
+    text_labels = TRUE, 
+    col_palette = 0, 
+    label_angle = NULL, 
+    label_color = NULL, 
+    label_size = NULL
+){
+  df_names <- attr(df_plot, "df_names")
   # define a plot wide nudge interval
   nudge <- max(df_plot$pcnt) / 50
   # convert col_name to factor
@@ -87,7 +94,16 @@ plot_na_single <- function(df_plot, df_names, text_labels, col_palette, label_an
   plt
 }
 
-plot_na_pair <- function(df_plot, df_names, alpha, text_labels, col_palette){
+plot_na_pair <- function(
+    df_plot, 
+    text_labels = TRUE, 
+    col_palette = 0, 
+    label_angle = NULL, 
+    label_color = NULL, 
+    label_size = NULL, 
+    alpha = 0.05
+){
+  df_names <- attr(df_plot, "df_names")
   leg_text <- as.character(unlist(df_names))
   na_tab  <- df_plot
   df_plot <- df_plot %>% 
@@ -122,7 +138,16 @@ plot_na_pair <- function(df_plot, df_names, alpha, text_labels, col_palette){
   plt
 }
 
-plot_na_grouped <- function(df_plot, df_names, text_labels, col_palette, plot_type){
+plot_na_grouped <- function(
+    df_plot, 
+    text_labels = TRUE, 
+    col_palette = 0, 
+    label_angle = NULL, 
+    label_color = NULL, 
+    label_size = NULL,
+    plot_type = 1
+){
+  df_names <- attr(df_plot, "df_names")
   # group variable name
   group_name <- colnames(df_plot)[1]
   if(plot_type == 1){

@@ -8,11 +8,16 @@
 #' @importFrom grDevices colorRampPalette
 #' @importFrom ggplot2 scale_x_discrete
 #' @importFrom ggplot2 scale_colour_manual
-plot_cat <- function(levels_df, df_names, text_labels, high_cardinality, 
-                     cols = c("tomato3", "gray65", "darkmagenta"), 
-                     col_palette, label_thresh, label_color, label_angle, 
-                     label_size){
+#' 
 
+plot_cat <- function(
+    levels_df, text_labels = TRUE, 
+    high_cardinality = 0, 
+    cols = c("tomato3", "gray65", "darkmagenta"), 
+    col_palette = 0, label_thresh = 0.1, label_color = NULL, label_angle = NULL, 
+    label_size = NULL){
+
+  df_names <- attr(levels_df, "df_names")
   # retain order of column names for plotting
   # axes are flipped by default so reverse colnames should appear in reverse
   column_name_order <- rev(levels_df$col_name)

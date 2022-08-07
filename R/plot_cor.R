@@ -13,9 +13,16 @@
 #' @importFrom ggplot2 theme
 #' @importFrom ggplot2 theme_bw
 
-plot_cor_single <- function(out, alpha, df_names, text_labels, col_palette, method){
-  
+
+plot_cor_single <- function(
+    out, alpha = 0.05, 
+    text_labels = TRUE, 
+    col_palette = 0
+){
+  out$pair <- paste(out$col_1, out$col_2, sep = ' & ')
   # xlabels
+  df_names <- attr(out, "df_names")
+  method   <- attr(out, "method")
   mth_ind <- grep(paste0("^", method), c("pearson", "kendall", "spearman"), ignore.case = TRUE)
   xlab    <- c("Pearson's correlation", 
                "Kendall's rank correlation", 
@@ -50,7 +57,14 @@ plot_cor_single <- function(out, alpha, df_names, text_labels, col_palette, meth
 }
 
 
-plot_cor_pair <- function(out, alpha, df_names, text_labels, col_palette, method){
+plot_cor_pair <- function(
+    out, 
+    alpha = 0.05, 
+    text_labels = TRUE, 
+    col_palette = 0
+){
+  df_names <- attr(out, "df_names")
+  method   <- attr(out, "method")
   # xlabels
   mth_ind <- grep(tolower(paste0("^", method)), c("pearson", "kendal", "spearman"))
   xlab    <- c("Pearson's correlation", 
@@ -105,7 +119,15 @@ plot_cor_pair <- function(out, alpha, df_names, text_labels, col_palette, method
   plt
 }
 
-plot_cor_grouped <- function(out, df_names, text_labels, col_palette, method, plot_type){
+plot_cor_grouped <- function(
+    out, 
+    alpha = 0.05, 
+    text_labels = TRUE, 
+    col_palette = 0, 
+    plot_type = 1
+){
+  df_names <- attr(out, "df_names")
+  method   <- attr(out, "method")
   # group variable name
   group_name <- colnames(out)[1]
   if(plot_type == 1){

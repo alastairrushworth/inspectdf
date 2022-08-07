@@ -5,8 +5,15 @@
 #' @importFrom ggplot2 ylab
 #' @importFrom ggplot2 position_nudge
 
-plot_imb_1 <- function(df_plot, df_names, text_labels, label_angle = NULL, 
-                       label_color, label_size, col_palette){
+plot_imb_single <- function(
+    df_plot,
+    text_labels = TRUE, 
+    label_angle = NULL, 
+    label_color = NULL, 
+    label_size = NULL,
+    col_palette = 0
+){
+  df_names <- attr(df_plot, "df_names")
   # define a plot wide nudge interval
   nudge <- max(df_plot$pcnt) / 50
   # convert col_name to factor
@@ -93,8 +100,16 @@ plot_imb_1 <- function(df_plot, df_names, text_labels, label_angle = NULL,
   plt
 }
 
-plot_imb_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
-  
+plot_imb_pair <- function(
+    df_plot,
+    text_labels = TRUE, 
+    label_angle = NULL, 
+    label_color = NULL, 
+    label_size = NULL,
+    col_palette = 0, 
+    alpha = 0.05
+){
+  df_names <- attr(df_plot, "df_names")
   # combine col_name and value
   df_plot <- df_plot %>% 
     mutate(col_name = paste0(col_name, "\n(", value, ")"))
@@ -154,7 +169,16 @@ plot_imb_2 <- function(df_plot, df_names, alpha, text_labels, col_palette){
   plt
 }
 
-plot_imb_grouped <- function(df_plot, df_names, text_labels, col_palette, plot_type){
+plot_imb_grouped <- function(    
+    df_plot,
+    text_labels = TRUE, 
+    label_angle = NULL, 
+    label_color = NULL, 
+    label_size = NULL,
+    col_palette = 0, 
+    plot_type = NULL
+){
+  df_names <- attr(df_plot, "df_names")
   # group variable name
   group_name <- colnames(df_plot)[1]
   if(plot_type == 1){
