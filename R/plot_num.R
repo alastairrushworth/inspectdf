@@ -16,6 +16,7 @@
 #' @importFrom ggplot2 sec_axis
 #' @importFrom ggplot2 theme
 #' @importFrom rlang :=
+#' @importFrom tidyr pivot_longer
 #' @importFrom tidyr unnest
 
 plot_num_single <- function(
