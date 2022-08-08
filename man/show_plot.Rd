@@ -4,62 +4,53 @@
 \alias{show_plot}
 \title{Simple graphical inspection of dataframe summaries}
 \usage{
-show_plot(
-  x,
-  text_labels = TRUE,
-  alpha = 0.05,
-  high_cardinality = 0,
-  plot_layout = NULL,
-  col_palette = 0,
-  plot_type = 1,
-  label_thresh = 0.1,
-  label_angle = NULL,
-  label_color = NULL,
-  label_size = NULL
-)
+show_plot(x, ...)
 }
 \arguments{
-\item{x}{Dataframe resulting from a call to an \code{inspect_*()} function.}
+\item{x}{Dataframe resulting from the output of an \code{inspect_*()} function.}
 
-\item{text_labels}{Boolean.  Whether to show text annotation on plots.  Defaults to \code{TRUE}.}
-
-\item{alpha}{Alpha level for performing any significance tests.  Defaults to 0.05.}
-
-\item{high_cardinality}{Minimum number of occurrences of category to be shown as a distinct segment 
-in the plot (\code{inspect_cat()} only).  Default is 0 - all distinct levels are shown.  Setting 
-\code{high_cardinality > 0} can speed up plot rendering when categorical columns contain 
-many near-unique values.}
-
-\item{plot_layout}{Vector specifying the number of rows and columns 
-in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
-\code{plot_layout = c(3, 2)}.}
-
-\item{col_palette}{Integer indicating the colour palette to use:
-\itemize{
-\item \code{0}: (default) `ggplot2` color palette
-\item \code{1}: a \href{http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/}{colorblind friendly palette}
-\item \code{2}: \href{https://www.color-hex.com/color-palette/25888}{80s theme}
-\item \code{3}: \href{https://www.color-hex.com/color-palette/79261}{rainbow theme}
-\item \code{4}: \href{https://www.color-hex.com/color-palette/78663}{mario theme}
-\item \code{5}: \href{https://www.color-hex.com/color-palette/78664}{pokemon theme}
-}}
-
-\item{plot_type}{Experimental.  Integer determining plot type to print.  Defaults to 1.}
-
-\item{label_thresh}{(\code{inspect_cat()} only.  Minimum occurrence frequency of category for 
-a text label to be shown.  Smaller values of \code{label_thresh} will show labels 
-for less common categories but at the expense of increased plot rendering time.  Defaults to 0.1.}
-
-\item{label_angle}{Numeric value specifying angle with which to rotate text annotation, 
-if applicable.  Defaults to 90 for most plots.}
-
-\item{label_color}{Character string or character vector specifying colors for text annotation, 
-if applicable.  Usually defaults to white and gray.}
-
-\item{label_size}{Numeric value specifying font size for text annotation, if applicable.}
+\item{...}{Optional arguments that modify the plot output, see Details.}
 }
 \description{
 Easily visualise output from \code{inspect_*()} functions.
+}
+\details{
+\strong{Generic arguments for all plot type}
+\describe{
+\item{\code{text_labels}}{Boolean.  Whether to show text annotation on plots.  Defaults to \code{TRUE}.}
+\item{\code{label_color}}{Character string or character vector specifying colors for text annotation, 
+if applicable.  Usually defaults to white and gray.}
+\item{\code{label_angle}}{Numeric value specifying angle with which to rotate text annotation, 
+if applicable.  Defaults to 90 for most plots.}
+\item{\code{label_size}}{Numeric value specifying font size for text annotation, if applicable.}
+\item{\code{col_palette}}{Integer indicating the colour palette to use:  \code{0}: (default) `ggplot2` color palette, 
+\code{1}: \href{http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/}{colorblind friendly palette}, 
+\code{2}: \href{https://www.color-hex.com/color-palette/25888}{80s theme}, 
+\code{3}: \href{https://www.color-hex.com/color-palette/79261}{rainbow theme}, 
+\code{4}: \href{https://www.color-hex.com/color-palette/78663}{mario theme}, 
+\code{5}: \href{https://www.color-hex.com/color-palette/78664}{pokemon theme}
+}}
+
+
+\strong{Arguments for plotting \code{inspect_cat()}}
+\describe{
+\item{\code{high_cardinality}}{Minimum number of occurrences of category to be shown as a distinct segment 
+in the plot (\code{inspect_cat()} only).  Default is 0 - all distinct levels are shown.  Setting 
+\code{high_cardinality > 0} can speed up plot rendering when categorical columns contain 
+many near-unique values.}
+\item{\code{label_thresh}}{Minimum occurrence frequency of category for 
+a text label to be shown.  Smaller values of \code{label_thresh} will show labels 
+for less common categories but at the expense of increased plot rendering time.  Defaults to 0.1. 
+}}
+
+
+\strong{Other arguments}
+\describe{
+\item{\code{plot_type}}{Experimental.  Integer determining plot type to print.  Defaults to 1.}
+\item{\code{plot_layout}}{Vector specifying the number of rows and columns 
+in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
+\code{plot_layout = c(3, 2)}.}
+}
 }
 \examples{
 # Load 'starwars' data
