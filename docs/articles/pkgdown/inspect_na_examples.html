@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,23 +40,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.12</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -89,7 +85,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/alastairrushworth/inspectdf/">
+  <a href="https://github.com/alastairrushworth/inspectdf/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,13 +100,13 @@
 
       
 
-      </header><script src="inspect_na_examples_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Missingness and counting NAs</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_na_examples.Rmd"><code>vignettes/pkgdown/inspect_na_examples.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/HEAD/vignettes/pkgdown/inspect_na_examples.Rmd" class="external-link"><code>vignettes/pkgdown/inspect_na_examples.Rmd</code></a></small>
       <div class="hidden name"><code>inspect_na_examples.Rmd</code></div>
 
     </div>
@@ -123,84 +119,112 @@
 <!-- # ) -->
 <!-- # ``` -->
 <!-- #  -->
-<div id="illustrative-data-starwars" class="section level2">
-<h2 class="hasAnchor">
-<a href="#illustrative-data-starwars" class="anchor"></a>Illustrative data: <code>starwars</code>
+<div class="section level2">
+<h2 id="illustrative-data-starwars">Illustrative data: <code>starwars</code><a class="anchor" aria-label="anchor" href="#illustrative-data-starwars"></a>
 </h2>
-<p>The examples below make use of the <code>starwars</code> and <code>storms</code> data from the <code>dplyr</code> package</p>
+<p>The examples below make use of the <code>starwars</code> and
+<code>storms</code> data from the <code>dplyr</code> package</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># some example data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">storms</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
-<p>For illustrating comparisons of dataframes, use the <code>starwars</code> data and produce two new dataframes <code>star_1</code> and <code>star_2</code> that randomly sample the rows of the original and drop a couple of columns.</p>
+<code class="sourceCode R"><span><span class="co"># some example data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">storms</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span></code></pre></div>
+<p>For illustrating comparisons of dataframes, use the
+<code>starwars</code> data and produce two new dataframes
+<code>star_1</code> and <code>star_2</code> that randomly sample the
+rows of the original and drop a couple of columns.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
-<span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="inspect_na-for-a-single-dataframe" class="section level2">
-<h2 class="hasAnchor">
-<a href="#inspect_na-for-a-single-dataframe" class="anchor"></a><code>inspect_na()</code> for a single dataframe</h2>
-<p><code><a href="../../reference/inspect_na.html">inspect_na()</a></code> summarises the prevalence of missing values by each column in a data frame. A tibble containing the count (<code>cnt</code>) and the overall percentage (<code>pcnt</code>) of missing values is returned.</p>
+<div class="section level2">
+<h2 id="inspect_na-for-a-single-dataframe">
+<code>inspect_na()</code> for a single dataframe<a class="anchor" aria-label="anchor" href="#inspect_na-for-a-single-dataframe"></a>
+</h2>
+<p><code><a href="../../reference/inspect_na.html">inspect_na()</a></code> summarises the prevalence of missing values
+by each column in a data frame. A tibble containing the count
+(<code>cnt</code>) and the overall percentage (<code>pcnt</code>) of
+missing values is returned.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/">inspectdf</a></span><span class="op">)</span>
-<span class="fu"><a href="../../reference/inspect_na.html">inspect_na</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 14 x 3
-##    col_name     cnt  pcnt
-##    &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt;
-##  1 birth_year    44 50.6 
-##  2 mass          28 32.2 
-##  3 homeworld     10 11.5 
-##  4 height         6  6.90
-##  5 hair_color     5  5.75
-##  6 sex            4  4.60
-##  7 gender         4  4.60
-##  8 species        4  4.60
-##  9 name           0  0   
-## 10 skin_color     0  0   
-## 11 eye_color      0  0   
-## 12 films          0  0   
-## 13 vehicles       0  0   
-## 14 starships      0  0</code></pre>
-<p>A barplot can be produced by passing the result to <code><a href="../../reference/show_plot.html">show_plot()</a></code>:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/" class="external-link">inspectdf</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/inspect_na.html">inspect_na</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 14 × 3</span></span></span>
+<span><span class="co">##    col_name     cnt  pcnt</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> birth_year    44 50.6 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> mass          28 32.2 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> homeworld     10 11.5 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> height         6  6.90</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> hair_color     5  5.75</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> sex            4  4.60</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> gender         4  4.60</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> species        4  4.60</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> name           0  0   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> skin_color     0  0   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span> eye_color      0  0   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span> films          0  0   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span> vehicles       0  0   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span> starships      0  0</span></span></code></pre>
+<p>A barplot can be produced by passing the result to
+<code><a href="../../reference/show_plot.html">show_plot()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_na.html">inspect_na</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/inspect_na.html">inspect_na</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="inspect_na_examples_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
-<div id="inspect_na-for-two-dataframes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#inspect_na-for-two-dataframes" class="anchor"></a><code>inspect_na()</code> for two dataframes</h2>
-<p>When a second dataframe is provided, <code><a href="../../reference/inspect_na.html">inspect_na()</a></code> returns a tibble containing counts and percentage missingness by column, with summaries for the first and second data frames are show in columns with names appended with <code>_1</code> and <code>_2</code>, respectively. In addition, a <span class="math inline">\(p\)</span>-value is calculated which provides a measure of evidence of whether the difference in missing values is significantly different.</p>
+<div class="section level2">
+<h2 id="inspect_na-for-two-dataframes">
+<code>inspect_na()</code> for two dataframes<a class="anchor" aria-label="anchor" href="#inspect_na-for-two-dataframes"></a>
+</h2>
+<p>When a second dataframe is provided, <code><a href="../../reference/inspect_na.html">inspect_na()</a></code>
+returns a tibble containing counts and percentage missingness by column,
+with summaries for the first and second data frames are show in columns
+with names appended with <code>_1</code> and <code>_2</code>,
+respectively. In addition, a <span class="math inline">\(p\)</span>-value is calculated which provides a
+measure of evidence of whether the difference in missing values is
+significantly different.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_na.html">inspect_na</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 14 x 6
-##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value
-##    &lt;chr&gt;      &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-##  1 birth_year    23     46    28     56   0.424
-##  2 mass          13     26    15     30   0.824
-##  3 hair_color     4      8     2      4   0.674
-##  4 homeworld      4      8     7     14   0.523
-##  5 sex            2      4     3      6   1.00 
-##  6 gender         2      4     3      6   1.00 
-##  7 species        2      4     3      6   1.00 
-##  8 height         1      2    NA     NA  NA    
-##  9 name           0      0    NA     NA  NA    
-## 10 skin_color     0      0     0      0  NA    
-## 11 eye_color      0      0     0      0  NA    
-## 12 films          0      0     0      0  NA    
-## 13 vehicles       0      0     0      0  NA    
-## 14 starships      0      0     0      0  NA</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/inspect_na.html">inspect_na</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 14 × 6</span></span></span>
+<span><span class="co">##    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2 p_value</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> birth_year    24     48    23     46   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> mass          14     28    12     24   0.820</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> homeworld      5     10     3      6   0.712</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> height         4      8    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>  <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> hair_color     3      6     3      6   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> sex            3      6     2      4   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> gender         3      6     2      4   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> species        3      6     2      4   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> name           0      0    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>  <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> skin_color     0      0     0      0  <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span> eye_color      0      0     0      0  <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span> films          0      0     0      0  <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span> vehicles       0      0     0      0  <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span> starships      0      0     0      0  <span style="color: #BB0000;">NA</span></span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_na.html">inspect_na</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/inspect_na.html">inspect_na</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="inspect_na_examples_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Notes:</p>
 <ul>
-<li>Smaller <span class="math inline">\(p\)</span>-values indicate stronger evidence of a difference in the missingness rate for a single column</li>
-<li>If a column appears in one data frame and not the other - for example <code>height</code> appears in <code>star_1</code> but nor <code>star_2</code>, then the corresponding <code>pcnt_</code>, <code>cnt_</code> and <code>p_value</code> columns will contain <code>NA</code>
+<li>Smaller <span class="math inline">\(p\)</span>-values indicate
+stronger evidence of a difference in the missingness rate for a single
+column</li>
+<li>If a column appears in one data frame and not the other - for
+example <code>height</code> appears in <code>star_1</code> but nor
+<code>star_2</code>, then the corresponding <code>pcnt_</code>,
+<code>cnt_</code> and <code>p_value</code> columns will contain
+<code>NA</code>
 </li>
-<li>Where the missingness is identically 0, the <code>p_value</code> is <code>NA</code>.</li>
-<li>The visualisation illustrates the significance of the difference using a coloured bar overlay. Orange bars indicate evidence of equality or missingness, while blue bars indicate inequality. If a <code>p_value</code> cannot be calculated, no coloured bar is shown.</li>
-<li>The significance level can be specified using the <code>alpha</code> argument to <code><a href="../../reference/inspect_na.html">inspect_na()</a></code>. The default is <code>alpha = 0.05</code>.</li>
+<li>Where the missingness is identically 0, the <code>p_value</code> is
+<code>NA</code>.</li>
+<li>The visualisation illustrates the significance of the difference
+using a coloured bar overlay. Orange bars indicate evidence of equality
+or missingness, while blue bars indicate inequality. If a
+<code>p_value</code> cannot be calculated, no coloured bar is
+shown.</li>
+<li>The significance level can be specified using the <code>alpha</code>
+argument to <code><a href="../../reference/inspect_na.html">inspect_na()</a></code>. The default is
+<code>alpha = 0.05</code>.</li>
 </ul>
 </div>
   </div>
@@ -216,11 +240,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Alastair Rushworth.</p>
+  <p></p>
+<p>Developed by Alastair Rushworth.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -228,6 +254,8 @@
 
   
 
+
+  
 
   </body>
 </html>

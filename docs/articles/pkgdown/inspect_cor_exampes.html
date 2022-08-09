@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,23 +40,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.12</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -89,7 +85,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/alastairrushworth/inspectdf/">
+  <a href="https://github.com/alastairrushworth/inspectdf/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,101 +100,128 @@
 
       
 
-      </header><script src="inspect_cor_exampes_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Correlation diagnostics for numeric columns</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_cor_exampes.Rmd"><code>vignettes/pkgdown/inspect_cor_exampes.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/HEAD/vignettes/pkgdown/inspect_cor_exampes.Rmd" class="external-link"><code>vignettes/pkgdown/inspect_cor_exampes.Rmd</code></a></small>
       <div class="hidden name"><code>inspect_cor_exampes.Rmd</code></div>
 
     </div>
 
     
     
-<div id="illustrative-data-starwars" class="section level2">
-<h2 class="hasAnchor">
-<a href="#illustrative-data-starwars" class="anchor"></a>Illustrative data: <code>starwars</code>
+<div class="section level2">
+<h2 id="illustrative-data-starwars">Illustrative data: <code>starwars</code><a class="anchor" aria-label="anchor" href="#illustrative-data-starwars"></a>
 </h2>
-<p>The examples below make use of the <code>starwars</code> and <code>storms</code> data from the <code>dplyr</code> package</p>
+<p>The examples below make use of the <code>starwars</code> and
+<code>storms</code> data from the <code>dplyr</code> package</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># some example data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">storms</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
-<p>For illustrating comparisons of dataframes, use the <code>starwars</code> data and produce two new dataframes <code>star_1</code> and <code>star_2</code> that randomly sample the rows of the original and drop a couple of columns.</p>
+<code class="sourceCode R"><span><span class="co"># some example data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">storms</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span></code></pre></div>
+<p>For illustrating comparisons of dataframes, use the
+<code>starwars</code> data and produce two new dataframes
+<code>star_1</code> and <code>star_2</code> that randomly sample the
+rows of the original and drop a couple of columns.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
-<span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="inspect_cor-for-a-single-dataframe" class="section level2">
-<h2 class="hasAnchor">
-<a href="#inspect_cor-for-a-single-dataframe" class="anchor"></a><code>inspect_cor()</code> for a single dataframe</h2>
-<p><code><a href="../../reference/inspect_cor.html">inspect_cor()</a></code> returns a tibble containing Pearson’s correlation coefficient, confidence intervals and <span class="math inline">\(p\)</span>-values for pairs of numeric columns . The function combines the functionality of <code><a href="https://rdrr.io/r/stats/cor.html">cor()</a></code> and <code><a href="https://rdrr.io/r/stats/cor.test.html">cor.test()</a></code> in a more convenient wrapper.</p>
+<div class="section level2">
+<h2 id="inspect_cor-for-a-single-dataframe">
+<code>inspect_cor()</code> for a single dataframe<a class="anchor" aria-label="anchor" href="#inspect_cor-for-a-single-dataframe"></a>
+</h2>
+<p><code><a href="../../reference/inspect_cor.html">inspect_cor()</a></code> returns a tibble containing Pearson’s
+correlation coefficient, confidence intervals and <span class="math inline">\(p\)</span>-values for pairs of numeric columns .
+The function combines the functionality of <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor()</a></code> and
+<code><a href="https://rdrr.io/r/stats/cor.test.html" class="external-link">cor.test()</a></code> in a more convenient wrapper.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/">inspectdf</a></span><span class="op">)</span>
-<span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 45 x 7
-##    col_1       col_2         corr  p_value  lower  upper pcnt_nna
-##    &lt;chr&gt;       &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
-##  1 pressure    wind        -0.942 0.       -0.944 -0.940    100  
-##  2 hu_diameter pressure    -0.842 0.       -0.852 -0.832     34.8
-##  3 hu_diameter wind         0.774 0.        0.760  0.787     34.8
-##  4 hu_diameter ts_diameter  0.684 0.        0.666  0.701     34.8
-##  5 ts_diameter pressure    -0.683 0.       -0.701 -0.665     34.8
-##  6 ts_diameter wind         0.640 0.        0.620  0.659     34.8
-##  7 ts_diameter lat          0.301 2.50e-70  0.270  0.330     34.8
-##  8 day         month       -0.183 6.47e-75 -0.202 -0.164    100  
-##  9 hu_diameter lat          0.164 3.08e-22  0.132  0.197     34.8
-## 10 ts_diameter month        0.139 2.34e-16  0.106  0.172     34.8
-## # … with 35 more rows</code></pre>
-<p>A plot showing point estimate and confidence intervals is printed when using the <code><a href="../../reference/show_plot.html">show_plot()</a></code> function. Note that intervals that straddle the null value of 0 are shown in gray:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/" class="external-link">inspectdf</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 45 × 7</span></span></span>
+<span><span class="co">##    col_1                        col_2       corr   p_value  lower  upper pcnt_…¹</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> pressure                     wind      -<span style="color: #BB0000;">0.944</span> 0   <span style="color: #949494;"> </span>     -<span style="color: #BB0000;">0.946</span> -<span style="color: #BB0000;">0.942</span>   100  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> hurricane_force_diameter     pressure  -<span style="color: #BB0000;">0.821</span> 0   <span style="color: #949494;"> </span>     -<span style="color: #BB0000;">0.830</span> -<span style="color: #BB0000;">0.812</span>    45.1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> hurricane_force_diameter     wind       0.754 0   <span style="color: #949494;"> </span>      0.742  0.765    45.1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> hurricane_force_diameter     tropical…  0.681 0   <span style="color: #949494;"> </span>      0.666  0.695    45.1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> tropicalstorm_force_diameter pressure  -<span style="color: #BB0000;">0.678</span> 0   <span style="color: #949494;"> </span>     -<span style="color: #BB0000;">0.692</span> -<span style="color: #BB0000;">0.663</span>    45.1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> tropicalstorm_force_diameter wind       0.625 0   <span style="color: #949494;"> </span>      0.608  0.641    45.1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> tropicalstorm_force_diameter lat        0.318 1.66<span style="color: #949494;">e</span><span style="color: #BB0000;">-119</span>  0.294  0.342    45.1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> hurricane_force_diameter     lat        0.190 8.83<span style="color: #949494;">e</span><span style="color: #BB0000;">- 44</span>  0.164  0.215    45.1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> day                          month     -<span style="color: #BB0000;">0.174</span> 5.59<span style="color: #949494;">e</span><span style="color: #BB0000;">- 80</span> -<span style="color: #BB0000;">0.191</span> -<span style="color: #BB0000;">0.156</span>   100  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> tropicalstorm_force_diameter month      0.171 8.89<span style="color: #949494;">e</span><span style="color: #BB0000;">- 36</span>  0.145  0.197    45.1</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 35 more rows, and abbreviated variable name ¹​pcnt_nna</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre>
+<p>A plot showing point estimate and confidence intervals is printed
+when using the <code><a href="../../reference/show_plot.html">show_plot()</a></code> function. Note that intervals
+that straddle the null value of 0 are shown in gray:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="inspect_cor_exampes_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>Notes:</p>
 <ul>
-<li>The tibble is sorted in descending order of the absolute coefficient <span class="math inline">\(|\rho|\)</span>.</li>
+<li>The tibble is sorted in descending order of the absolute coefficient
+<span class="math inline">\(|\rho|\)</span>.</li>
 <li>
-<code>inspect_cor</code> drops missing values prior to calculation of each correlation coefficient.<br>
+<code>inspect_cor</code> drops missing values prior to calculation
+of each correlation coefficient.<br>
 </li>
-<li>The <code>p_value</code> is associated with the null hypothesis <span class="math inline">\(H_0: \rho = 0\)</span>.</li>
+<li>The <code>p_value</code> is associated with the null hypothesis
+<span class="math inline">\(H_0: \rho = 0\)</span>.</li>
 </ul>
 </div>
-<div id="inspect_cor-for-two-dataframes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#inspect_cor-for-two-dataframes" class="anchor"></a><code>inspect_cor()</code> for two dataframes</h2>
-<p>When a second dataframe is provided, <code><a href="../../reference/inspect_cor.html">inspect_cor()</a></code> returns a tibble that compares correlation coefficients of the first dataframe to those in the second. The <code>p_value</code> column contains a measure of evidence for whether the two correlation coefficients are equal or not.</p>
+<div class="section level2">
+<h2 id="inspect_cor-for-two-dataframes">
+<code>inspect_cor()</code> for two dataframes<a class="anchor" aria-label="anchor" href="#inspect_cor-for-two-dataframes"></a>
+</h2>
+<p>When a second dataframe is provided, <code><a href="../../reference/inspect_cor.html">inspect_cor()</a></code>
+returns a tibble that compares correlation coefficients of the first
+dataframe to those in the second. The <code>p_value</code> column
+contains a measure of evidence for whether the two correlation
+coefficients are equal or not.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span>, <span class="va">storms</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 45 x 5
-##    col_1       col_2       corr_1 corr_2 p_value
-##    &lt;chr&gt;       &lt;chr&gt;        &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-##  1 pressure    wind        -0.942 -0.942   0.929
-##  2 hu_diameter pressure    -0.842 -0.842   1    
-##  3 hu_diameter wind         0.774  0.774   1    
-##  4 hu_diameter ts_diameter  0.684  0.684   1    
-##  5 ts_diameter pressure    -0.683 -0.683   1    
-##  6 ts_diameter wind         0.640  0.640   1    
-##  7 ts_diameter lat          0.301  0.301   1    
-##  8 day         month       -0.183 -0.178   0.729
-##  9 hu_diameter lat          0.164  0.164   1    
-## 10 ts_diameter month        0.139  0.139   1    
-## # … with 35 more rows</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span>, <span class="va">storms</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 45 × 5</span></span></span>
+<span><span class="co">##    col_1                        col_2                      corr_1 corr_2 p_value</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> pressure                     wind                       -<span style="color: #BB0000;">0.944</span> -<span style="color: #BB0000;">0.944</span>   0.914</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> hurricane_force_diameter     pressure                   -<span style="color: #BB0000;">0.821</span> -<span style="color: #BB0000;">0.821</span>   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> hurricane_force_diameter     wind                        0.754  0.754   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> hurricane_force_diameter     tropicalstorm_force_diame…  0.681  0.681   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> tropicalstorm_force_diameter pressure                   -<span style="color: #BB0000;">0.678</span> -<span style="color: #BB0000;">0.678</span>   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> tropicalstorm_force_diameter wind                        0.625  0.625   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> tropicalstorm_force_diameter lat                         0.318  0.318   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> hurricane_force_diameter     lat                         0.190  0.190   1    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> day                          month                      -<span style="color: #BB0000;">0.174</span> -<span style="color: #BB0000;">0.170</span>   0.743</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> tropicalstorm_force_diameter month                       0.171  0.171   1    </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 35 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre>
 <p>To plot the comparison of the top 20 correlation coefficients:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span>, <span class="va">storms</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">storms</span>, <span class="va">storms</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="inspect_cor_exampes_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Notes:</p>
 <ul>
-<li>Smaller <code>p_value</code> indicates stronger evidence against the null hypothesis <span class="math inline">\(H_0: \rho_1 = \rho_2\)</span> and an indication that the true correlation coefficients differ.</li>
-<li>The visualisation illustrates the significance of the difference using a coloured bar underlay. Coloured bars indicate evidence of inequality of correlations, while gray bars indicate equality.<br>
+<li>Smaller <code>p_value</code> indicates stronger evidence against the
+null hypothesis <span class="math inline">\(H_0: \rho_1 =
+\rho_2\)</span> and an indication that the true correlation coefficients
+differ.</li>
+<li>The visualisation illustrates the significance of the difference
+using a coloured bar underlay. Coloured bars indicate evidence of
+inequality of correlations, while gray bars indicate equality.<br>
 </li>
-<li>For a pair of features, if either coefficient is <code>NA</code>, the comparison is omitted from the visualisation.</li>
-<li>The significance level can be specified using the <code>alpha</code> argument to <code><a href="../../reference/inspect_cor.html">inspect_cor()</a></code>. The default is <code>alpha = 0.05</code>.</li>
+<li>For a pair of features, if either coefficient is <code>NA</code>,
+the comparison is omitted from the visualisation.</li>
+<li>The significance level can be specified using the <code>alpha</code>
+argument to <code><a href="../../reference/inspect_cor.html">inspect_cor()</a></code>. The default is
+<code>alpha = 0.05</code>.</li>
 </ul>
 </div>
   </div>
@@ -214,11 +237,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Alastair Rushworth.</p>
+  <p></p>
+<p>Developed by Alastair Rushworth.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -226,6 +251,8 @@
 
   
 
+
+  
 
   </body>
 </html>
