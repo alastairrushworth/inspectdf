@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,23 +40,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">inspectdf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.12</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -89,7 +85,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/alastairrushworth/inspectdf/">
+  <a href="https://github.com/alastairrushworth/inspectdf/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,119 +100,145 @@
 
       
 
-      </header><script src="inspect_types_examples_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Exploring dataframe column types</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/master/vignettes/pkgdown/inspect_types_examples.Rmd"><code>vignettes/pkgdown/inspect_types_examples.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/alastairrushworth/inspectdf/blob/HEAD/vignettes/pkgdown/inspect_types_examples.Rmd" class="external-link"><code>vignettes/pkgdown/inspect_types_examples.Rmd</code></a></small>
       <div class="hidden name"><code>inspect_types_examples.Rmd</code></div>
 
     </div>
 
     
     
-<div id="illustrative-data-starwars" class="section level2">
-<h2 class="hasAnchor">
-<a href="#illustrative-data-starwars" class="anchor"></a>Illustrative data: <code>starwars</code>
+<div class="section level2">
+<h2 id="illustrative-data-starwars">Illustrative data: <code>starwars</code><a class="anchor" aria-label="anchor" href="#illustrative-data-starwars"></a>
 </h2>
-<p>The examples below make use of the <code>starwars</code> from the <code>dplyr</code> package.</p>
+<p>The examples below make use of the <code>starwars</code> from the
+<code>dplyr</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span>
-
-<span class="co"># print the first few rows</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 14
-##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-## 1 Luke…    172    77 blond      fair       blue            19   male  mascu…
-## 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
-## 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
-## 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
-## 5 Leia…    150    49 brown      light      brown           19   fema… femin…
-## 6 Owen…    178   120 brown, gr… light      blue            52   male  mascu…
-## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
-## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># print the first few rows</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 14</span></span></span>
+<span><span class="co">##   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> Luke Skywal…    172    77 blond   fair    blue       19   male  mascu… Tatooi…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> C-3PO           167    75 <span style="color: #BB0000;">NA</span>      gold    yellow    112   none  mascu… Tatooi…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> R2-D2            96    32 <span style="color: #BB0000;">NA</span>      white,… red        33   none  mascu… Naboo  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> Darth Vader     202   136 none    white   yellow     41.9 male  mascu… Tatooi…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> Leia Organa     150    49 brown   light   brown      19   fema… femin… Aldera…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> Owen Lars       178   120 brown,… light   blue       52   male  mascu… Tatooi…</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre>
 </div>
-<div id="inspect_types-for-a-single-dataframe" class="section level2">
-<h2 class="hasAnchor">
-<a href="#inspect_types-for-a-single-dataframe" class="anchor"></a><code>inspect_types()</code> for a single dataframe</h2>
-<p>To explore the column types in a data frame, use the function <code><a href="../../reference/inspect_types.html">inspect_types()</a></code>. The command returns a <code>tibble</code> summarising the counts and percentages of columns with particular types.</p>
+<div class="section level2">
+<h2 id="inspect_types-for-a-single-dataframe">
+<code>inspect_types()</code> for a single dataframe<a class="anchor" aria-label="anchor" href="#inspect_types-for-a-single-dataframe"></a>
+</h2>
+<p>To explore the column types in a data frame, use the function
+<code><a href="../../reference/inspect_types.html">inspect_types()</a></code>. The command returns a <code>tibble</code>
+summarising the counts and percentages of columns with particular
+types.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/">inspectdf</a></span><span class="op">)</span>
-
-<span class="co"># return tibble showing columns types</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span>
-<span class="va">x</span></code></pre></div>
-<pre><code>## # A tibble: 4 x 4
-##   type        cnt  pcnt col_name    
-##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;named list&gt;
-## 1 character     8 57.1  &lt;chr [8]&gt;   
-## 2 list          3 21.4  &lt;chr [3]&gt;   
-## 3 numeric       2 14.3  &lt;chr [2]&gt;   
-## 4 integer       1  7.14 &lt;chr [1]&gt;</code></pre>
-<p>The names of columns with specific type can be accessed in the list columns <code>col_name</code>, for example the list columns are found using</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/" class="external-link">inspectdf</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># return tibble showing columns types</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
+<span><span class="co">##   type        cnt  pcnt col_name    </span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;named list&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> character     8 57.1  <span style="color: #949494;">&lt;chr [8]&gt;</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> list          3 21.4  <span style="color: #949494;">&lt;chr [3]&gt;</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> numeric       2 14.3  <span style="color: #949494;">&lt;chr [2]&gt;</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> integer       1  7.14 <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span></code></pre>
+<p>The names of columns with specific type can be accessed in the list
+columns <code>col_name</code>, for example the list columns are found
+using</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">x</span><span class="op">$</span><span class="va">col_name</span><span class="op">$</span><span class="va">list</span></code></pre></div>
-<pre><code>##          12          13          14 
-##     "films"  "vehicles" "starships"</code></pre>
-<p>A radial visualisation of all columns and types is returned by the <code><a href="../../reference/show_plot.html">show_plot()</a></code> command:</p>
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">col_name</span><span class="op">$</span><span class="va">list</span></span></code></pre></div>
+<pre><code><span><span class="co">##          12          13          14 </span></span>
+<span><span class="co">##     "films"  "vehicles" "starships"</span></span></code></pre>
+<p>A radial visualisation of all columns and types is returned by the
+<code><a href="../../reference/show_plot.html">show_plot()</a></code> command:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># radial visualisation of column types</span>
-<span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># radial visualisation of column types</span></span>
+<span><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="inspect_types_examples_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
-<div id="inspect_types-for-comparing-two-data-frames" class="section level2">
-<h2 class="hasAnchor">
-<a href="#inspect_types-for-comparing-two-data-frames" class="anchor"></a><code>inspect_types()</code> for comparing two data frames</h2>
-<p>To illustrate the comparison of two data frames, we create two new data frames by randomly sampling the rows of <code>starwars</code>, dropping some of the columns and recoding the colums <code>mass</code> to character. The results are assigned to the objects <code>star_1</code> and <code>star_2</code>:</p>
+<div class="section level2">
+<h2 id="inspect_types-for-comparing-two-data-frames">
+<code>inspect_types()</code> for comparing two data frames<a class="anchor" aria-label="anchor" href="#inspect_types-for-comparing-two-data-frames"></a>
+</h2>
+<p>To illustrate the comparison of two data frames, we create two new
+data frames by randomly sampling the rows of <code>starwars</code>,
+dropping some of the columns and recoding the colums <code>mass</code>
+to character. The results are assigned to the objects
+<code>star_1</code> and <code>star_2</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># sample 50 rows from `starwars`</span>
-<span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
-<span class="co"># recode the mass column to character</span>
-<span class="va">star_1</span><span class="op">$</span><span class="va">mass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">star_1</span><span class="op">$</span><span class="va">mass</span><span class="op">)</span>
-<span class="co"># sample 50 rows from `starwars` and drop the first two columns</span>
-<span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
-<p>When a second dataframe is provided, <code><a href="../../reference/inspect_types.html">inspect_types()</a></code> returns a tibble that compares the column names and types found in each of the input data frames. The columns <code>cnt_1</code> and <code>cnt_2</code> contain the total number of columns with each type found in the first and second inputs, respectively:</p>
+<code class="sourceCode R"><span><span class="co"># sample 50 rows from `starwars`</span></span>
+<span><span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
+<span><span class="co"># recode the mass column to character</span></span>
+<span><span class="va">star_1</span><span class="op">$</span><span class="va">mass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">star_1</span><span class="op">$</span><span class="va">mass</span><span class="op">)</span></span>
+<span><span class="co"># sample 50 rows from `starwars` and drop the first two columns</span></span>
+<span><span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p>When a second dataframe is provided, <code><a href="../../reference/inspect_types.html">inspect_types()</a></code>
+returns a tibble that compares the column names and types found in each
+of the input data frames. The columns <code>cnt_1</code> and
+<code>cnt_2</code> contain the total number of columns with each type
+found in the first and second inputs, respectively:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># compare the column types for star_1 and star_2</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span>
-<span class="va">x</span></code></pre></div>
-<pre><code>## # A tibble: 4 x 6
-##   type      equal cnt_1 cnt_2 columns           issues   
-##   &lt;chr&gt;     &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;named list&gt;      &lt;list&gt;   
-## 1 character ✘         9     7 &lt;tibble [16 × 2]&gt; &lt;chr [2]&gt;
-## 2 list      ✔        3     3 &lt;tibble [6 × 2]&gt;  &lt;NULL&gt;   
-## 3 integer   ✘         1     0 &lt;tibble [1 × 2]&gt;  &lt;chr [1]&gt;
-## 4 numeric   ✘         1     2 &lt;tibble [3 × 2]&gt;  &lt;chr [1]&gt;</code></pre>
-<p><code>columns</code> is a named list column containing a list of tibbles. Each tibble records the names of columns with each type. As an example, all numeric column names is accessed using:</p>
+<code class="sourceCode R"><span><span class="co"># compare the column types for star_1 and star_2</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 6</span></span></span>
+<span><span class="co">##   type      equal cnt_1 cnt_2 columns           issues   </span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;named list&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> character ✘         9     7 <span style="color: #949494;">&lt;tibble [16 × 2]&gt;</span> <span style="color: #949494;">&lt;chr [2]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> list      ✔         3     3 <span style="color: #949494;">&lt;tibble [6 × 2]&gt;</span>  <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> integer   ✘         1     0 <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span>  <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> numeric   ✘         1     2 <span style="color: #949494;">&lt;tibble [3 × 2]&gt;</span>  <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span></code></pre>
+<p><code>columns</code> is a named list column containing a list of
+tibbles. Each tibble records the names of columns with each type. As an
+example, all numeric column names is accessed using:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># tibble of numeric columns in star_1 or star_2</span>
-<span class="va">x</span><span class="op">$</span><span class="va">columns</span><span class="op">$</span><span class="va">numeric</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 2
-##   col_name   data_arg
-##   &lt;chr&gt;      &lt;chr&gt;   
-## 1 birth_year star_1  
-## 2 mass       star_2  
-## 3 birth_year star_2</code></pre>
-<p>The <code>issues</code> column contains a list of character vectors describing specific points of type or columns mismatch between the two data frame inputs. The simplest way to view all of the issues is to use the <code><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest()</a></code> function from the <code>tidyr</code> package:</p>
+<code class="sourceCode R"><span><span class="co"># tibble of numeric columns in star_1 or star_2</span></span>
+<span><span class="va">x</span><span class="op">$</span><span class="va">columns</span><span class="op">$</span><span class="va">numeric</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
+<span><span class="co">##   col_name   data_arg</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> birth_year star_1  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> mass       star_2  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> birth_year star_2</span></span></code></pre>
+<p>The <code>issues</code> column contains a list of character vectors
+describing specific points of type or columns mismatch between the two
+data frame inputs. The simplest way to view all of the issues is to use
+the <code><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest()</a></code> function from the <code>tidyr</code>
+package:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
-<span class="co"># unnest the issue columns so we can see where the differences are between star_1 and star_2</span>
-<span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">issues</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">issues</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 4 x 2
-##   type      issues                                             
-##   &lt;chr&gt;     &lt;chr&gt;                                              
-## 1 character star_1::mass ~ character &lt;!&gt; star_2::mass ~ numeric
-## 2 character star_1::name ~ character  missing from star_2      
-## 3 integer   star_1::height ~ integer  missing from star_2      
-## 4 numeric   star_1::mass ~ character &lt;!&gt; star_2::mass ~ numeric</code></pre>
-<p>Finally, we can produce a simple visualisation showing the differences between <code>star_1</code> and <code>star_2</code> using <code><a href="../../reference/show_plot.html">show_plot()</a></code>:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="co"># unnest the issue columns so we can see where the differences are between star_1 and star_2</span></span>
+<span><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">issues</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">issues</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 2</span></span></span>
+<span><span class="co">##   type      issues                                             </span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                              </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> character star_1::mass ~ character &lt;!&gt; star_2::mass ~ numeric</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> character star_1::name ~ character  missing from star_2      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> integer   star_1::height ~ integer  missing from star_2      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> numeric   star_1::mass ~ character &lt;!&gt; star_2::mass ~ numeric</span></span></code></pre>
+<p>Finally, we can produce a simple visualisation showing the
+differences between <code>star_1</code> and <code>star_2</code> using
+<code><a href="../../reference/show_plot.html">show_plot()</a></code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># print visualisation of column type comparison</span>
-<span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># print visualisation of column type comparison</span></span>
+<span><span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">star_1</span>, <span class="va">star_2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/show_plot.html">show_plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="inspect_types_examples_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
   </div>
@@ -232,11 +254,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Alastair Rushworth.</p>
+  <p></p>
+<p>Developed by Alastair Rushworth.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -244,6 +268,8 @@
 
   
 
+
+  
 
   </body>
 </html>
