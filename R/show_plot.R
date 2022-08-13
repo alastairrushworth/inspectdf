@@ -76,6 +76,8 @@
 #' show_plot(x)
 
 show_plot <- function(x, ...){
+  # check that passed object is not empty
+  if(nrow(x) == 0) rlang::abort('Nothing to plot.')
   type     <- attr(x, "type")
   stat_type <- type$method
   inspect_type <- type$input_type
