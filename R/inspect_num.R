@@ -45,7 +45,7 @@
 #' 
 #' @export
 #' @author Alastair Rushworth
-#' @seealso \code{\link{show_plot}}
+#' @seealso \code{\link{plot}}
 #' 
 #' @examples
 #' # Load dplyr for starwars data & pipe
@@ -225,7 +225,7 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
       ungroup %>% group_by(.data[[group_vars]]) %>%
       summarise(rank_mean = mean(rank_mean))
     # combine group lengths with group means - this is set as an attr &
-    # used for graphics in show_plot
+    # used for graphics in plot
     group_lengths <- group_df %>%
       mutate(rows = lengths(.rows)) %>% 
       select(-.rows) %>%
@@ -235,6 +235,7 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
   attr(out, "type")      <- list(method = "num", input_type = input_type)
   attr(out, "df_names")  <- df_names
   attr(out, "brks_list") <- brks_list
+  class(out) <- c("inspectdf", "tbl_df", "tbl", "data.frame")
   return(out)
 }
 

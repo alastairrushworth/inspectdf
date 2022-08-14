@@ -80,6 +80,9 @@ inspect_cor(starwars, starwars[1:10, ])
 # tech_grp <- tech \%>\% 
 #         group_by(year) \%>\%
 #         inspect_cor()
-# tech_grp \%>\% show_plot()     
+# tech_grp \%>\% plot()     
 
+}
+\seealso{
+\code{\link{plot}}
 }

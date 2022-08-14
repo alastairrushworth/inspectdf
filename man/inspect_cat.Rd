@@ -65,7 +65,7 @@ inspect_cat(starwars, starwars[1:20, ])
 starwars \%>\% group_by(gender) \%>\% inspect_cat()
 }
 \seealso{
-\code{\link{inspect_imb}}, \code{\link{show_plot}}
+\code{\link{inspect_imb}}, \code{\link{plot}}
 }
 \author{
 Alastair Rushworth

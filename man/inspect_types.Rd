@@ -52,7 +52,7 @@ inspect_types(starwars)
 inspect_types(starwars, starwars[1:20, ])
 }
 \seealso{
-\code{\link{show_plot}}
+\code{\link{plot}}
 }
 \author{
 Alastair Rushworth

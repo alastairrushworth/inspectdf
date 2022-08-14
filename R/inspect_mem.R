@@ -34,7 +34,7 @@
 #' 
 #' @export
 #' @author Alastair Rushworth
-#' @seealso \code{\link{show_plot}}
+#' @seealso \code{\link{plot}}
 #' 
 #' @examples
 #' # Load dplyr for starwars data & pipe
@@ -120,5 +120,6 @@ inspect_mem <- function(df1, df2 = NULL){
   attr(out, "type")     <- list(method = "mem", input_type = input_type)
   attr(out, "df_names") <- df_names
   attr(out, "sizes")    <- sizes
+  class(out) <- c("inspectdf", "tbl_df", "tbl", "data.frame")
   return(out)
 }
