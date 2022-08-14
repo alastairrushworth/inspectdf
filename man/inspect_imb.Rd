@@ -69,7 +69,7 @@ inspect_imb(starwars, starwars[1:20, ])
 starwars \%>\% group_by(gender) \%>\% inspect_imb()
 }
 \seealso{
-\code{\link{inspect_cat}}, \code{\link{show_plot}}
+\code{\link{inspect_cat}}, \code{\link{plot}}
 }
 \author{
 Alastair Rushworth

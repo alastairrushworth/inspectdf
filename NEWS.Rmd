@@ -6,6 +6,12 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# `inspectdf` 0.1.0
+
+- __Important change:__ `show_plot()` is replaced with the generic `plot()` 
+in this release.  This is consistent also with the python version `inspectpd`.
+- Report error in `plot()` if there is nothing to plot
+
 # `inspectdf` 0.0.12
 
 - Migrate to `vdiffr` 1.0.0 for graphics tests

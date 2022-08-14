@@ -44,7 +44,7 @@
 #' as there are unique combinations of the grouping variables.
 #' 
 #' @author Alastair Rushworth
-#' @seealso \code{\link{inspect_cat}}, \code{\link{show_plot}}
+#' @seealso \code{\link{inspect_cat}}, \code{\link{plot}}
 #' @export
 #' @examples
 #' # Load dplyr for starwars data & pipe
@@ -132,5 +132,6 @@ inspect_imb <- function(df1, df2 = NULL, include_na = FALSE){
   # attach attributes required for plotting
   attr(out, "type")     <- list(method = "imb", input_type = input_type)
   attr(out, "df_names") <- df_names
+  class(out) <- c("inspectdf", "tbl_df", "tbl", "data.frame")
   return(out)
 }

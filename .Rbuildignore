@@ -21,3 +21,4 @@
 ^\.RData
 ^new_cor\.R$
 ^\.github$
+^notes.R$

@@ -59,7 +59,7 @@ inspect_na(starwars, starwars[1:20, ])
 starwars \%>\% group_by(gender) \%>\% inspect_na()
 }
 \seealso{
-\code{\link{show_plot}}
+\code{\link{plot}}
 }
 \author{
 Alastair Rushworth

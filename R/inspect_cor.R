@@ -45,6 +45,7 @@
 #' 
 #' Note that confidence intervals for \code{kendall} and \code{spearman} assume a normal sampling
 #' distribution for the Fisher z-transform of the correlation.
+#' @seealso \code{\link{plot}}
 #' @export
 #' @examples
 #' 
@@ -64,7 +65,7 @@
 #' # tech_grp <- tech %>% 
 #' #         group_by(year) %>%
 #' #         inspect_cor()
-#' # tech_grp %>% show_plot()     
+#' # tech_grp %>% plot()     
 #' 
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
@@ -144,5 +145,6 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
   attr(out, "type")     <- list(method = "cor", input_type = input_type)
   attr(out, "df_names") <- df_names
   attr(out, "method")   <- method
+  class(out) <- c("inspectdf", "tbl_df", "tbl", "data.frame")
   return(out)
 }

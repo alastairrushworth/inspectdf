@@ -49,33 +49,33 @@
 #' 
 #' # Horizontal bar plot for categorical column composition
 #' x <- inspect_cat(starwars) 
-#' show_plot(x)
+#' plot(x)
 #' 
 #' # Correlation betwee numeric columns + confidence intervals
 #' x <- inspect_cor(starwars)
-#' show_plot(x)
+#' plot(x)
 #' 
 #' # Bar plot of most frequent category for each categorical column
 #' x <- inspect_imb(starwars)
-#' show_plot(x)
+#' plot(x)
 #' 
 #' # Bar plot showing memory usage for each column
 #' x <- inspect_mem(starwars)
-#' show_plot(x)
+#' plot(x)
 #' 
 #' # Occurence of NAs in each column ranked in descending order
 #' x <- inspect_na(starwars)
-#' show_plot(x)
+#' plot(x)
 #' 
 #' # Histograms for numeric columns
 #' x <- inspect_num(starwars)
-#' show_plot(x)
+#' plot(x)
 #' 
 #' # Barplot of column types
 #' x <- inspect_types(starwars)
-#' show_plot(x)
+#' plot(x)
 
-show_plot <- function(x, ...){
+plot.inspectdf <- function(x, ...){
   # check that passed object is not empty
   if(nrow(x) == 0) rlang::abort('Nothing to plot.')
   type     <- attr(x, "type")

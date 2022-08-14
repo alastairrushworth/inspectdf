@@ -39,7 +39,7 @@
 #' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
 #' as there are unique combinations of the grouping variables.
 #' @author Alastair Rushworth
-#' @seealso \code{\link{inspect_imb}}, \code{\link{show_plot}}
+#' @seealso \code{\link{inspect_imb}}, \code{\link{plot}}
 #' @export
 #' @examples
 #' # Load dplyr for starwars data & pipe
@@ -150,6 +150,7 @@ inspect_cat <- function(df1, df2 = NULL, include_int = FALSE){
   }
   attr(out, "type")     <- list(method = "cat", input_type = input_type)
   attr(out, "df_names") <- df_names
+  class(out) <- c("inspectdf", "tbl_df", "tbl", "data.frame")
   return(out)
 }
 
