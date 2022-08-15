@@ -48,17 +48,17 @@
 #' @seealso \code{\link{plot}}
 #' 
 #' @examples
-#' # Load dplyr for starwars data & pipe
+#' # Load dplyr for tdf data & pipe
 #' library(dplyr)
 #' 
 #' # Single dataframe summary
-#' inspect_num(starwars)
+#' inspect_num(tdf)
 #' 
 #' # Paired dataframe comparison
-#' inspect_num(starwars, starwars[1:20, ])
+#' inspect_num(tdf, tdf[1:20, ])
 #' 
 #' # Grouped dataframe summary
-#' starwars %>% group_by(gender) %>% inspect_num()
+#' tdf %>% group_by(gender) %>% inspect_num()
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
 #' @importFrom dplyr desc

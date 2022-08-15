@@ -5,23 +5,23 @@ output: github_document
 
 
 
-Illustrative data: `starwars`
+Illustrative data: `tdf`
 ---
 
-The examples below make use of the `starwars` and `storms` data from the `dplyr` package
+The examples below make use of the `tdf` and `storms` data from the `dplyr` package
 
 ```{r}
 # some example data
-data(starwars, package = "dplyr")
+data(tdf, package = "dplyr")
 data(storms, package = "dplyr")
 ```
 
-For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+For illustrating comparisons of dataframes, use the `tdf` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
 
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
-star_1 <- starwars %>% sample_n(50)
-star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+star_1 <- tdf %>% sample_n(50)
+star_2 <- tdf %>% sample_n(50) %>% select(-1, -2)
 ```
 
 
@@ -36,7 +36,7 @@ library(inspectdf)
 inspect_num(storms, breaks = 10)
 ```
 
-The `hist` column is a list whose elements are tibbles each containing the relative frequencies of bins for each feature.  These tibbles are used to generate the histograms when `show_plot = TRUE`.  For example, the histogram for `starwars$birth_year` is
+The `hist` column is a list whose elements are tibbles each containing the relative frequencies of bins for each feature.  These tibbles are used to generate the histograms when `show_plot = TRUE`.  For example, the histogram for `tdf$birth_year` is
 
 ```{r}
 inspect_num(storms)$hist$pressure

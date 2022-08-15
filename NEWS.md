@@ -1,8 +1,16 @@
 
-# `inspectdf` 0.0.11
+# `inspectdf` 0.1.0
 
--   Bug fixes to `inspect_types()` for pairwise comparison plots
--   Updated tests for `inspect_types()` for pairwise comparisons
+-   **Important change:** `show_plot()` is replaced with the generic
+    `plot()` in this release. This is consistent also with the python
+    version `inspectpd`.
+-   Replaced all internal data with the Tour de France winners and
+    stages, accessible as `tdf`. Data taken from
+    [alastairrushworth/tdf](https://github.com/alastairrushworth/tdf).
+-   Report error in `plot()` if there is nothing to show.
+
+# `inspectdf` 0.0.12
+
 -   Migrate to `vdiffr` 1.0.0 for graphics tests
 -   Fixed
     [\#32](https://github.com/alastairrushworth/inspectdf/issues/32),
@@ -14,6 +22,14 @@
     ensuring `inspect_num()` histogram bins are correct in comparisons
     of data frames. Thanks to [Roel
     Verbelen](https://github.com/RoelVerbelen) for the report.
+-   Added grouped graphical comparison for `inspect_num()`
+    [\#41](https://github.com/alastairrushworth/inspectdf/issues/41),
+    thanks to [cregouby](https://github.com/cregouby) for the report.
+
+# `inspectdf` 0.0.11
+
+-   Bug fixes to `inspect_types()` for pairwise comparison plots
+-   Updated tests for `inspect_types()` for pairwise comparisons
 
 # `inspectdf` 0.0.10
 
@@ -49,7 +65,7 @@
 -   `inspect_cor()` slight speed up for dataframes with large numbers of
     columns.
 -   `inspect_cor()` can be filtered prior to plotting, for example
-    `inspect_cor(starwars) %>% filter(abs(corr) > 0.2) %>% show_plot()`.
+    `inspect_cor(tdf) %>% filter(abs(corr) > 0.2) %>% show_plot()`.
     Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the
     [suggestion](https://github.com/alastairrushworth/inspectdf/issues/24)
 -   Fixed bug causing `inspect_imb()` to fail on certain types of factor

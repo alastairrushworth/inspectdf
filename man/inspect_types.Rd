@@ -42,14 +42,14 @@ the first \code{k} columns are the grouping columns.  There will be as many rows
 as there are unique combinations of the grouping variables.
 }
 \examples{
-# Load dplyr for starwars data & pipe
+# Load dplyr for tdf data & pipe
 library(dplyr)
 
 # Single dataframe summary
-inspect_types(starwars)
+inspect_types(tdf)
 
 # Paired dataframe comparison
-inspect_types(starwars, starwars[1:20, ])
+inspect_types(tdf, tdf[1:20, ])
 }
 \seealso{
 \code{\link{plot}}

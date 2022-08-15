@@ -11,23 +11,23 @@ output: github_document
 <!-- #  -->
 
 
-Illustrative data: `starwars`
+Illustrative data: `tdf`
 ---
 
-The examples below make use of the `starwars` and `storms` data from the `dplyr` package
+The examples below make use of the `tdf` and `storms` data from the `dplyr` package
 
 ```{r}
 # some example data
-data(starwars, package = "dplyr")
+data(tdf, package = "dplyr")
 data(storms, package = "dplyr")
 ```
 
-For illustrating comparisons of dataframes, use the `starwars` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
+For illustrating comparisons of dataframes, use the `tdf` data and produce two new dataframes `star_1` and `star_2` that randomly sample the rows of the original and drop a couple of columns.
 
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
-star_1 <- starwars %>% sample_n(50)
-star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+star_1 <- tdf %>% sample_n(50)
+star_2 <- tdf %>% sample_n(50) %>% select(-1, -2)
 ```
 
 
@@ -39,13 +39,13 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 
 ```{r}
 library(inspectdf)
-inspect_na(starwars)
+inspect_na(tdf)
 ```
 
 A barplot can be produced by passing the result to `show_plot()`:
 
 ```{r}
-inspect_na(starwars) %>% show_plot()
+inspect_na(tdf) %>% show_plot()
 ```
 
 `inspect_na()` for two dataframes

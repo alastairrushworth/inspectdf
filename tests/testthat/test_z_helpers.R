@@ -1,7 +1,6 @@
 context("helpers")
 
 # load in some example data
-data("starwars", package = "dplyr")
 # example data frame
 zx <- data.frame(x = rnorm(100, sd = 0.00001), y = 1, z = 1:100)
 
@@ -21,7 +20,7 @@ test_that("format_size", {
 })
 
 test_that("sumna", {
-  expect_equal(sapply(starwars, sumna), colSums(sapply(starwars, is.na)))
+  expect_equal(sapply(tdf, sumna), colSums(sapply(tdf, is.na)))
 })
 
 test_that("check_variance", {

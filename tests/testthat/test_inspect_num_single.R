@@ -1,7 +1,6 @@
 context("inspect_num single dataframes")
 
 # load in some example data
-data("starwars", package = "dplyr")
 data("band_instruments", package = "dplyr")
 data("storms", package = "dplyr")
 data(mtcars, airquality)
@@ -9,7 +8,7 @@ data(mtcars, airquality)
 test_that("Output is a data frame", {
   expect_is(inspect_num(mtcars), "data.frame")
   expect_is(inspect_num(band_instruments), "data.frame")
-  expect_is(inspect_num(starwars), "data.frame")
+  expect_is(inspect_num(tdf), "data.frame")
   expect_is(inspect_num(storms), "data.frame")
   expect_is(inspect_num(airquality), "data.frame")
 })

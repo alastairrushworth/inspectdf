@@ -44,35 +44,35 @@
 #' }
 #' @export
 #' @examples 
-#' # Load 'starwars' data
-#' data("starwars", package = "dplyr")
+#' # Load 'tdf' data
+#' data("tdf", package = "dplyr")
 #' 
 #' # Horizontal bar plot for categorical column composition
-#' x <- inspect_cat(starwars) 
+#' x <- inspect_cat(tdf) 
 #' plot(x)
 #' 
 #' # Correlation betwee numeric columns + confidence intervals
-#' x <- inspect_cor(starwars)
+#' x <- inspect_cor(tdf)
 #' plot(x)
 #' 
 #' # Bar plot of most frequent category for each categorical column
-#' x <- inspect_imb(starwars)
+#' x <- inspect_imb(tdf)
 #' plot(x)
 #' 
 #' # Bar plot showing memory usage for each column
-#' x <- inspect_mem(starwars)
+#' x <- inspect_mem(tdf)
 #' plot(x)
 #' 
 #' # Occurence of NAs in each column ranked in descending order
-#' x <- inspect_na(starwars)
+#' x <- inspect_na(tdf)
 #' plot(x)
 #' 
 #' # Histograms for numeric columns
-#' x <- inspect_num(starwars)
+#' x <- inspect_num(tdf)
 #' plot(x)
 #' 
 #' # Barplot of column types
-#' x <- inspect_types(starwars)
+#' x <- inspect_types(tdf)
 #' plot(x)
 
 plot.inspectdf <- function(x, ...){

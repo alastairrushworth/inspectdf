@@ -10,7 +10,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - __Important change:__ `show_plot()` is replaced with the generic `plot()` 
 in this release.  This is consistent also with the python version `inspectpd`.
-- Report error in `plot()` if there is nothing to plot
+- Replaced all internal data with the Tour de France winners and stages, 
+accessible as `tdf`.  Data taken from [alastairrushworth/tdf](https://github.com/alastairrushworth/tdf).
+- Report error in `plot()` if there is nothing to show.
 
 # `inspectdf` 0.0.12
 
@@ -41,7 +43,7 @@ in this release.  This is consistent also with the python version `inspectpd`.
 - `show_plot()` improvement that nudges points that might otherwise have coincided for dataframe comparisons of imbalance (for example, with `inspect_imb(df1, df2) %>% show_plot()`)  
 - Plots for grouped summaries: `inspect_cor()`, `inspect_na()` and `inspect.
 - `inspect_cor()` slight speed up for dataframes with large numbers of columns.
-- `inspect_cor()` can be filtered prior to plotting, for example `inspect_cor(starwars) %>% filter(abs(corr) > 0.2) %>% show_plot()`.  Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the [suggestion](https://github.com/alastairrushworth/inspectdf/issues/24)
+- `inspect_cor()` can be filtered prior to plotting, for example `inspect_cor(tdf) %>% filter(abs(corr) > 0.2) %>% show_plot()`.  Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the [suggestion](https://github.com/alastairrushworth/inspectdf/issues/24)
 - Fixed bug causing `inspect_imb()` to fail on certain types of factor columns.  Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the [report](https://github.com/alastairrushworth/inspectdf/issues/26).
 - `show_plot()` has new arguments `label_size`, `label_angle` and `label_color`.  Each provide adjustments to text annotation where applicable.  Thanks to [Bartosz Bursa](https://github.com/bartekbursa) for the [suggestion](https://github.com/alastairrushworth/inspectdf/issues/20).
 - changes to text annotation to improve how `coord_flip()` works on resulting plots.  Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the report.

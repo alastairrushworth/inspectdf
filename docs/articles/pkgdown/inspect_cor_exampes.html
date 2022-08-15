@@ -114,22 +114,22 @@
     
     
 <div class="section level2">
-<h2 id="illustrative-data-starwars">Illustrative data: <code>starwars</code><a class="anchor" aria-label="anchor" href="#illustrative-data-starwars"></a>
+<h2 id="illustrative-data-tdf">Illustrative data: <code>tdf</code><a class="anchor" aria-label="anchor" href="#illustrative-data-tdf"></a>
 </h2>
-<p>The examples below make use of the <code>starwars</code> and
+<p>The examples below make use of the <code>tdf</code> and
 <code>storms</code> data from the <code>dplyr</code> package</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># some example data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tdf</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">storms</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span></code></pre></div>
 <p>For illustrating comparisons of dataframes, use the
-<code>starwars</code> data and produce two new dataframes
+<code>tdf</code> data and produce two new dataframes
 <code>star_1</code> and <code>star_2</code> that randomly sample the
 rows of the original and drop a couple of columns.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
-<span><span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">tdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">tdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="inspect_cor-for-a-single-dataframe">

@@ -56,6 +56,6 @@
 <rect x='566.80' y='291.61' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <rect x='567.51' y='292.32' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #619CFF;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='589.56' y='286.00' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='42.05px' lengthAdjust='spacingAndGlyphs'>Piped data</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='589.56' y='303.28' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='119.48px' lengthAdjust='spacingAndGlyphs'>starwars %&gt;% dplyr::select(-2)</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='93.87' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='443.72px' lengthAdjust='spacingAndGlyphs'>Comparison of ρ between df::Piped data and starwars %&gt;% dplyr::select(-2)</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='589.56' y='303.28' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='119.48px' lengthAdjust='spacingAndGlyphs'>tdf %&gt;% dplyr::select(-2)</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='93.87' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='443.72px' lengthAdjust='spacingAndGlyphs'>Comparison of ρ between df::Piped data and tdf %&gt;% dplyr::select(-2)</text></g>
 </svg>
