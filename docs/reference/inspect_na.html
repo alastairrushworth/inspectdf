@@ -137,11 +137,11 @@ as there are unique combinations of the grouping variables.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load dplyr for starwars data &amp; pipe</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load dplyr for tdf data &amp; pipe</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Single dataframe summary</span></span></span>
-<span class="r-in"><span><span class="fu">inspect_na</span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">inspect_na</span><span class="op">(</span><span class="va">tdf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    col_name     cnt  pcnt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -161,7 +161,7 @@ as there are unique combinations of the grouping variables.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> starships      0  0   </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Paired dataframe comparison</span></span></span>
-<span class="r-in"><span><span class="fu">inspect_na</span><span class="op">(</span><span class="va">starwars</span>, <span class="va">starwars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, <span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">inspect_na</span><span class="op">(</span><span class="va">tdf</span>, <span class="va">tdf</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, <span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    col_name   cnt_1 pcnt_1 cnt_2 pcnt_2  p_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -181,7 +181,7 @@ as there are unique combinations of the grouping variables.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> starships      0   0        0      0 <span style="color: #BB0000;">NA</span>      </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Grouped dataframe summary</span></span></span>
-<span class="r-in"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">inspect_na</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">inspect_na</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 39 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   gender [3]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    gender   col_name     cnt  pcnt</span>

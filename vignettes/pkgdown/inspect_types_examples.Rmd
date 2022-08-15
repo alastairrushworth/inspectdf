@@ -3,17 +3,17 @@ title: "Exploring dataframe column types"
 output: github_document
 ---
 
-Illustrative data: `starwars`
+Illustrative data: `tdf`
 ---
 
-The examples below make use of the `starwars` from the `dplyr` package. 
+The examples below make use of the `tdf` from the `dplyr` package. 
 
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
-data(starwars, package = "dplyr")
+data(tdf, package = "dplyr")
 
 # print the first few rows
-head(starwars)
+head(tdf)
 ```
 
 
@@ -26,7 +26,7 @@ To explore the column types in a data frame, use the function `inspect_types()`.
 library(inspectdf)
 
 # return tibble showing columns types
-x <- inspect_types(starwars)
+x <- inspect_types(tdf)
 x
 ```
 
@@ -50,15 +50,15 @@ x %>% show_plot()
 ---
 
 
-To illustrate the comparison of two data frames, we create two new data frames by randomly sampling the rows of `starwars`, dropping some of the columns and recoding the colums `mass` to character.  The results are assigned to the objects `star_1` and `star_2`:
+To illustrate the comparison of two data frames, we create two new data frames by randomly sampling the rows of `tdf`, dropping some of the columns and recoding the colums `mass` to character.  The results are assigned to the objects `star_1` and `star_2`:
 
 ```{r}
-# sample 50 rows from `starwars`
-star_1 <- starwars %>% sample_n(50)
+# sample 50 rows from `tdf`
+star_1 <- tdf %>% sample_n(50)
 # recode the mass column to character
 star_1$mass <- as.character(star_1$mass)
-# sample 50 rows from `starwars` and drop the first two columns
-star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+# sample 50 rows from `tdf` and drop the first two columns
+star_2 <- tdf %>% sample_n(50) %>% select(-1, -2)
 ```
 
 When a second dataframe is provided, `inspect_types()` returns a tibble that compares the column names and types found in each of the input data frames.  The columns `cnt_1` and `cnt_2` contain the total number of columns with each type found in the first and second inputs, respectively:

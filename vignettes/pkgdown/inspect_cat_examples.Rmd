@@ -5,17 +5,17 @@ output: github_document
 
 
 
-Illustrative data: `starwars`
+Illustrative data: `tdf`
 ---
 
-The examples below make use of the `starwars` from the `dplyr` package. 
+The examples below make use of the `tdf` from the `dplyr` package. 
 
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
-data(starwars, package = "dplyr")
+data(tdf, package = "dplyr")
 
 # print the first few rows
-head(starwars)
+head(tdf)
 ```
 
 
@@ -34,7 +34,7 @@ head(starwars)
 library(inspectdf)
 
 # explore the categorical features 
-x <- inspect_cat(starwars)
+x <- inspect_cat(tdf)
 x
 ```
 
@@ -62,13 +62,13 @@ The resulting bundles are shown in purple.
 
 ## `inspect_cat()` for two data frames
 
-To illustrate the comparison of two data frames, we first create two new data frames by randomly sampling the rows of `starwars` and also dropping some of the columns.  The results are assigned to the objects `star_1` and `star_2`:
+To illustrate the comparison of two data frames, we first create two new data frames by randomly sampling the rows of `tdf` and also dropping some of the columns.  The results are assigned to the objects `star_1` and `star_2`:
 
 ```{r}
-# sample 50 rows from `starwars`
-star_1 <- starwars %>% sample_n(50)
-# sample 50 rows from `starwars` and drop the first two columns
-star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
+# sample 50 rows from `tdf`
+star_1 <- tdf %>% sample_n(50)
+# sample 50 rows from `tdf` and drop the first two columns
+star_2 <- tdf %>% sample_n(50) %>% select(-1, -2)
 ```
 
 

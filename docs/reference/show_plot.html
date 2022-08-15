@@ -142,41 +142,41 @@ in the plotting grid.  For example, 3 rows and 2 columns would be specified as
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load 'starwars' data</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"starwars"</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load 'tdf' data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"tdf"</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Horizontal bar plot for categorical column composition</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_cat.html">inspect_cat</a></span><span class="op">(</span><span class="va">tdf</span><span class="op">)</span> </span></span>
 <span class="r-in"><span><span class="fu">show_plot</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="show_plot-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Correlation betwee numeric columns + confidence intervals</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_cor.html">inspect_cor</a></span><span class="op">(</span><span class="va">tdf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">show_plot</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="show_plot-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Bar plot of most frequent category for each categorical column</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_imb.html">inspect_imb</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_imb.html">inspect_imb</a></span><span class="op">(</span><span class="va">tdf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">show_plot</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="show_plot-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Bar plot showing memory usage for each column</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_mem.html">inspect_mem</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_mem.html">inspect_mem</a></span><span class="op">(</span><span class="va">tdf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">show_plot</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="show_plot-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Occurence of NAs in each column ranked in descending order</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_na.html">inspect_na</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_na.html">inspect_na</a></span><span class="op">(</span><span class="va">tdf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">show_plot</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="show_plot-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Histograms for numeric columns</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_num.html">inspect_num</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_num.html">inspect_num</a></span><span class="op">(</span><span class="va">tdf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">show_plot</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="show_plot-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Barplot of column types</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">tdf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">show_plot</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="show_plot-7.png" alt="" width="700" height="433"></span>
 </code></pre></div>

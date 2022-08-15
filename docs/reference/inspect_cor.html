@@ -149,11 +149,11 @@ distribution for the Fisher z-transform of the correlation.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Load dplyr for starwars data &amp; pipe</span></span></span>
+<span class="r-in"><span><span class="co"># Load dplyr for tdf data &amp; pipe</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Single dataframe summary</span></span></span>
-<span class="r-in"><span><span class="fu">inspect_cor</span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">inspect_cor</span><span class="op">(</span><span class="va">tdf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   col_1      col_2    corr p_value  lower  upper pcnt_nna</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -161,7 +161,7 @@ distribution for the Fisher z-transform of the correlation.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> birth_year height -<span style="color: #BB0000;">0.400</span> 0.011<span style="text-decoration: underline;">4</span>  -<span style="color: #BB0000;">0.625</span> -<span style="color: #BB0000;">0.113</span>     49.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> mass       height  0.134 0.316   -<span style="color: #BB0000;">0.127</span>  0.377     67.8</span>
 <span class="r-in"><span><span class="co"># Only show correlations with 'mass' column</span></span></span>
-<span class="r-in"><span><span class="fu">inspect_cor</span><span class="op">(</span><span class="va">starwars</span>, with_col <span class="op">=</span> <span class="st">"mass"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">inspect_cor</span><span class="op">(</span><span class="va">tdf</span>, with_col <span class="op">=</span> <span class="st">"mass"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   col_1 col_2       corr p_value  lower upper pcnt_nna</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -169,7 +169,7 @@ distribution for the Fisher z-transform of the correlation.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> mass  height     0.134 0.316   -<span style="color: #BB0000;">0.127</span> 0.377     67.8</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Paired dataframe summary</span></span></span>
-<span class="r-in"><span><span class="fu">inspect_cor</span><span class="op">(</span><span class="va">starwars</span>, <span class="va">starwars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">inspect_cor</span><span class="op">(</span><span class="va">tdf</span>, <span class="va">tdf</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   col_1      col_2  corr_1 corr_2 p_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>

@@ -49,16 +49,16 @@
 #' @export
 #' @examples
 #' 
-#' # Load dplyr for starwars data & pipe
+#' # Load dplyr for tdf data & pipe
 #' library(dplyr)
 #' 
 #' # Single dataframe summary
-#' inspect_cor(starwars)
+#' inspect_cor(tdf)
 #' # Only show correlations with 'mass' column
-#' inspect_cor(starwars, with_col = "mass")
+#' inspect_cor(tdf, with_col = "mass")
 #' 
 #' # Paired dataframe summary
-#' inspect_cor(starwars, starwars[1:10, ])
+#' inspect_cor(tdf, tdf[1:10, ])
 #' 
 #' # NOT RUN - change in correlation over time
 #' # library(dplyr)

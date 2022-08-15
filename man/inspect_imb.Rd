@@ -56,17 +56,17 @@ the first \code{k} columns are the grouping columns.  There will be as many rows
 as there are unique combinations of the grouping variables.
 }
 \examples{
-# Load dplyr for starwars data & pipe
+# Load dplyr for tdf data & pipe
 library(dplyr)
 
 # Single dataframe summary
-inspect_imb(starwars)
+inspect_imb(tdf)
 
 # Paired dataframe comparison
-inspect_imb(starwars, starwars[1:20, ])
+inspect_imb(tdf, tdf[1:20, ])
 
 # Grouped dataframe summary
-starwars \%>\% group_by(gender) \%>\% inspect_imb()
+tdf \%>\% group_by(gender) \%>\% inspect_imb()
 }
 \seealso{
 \code{\link{inspect_cat}}, \code{\link{plot}}

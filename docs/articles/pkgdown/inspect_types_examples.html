@@ -114,16 +114,16 @@
     
     
 <div class="section level2">
-<h2 id="illustrative-data-starwars">Illustrative data: <code>starwars</code><a class="anchor" aria-label="anchor" href="#illustrative-data-starwars"></a>
+<h2 id="illustrative-data-tdf">Illustrative data: <code>tdf</code><a class="anchor" aria-label="anchor" href="#illustrative-data-tdf"></a>
 </h2>
-<p>The examples below make use of the <code>starwars</code> from the
+<p>The examples below make use of the <code>tdf</code> from the
 <code>dplyr</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">starwars</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tdf</span>, package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># print the first few rows</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">tdf</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 14</span></span></span>
 <span><span class="co">##   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
@@ -150,7 +150,7 @@ types.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://alastairrushworth.github.io/inspectdf/" class="external-link">inspectdf</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># return tibble showing columns types</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/inspect_types.html">inspect_types</a></span><span class="op">(</span><span class="va">tdf</span><span class="op">)</span></span>
 <span><span class="va">x</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
 <span><span class="co">##   type        cnt  pcnt col_name    </span></span>
@@ -178,17 +178,17 @@ using</p>
 <code>inspect_types()</code> for comparing two data frames<a class="anchor" aria-label="anchor" href="#inspect_types-for-comparing-two-data-frames"></a>
 </h2>
 <p>To illustrate the comparison of two data frames, we create two new
-data frames by randomly sampling the rows of <code>starwars</code>,
+data frames by randomly sampling the rows of <code>tdf</code>,
 dropping some of the columns and recoding the colums <code>mass</code>
 to character. The results are assigned to the objects
 <code>star_1</code> and <code>star_2</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># sample 50 rows from `starwars`</span></span>
-<span><span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># sample 50 rows from `tdf`</span></span>
+<span><span class="va">star_1</span> <span class="op">&lt;-</span> <span class="va">tdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co"># recode the mass column to character</span></span>
 <span><span class="va">star_1</span><span class="op">$</span><span class="va">mass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">star_1</span><span class="op">$</span><span class="va">mass</span><span class="op">)</span></span>
-<span><span class="co"># sample 50 rows from `starwars` and drop the first two columns</span></span>
-<span><span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># sample 50 rows from `tdf` and drop the first two columns</span></span>
+<span><span class="va">star_2</span> <span class="op">&lt;-</span> <span class="va">tdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p>When a second dataframe is provided, <code><a href="../../reference/inspect_types.html">inspect_types()</a></code>
 returns a tibble that compares the column names and types found in each
 of the input data frames. The columns <code>cnt_1</code> and

@@ -47,17 +47,17 @@
 #' @seealso \code{\link{inspect_cat}}, \code{\link{plot}}
 #' @export
 #' @examples
-#' # Load dplyr for starwars data & pipe
+#' # Load dplyr for tdf data & pipe
 #' library(dplyr)
 #' 
 #' # Single dataframe summary
-#' inspect_imb(starwars)
+#' inspect_imb(tdf)
 #' 
 #' # Paired dataframe comparison
-#' inspect_imb(starwars, starwars[1:20, ])
+#' inspect_imb(tdf, tdf[1:20, ])
 #' 
 #' # Grouped dataframe summary
-#' starwars %>% group_by(gender) %>% inspect_imb()
+#' tdf %>% group_by(gender) %>% inspect_imb()
 #' @importFrom tibble tibble
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
