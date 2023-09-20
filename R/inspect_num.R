@@ -71,8 +71,10 @@
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
 #' @importFrom dplyr ungroup
+#' @importFrom dplyr intersect setdiff
 #' @importFrom magrittr %>%
 #' @importFrom graphics hist
+#' @importFrom purrr map2 map_dbl splice
 #' @importFrom stats median
 #' @importFrom stats quantile
 #' @importFrom stats sd
@@ -182,10 +184,17 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
     # get histogram and summaries for first df
     s2_temp <- inspect_num(df2, breaks = breaks, include_int = include_int)
     brks_list2 <- attr(s2_temp, 'brks_list')
-    # union the diverging breaks ranges, and re-sequence into correct number of breaks
-    brks_ranges <- purrr::map2(brks_list1, brks_list2, ~range(c(.x, .y)))
-    length.out <- purrr::map_dbl(brks_list1, length)
-    brks_list <- purrr::map2(brks_ranges, length.out, ~seq(.x[1], .x[2], length.out = .y))
+    # union the diverging breaks ranges on common columns and re-sequence into correct number of breaks
+    common_col <- intersect(names(brks_list1), names(brks_list2))
+    brks_ranges <- map2(brks_list1[common_col], brks_list2[common_col], ~range(c(.x, .y)))
+    length.out <- map_dbl(brks_list1[common_col], length)
+    df1_specific <- setdiff(names(brks_list1), names(brks_list2))
+    df2_specific <- setdiff(names(brks_list2), names(brks_list1))
+    brks_list <- splice(
+      brks_list1[df1_specific],
+      map2(brks_ranges, length.out, ~seq(.x[1], .x[2], length.out = .y)),
+      brks_list2[df2_specific]
+    )
     # get new histograms and summary stats using breaks from s1
     s1 <- inspect_num(df1, breaks = brks_list, include_int = include_int)
     s2 <- inspect_num(df2, breaks = brks_list, include_int = include_int)
