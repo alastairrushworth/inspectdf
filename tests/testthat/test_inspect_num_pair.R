@@ -29,3 +29,12 @@ test_that("Output with two different inputs data frame", {
   expect_is(inspect_num(storms, storms %>% dplyr::sample_n(100, replace = T)), "data.frame")
   expect_is(inspect_num(airquality, airquality%>% dplyr::sample_n(100, replace = T)), "data.frame")
 })
+
+test_that("Output with two different ranges data frame", {
+  set.seed(10)
+  expect_is(inspect_num(mtcars, mtcars %>% dplyr::mutate_if(is.numeric, ~. + 5)), "data.frame")
+  expect_is(inspect_num(band_instruments, band_instruments %>% dplyr::mutate_if(is.numeric, ~. - 5)) , "data.frame")
+  expect_is(inspect_num(starwars, starwars %>% dplyr::mutate_if(is.numeric, ~. + 5)), "data.frame")
+  expect_is(inspect_num(storms, storms %>% dplyr::mutate_if(is.numeric, ~. - 5)), "data.frame")
+  expect_is(inspect_num(airquality, airquality %>% dplyr::mutate_if(is.numeric, ~. + 5)), "data.frame")
+})
