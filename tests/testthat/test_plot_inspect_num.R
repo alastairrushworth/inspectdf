@@ -7,6 +7,8 @@ library(vdiffr)
 set.seed(21)
 x2 <- starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
 y2 <- storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T)
+shifted_x <- starwars %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T) %>% mutate_if(is.numeric, ~.x -5)
+expanded_y <- storms %>% dplyr::select(-2) %>% dplyr::sample_n(100, replace = T) %>% mutate_if(is.numeric, ~.x * 1.75)
 
 test_that("inspect_num plots", {
   expect_doppelganger("Inspect-num-starwars", starwars %>% inspect_num %>% show_plot)
@@ -14,9 +16,14 @@ test_that("inspect_num plots", {
   expect_doppelganger("Inspect-num-tech",   tech %>%   inspect_num %>% show_plot)
 })
 
-test_that("inspect_num plot paired", {
+test_that("inspect_num plot paired with different columns set", {
   expect_doppelganger("Inspect-num-paired-starwars", starwars %>% inspect_num(x2) %>% show_plot)
   expect_doppelganger("Inspect-num-paired-storms",   storms %>%   inspect_num(y2) %>% show_plot)
+})
+
+test_that("inspect_num plot paired with different value range", {
+  expect_doppelganger("Inspect-num-paired-range-starwars", inspect_num(starwars, shifted_x) %>% show_plot)
+  expect_doppelganger("Inspect-num-paired-range-storms",   inspect_num(storms, expanded_y)%>% show_plot)
 })
 
 test_that("inspect_num plot suppress labels", {
