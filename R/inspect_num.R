@@ -74,7 +74,7 @@
 #' @importFrom dplyr intersect setdiff
 #' @importFrom magrittr %>%
 #' @importFrom graphics hist
-#' @importFrom purrr map2 map_dbl list_flatten
+#' @importFrom purrr list_flatten
 #' @importFrom stats median
 #' @importFrom stats quantile
 #' @importFrom stats sd
@@ -184,15 +184,20 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
     # get histogram and summaries for first df
     s2_temp <- inspect_num(df2, breaks = breaks, include_int = include_int)
     brks_list2 <- attr(s2_temp, 'brks_list')
-    # union the diverging breaks ranges on common columns and re-sequence into correct number of breaks
+    # use inspect_num(type = "single") to get breaks on union of values in common columns
     common_col <- intersect(names(brks_list1), names(brks_list2))
-    brks_ranges <- map2(brks_list1[common_col], brks_list2[common_col], ~range(c(.x, .y)))
-    length.out <- map_dbl(brks_list1[common_col], length)
+    if (length(common_col)>0) {
+      s_common_col <- inspect_num(bind_rows(df1[,common_col], df2[,common_col]))
+      brk_list_common <- attr(s_common_col, 'brks_list')
+    } else {
+      brk_list_common = list()
+    }
+    # assemble the breaks
     df1_specific <- setdiff(names(brks_list1), names(brks_list2))
     df2_specific <- setdiff(names(brks_list2), names(brks_list1))
     brks_list <- list_flatten(list(
       brks_list1[df1_specific],
-      map2(brks_ranges, length.out, ~seq(.x[1], .x[2], length.out = .y)),
+      brk_list_common,
       brks_list2[df2_specific]
     ))
     # get new histograms and summary stats using breaks from s1
