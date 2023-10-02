@@ -1,4 +1,8 @@
 
+# `inspectdf` 0.0.12
+
+-  fix `ìnspect_num(df1, df2)` with different ranges and different set of columns. (#51, cregouby)
+
 # `inspectdf` 0.0.11
 
 -   Bug fixes to `inspect_types()` for pairwise comparison plots

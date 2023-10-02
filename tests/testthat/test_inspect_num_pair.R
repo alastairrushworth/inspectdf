@@ -38,3 +38,10 @@ test_that("Output with two different ranges data frame", {
   expect_is(inspect_num(storms, storms %>% dplyr::mutate_if(is.numeric, ~. - 5)), "data.frame")
   expect_is(inspect_num(airquality, airquality %>% dplyr::mutate_if(is.numeric, ~. + 5)), "data.frame")
 })
+
+test_that("Output with two different ranges and different column sets", {
+  set.seed(10)
+  expect_is(inspect_num(mtcars[,1:6], mtcars[,3:11] %>% dplyr::mutate_if(is.numeric, ~. + 5)), "data.frame")
+  expect_is(inspect_num(starwars %>% select(-height), 
+                        starwars %>% select(-mass) %>% dplyr::mutate_if(is.numeric, ~. + 5)), "data.frame")
+})
