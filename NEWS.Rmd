@@ -6,6 +6,10 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# `inspectdf` development version
+
+-  fix `ìnspect_num(df1, df2)` with different ranges and different set of columns. (#51, cregouby)
+
 # `inspectdf` 0.0.12
 
 - Migrate to `vdiffr` 1.0.0 for graphics tests
