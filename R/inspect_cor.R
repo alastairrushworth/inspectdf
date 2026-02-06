@@ -1,7 +1,7 @@
-#' Tidy correlation coefficients for numeric dataframe columns
+#' Tidy correlation coefficients for numeric data frame columns
 #' 
-#' @description Summarise and compare Pearson, Kendall and Spearman correlations for 
-#' numeric columns in one, two or grouped dataframes.
+#' @description Summarise and compare Pearson, Kendall and Spearman correlations for
+#' numeric columns in one, two or grouped data frames.
 #'
 #' @param df1 A data frame. 
 #' @param df2 An optional second data frame for comparing correlation 
@@ -16,7 +16,7 @@
 #' @details When \code{df2 = NULL}, a tibble containing correlation coefficients for \code{df1} is 
 #' returned:
 #' \itemize{
-#'   \item \code{col_1}, \code{co1_2} character vectors containing names of numeric 
+#'   \item \code{col_1}, \code{col_2} character vectors containing names of numeric
 #'   columns in \code{df1}.
 #'   \item \code{corr} the calculated correlation coefficient.
 #'   \item \code{p_value} p-value associated with a test where the null hypothesis is that 
@@ -34,7 +34,7 @@
 #'  a comparison of the correlation coefficients across pairs of columns common to both 
 #'  dataframes.
 #' \itemize{
-#'   \item \code{col_1}, \code{co1_2} character vectors containing names of numeric columns 
+#'   \item \code{col_1}, \code{col_2} character vectors containing names of numeric columns
 #'   in either \code{df1} or \code{df2}.
 #'   \item \code{corr_1}, \code{corr_2} numeric columns containing correlation coefficients from
 #'   \code{df1} and \code{df2}, respectively.
@@ -42,21 +42,23 @@
 #'   coefficients are the same.  Small values indicate that the true correlation coefficients 
 #'   differ between the two dataframes.
 #' }
-#' 
+#'
 #' Note that confidence intervals for \code{kendall} and \code{spearman} assume a normal sampling
 #' distribution for the Fisher z-transform of the correlation.
+#' @author Alastair Rushworth
+#' @seealso \code{\link{show_plot}}
 #' @export
 #' @examples
 #' 
 #' # Load dplyr for starwars data & pipe
 #' library(dplyr)
 #' 
-#' # Single dataframe summary
+#' # Single data frame summary
 #' inspect_cor(starwars)
 #' # Only show correlations with 'mass' column
 #' inspect_cor(starwars, with_col = "mass")
-#' 
-#' # Paired dataframe summary
+#'
+#' # Paired data frame summary
 #' inspect_cor(starwars, starwars[1:10, ])
 #' 
 #' # NOT RUN - change in correlation over time
@@ -83,7 +85,7 @@
 
 inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL, 
                         alpha = 0.05){
-  # perform basic column check on dataframe input
+  # perform basic column check on data frame input
   input_type <- check_df_cols(df1, df2)
   # capture the data frame names
   df_names <- get_df_names()
@@ -116,7 +118,7 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
       # attach attributes required for plotting
       attr(out, "pair") <- pair
     } else {
-      # return empty dataframe 
+      # return empty data frame 
       out <- tibble(col_1 = character(), 
                     col_2 = character(), 
                     corr = numeric())

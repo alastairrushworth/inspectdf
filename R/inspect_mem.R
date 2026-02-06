@@ -1,25 +1,25 @@
-#' Summary and comparison of memory usage of dataframe columns 
+#' Summary and comparison of memory usage of data frame columns
 #'
-#' @description For a single dataframe, summarise the memory usage in each column. 
-#' If two dataframes are supplied, compare memory usage for columns appearing 
-#' in both dataframes.  For grouped dataframes, summarise the memory usage separately 
+#' @description For a single data frame, summarise the memory usage in each column.
+#' If two data frames are supplied, compare memory usage for columns appearing
+#' in both data frames.  For grouped data frames, summarise the memory usage separately
 #' for each group.
 #' 
 #' @param df1 A data frame.
-#' @param df2 An optional second data frame with which to comparing memory usage.  
+#' @param df2 An optional second data frame with which to compare memory usage.
 #' Defaults to \code{NULL}.
 #' @return A tibble summarising and comparing the columnwise memory usage 
 #' for one or a pair of data frames.
 #' @details 
-#' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
+#' For a \strong{single data frame}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name}, a character vector containing column names of \code{df1}.
 #'   \item \code{bytes}, integer vector containing the number of bytes in each column of \code{df1}.
 #'   \item \code{size}, a character vector containing display-friendly memory usage of each column.
-#'   \item \code{pcnt}, the percentage of the dataframe's total memory footprint 
+#'   \item \code{pcnt}, the percentage of the data frame's total memory footprint
 #'   used by each column.
 #' }
-#' For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
+#' For a \strong{pair of data frames}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name}, a character vector containing column names of \code{df1}
 #'   and \code{df2}.
@@ -28,8 +28,8 @@
 #'   \item \code{pcnt_1}, \code{pcnt_2}, the percentage of total memory usage of each column within 
 #'   each of \code{df1} and \code{df2}.
 #' }
-#' For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
-#' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
+#' For a \strong{grouped data frame}, the tibble returned is as for a single data frame, but where
+#' the first \code{k} columns are the grouping columns.  There will be as many rows in the result
 #' as there are unique combinations of the grouping variables.
 #' 
 #' @export
@@ -40,13 +40,13 @@
 #' # Load dplyr for starwars data & pipe
 #' library(dplyr)
 #' 
-#' # Single dataframe summary
+#' # Single data frame summary
 #' inspect_mem(starwars)
-#' 
-#' # Paired dataframe comparison
+#'
+#' # Paired data frame comparison
 #' inspect_mem(starwars, starwars[1:20, ])
-#' 
-#' # Grouped dataframe summary
+#'
+#' # Grouped data frame summary
 #' starwars %>% group_by(gender) %>% inspect_mem()
 #' @importFrom dplyr arrange
 #' @importFrom dplyr contains
@@ -63,7 +63,7 @@
 
 inspect_mem <- function(df1, df2 = NULL){
   
-  # perform basic column check on dataframe input
+  # perform basic column check on data frame input
   input_type <- check_df_cols(df1, df2)
   
   # capture the data frame names

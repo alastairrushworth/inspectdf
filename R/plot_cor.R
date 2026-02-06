@@ -10,8 +10,10 @@
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 guides
 #' @importFrom ggplot2 labs
+#' @importFrom ggplot2 scale_y_continuous
 #' @importFrom ggplot2 theme
 #' @importFrom ggplot2 theme_bw
+#' @importFrom tidyr pivot_longer
 
 
 plot_cor_single <- function(
@@ -75,8 +77,8 @@ plot_cor_pair <- function(
     filter(!is.na(corr_1), !is.na(corr_2)) %>%
     mutate(pair = paste(col_1, col_2, sep = " & ")) %>%
     mutate(pair = factor(pair, levels = rev(unique(as.character(pair))))) %>%
-    select(-col_1, -col_2) %>% 
-    gather(key = "data_frame", value = "corr", -pair, -p_value) %>%
+    select(-col_1, -col_2) %>%
+    pivot_longer(cols = c(-pair, -p_value), names_to = "data_frame", values_to = "corr") %>%
     mutate(data_frame = unlist(df_names)[as.integer(gsub("corr_", "", data_frame))],
            data_frame_n = as.integer(as.factor(data_frame)))
   # number of dataframes
@@ -99,21 +101,22 @@ plot_cor_pair <- function(
   # generate basic plot
   plt <- out %>%
     ggplot(aes(x = pair, y = corr, fill = data_frame)) +
-    geom_blank() + theme_bw() + 
+    geom_blank() + theme_bw() +
     theme(panel.border = element_blank(), panel.grid.major = element_blank()) +
     geom_rect(
       fill = vcols[as.integer(out$p_value < alpha) + 1], alpha = 0.2,
       xmin = out$index - 0.4, xmax = out$index + 0.4,
-      ymin = -2, ymax = 2, linetype = "blank") +
+      ymin = -1, ymax = 1, linetype = "blank") +
     geom_rect(
       linetype = "blank",
       xmin = out$bar_dn, xmax = out$bar_up,
       ymin = out$bar_bg, ymax = out$bar_en) +
-    geom_hline(yintercept = 0, linetype = "dashed", 
-               color = "lightsteelblue4", na.rm = TRUE) + 
-    coord_flip() + 
+    geom_hline(yintercept = 0, linetype = "dashed",
+               color = "lightsteelblue4", na.rm = TRUE) +
+    scale_y_continuous(limits = c(-1, 1), expand = c(0, 0)) +
+    coord_flip() +
     labs(y = xlab, x = "",
-         title = paste0("Comparison of \u03C1 between df::", df_names$df1, 
+         title = paste0("Comparison of \u03C1 between df::", df_names$df1,
                         " and ", df_names$df2)) +
     scale_fill_manual(name = "Data frame", values = bcols)
   plt
@@ -146,12 +149,12 @@ plot_cor_grouped <- function(
       mutate(pair = factor(pair, levels = col_ord)) %>%
       arrange(pair) 
     # jitter points if number of column pairs <= 10
-    jitter_width <- ifelse(length(unique(out$pair)) > 10, 0, 0.25) 
+    jitter_width <- ifelse(length(unique(out$pair)) > 10, 0, 0.25)
     plt <- out %>%
-      ggplot(aes_string(x = 'pair', y = 'corr', col = 'pair', group = group_name)) + 
-      geom_jitter(alpha = 0.5, width = jitter_width, size = 1.8, na.rm = TRUE) + 
-      theme(legend.position='none') + 
-      coord_flip() + 
+      ggplot(aes(x = pair, y = corr, col = pair, group = .data[[group_name]])) +
+      geom_jitter(alpha = 0.5, width = jitter_width, size = 1.8, na.rm = TRUE) +
+      theme(legend.position='none') +
+      coord_flip() +
       ylab("Correlation by group") +
       xlab("")
   } else {

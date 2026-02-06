@@ -50,7 +50,7 @@ install.packages("inspectdf")
     summary of memory usage of columns
 -   [`inspect_na()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_na_examples.html)
     columnwise prevalence of missing values
--   [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_cor_exampes.html)
+-   [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_cor_examples.html)
     correlation coefficients of numeric columns
 -   [`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_imb_examples.html)
     feature imbalance of categorical columns
