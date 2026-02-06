@@ -65,8 +65,8 @@
 #' @importFrom dplyr full_join
 #' @importFrom dplyr mutate
 #' @importFrom dplyr rename
-#' @importFrom dplyr select_if
 #' @importFrom dplyr select
+#' @importFrom dplyr where
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
 
@@ -78,8 +78,8 @@ inspect_imb <- function(df1, df2 = NULL, include_na = FALSE){
   df_names <- get_df_names()
   if(input_type == "single"){
     # pick out categorical columns
-    df_cat <- df1 %>% 
-      select_if(function(v) is.character(v) | is.factor(v) | is.logical(v))
+    df_cat <- df1 %>%
+      select(where(function(v) is.character(v) | is.factor(v) | is.logical(v)))
     n_cols <- ncol(df_cat)
     # calculate imbalance if any columns available
     if(n_cols > 0){

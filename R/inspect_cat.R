@@ -60,11 +60,11 @@
 #' @importFrom dplyr do
 #' @importFrom dplyr group_by
 #' @importFrom dplyr left_join
+#' @importFrom dplyr across
 #' @importFrom dplyr mutate
-#' @importFrom dplyr mutate_if
 #' @importFrom dplyr rename
-#' @importFrom dplyr select_if
 #' @importFrom dplyr select
+#' @importFrom dplyr where
 #' @importFrom dplyr slice
 #' @importFrom dplyr ungroup
 #' @importFrom magrittr %>%
@@ -84,10 +84,10 @@ inspect_cat <- function(df1, df2 = NULL, include_int = FALSE){
     # is.date_or_time <- function(v) 
     col_cats <- function(v) is.character(v) |  is.factor(v) | is.logical(v) | any(c("Date", "datetime") %in% class(v))
     if(include_int) col_cats <- function(v) is.character(v) |  is.factor(v) | is.logical(v) | any(c("Date", "datetime") %in% class(v)) | is.integer(v)
-    df_cat <- df1 %>% 
-      select_if(col_cats) %>%
-      mutate_if(is.factor, as.character) %>%
-      mutate_if(is.integer, as.character)
+    df_cat <- df1 %>%
+      select(where(col_cats)) %>%
+      mutate(across(where(is.factor), as.character)) %>%
+      mutate(across(where(is.integer), as.character))
   
     # calculate association if categorical columns exist
     if(ncol(df_cat) > 0){
