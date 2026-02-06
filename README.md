@@ -7,7 +7,7 @@
 status](https://www.r-pkg.org/badges/version/inspectdf)](https://cran.r-project.org/package=inspectdf)
 [![](https://cranlogs.r-pkg.org/badges/inspectdf)](https://cran.r-project.org/package=inspectdf)
 [![cran
-checks](https://cranchecks.info/badges/summary/inspectdf)](https://cran.r-project.org/web/checks/check_results_inspectdf.html)
+checks](https://badges.cranchecks.info/summary/inspectdf.svg)](https://cran.r-project.org/web/checks/check_results_inspectdf.html)
 
 ## Overview
 
