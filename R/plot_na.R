@@ -1,6 +1,7 @@
 #' @importFrom ggplot2 scale_color_discrete
 #' @importFrom ggplot2 annotate
-#' 
+#' @importFrom tidyr pivot_longer
+#'
 plot_na_single <- function(
     df_plot, 
     text_labels = TRUE, 
@@ -106,9 +107,9 @@ plot_na_pair <- function(
   df_names <- attr(df_plot, "df_names")
   leg_text <- as.character(unlist(df_names))
   na_tab  <- df_plot
-  df_plot <- df_plot %>% 
-    select(-starts_with("cnt")) %>% 
-    gather(key = "data_frame", value = "pcnt", -col_name, -p_value) %>%
+  df_plot <- df_plot %>%
+    select(-starts_with("cnt")) %>%
+    pivot_longer(cols = c(-col_name, -p_value), names_to = "data_frame", values_to = "pcnt") %>%
     mutate(data_frame = gsub("pcnt_", "", data_frame))
   df_plot <- df_plot[seq(dim(df_plot)[1],1),]
   p_val_tab <- df_plot %>% 
@@ -166,10 +167,10 @@ plot_na_grouped <- function(
     # jitter points if number of column pairs <= 10
     jitter_width <- ifelse(length(unique(out$col_name)) > 10, 0, 0.25) 
     plt <- out %>%
-      ggplot(aes_string(x = 'col_name', y = 'pcnt', col = 'col_name', group = group_name)) + 
-      geom_jitter(alpha = 0.5, width = jitter_width, height = 0, size = 1.8) + 
-      theme(legend.position='none') + 
-      coord_flip() + 
+      ggplot(aes(x = col_name, y = pcnt, col = col_name, group = .data[[group_name]])) +
+      geom_jitter(alpha = 0.5, width = jitter_width, height = 0, size = 1.8) +
+      theme(legend.position='none') +
+      coord_flip() +
       ylab("Missingness by group") +
       xlab("")
   } else {

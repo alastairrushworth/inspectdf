@@ -193,10 +193,10 @@ plot_types_pair <- function(
     ggplot(aes(ymax = tops, ymin = bottoms, xmax = 3, xmin = 2, 
                fill = df1)) +
     # show the filled cells for the first data frame
-    geom_rect(color = 'white', size = 0.06) +
+    geom_rect(color = 'white', linewidth = 0.06) +
     # show the filled cells for the second data frame
-    geom_rect(aes(ymax = tops, ymin = bottoms, xmax = 4, xmin = 3, fill = df2), 
-              alpha = 0.7, color = 'white', size = 0.06) +
+    geom_rect(aes(ymax = tops, ymin = bottoms, xmax = 4, xmin = 3, fill = df2),
+              alpha = 0.7, color = 'white', linewidth = 0.06) +
     # Add exclamation marks to indicate problems
     geom_fit_text(aes(ymax = tops, ymin = bottoms, xmax = 4, 
                     xmin = 4.1, color = has_issue), label = '!')
