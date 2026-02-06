@@ -10,6 +10,11 @@
 -   Fixed issue in `plot_cat()` where filtering by non-existent `jsd`
     column removed all rows when plotting single dataframe summaries.
 -   Fixed
+    [\#48](https://github.com/alastairrushworth/inspectdf/issues/48),
+    `ìnspect_num(df1, df2)` with different ranges and different set of
+    columns. Thanks to [cregouby](https://github.com/cregouby) for the
+    [\#51](https://github.com/alastairrushworth/inspectdf/pull/51) fix.
+-   Fixed
     [\#45](https://github.com/alastairrushworth/inspectdf/issues/45),
     partial argument matching warning in `format_size()`. Changed
     `unit = "auto"` to `units = "auto"` in call to `format()`. Thanks to
