@@ -44,7 +44,7 @@ plot_cat <- function(
     new_lvls[[i]] <- collapse_levels(lvl_df, i, col_names_vec)
     new_lvls[[i]]$dfi <- df_names[[i]]
   }
-  # combine into a single dataframe (if more than a single list)
+  # combine into a single data frame (if more than a single list)
   lvl_df <- bind_rows(new_lvls) %>% mutate(col_name2 = col_name)
   
   # some extra steps for comparisons

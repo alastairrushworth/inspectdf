@@ -11,7 +11,7 @@
     column removed all rows when plotting single dataframe summaries.
 -   Fixed
     [\#48](https://github.com/alastairrushworth/inspectdf/issues/48),
-    `ìnspect_num(df1, df2)` with different ranges and different set of
+    `inspect_num(df1, df2)` with different ranges and different set of
     columns. Thanks to [cregouby](https://github.com/cregouby) for the
     [\#51](https://github.com/alastairrushworth/inspectdf/pull/51) fix.
 -   Fixed
@@ -57,7 +57,7 @@
   coincided for dataframe comparisons of imbalance (for example, with
   `inspect_imb(df1, df2) %>% show_plot()`)  
 - Plots for grouped summaries: `inspect_cor()`, `inspect_na()` and
-  \`inspect.
+  `inspect_num()`.
 - `inspect_cor()` slight speed up for dataframes with large numbers of
   columns.
 - `inspect_cor()` can be filtered prior to plotting, for example

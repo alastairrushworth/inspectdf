@@ -100,7 +100,7 @@ plot_num_pair <- function(
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
   # chop stuff off
   df_plot <- df_plot %>% select(-jsd) 
-  # if columns missing in either dataframe, use buckets from the other
+  # if columns missing in either data frame, use buckets from the other
   # replace frequencies with NA.
   x_1 <- which(unlist(lapply(df_plot$hist_1, is.null)))
   x_2 <- which(unlist(lapply(df_plot$hist_2, is.null)))
@@ -290,7 +290,7 @@ plot_num_grouped <- function(
     left_join(bin_width, by = 'col_name') %>% 
     select(.data[[grp_var]], col_name, min, mean, max, bar_width, df_int)
   
-  # pivot the stats dataframe to long
+  # pivot the stats data frame to long
   stats_mn <- stats %>%
     pivot_longer(cols = c('mean'), names_to = "stat_type") %>%
     mutate(linetype = 'solid')

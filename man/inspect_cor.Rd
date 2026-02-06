@@ -2,7 +2,7 @@
 % Please edit documentation in R/inspect_cor.R
 \name{inspect_cor}
 \alias{inspect_cor}
-\title{Tidy correlation coefficients for numeric dataframe columns}
+\title{Tidy correlation coefficients for numeric data frame columns}
 \usage{
 inspect_cor(df1, df2 = NULL, method = "pearson", with_col = NULL, alpha = 0.05)
 }
@@ -25,14 +25,14 @@ A tibble summarising and comparing the correlations for each numeric column
 in one or a pair of data frames.
 }
 \description{
-Summarise and compare Pearson, Kendall and Spearman correlations for 
-numeric columns in one, two or grouped dataframes.
+Summarise and compare Pearson, Kendall and Spearman correlations for
+numeric columns in one, two or grouped data frames.
 }
 \details{
 When \code{df2 = NULL}, a tibble containing correlation coefficients for \code{df1} is 
 returned:
 \itemize{
-  \item \code{col_1}, \code{co1_2} character vectors containing names of numeric 
+  \item \code{col_1}, \code{col_2} character vectors containing names of numeric
   columns in \code{df1}.
   \item \code{corr} the calculated correlation coefficient.
   \item \code{p_value} p-value associated with a test where the null hypothesis is that 
@@ -50,7 +50,7 @@ When both \code{df1} and \code{df2} are specified, the tibble returned contains
  a comparison of the correlation coefficients across pairs of columns common to both 
  dataframes.
 \itemize{
-  \item \code{col_1}, \code{co1_2} character vectors containing names of numeric columns 
+  \item \code{col_1}, \code{col_2} character vectors containing names of numeric columns
   in either \code{df1} or \code{df2}.
   \item \code{corr_1}, \code{corr_2} numeric columns containing correlation coefficients from
   \code{df1} and \code{df2}, respectively.
@@ -67,12 +67,12 @@ distribution for the Fisher z-transform of the correlation.
 # Load dplyr for starwars data & pipe
 library(dplyr)
 
-# Single dataframe summary
+# Single data frame summary
 inspect_cor(starwars)
 # Only show correlations with 'mass' column
 inspect_cor(starwars, with_col = "mass")
 
-# Paired dataframe summary
+# Paired data frame summary
 inspect_cor(starwars, starwars[1:10, ])
 
 # NOT RUN - change in correlation over time
@@ -82,4 +82,10 @@ inspect_cor(starwars, starwars[1:10, ])
 #         inspect_cor()
 # tech_grp \%>\% show_plot()     
 
+}
+\seealso{
+\code{\link{show_plot}}
+}
+\author{
+Alastair Rushworth
 }

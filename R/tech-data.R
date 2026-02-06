@@ -7,7 +7,7 @@
 #'
 #' @usage data(tech)
 #'
-#' @format A \code{dataframe} with 3158 rows and 6 columns.
+#' @format A \code{data.frame} with 3158 rows and 6 columns.
 #'
 #' @keywords datasets
 #'
