@@ -1,62 +1,62 @@
 #' Summary and comparison of numeric columns
-#' 
-#' @description For a single dataframe, summarise the numeric columns.  If two 
-#' dataframes are supplied, compare numeric columns appearing in both dataframes.  
+#'
+#' @description For a single dataframe, summarise the numeric columns.  If two
+#' dataframes are supplied, compare numeric columns appearing in both dataframes.
 #' For grouped dataframes, summarise numeric columns separately for each group.
 #'
 #' @param df1 A dataframe.
-#' @param df2 An optional second dataframe for comparing categorical levels.  
+#' @param df2 An optional second dataframe for comparing categorical levels.
 #' Defaults to \code{NULL}.
-#' @param breaks Integer number of breaks used for histogram bins, passed to 
+#' @param breaks Integer number of breaks used for histogram bins, passed to
 #' \code{graphics::hist()}.  Defaults to 20.
-#' @param include_int Logical flag, whether to include integer columns in numeric summaries.  
+#' @param include_int Logical flag, whether to include integer columns in numeric summaries.
 #' Defaults to \code{TRUE}.
-#' \code{hist(..., breaks)}.  See \code{?hist} for more details. 
-#' @return A \code{tibble} containing statistical summaries of the numeric 
+#' \code{hist(..., breaks)}.  See \code{?hist} for more details.
+#' @return A \code{tibble} containing statistical summaries of the numeric
 #' columns of \code{df1}, or comparing the histograms of \code{df1} and \code{df2}.
-#' @details 
+#' @details
 #' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name}, a character vector containing the column names in \code{df1}
-#'   \item \code{min}, \code{q1}, \code{median}, \code{mean}, \code{q3}, \code{max} and 
-#'   \code{sd}, the minimum, lower quartile, median, mean, upper quartile, maximum and 
+#'   \item \code{min}, \code{q1}, \code{median}, \code{mean}, \code{q3}, \code{max} and
+#'   \code{sd}, the minimum, lower quartile, median, mean, upper quartile, maximum and
 #'   standard deviation for each numeric column.
 #'   \item \code{pcnt_na}, the percentage of each numeric feature that is missing
-#'   \item \code{hist}, a named list of tibbles containing the relative frequency of values 
+#'   \item \code{hist}, a named list of tibbles containing the relative frequency of values
 #'   falling in bins determined by \code{breaks}.
-#' } 
+#' }
 #' For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name}, a character vector containing the column names in \code{df1}
 #'   and \code{df2}
 #'   \item \code{hist_1}, \code{hist_2}, a list column for histograms of each of \code{df1} and \code{df2}.
-#'   Where a column appears in both dataframe, the bins used for \code{df1} are reused to 
+#'   Where a column appears in both dataframe, the bins used for \code{df1} are reused to
 #'   calculate histograms for \code{df2}.
-#'   \item{jsd}, a numeric column containing the Jensen-Shannon divergence.  This measures the 
+#'   \item{jsd}, a numeric column containing the Jensen-Shannon divergence.  This measures the
 #'   difference in distribution of a pair of binned numeric features.  Values near to 0 indicate
 #'   agreement of the distributions, while 1 indicates disagreement.
 #'   \item \code{pval}, the p-value corresponding to a NHT that the true frequencies of histogram bins are equal.
 #'   A small p indicates evidence that the the two sets of relative frequencies are actually different.  The test
 #'   is based on a modified Chi-squared statistic.
 #' }
-#' For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
-#' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
+#' For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where
+#' the first \code{k} columns are the grouping columns.  There will be as many rows in the result
 #' as there are unique combinations of the grouping variables.
-#' 
+#'
 #' @export
 #' @author Alastair Rushworth
 #' @seealso \code{\link{show_plot}}
-#' 
+#'
 #' @examples
 #' # Load dplyr for starwars data & pipe
 #' library(dplyr)
-#' 
+#'
 #' # Single dataframe summary
 #' inspect_num(starwars)
-#' 
+#'
 #' # Paired dataframe comparison
 #' inspect_num(starwars, starwars[1:20, ])
-#' 
+#'
 #' # Grouped dataframe summary
 #' starwars %>% group_by(gender) %>% inspect_num()
 #' @importFrom dplyr arrange
@@ -71,8 +71,10 @@
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
 #' @importFrom dplyr ungroup
+#' @importFrom dplyr intersect setdiff
 #' @importFrom magrittr %>%
 #' @importFrom graphics hist
+#' @importFrom purrr list_flatten
 #' @importFrom stats median
 #' @importFrom stats quantile
 #' @importFrom stats sd
@@ -89,7 +91,7 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
   df_names <- get_df_names()
   # list of all supplied colnames
   cnames <- if(is.null(df2)) colnames(df1) else c(colnames(df1), colnames(df2))
-  
+
   # if only a single df input
   if(input_type == "single"){
     # pick out numeric features
@@ -101,10 +103,10 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
       # columns names from df_num
       names_vec <- colnames(df_num)
       # tibble determining breaks to use
-      breaks_tbl <- tibble(col_name = names_vec) 
+      breaks_tbl <- tibble(col_name = names_vec)
       # join to the breaks argument if supplied
       if(is.list(breaks)){
-        breaks_tbl <- 
+        breaks_tbl <-
           tibble(col_name = names(breaks), breaks = breaks) %>%
           full_join(breaks_tbl, ., by = "col_name") %>%
           filter(col_name %in% cnames)
@@ -112,7 +114,7 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
         # if not supplied, create placeholder list of NULLs
         breaks_tbl$breaks <- vector('list', length = nrow(breaks_tbl))
       }
-      
+
       # initiate progress bar and loop
       pb <- start_progress(prefix = " Column", total = nrow(breaks_tbl))
       # empty list for histograms and stats
@@ -123,14 +125,14 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
         col_i  <- df_num[[col_nm]]
         # loop over the breaks_tbl and generate histograms, suppressing plotting
         # if breaks already exist, then use them, otherwise create new breaks
-        update_progress(bar = pb, iter = i, total = nrow(breaks_tbl), 
+        update_progress(bar = pb, iter = i, total = nrow(breaks_tbl),
                         what = names_vec[i])
         # histogram breaks
         brks_null <- is.null(breaks_tbl$breaks[[i]])
         # decide what to pass to hist in terms of breaks
-        hist_breaks <- 
+        hist_breaks <-
           if(brks_null & (!is.list(breaks))){
-            breaks[1] 
+            breaks[1]
           } else if(brks_null & (is.list(breaks))){
             20
           } else {
@@ -162,26 +164,46 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
       names(brks_list) <- breaks_tbl$col_name
       stats_df <- bind_rows(stats_list)
       # ensure the histogram has a min and max breaks & join back to df_num_sum
-      out <- left_join(stats_df, breaks_tbl, by = "col_name") %>% 
+      out <- left_join(stats_df, breaks_tbl, by = "col_name") %>%
         select(-breaks)
       # add feature names to the list
       names(out$hist) <-  as.character(out$col_name)
     } else {
       out <- tibble(
-        col_name = character(), min = numeric(), q1 = numeric(), 
+        col_name = character(), min = numeric(), q1 = numeric(),
         median = numeric(), mean = numeric(), q3 = numeric(),
         max = numeric(), sd = numeric(), pcnt_na = numeric(), hist = list()
       )
       brks_list <- list()
     }
-  } 
+  }
   if(input_type == "pair"){
     # get histogram and summaries for first df
-    s1 <- inspect_num(df1, breaks = breaks, include_int = include_int)
-    brks_list <- attr(s1, 'brks_list')
-    s1_sub <- s1 %>% select(col_name, hist)
+    s1_temp <- inspect_num(df1, breaks = breaks, include_int = include_int)
+    brks_list1 <- attr(s1_temp, 'brks_list')
+    # get histogram and summaries for first df
+    s2_temp <- inspect_num(df2, breaks = breaks, include_int = include_int)
+    brks_list2 <- attr(s2_temp, 'brks_list')
+    # use inspect_num(type = "single") to get breaks on union of values in common columns
+    common_col <- intersect(names(brks_list1), names(brks_list2))
+    if (length(common_col)>0) {
+      s_common_col <- inspect_num(bind_rows(df1[,common_col], df2[,common_col]))
+      brk_list_common <- attr(s_common_col, 'brks_list')
+    } else {
+      brk_list_common = list()
+    }
+    # assemble the breaks
+    df1_specific <- setdiff(names(brks_list1), names(brks_list2))
+    df2_specific <- setdiff(names(brks_list2), names(brks_list1))
+    brks_list <- list_flatten(list(
+      brks_list1[df1_specific],
+      brk_list_common,
+      brks_list2[df2_specific]
+    ))
     # get new histograms and summary stats using breaks from s1
-    s2 <- inspect_num(df2, breaks = brks_list, include_int = include_int) 
+    s1 <- inspect_num(df1, breaks = brks_list, include_int = include_int)
+    s2 <- inspect_num(df2, breaks = brks_list, include_int = include_int)
+    s1_sub <- s1 %>% select(col_name, hist)
     s2_sub <- s2 %>% select(col_name, hist)
     out <- full_join(s1_sub, s2_sub, by = "col_name")
     # calculate js-divergence and fisher p-value
@@ -190,9 +212,9 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
       mutate(pval = chisq(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
       select(col_name, hist_1 = hist.x, hist_2 = hist.y,  jsd, pval)
     # add summary stats as attributes
-    attr(out, "inspected") <- 
+    attr(out, "inspected") <-
       list(
-        df1 = s1 %>% select(-hist), 
+        df1 = s1 %>% select(-hist),
         df2 = s2 %>% select(-hist)
       )
     attr(out, "group_lengths") <- tibble(name = c('df1', 'df2'), rows = c(nrow(df1), nrow(df2)))
@@ -204,20 +226,20 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
     # create a nested version of df1 -reak into a list
     out_nest <- df1 %>% nest()
     if(is.numeric(out_nest[[1]])) out_nest <- out_nest %>% arrange(.[[1]])
-    grp_nms  <- out_nest %>% select(-ncol(.)) %>% ungroup 
+    grp_nms  <- out_nest %>% select(-ncol(.)) %>% ungroup
     out_list <- vector("list", length = nrow(out_nest))
     # loop over the subcomponents of out_nest
     for(i in 1:nrow(out_nest)){
       out_list[[i]] <- inspect_num(
-        out_nest$data[[i]], 
-        breaks = brks_list, 
+        out_nest$data[[i]],
+        breaks = brks_list,
         include_int = include_int
       )
     }
     grp_nms$out_list <- out_list
     out <- unnest(grp_nms, cols = c('out_list'))
-    group_df   <- attr(df1, "groups") 
-    group_vars <- colnames(group_df %>% select(-.rows)) 
+    group_df   <- attr(df1, "groups")
+    group_vars <- colnames(group_df %>% select(-.rows))
     # get the average value by group - for plotting purposes
     rank_mean_by_group <- out %>%
       group_by(col_name) %>%
@@ -227,7 +249,7 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
     # combine group lengths with group means - this is set as an attr &
     # used for graphics in show_plot
     group_lengths <- group_df %>%
-      mutate(rows = lengths(.rows)) %>% 
+      mutate(rows = lengths(.rows)) %>%
       select(-.rows) %>%
       left_join(rank_mean_by_group, by = group_vars)
     attr(out, "group_lengths") <- group_lengths
@@ -242,7 +264,7 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
 # function to sweep out summary statistics from a column
 get_stats <- function(vec, col_nm){
   tibble(
-    col_name = col_nm, min = min(vec, na.rm = T), 
+    col_name = col_nm, min = min(vec, na.rm = T),
     q1 = quantile(vec, 0.25, na.rm = T),
     median = median(vec, na.rm = T),
     mean = mean(vec, na.rm = T),
