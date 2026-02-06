@@ -1,7 +1,8 @@
 #' @importFrom dplyr if_any
 #' @importFrom dplyr any_of
 #' @importFrom dplyr pull
-#' @importFrom dplyr select_if
+#' @importFrom dplyr select
+#' @importFrom dplyr where
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 ylim
 #' @importFrom ggplot2 scale_fill_manual
@@ -23,19 +24,24 @@ plot_cat <- function(
   column_name_order <- rev(levels_df$col_name)
 
   # select the list column containing frequency tables
-  # either there are one or two columns depending on whether this is 
+  # either there are one or two columns depending on whether this is
   # a summary of a comparison
-  levels_df <- levels_df %>% filter(if_any(any_of("jsd"), ~!is.na(.x)))
-  lvl_df   <- levels_df %>% select_if(is.list) 
+  # Only filter by jsd if the column exists (comparison mode)
+  if("jsd" %in% colnames(levels_df)) {
+    levels_df <- levels_df %>% filter(if_any(any_of("jsd"), ~!is.na(.x)))
+  }
+  # Preserve col_name for later use
+  col_names_vec <- levels_df$col_name
+  lvl_df   <- levels_df %>% select(where(is.list))
   lstnms   <- colnames(lvl_df)
   is_onedf <- ncol(lvl_df) == 1
-  
+
   # loop over columns to collapse out high cardinality categories
   new_lvls <- list()
   for(i in seq_along(lstnms)){
     nm         <- lstnms[i]
     lvl_df[[nm]] <- lapply(lvl_df[[nm]], merge_high_cardinality, card_thresh = high_cardinality)
-    new_lvls[[i]] <- collapse_levels(lvl_df, i)
+    new_lvls[[i]] <- collapse_levels(lvl_df, i, col_names_vec)
     new_lvls[[i]]$dfi <- df_names[[i]]
   }
   # combine into a single dataframe (if more than a single list)
@@ -77,7 +83,7 @@ plot_cat <- function(
   # generate plot
   plt <- lvl_df2 %>%
     ggplot(aes(x = col_name, y = prop, fill = new_level_key)) +
-    geom_bar(stat = "identity", position = "stack", colour = "black", size = 0.2) +
+    geom_bar(stat = "identity", position = "stack", colour = "black", linewidth = 0.2) +
     scale_fill_manual(values = colour_vector) +
     theme(legend.position = 'none') + 
     coord_flip() +
@@ -209,16 +215,25 @@ merge_high_cardinality <- function(z, card_thresh){
 }
 
 # function
-collapse_levels <- function(dfi, i){
-  out <- dfi %>% 
-    dplyr::pull(i) %>%
-    bind_rows(., .id = 'col_name') %>% 
+collapse_levels <- function(dfi, i, col_names_vec = NULL){
+  lst <- dfi %>% dplyr::pull(i)
+  # Set names from col_names_vec to ensure bind_rows(.id = ) works correctly
+  if(!is.null(col_names_vec)) {
+    names(lst) <- col_names_vec
+  } else {
+    # Fallback: ensure the list has names for bind_rows(.id = ) to work
+    if(is.null(names(lst))) names(lst) <- rownames(dfi)
+    if(is.null(names(lst))) names(lst) <- seq_along(lst)
+  }
+
+  out <- lst %>%
+    bind_rows(.id = 'col_name') %>%
     group_by(col_name) %>%
-    mutate(colval = cumsum(prop)) %>% 
+    mutate(colval = cumsum(prop)) %>%
     mutate(colvalstretch = (colval - min(colval) + 0.001)/
              (max(colval) - min(colval) + 0.001)) %>%
     mutate(colvalstretch = colvalstretch * (1 - 0.8 * (1/length(colval)))) %>%
-    ungroup %>%
+    ungroup() %>%
     arrange(col_name) %>%
     mutate(level_key = paste0(value, "-", col_name))
   return(out)

@@ -73,8 +73,8 @@
 #' @importFrom dplyr full_join
 #' @importFrom dplyr mutate
 #' @importFrom dplyr rename
-#' @importFrom dplyr select_if
 #' @importFrom dplyr select
+#' @importFrom dplyr where
 #' @importFrom dplyr slice
 #' @importFrom dplyr summarize
 #' @importFrom magrittr %>%
@@ -88,8 +88,8 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
   # capture the data frame names
   df_names <- get_df_names()
   # filter to only the numeric variables
-  df_numeric <- df1 %>% 
-    select_if(is.numeric)
+  df_numeric <- df1 %>%
+    select(where(is.numeric))
   # if only a single df input
   if(input_type == "single"){
     # check that with_col exists

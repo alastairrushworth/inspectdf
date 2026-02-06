@@ -67,8 +67,8 @@
 #' @importFrom dplyr left_join
 #' @importFrom dplyr mutate
 #' @importFrom dplyr rename
-#' @importFrom dplyr select_if
 #' @importFrom dplyr select
+#' @importFrom dplyr where
 #' @importFrom dplyr slice
 #' @importFrom dplyr ungroup
 #' @importFrom magrittr %>%
@@ -93,8 +93,8 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
   # if only a single df input
   if(input_type == "single"){
     # pick out numeric features
-    df_num <- df1 %>% select_if(is.numeric)
-    if(!include_int) df_num <- df_num %>% select_if(is.double)
+    df_num <- df1 %>% select(where(is.numeric))
+    if(!include_int) df_num <- df_num %>% select(where(is.double))
     n_cols <- ncol(df_num)
     # calculate summary statistics for each
     if(n_cols > 0){
