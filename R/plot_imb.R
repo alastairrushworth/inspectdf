@@ -4,6 +4,7 @@
 #' @importFrom ggplot2 xlab
 #' @importFrom ggplot2 ylab
 #' @importFrom ggplot2 position_nudge
+#' @importFrom tidyr pivot_longer
 
 plot_imb_single <- function(
     df_plot,
@@ -116,9 +117,9 @@ plot_imb_pair <- function(
   # save a version of plotting data for later
   na_tab  <- df_plot
   # convert to tall
-  df_plot <- df_plot %>% 
-    select(-starts_with("cnt")) %>% 
-    gather(key = "data_frame", value = "pcnt", -col_name, -p_value, -value) %>%
+  df_plot <- df_plot %>%
+    select(-starts_with("cnt")) %>%
+    pivot_longer(cols = c(-col_name, -p_value, -value), names_to = "data_frame", values_to = "pcnt") %>%
     mutate(data_frame = as.integer(gsub("pcnt_", "", data_frame))) %>%
     mutate(col_name = factor(col_name, levels = as.character(na_tab$col_name))) %>%
     mutate(data_frame = unlist(df_names)[data_frame])
@@ -197,10 +198,10 @@ plot_imb_grouped <- function(
     # jitter points if number of column pairs <= 10
     jitter_width <- ifelse(length(unique(out$col_name)) > 10, 0, 0.25) 
     plt <- out %>%
-      ggplot(aes_string(x = 'col_name', y = 'pcnt', col = 'col_name', group = group_name)) + 
-      geom_jitter(alpha = 0.5, width = jitter_width, height = 0, size = 1.8) + 
-      theme(legend.position='none') + 
-      coord_flip() + 
+      ggplot(aes(x = col_name, y = pcnt, col = col_name, group = .data[[group_name]])) +
+      geom_jitter(alpha = 0.5, width = jitter_width, height = 0, size = 1.8) +
+      theme(legend.position='none') +
+      coord_flip() +
       ylab("Imbalance by group") +
       xlab("")
   } else {

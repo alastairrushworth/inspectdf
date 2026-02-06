@@ -5,6 +5,7 @@
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 scale_fill_discrete
 #' @importFrom ggplot2 theme
+#' @importFrom tidyr pivot_longer
 
 plot_mem_single <- function(
     df_plot, 
@@ -119,15 +120,15 @@ plot_mem_pair <- function(
   df_names <- attr(df_plot, "df_names")
   leg_text <- as.character(unlist(df_names))
   # gather percents
-  z1 <- df_plot %>% select(-contains("size")) %>% 
-    gather(key = "df_input", value = "pcnt", -col_name)
+  z1 <- df_plot %>% select(-contains("size")) %>%
+    pivot_longer(cols = -col_name, names_to = "df_input", values_to = "pcnt")
   # gather sizes
-  z2 <- df_plot %>% 
+  z2 <- df_plot %>%
     select(-contains("pcnt")) %>%
-    gather(key = "df_input", value = "size", -col_name) %>% 
+    pivot_longer(cols = -col_name, names_to = "df_input", values_to = "size") %>%
     mutate(df_input = gsub("size_", "pcnt_", df_input))
   # convert to a tall df
-  z_tall <- z1 %>% 
+  z_tall <- z1 %>%
     left_join(z2, by = c("col_name", "df_input")) 
     
   # make axis names
