@@ -6,6 +6,15 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# `inspectdf` 0.0.13
+
+- Fixed compatibility with `dplyr` >= 1.1.0 by replacing deprecated functions: `select_if()` replaced with `select(where())`, and `mutate_if()` replaced with `mutate(across(where()))`.
+- Fixed critical bug in `plot_cat()` where `bind_rows(.id = )` with unnamed lists caused failures in newer `dplyr` versions. Function now properly assigns column names to list elements.
+- Fixed issue in `plot_cat()` where filtering by non-existent `jsd` column removed all rows when plotting single dataframe summaries.
+- Fixed [#45](https://github.com/alastairrushworth/inspectdf/issues/45), partial argument matching warning in `format_size()`. Changed `unit = "auto"` to `units = "auto"` in call to `format()`. Thanks to [@salim-b](https://github.com/salim-b) for the report.
+- Updated CRAN checks badge URL from deprecated `cranchecks.info/badges/` to new `badges.cranchecks.info/` service.
+- Fixed `ggplot2` deprecation warning by replacing `size` parameter with `linewidth` in `geom_bar()`.
+
 # `inspectdf` 0.0.12
 
 - Migrate to `vdiffr` 1.0.0 for graphics tests
