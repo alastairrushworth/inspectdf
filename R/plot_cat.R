@@ -9,7 +9,8 @@
 #' @importFrom grDevices colorRampPalette
 #' @importFrom ggplot2 scale_x_discrete
 #' @importFrom ggplot2 scale_colour_manual
-#' 
+#' @importFrom rlang .data
+#'
 
 plot_cat <- function(
     levels_df, text_labels = TRUE, 
@@ -45,11 +46,11 @@ plot_cat <- function(
     new_lvls[[i]]$dfi <- df_names[[i]]
   }
   # combine into a single data frame (if more than a single list)
-  lvl_df <- bind_rows(new_lvls) %>% mutate(col_name2 = col_name)
-  
+  lvl_df <- bind_rows(new_lvls) %>% mutate(col_name2 = .data$col_name)
+
   # some extra steps for comparisons
   if(!is_onedf){
-    lvl_df <- lvl_df %>% mutate(col_name = paste0(col_name, ": ", dfi))
+    lvl_df <- lvl_df %>% mutate(col_name = paste0(.data$col_name, ": ", .data$dfi))
     # update the column name order 
     column_name_order <- apply(
       expand.grid(rev(unique(lvl_df$dfi)), column_name_order),
@@ -58,20 +59,20 @@ plot_cat <- function(
   }
 
   # add new keys and arrange
-  lvl_df2 <- lvl_df %>% 
-    mutate(new_level_key = paste0(level_key, "-", dfi)) 
+  lvl_df2 <- lvl_df %>%
+    mutate(new_level_key = paste0(.data$level_key, "-", .data$dfi))
   lvl_df2 <- split(lvl_df2, f = factor(lvl_df2$col_name, levels = column_name_order))
   # ensure high cardinality categories appear at the end (if specified)
   lvl_df2 <- bind_rows(lapply(lvl_df2, move_card))
-  
+
   # create keys for plotting
   lvl_df2 <- lvl_df2 %>%
-    mutate(new_level_key = factor(new_level_key, 
-                                  levels = unique(new_level_key))) %>%
-    mutate(level_key = factor(level_key, 
-                              levels = unique(level_key))) %>%
-    mutate(col_name  = factor(col_name, levels = column_name_order)) %>%
-    mutate(col_name2 = factor(col_name2, levels = rev(sort(unique(col_name2)))))
+    mutate(new_level_key = factor(.data$new_level_key,
+                                  levels = unique(.data$new_level_key))) %>%
+    mutate(level_key = factor(.data$level_key,
+                              levels = unique(.data$level_key))) %>%
+    mutate(col_name  = factor(.data$col_name, levels = column_name_order)) %>%
+    mutate(col_name2 = factor(.data$col_name2, levels = rev(sort(unique(.data$col_name2)))))
 
   # vector of colours for plotting
   ncolumns   <- length(unique(lvl_df2$col_name2))
@@ -82,7 +83,7 @@ plot_cat <- function(
   colour_vector[lvl_df2$value == "High cardinality"] <- cols[3]
   # generate plot
   plt <- lvl_df2 %>%
-    ggplot(aes(x = col_name, y = prop, fill = new_level_key)) +
+    ggplot(aes(x = .data$col_name, y = .data$prop, fill = .data$new_level_key)) +
     geom_bar(stat = "identity", position = "stack", colour = "black", linewidth = 0.2) +
     scale_fill_manual(values = colour_vector) +
     theme(legend.position = 'none') + 
@@ -101,29 +102,29 @@ plot_cat <- function(
       subtitle = bquote("Gray segments are missing values")) 
 
   if(text_labels){
-    lvl_df3 <- lvl_df2 
-    annts <- lvl_df3 %>% 
-      mutate(col_num = as.integer(col_name)) 
+    lvl_df3 <- lvl_df2
+    annts <- lvl_df3 %>%
+      mutate(col_num = as.integer(.data$col_name))
     lvl_df3$col_vec <- factor(as.integer(annts$colvalstretch < 0.7), levels = c(1, 0))
     lvl_df3$value[nchar(lvl_df3$value) == 0] <- '""'
     
     sum_small_cats <- function(lvldf, prop_thresh){
       # make levels df as a list
-      lvldf_grp <- lvldf %>% group_by(col_name) %>% tidyr::nest()
+      lvldf_grp <- lvldf %>% group_by(.data$col_name) %>% tidyr::nest()
       lvldf_lst <- lvldf_grp$data
       # loop over list elements, sum and reorder components
       for(i in 1:length(lvldf_lst)){
         lst_i <- lvldf_lst[[i]]
-        b1    <- lst_i %>% filter(prop < prop_thresh)
+        b1    <- lst_i %>% filter(.data$prop < prop_thresh)
         if(nrow(b1) > 0){
           b1top <- b1 %>% slice(1)
           b1top$prop[1]  <- sum(b1$prop, na.rm = T)
           b1top$value[1] <- NA
           # combine the summed part with the rest
-           lst_i <- lst_i %>% 
-            filter(prop >= prop_thresh) %>% 
+           lst_i <- lst_i %>%
+            filter(.data$prop >= prop_thresh) %>%
             bind_rows(b1top) %>%
-            arrange(value)
+            arrange(.data$value)
           # if high card is in there, reposition to top
           hc_i <- which(lst_i$col_vec == 0)
           if(length(hc_i) > 0) lst_i <- rbind(lst_i[hc_i, ], lst_i[-hc_i, ])
@@ -133,7 +134,7 @@ plot_cat <- function(
         }
       }
       lvldf_grp$data <- lvldf_lst
-      return(tidyr::unnest(lvldf_grp, cols = data))
+      return(tidyr::unnest(lvldf_grp, cols = "data"))
     }
     
     lvl_df4     <- lvl_df3 %>% sum_small_cats(prop_thresh = label_thresh)
@@ -148,17 +149,17 @@ plot_cat <- function(
     }
     # check for ggfittext install
     if(requireNamespace("ggfittext", quietly = TRUE)){
-      plt <- plt + 
+      plt <- plt +
         suppressWarnings(
           ggfittext::geom_fit_text(
             data = lvl_df4,
-            aes(x = col_name,
-                y = prop,
-                label = value, 
-                fill = new_level_key,
-                colour = col_vec,
+            aes(x = .data$col_name,
+                y = .data$prop,
+                label = .data$value,
+                fill = .data$new_level_key,
+                colour = .data$col_vec,
                 ymin = 0,
-                ymax = prop),
+                ymax = .data$prop),
             inherit.aes = FALSE,
             na.rm = TRUE,
             position = "stack",
@@ -166,21 +167,21 @@ plot_cat <- function(
             grow = FALSE,
             outside = FALSE,
             show.legend = FALSE
-          ) 
+          )
         )
     } else {
       lvl_df4$value[lvl_df4$prop < 0.15] <- NA
       col_vec <- ifelse((lvl_df4$colvalstretch > 0.7), 2, 1)
-      plt <- plt + 
+      plt <- plt +
         suppressWarnings(
           geom_text(
             data = lvl_df4,
-            aes(x = col_name, 
-                y = colval - prop / 2, 
-                label = value), 
-            color = c("white", "gray55")[col_vec], 
-            inherit.aes = FALSE, 
-            na.rm = TRUE, 
+            aes(x = .data$col_name,
+                y = .data$colval - .data$prop / 2,
+                label = .data$value),
+            color = c("white", "gray55")[col_vec],
+            inherit.aes = FALSE,
+            na.rm = TRUE,
             hjust = 0.5)
         )
     }
@@ -206,12 +207,15 @@ plot_cat <- function(
 
 # function to merge high cardinality categories entries into a single level
 merge_high_cardinality <- function(z, card_thresh){
-  z %>% 
-    filter(cnt <= card_thresh) %>%
-    summarise(prop = sum(prop), cnt = sum(cnt)) %>%
-    bind_cols(value = "High cardinality", .) %>%
-    bind_rows(z %>% filter(cnt > card_thresh), .) %>% 
-    select(-cnt)
+  high_card_summary <- z %>%
+    filter(.data$cnt <= card_thresh) %>%
+    summarise(prop = sum(.data$prop), cnt = sum(.data$cnt)) %>%
+    mutate(value = "High cardinality", .before = 1)
+
+  z %>%
+    filter(.data$cnt > card_thresh) %>%
+    bind_rows(high_card_summary) %>%
+    select(-"cnt")
 }
 
 # function
@@ -228,14 +232,14 @@ collapse_levels <- function(dfi, i, col_names_vec = NULL){
 
   out <- lst %>%
     bind_rows(.id = 'col_name') %>%
-    group_by(col_name) %>%
-    mutate(colval = cumsum(prop)) %>%
-    mutate(colvalstretch = (colval - min(colval) + 0.001)/
-             (max(colval) - min(colval) + 0.001)) %>%
-    mutate(colvalstretch = colvalstretch * (1 - 0.8 * (1/length(colval)))) %>%
+    group_by(.data$col_name) %>%
+    mutate(colval = cumsum(.data$prop)) %>%
+    mutate(colvalstretch = (.data$colval - min(.data$colval) + 0.001)/
+             (max(.data$colval) - min(.data$colval) + 0.001)) %>%
+    mutate(colvalstretch = .data$colvalstretch * (1 - 0.8 * (1/length(.data$colval)))) %>%
     ungroup() %>%
-    arrange(col_name) %>%
-    mutate(level_key = paste0(value, "-", col_name))
+    arrange(.data$col_name) %>%
+    mutate(level_key = paste0(.data$value, "-", .data$col_name))
   return(out)
 }
 

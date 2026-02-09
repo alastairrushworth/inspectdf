@@ -57,6 +57,7 @@
 #' @importFrom dplyr starts_with
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @importFrom tibble tibble
 #' @export
 
@@ -79,9 +80,9 @@ inspect_na <- function(df1, df2 = NULL){
       }
       names(na_vec) <- names_vec
       out <- vec_to_tibble(na_vec) %>%
-        mutate(pcnt = 100 * n / nrow(df1), n = as.integer(n)) %>%
-        select(col_name = names, cnt = n, pcnt) %>%
-        arrange(desc(pcnt))
+        mutate(pcnt = 100 * .data$n / nrow(df1), n = as.integer(.data$n)) %>%
+        select(col_name = "names", cnt = "n", "pcnt") %>%
+        arrange(desc(.data$pcnt))
   }
   if(input_type == "pair"){
     s1 <- inspect_na(df1) 

@@ -3,6 +3,7 @@
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
 #' @importFrom dplyr summarise
+#' @importFrom rlang .data
 #' @importFrom tibble tibble
 #' @importFrom tidyr replace_na
 
@@ -15,7 +16,7 @@ js_divergence_vec <- function(Mlist1, Mlist2){
       } else {
         out_vec[i] <- full_join(Mlist1[[i]], Mlist2[[i]], by = "value") %>%
           replace_na(list(prop.x = 0, prop.y = 0)) %>%
-          summarise(jsd = js_divergence(prop.x, prop.y)) %>%
+          summarise(jsd = js_divergence(.data$prop.x, .data$prop.y)) %>%
           as.numeric
       }
     }

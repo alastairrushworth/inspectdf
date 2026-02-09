@@ -80,6 +80,7 @@
 #' @importFrom dplyr slice
 #' @importFrom dplyr summarize
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @importFrom tibble tibble
 #' @importFrom tidyr nest
 
@@ -112,8 +113,8 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
                                             alpha = alpha, 
                                             method = method))
       # return top strongest if requested
-      pair <- cor_df %>% select(pair) %>% unlist
-      out <- cor_df %>% select(-pair)
+      pair <- cor_df %>% select(.data$pair) %>% unlist
+      out <- cor_df %>% select(-.data$pair)
       
       # attach attributes required for plotting
       attr(out, "pair") <- pair
@@ -126,13 +127,13 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
   } 
   if(input_type == "pair"){
     # stats for df1
-    s1 <- inspect_cor(df1, method = method) %>% 
-      select(col_1, col_2, corr) %>% 
-      rename(corr_1 = corr)
+    s1 <- inspect_cor(df1, method = method) %>%
+      select(.data$col_1, .data$col_2, .data$corr) %>%
+      rename(corr_1 = .data$corr)
     # stats for df2
-    s2 <- inspect_cor(df2, method = method) %>% 
-      select(col_1, col_2, corr) %>% 
-      rename(corr_2 = corr)
+    s2 <- inspect_cor(df2, method = method) %>%
+      select(.data$col_1, .data$col_2, .data$corr) %>%
+      rename(corr_2 = .data$corr)
     # join the two
     out <- full_join(s1, s2, by = c("col_1", "col_2"))
     # add p_value for test of difference between correlation coefficients

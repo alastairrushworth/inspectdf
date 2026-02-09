@@ -97,20 +97,20 @@ inspect_mem <- function(df1, df2 = NULL){
     col_max_size  <- col_space[col_max]
     col_max_names <- names(col_space)[col_max]
     
-    out <- vec_to_tibble(col_space) %>% 
+    out <- vec_to_tibble(col_space) %>%
       left_join(vec_to_tibble(col_space_ch), by = "names") %>%
-      mutate(pcnt = 100 * n.x / sum(n.x), 
+      mutate(pcnt = 100 * .data$n.x / sum(.data$n.x),
              bytes = as.integer(unlist(col_space))) %>%
-      arrange(desc(pcnt)) %>%
-      rename(col_name = names, size = n.y) %>% 
-      select(col_name, bytes, size, pcnt)
+      arrange(desc(.data$pcnt)) %>%
+      rename(col_name = "names", size = "n.y") %>%
+      select("col_name", "bytes", "size", "pcnt")
   }
   if(input_type == "pair"){
     # get the space report for both input dfs
     df1 <- inspect_mem(df1)
     df2 <- inspect_mem(df2)
     out <- full_join(df1, df2, by = "col_name") %>%
-      select(col_name, contains("size"), contains("pcnt"))
+      select("col_name", contains("size"), contains("pcnt"))
     colnames(out)[2:5] <- c("size_1", "size_2", "pcnt_1", "pcnt_2")
   }
   if(input_type == "grouped"){

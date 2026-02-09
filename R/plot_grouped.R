@@ -1,4 +1,25 @@
 #' @importFrom dplyr across
+#' @importFrom dplyr bind_cols
+#' @importFrom dplyr everything
+#' @importFrom dplyr mutate
+#' @importFrom dplyr select
+#' @importFrom dplyr ungroup
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 element_blank
+#' @importFrom ggplot2 element_text
+#' @importFrom ggplot2 geom_bar
+#' @importFrom ggplot2 geom_blank
+#' @importFrom ggplot2 geom_hline
+#' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 guides
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 scale_colour_manual
+#' @importFrom ggplot2 scale_fill_manual
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme_bw
+#' @importFrom rlang .data
 #' @importFrom tidyr unite
 
 plot_grouped <- function(df, value, series, group, plot_type, 
