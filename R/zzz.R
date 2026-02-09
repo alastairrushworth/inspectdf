@@ -1,68 +1,9 @@
 .onLoad <- function(libname = find.package("inspectdf"), pkgname = "inspectdf"){
-  
-  # CRAN Note avoidance
+
+  # CRAN Note avoidance for magrittr dot pronoun
+  # The dot (.) is a special magrittr symbol used in a few pipeline contexts
+  # where it cannot be easily eliminated without significant code restructuring
   if(getRversion() >= "2.15.1")
-    utils::globalVariables(c(".", 
-                             "prop.x", "prop.y", "col_1", "col_2", 
-                             "correlation", "prop", "X1", "X2", 
-                             "pair",  "lower", "upper", "value", "col_name", "V1", 
-                             "n_levels", "levels.x", "levels.y", "diff_1_2", 
-                             "diff_2_1", "p_value", "pval", "n", "type", 
-                             "first_num", "new_level_key", "zs", "dfn", 
-                             "mid", 
-                             "hist.x", 
-                             "hist.y", 
-                             "n.x", "col_name2",
-                             "n.y", "df_input", "count", "col_type", 
-                             "corr", "is_sig", "index", "data_frame", "pcnt", 
-                             "level_key", "dfi", "colval", "fisher_p", 
-                             "cmmnt",
-                             "cname", 
-                             "cnt", 
-                             "cnt_1", 
-                             "cnt_2",
-                             "col_names", 
-                             "white_labs", 
-                             "black_labs", 
-                             "tops", 
-                             "type.x", 
-                             "type.y",
-                             "df",
-                             "df1", 
-                             "df2",
-                             "bottoms",
-                             "cls", "alpha", "jsd", "significant", "bar_width", 
-                             "corr_1", "corr_2", "data_frame_n", "col_vec", "size", 
-                             "df_cat_fact", "ymax", "se", "col_name1", "prop_z", 
-                             "data", "pcnt_nna", "bytes", "md_cor", "md_pcnt",
-                             "nna", 'breaks', 
-                             "type_diff", 
-                             "missing_col", 
-                             "issues",
-                             "equal",
-                             "columns",
-                             "label_pos", 
-                             "text_just", 
-                             "text_rotn", 
-                             "ones",
-                             "x", 
-                             "y", 
-                             "issue_fill", 
-                             "type_label", 
-                             "issue_x", 
-                             "has_issue",
-                             "add_midpoints", 
-                             "colvalstretch", 
-                             '.rows', 
-                             'print_value',
-                             'xcoord',
-                             'name',
-                             'linetype',
-                             'key_to_color',
-                             'df_int', 
-                             'rank_mean',
-                             '.data', 
-                             'rows'
-                             ))
+    utils::globalVariables(".")
   invisible()
 }

@@ -6,6 +6,7 @@
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 scale_fill_discrete
 #' @importFrom ggplot2 theme
+#' @importFrom rlang .data
 
 # annotate a bar plot
 add_annotation_to_bars <- function(
@@ -30,12 +31,12 @@ add_annotation_to_bars <- function(
   label_df <- tibble(x = x, y = y, z = z)
   if(is.null(fill)) label_df$fill <- NA else label_df$fill <- fill
   if(is.null(fill)){
-    # labels white 
-    label_white <- label_df %>% filter(y > big_bar) 
+    # labels white
+    label_white <- label_df %>% filter(.data$y > big_bar)
     max_lab <- ifelse(all(is.na(label_white$y)), NA, max(label_white$y, na.rm = T))
     # labels grey
-    label_grey <- label_df %>% filter(y <= big_bar, !y_zr) %>%
-      mutate(ymax = y + 0.5 * max_lab)
+    label_grey <- label_df %>% filter(.data$y <= big_bar, !y_zr) %>%
+      mutate(ymax = .data$y + 0.5 * max_lab)
     # labels zero
     label_zero <- label_df %>% filter(y_zr)
   } else {
@@ -62,10 +63,10 @@ add_annotation_to_bars <- function(
     if(nrow(label_white) > 0){
       plt <- plt + suppressWarnings(
         ggfittext::geom_fit_text(
-          aes(x = x, y = y, 
-              label = z, 
-              group = fill, 
-              ymin = 0, ymax = y),
+          aes(x = .data$x, y = .data$y,
+              label = .data$z,
+              group = .data$fill,
+              ymin = 0, ymax = .data$y),
           data = label_white,
           color = 'white',
           angle = angle,
@@ -85,12 +86,12 @@ add_annotation_to_bars <- function(
       # add a grey series to the smaller bars
       plt <- plt + suppressWarnings(
         ggfittext::geom_fit_text(
-          aes(x = x, 
-              y = y,
-              label = z,
-              group = fill,
-              ymin = y, 
-              ymax = ymax),
+          aes(x = .data$x,
+              y = .data$y,
+              label = .data$z,
+              group = .data$fill,
+              ymin = .data$y,
+              ymax = .data$ymax),
           data = label_grey,
           colour = ifelse(is.null(label_color), "lightsteelblue4", label_color[2]),
           angle = angle,
@@ -111,12 +112,12 @@ add_annotation_to_bars <- function(
       # add a grey series to the smaller bars
       plt <- plt + suppressWarnings(
         ggfittext::geom_fit_text(
-          aes(x = x,
-              y = y,
-              label = z,
-              group = fill,
+          aes(x = .data$x,
+              y = .data$y,
+              label = .data$z,
+              group = .data$fill,
               ymin = 0,
-              ymax = y),
+              ymax = .data$y),
           data = label_zero,
           colour = ifelse(is.null(label_color), "lightsteelblue4", label_color[2]),
           angle = angle,
@@ -136,10 +137,10 @@ add_annotation_to_bars <- function(
     if(nrow(label_white) > 0){
       plt <- plt + suppressWarnings(
         ggplot2::geom_text(
-          aes(x = x, 
-              y = y - nudge, 
-              label = z, 
-              group = fill),
+          aes(x = .data$x,
+              y = .data$y - nudge,
+              label = .data$z,
+              group = .data$fill),
           data = label_white,
           hjust = hjust[2],
           color = 'white',
@@ -155,10 +156,10 @@ add_annotation_to_bars <- function(
       # add a grey series to the smaller bars
       plt <- plt + suppressWarnings(
         ggplot2::geom_text(
-          aes(x = x, 
-              y = y,
-              label = z,
-              group = fill),
+          aes(x = .data$x,
+              y = .data$y,
+              label = .data$z,
+              group = .data$fill),
           data = label_grey,
           colour = ifelse(is.null(label_color), "lightsteelblue4", label_color[2]),
           angle = angle,
@@ -175,10 +176,10 @@ add_annotation_to_bars <- function(
       # add a grey series to the smaller bars
       plt <- plt + suppressWarnings(
         ggplot2::geom_text(
-          aes(x = x,
-              y = y,
-              label = z,
-              group = fill),
+          aes(x = .data$x,
+              y = .data$y,
+              label = .data$z,
+              group = .data$fill),
           data = label_zero,
           colour = ifelse(is.null(label_color), "lightsteelblue4", label_color[2]),
           angle = angle,

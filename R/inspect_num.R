@@ -63,6 +63,7 @@
 #' @importFrom dplyr desc
 #' @importFrom dplyr full_join
 #' @importFrom dplyr group_by
+#' @importFrom dplyr last_col
 #' @importFrom dplyr left_join
 #' @importFrom dplyr mutate
 #' @importFrom dplyr rename
@@ -77,6 +78,7 @@
 #' @importFrom stats median
 #' @importFrom stats quantile
 #' @importFrom stats sd
+#' @importFrom rlang .data
 #' @importFrom tibble tibble
 #' @importFrom tidyr gather
 #' @importFrom tidyr replace_na
@@ -108,7 +110,7 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
         breaks_tbl <-
           tibble(col_name = names(breaks), breaks = breaks) %>%
           full_join(breaks_tbl, ., by = "col_name") %>%
-          filter(col_name %in% cnames)
+          filter(.data$col_name %in% cnames)
       } else {
         # if not supplied, create placeholder list of NULLs
         breaks_tbl$breaks <- vector('list', length = nrow(breaks_tbl))
@@ -164,7 +166,7 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
       stats_df <- bind_rows(stats_list)
       # ensure the histogram has a min and max breaks & join back to df_num_sum
       out <- left_join(stats_df, breaks_tbl, by = "col_name") %>%
-        select(-breaks)
+        select(-"breaks")
       # add feature names to the list
       names(out$hist) <-  as.character(out$col_name)
     } else {
@@ -202,19 +204,19 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
     # get new histograms and summary stats using breaks from s1
     s1 <- inspect_num(df1, breaks = brks_list, include_int = include_int)
     s2 <- inspect_num(df2, breaks = brks_list, include_int = include_int)
-    s1_sub <- s1 %>% select(col_name, hist)
-    s2_sub <- s2 %>% select(col_name, hist)
+    s1_sub <- s1 %>% select("col_name", "hist")
+    s2_sub <- s2 %>% select("col_name", "hist")
     out <- full_join(s1_sub, s2_sub, by = "col_name")
     # calculate js-divergence and fisher p-value
     out <- out %>%
-      mutate(jsd = js_divergence_vec(hist.x, hist.y)) %>%
-      mutate(pval = chisq(hist.x, hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
-      select(col_name, hist_1 = hist.x, hist_2 = hist.y,  jsd, pval)
+      mutate(jsd = js_divergence_vec(.data$hist.x, .data$hist.y)) %>%
+      mutate(pval = chisq(.data$hist.x, .data$hist.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
+      select("col_name", hist_1 = "hist.x", hist_2 = "hist.y",  "jsd", "pval")
     # add summary stats as attributes
     attr(out, "inspected") <-
       list(
-        df1 = s1 %>% select(-hist),
-        df2 = s2 %>% select(-hist)
+        df1 = s1 %>% select(-"hist"),
+        df2 = s2 %>% select(-"hist")
       )
     attr(out, "group_lengths") <- tibble(name = c('df1', 'df2'), rows = c(nrow(df1), nrow(df2)))
   }
@@ -224,8 +226,8 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
     brks_list <- attr(s_ug, 'brks_list')
     # create a nested version of df1 - break into a list
     out_nest <- df1 %>% nest()
-    if(is.numeric(out_nest[[1]])) out_nest <- out_nest %>% arrange(.[[1]])
-    grp_nms  <- out_nest %>% select(-ncol(.)) %>% ungroup
+    if(is.numeric(out_nest[[1]])) out_nest <- out_nest %>% arrange(1)
+    grp_nms  <- out_nest %>% select(-last_col()) %>% ungroup
     out_list <- vector("list", length = nrow(out_nest))
     # loop over the subcomponents of out_nest
     for(i in 1:nrow(out_nest)){
@@ -238,18 +240,18 @@ inspect_num <- function(df1, df2 = NULL, breaks = 20, include_int = TRUE){
     grp_nms$out_list <- out_list
     out <- unnest(grp_nms, cols = c('out_list'))
     group_df   <- attr(df1, "groups")
-    group_vars <- colnames(group_df %>% select(-.rows))
+    group_vars <- colnames(group_df %>% select(-".rows"))
     # get the average value by group - for plotting purposes
     rank_mean_by_group <- out %>%
-      group_by(col_name) %>%
-      mutate(rank_mean = rank(mean)) %>%
-      ungroup %>% group_by(.data[[group_vars]]) %>%
-      summarise(rank_mean = mean(rank_mean))
+      group_by(.data$col_name) %>%
+      mutate(rank_mean = rank(.data$mean)) %>%
+      ungroup() %>% group_by(.data[[group_vars]]) %>%
+      summarise(rank_mean = mean(.data$rank_mean))
     # combine group lengths with group means - this is set as an attr &
     # used for graphics in show_plot
     group_lengths <- group_df %>%
-      mutate(rows = lengths(.rows)) %>%
-      select(-.rows) %>%
+      mutate(rows = lengths(.data$.rows)) %>%
+      select(-".rows") %>%
       left_join(rank_mean_by_group, by = group_vars)
     attr(out, "group_lengths") <- group_lengths
   }

@@ -70,6 +70,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 #' @importFrom Rcpp compileAttributes
+#' @importFrom rlang .data
 
 inspect_cat <- function(df1, df2 = NULL, include_int = FALSE){
   
@@ -105,23 +106,23 @@ inspect_cat <- function(df1, df2 = NULL, include_int = FALSE){
       }
       names(levels_list) <- names(df_cat)
       # get the most common level
-      levels_top  <- lapply(levels_list, function(M) M[1, ]) %>% 
-        do.call("rbind", .) %>% 
+      levels_top  <- lapply(levels_list, function(M) M[1, ]) %>%
+        bind_rows() %>%
         mutate(col_name = names_cat) %>%
-        select(-cnt)
+        select(-"cnt")
       # get the unique levels
-      levels_unique <- suppressWarnings(lapply(levels_list, nrow) %>% 
-        do.call("rbind", .) %>% 
-        as_tibble(rownames = "col_name"))
+      levels_unique <- suppressWarnings(lapply(levels_list, nrow) %>%
+        unlist() %>%
+        tibble::enframe(name = "col_name", value = "cnt"))
       # combine the above tables
-      out <- levels_unique %>% 
-        left_join(levels_top, by = "col_name") %>% 
-        mutate(prop = prop * 100) %>%
-        rename(cnt = V1, common = value, common_pcnt = prop)
+      out <- levels_unique %>%
+        left_join(levels_top, by = "col_name") %>%
+        mutate(prop = .data$prop * 100) %>%
+        rename(common = "value", common_pcnt = "prop")
       out$levels <- levels_list
       # sort by alphabetical order & filter to max number of rows
-      out <- out %>% 
-        arrange(col_name)
+      out <- out %>%
+        arrange(.data$col_name)
       # add names to the list
       names(out$levels) <- out$col_name
     } else {
@@ -132,16 +133,16 @@ inspect_cat <- function(df1, df2 = NULL, include_int = FALSE){
   }
   if(input_type == "pair"){
     # levels for df1
-    s1 <- inspect_cat(df1) %>% 
-      select(-contains("common"), -cnt)
+    s1 <- inspect_cat(df1) %>%
+      select(-contains("common"), -"cnt")
     # levels for df2
-    s2 <- inspect_cat(df2) %>% 
-      select(-contains("common"), -cnt)
+    s2 <- inspect_cat(df2) %>%
+      select(-contains("common"), -"cnt")
     # combine and clean up levels
-    out <- full_join(s1, s2, by = "col_name") %>% 
-      mutate(jsd = js_divergence_vec(levels.x, levels.y)) %>%
-      mutate(pval = chisq(levels.x, levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
-      select(col_name, jsd, pval, lvls_1 = levels.x, lvls_2 = levels.y)
+    out <- full_join(s1, s2, by = "col_name") %>%
+      mutate(jsd = js_divergence_vec(.data$levels.x, .data$levels.y)) %>%
+      mutate(pval = chisq(.data$levels.x, .data$levels.y, n_1 = nrow(df1), n_2 = nrow(df2))) %>%
+      select("col_name", "jsd", "pval", lvls_1 = "levels.x", lvls_2 = "levels.y")
     # ensure the list names are retained
     names(out[[4]]) <- names(out[[5]]) <- as.character(out$col_name)
   }

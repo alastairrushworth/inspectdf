@@ -1,7 +1,9 @@
 #' @importFrom dplyr arrange
 #' @importFrom dplyr bind_rows
 #' @importFrom dplyr desc
+#' @importFrom dplyr filter
 #' @importFrom dplyr slice
+#' @importFrom rlang .data
 #' @importFrom tibble tibble
 
 fast_table <- function(v, show_na = TRUE, show_cnt = FALSE){
@@ -20,13 +22,13 @@ fast_table <- function(v, show_na = TRUE, show_cnt = FALSE){
   tbl_freq <-  tibble(value = vals, prop = freq / length(v)) 
   # if frequencies are required, add them here
   if(show_cnt) tbl_freq$cnt <- freq
-  tbl_freq <- tbl_freq %>% arrange(desc(prop))
+  tbl_freq <- tbl_freq %>% arrange(desc(.data$prop))
   # if the values column is not numeric, then coerce to character
   if(!any("numeric" %in% class(tbl_freq$value))){
     tbl_freq$value <- as.character(tbl_freq$value)
   }
   if(!show_na){
-    tbl_freq <- tbl_freq %>% filter(!is.na(value))
+    tbl_freq <- tbl_freq %>% filter(!is.na(.data$value))
   }
   # return frequency table
   return(tbl_freq)

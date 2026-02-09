@@ -69,6 +69,7 @@
 #' @importFrom dplyr where
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 
 inspect_imb <- function(df1, df2 = NULL, include_na = FALSE){
   
@@ -103,10 +104,10 @@ inspect_imb <- function(df1, df2 = NULL, include_na = FALSE){
       imb_cols  <- suppressWarnings(bind_rows(levels_list, .id = "col_name"))
       
       # tidy up table output
-      out <- imb_cols %>% 
-        mutate(prop = 100 * prop) %>%
-        arrange(desc(prop)) %>% 
-        select(col_name, value, pcnt = prop, cnt)
+      out <- imb_cols %>%
+        mutate(prop = 100 * .data$prop) %>%
+        arrange(desc(.data$prop)) %>%
+        select("col_name", "value", pcnt = "prop", "cnt")
     } else {
       # return empty data frame if no categorical columns 
       out <- tibble(col_name = character(), 
@@ -117,14 +118,15 @@ inspect_imb <- function(df1, df2 = NULL, include_na = FALSE){
   }
   if(input_type == "pair"){
     # summary of df1
-    s1 <- inspect_imb(df1, include_na = include_na) %>% 
-      rename(pcnt_1 = pcnt, cnt_1 = cnt)
+    s1 <- inspect_imb(df1, include_na = include_na) %>%
+      rename(pcnt_1 = "pcnt", cnt_1 = "cnt")
     # summary of df2
-    s2 <- inspect_imb(df2, include_na = include_na) %>% 
-      rename(pcnt_2 = pcnt, cnt_2 = cnt)
+    s2 <- inspect_imb(df2, include_na = include_na) %>%
+      rename(pcnt_2 = "pcnt", cnt_2 = "cnt")
     # left join summaries together
-    out <- left_join(s1, s2, by = c("col_name", "value")) %>%
-      mutate(p_value = prop_test_imb(., n_1 = nrow(df1), n_2 = nrow(df2)))
+    out <- left_join(s1, s2, by = c("col_name", "value"))
+    out <- out %>%
+      mutate(p_value = prop_test_imb(out, n_1 = nrow(df1), n_2 = nrow(df2)))
   } 
   if(input_type == "grouped"){
     out <- apply_across_groups(df = df1, fn = inspect_imb)
