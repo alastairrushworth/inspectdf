@@ -1,46 +1,47 @@
 #' Summary and comparison of column types
 #'
-#' @description For a single dataframe, summarise the column types.  If two 
-#' dataframes are supplied, compare column type composition of both dataframes.  
+#' @description For a single data frame, summarise the column types.  If two
+#' data frames are supplied, compare column type composition of both data frames.
 #'
-#' @param df1 A dataframe.
-#' @param df2 An optional second dataframe for comparison.  
-#' @param compare_index Whether to check column positions as well as types when comparing dataframes.  
+#' @param df1 A data frame.
+#' @param df2 An optional second data frame for comparison.
+#' @param compare_index Whether to check column positions as well as types when comparing data frames.  
 #' Defaults to \code{FALSE}.
 #' @return A tibble summarising the count and percentage of different 
 #' column types for one or a pair of data frames.
 #' @details 
-#' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
+#' For a \strong{single data frame}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{type}, a character vector containing the column types in \code{df1}.
 #'   \item \code{cnt}, integer counts of each type.
 #'   \item \code{pcnt}, the percentage of all columns with each type.
 #'   \item \code{col_name}, the names of columns with each type. \cr
 #' }
-#' For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
+#' For a \strong{pair of data frames}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{type}, a character vector containing the column types in 
 #'   \code{df1} and \code{df2}.
 #'   \item \code{cnt_1}, \code{cnt_2}, pair of integer columns containing counts of each type - 
 #'   in each of \code{df1} and \code{df2}
 #' }
-#' For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
-#' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
+#' For a \strong{grouped data frame}, the tibble returned is as for a single data frame, but where
+#' the first \code{k} columns are the grouping columns.  There will be as many rows in the result
 #' as there are unique combinations of the grouping variables.
-#' 
+#'
 #' @author Alastair Rushworth
 #' @seealso \code{\link{show_plot}}
-#' 
+#'
 #' @examples
 #' # Load dplyr for starwars data & pipe
 #' library(dplyr)
-#' 
-#' # Single dataframe summary
+#'
+#' # Single data frame summary
 #' inspect_types(starwars)
-#' 
-#' # Paired dataframe comparison
+#'
+#' # Paired data frame comparison
 #' inspect_types(starwars, starwars[1:20, ])
 #' @export
+#' @importFrom dplyr across
 #' @importFrom dplyr arrange
 #' @importFrom dplyr case_when
 #' @importFrom dplyr contains
@@ -50,18 +51,19 @@
 #' @importFrom dplyr left_join
 #' @importFrom dplyr mutate
 #' @importFrom dplyr rename
-#' @importFrom dplyr select_if
 #' @importFrom dplyr select
 #' @importFrom dplyr slice
 #' @importFrom dplyr ungroup
+#' @importFrom dplyr where
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @importFrom tibble tibble
 #' @importFrom tidyr gather
 #' @importFrom tidyr replace_na
 #' @useDynLib inspectdf
 
 inspect_types <- function(df1, df2 = NULL, compare_index = FALSE){
-  # perform basic column check on dataframe input
+  # perform basic column check on data frame input
   input_type <- check_df_cols(df1, df2)
   # capture the data frame names
   df_names <- get_df_names()
@@ -75,11 +77,11 @@ inspect_types <- function(df1, df2 = NULL, compare_index = FALSE){
     classes     <- sapply(classes, paste0, collapse = " ")
     # get column names by type
     nms_cls     <- tibble(
-      pos = 1:ncl, 
-      nms = names(df1), 
+      pos = 1:ncl,
+      nms = names(df1),
       cls = classes
-    ) %>% 
-      arrange(cls)
+    ) %>%
+      arrange(.data$cls)
     nms_lst     <- split(nms_cls, nms_cls$cls)
     nms_lst     <- lapply(nms_lst, function(v) {dd <- v$nms; names(dd) <- v$pos; dd})
     nms_df      <- tibble(type = names(nms_lst), col_name = nms_lst) 
@@ -89,16 +91,16 @@ inspect_types <- function(df1, df2 = NULL, compare_index = FALSE){
     type_tibble <- tibble(type = names(types), cnt = as.integer(types)) 
     # summarise column types into df1
     out <- type_tibble %>%
-      mutate(pcnt = 100 * cnt / ncol(df1)) %>% 
-      arrange(desc(pcnt))  %>% 
+      mutate(pcnt = 100 * .data$cnt / ncol(df1)) %>%
+      arrange(desc(.data$pcnt))  %>%
       left_join(nms_df, by = "type") %>%
-      filter(pcnt > 0) 
+      filter(.data$pcnt > 0) 
   } else {
     # inspect types for first df
-    s1  <- inspect_types(df1) %>% select(-pcnt)
+    s1  <- inspect_types(df1) %>% select(-"pcnt")
     colnames(s1)[2] <- 'cnt_1'
     # inspect types for second df
-    s2  <- inspect_types(df2) %>% select(-pcnt)
+    s2  <- inspect_types(df2) %>% select(-"pcnt")
     colnames(s2)[2] <- 'cnt_2'
     # join together
     out <- full_join(s1, s2, by = "type") 
@@ -129,48 +131,48 @@ inspect_types <- function(df1, df2 = NULL, compare_index = FALSE){
     out$equal     <- c('\u2718', '\u2714')[log_logical]
     s1$col_name <- lapply(s1$col_name, function(v) tibble(position = names(v), col_name = v))
     s2$col_name <- lapply(s2$col_name, function(v) tibble(position = names(v), col_name = v))
-    a           <- s1 %>% select(type, col_name) %>% unnest(col_name)
-    b           <- s2 %>% select(type, col_name) %>% unnest(col_name)
-    
+    a           <- s1 %>% select("type", "col_name") %>% unnest("col_name")
+    b           <- s2 %>% select("type", "col_name") %>% unnest("col_name")
+
     drudge <- full_join(a, b, by = 'col_name') %>%
       mutate(type_diff = case_when(
-        type.x != type.y ~ paste0(
-          df_names$df1, '::', col_name, ' ~ ',
-          type.x, ' <!> ', df_names$df2, '::', 
-          col_name, ' ~ ', type.y, ''
+        .data$type.x != .data$type.y ~ paste0(
+          df_names$df1, '::', .data$col_name, ' ~ ',
+          .data$type.x, ' <!> ', df_names$df2, '::',
+          .data$col_name, ' ~ ', .data$type.y, ''
         )
       )) %>%
       mutate(missing_col = case_when(
-        is.na(type.x) ~ paste0(
+        is.na(.data$type.x) ~ paste0(
           df_names$df2, '::',
-          col_name, ' ~ ', type.y, 
-          '  missing from ', 
+          .data$col_name, ' ~ ', .data$type.y,
+          '  missing from ',
           df_names$df1
-        ), 
-        is.na(type.y) ~ paste0(
+        ),
+        is.na(.data$type.y) ~ paste0(
           df_names$df1, '::',
-          col_name, ' ~ ', type.x, 
-          '  missing from ', 
+          .data$col_name, ' ~ ', .data$type.x,
+          '  missing from ',
           df_names$df2
         )
       )) 
     names(drudge$missing_col) <- drudge$col_name
     names(drudge$type_diff)   <- drudge$col_name
     drudge_nest <- bind_rows(
-      drudge %>% select(type = type.x, comment = type_diff), 
-      drudge %>% select(type = type.y, comment = type_diff), 
-      drudge %>% select(type = type.x, comment = missing_col), 
-      drudge %>% select(type = type.y, comment = missing_col)
+      drudge %>% select(type = "type.x", comment = "type_diff"),
+      drudge %>% select(type = "type.y", comment = "type_diff"),
+      drudge %>% select(type = "type.x", comment = "missing_col"),
+      drudge %>% select(type = "type.y", comment = "missing_col")
     ) %>%
-      filter(!is.na(comment), !is.na(type)) %>%
-      nest(issues = comment)
-    
+      filter(!is.na(.data$comment), !is.na(.data$type)) %>%
+      nest(issues = "comment")
+
     out <- out %>%
-      left_join(drudge_nest, by = 'type') %>% 
-      select(-matches('col_name')) %>% 
-      replace(is.na(.), 0) %>%
-      mutate(issues = lapply(issues, function(v) v$comment)) %>%
-      select(type, equal, cnt_1, cnt_2, columns, issues)
+      left_join(drudge_nest, by = 'type') %>%
+      select(-matches('col_name')) %>%
+      mutate(across(where(is.numeric), ~tidyr::replace_na(.x, 0))) %>%
+      mutate(issues = lapply(.data$issues, function(v) v$comment)) %>%
+      select("type", "equal", "cnt_1", "cnt_2", "columns", "issues")
   }
   # attach attributes required for plotting
   attr(out, "type") <- list(method = "types", input_type = input_type)

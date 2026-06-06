@@ -1,10 +1,19 @@
+#' @importFrom dplyr filter
+#' @importFrom dplyr mutate
+#' @importFrom dplyr select
 #' @importFrom ggplot2 aes
+#' @importFrom ggplot2 annotate
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 geom_bar
 #' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 guides
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 scale_fill_discrete
+#' @importFrom ggplot2 scale_fill_manual
 #' @importFrom ggplot2 theme
+#' @importFrom rlang .data
+#' @importFrom tibble tibble
+#' @importFrom tidyr pivot_longer
 
 plot_mem_single <- function(
     df_plot, 
@@ -19,15 +28,15 @@ plot_mem_single <- function(
   # define a plot wide nudge interval
   nudge <- max(df_plot$pcnt) / 50
   # convert column names to factor
-  df_plot <- df_plot %>% 
-    mutate(col_name = factor(col_name, levels = as.character(col_name)))
+  df_plot <- df_plot %>%
+    mutate(col_name = factor(.data$col_name, levels = as.character(.data$col_name)))
   # set NAs to 0
   df_plot$size <- ifelse(is.na(df_plot$size), "", df_plot$size)
   df_plot$pcnt <- ifelse(is.na(df_plot$pcnt), 0, df_plot$pcnt)
 
   # construct bar plot of missingness
-  plt <- df_plot %>% 
-    ggplot(aes(x = col_name, y = pcnt, fill = col_name, label = size)) +
+  plt <- df_plot %>%
+    ggplot(aes(x = .data$col_name, y = .data$pcnt, fill = .data$col_name, label = .data$size)) +
     geom_bar(stat = "identity") + 
     labs(x = '', y = "% of total size", 
          title = paste0("Column sizes in df::", df_names$df1), 
@@ -49,15 +58,15 @@ plot_mem_single <- function(
     # label_df
     label_df <- tibble(col_name = x, pcnt = y, label = z)
     label_df$fill <- NA
-    # labels white 
-    label_white <- label_df %>% filter(pcnt > big_bar) 
+    # labels white
+    label_white <- label_df %>% filter(.data$pcnt > big_bar)
     max_lab <- ifelse(all(is.na(label_white$pcnt)), NA, max(label_white$pcnt, na.rm = T))
     # labels grey
-    label_grey <- label_df %>% 
-      filter(pcnt <= big_bar, pcnt > 0) %>%
-      mutate(ymax = pcnt + 0.5 * max_lab)
+    label_grey <- label_df %>%
+      filter(.data$pcnt <= big_bar, .data$pcnt > 0) %>%
+      mutate(ymax = .data$pcnt + 0.5 * max_lab)
     # labels zero
-    label_zero <- label_df %>% filter(pcnt == 0)
+    label_zero <- label_df %>% filter(.data$pcnt == 0)
     
     # add white labels at the top of the bigger bars
     if(nrow(label_white) > 0){
@@ -119,15 +128,15 @@ plot_mem_pair <- function(
   df_names <- attr(df_plot, "df_names")
   leg_text <- as.character(unlist(df_names))
   # gather percents
-  z1 <- df_plot %>% select(-contains("size")) %>% 
-    gather(key = "df_input", value = "pcnt", -col_name)
+  z1 <- df_plot %>% select(-contains("size")) %>%
+    pivot_longer(cols = -.data$col_name, names_to = "df_input", values_to = "pcnt")
   # gather sizes
-  z2 <- df_plot %>% 
+  z2 <- df_plot %>%
     select(-contains("pcnt")) %>%
-    gather(key = "df_input", value = "size", -col_name) %>% 
-    mutate(df_input = gsub("size_", "pcnt_", df_input))
+    pivot_longer(cols = -.data$col_name, names_to = "df_input", values_to = "size") %>%
+    mutate(df_input = gsub("size_", "pcnt_", .data$df_input))
   # convert to a tall df
-  z_tall <- z1 %>% 
+  z_tall <- z1 %>%
     left_join(z2, by = c("col_name", "df_input")) 
     
   # make axis names
@@ -139,9 +148,9 @@ plot_mem_pair <- function(
   sttl_plt2 <- paste0("df::", df_names$df2,  " has ", sizes$ncl_2, 
                       " columns, ", sizes$nrw_2, 
                       " rows & total size of ", sizes$sz_2)
-  # tidy the factor 
+  # tidy the factor
   z_tall <- z_tall %>%
-    mutate(col_name = factor(col_name, levels = df_plot$col_name)) 
+    mutate(col_name = factor(.data$col_name, levels = df_plot$col_name)) 
 
   # set NAs to 0
   z_tall$size <- ifelse(is.na(z_tall$size), "", z_tall$size)
@@ -149,7 +158,7 @@ plot_mem_pair <- function(
 
   # plot the result
   plt <- z_tall %>%
-    ggplot(aes(x = col_name, y = pcnt, fill = df_input, label = size)) + 
+    ggplot(aes(x = .data$col_name, y = .data$pcnt, fill = .data$df_input, label = .data$size)) + 
     geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) + 
     labs(x = "", y = "% of total size", 
          title = ttl_plt, 

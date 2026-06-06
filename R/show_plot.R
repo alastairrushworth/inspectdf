@@ -1,8 +1,8 @@
-#' Simple graphical inspection of dataframe summaries
+#' Simple graphical inspection of data frame summaries
 #' @importFrom rlang abort
 #' @description  Easily visualise output from \code{inspect_*()} functions.
 #' 
-#' @param x Dataframe resulting from the output of an \code{inspect_*()} function.
+#' @param x Data frame resulting from the output of an \code{inspect_*()} function.
 #' @param ... Optional arguments that modify the plot output, see Details.
 
 #' @details 
@@ -38,10 +38,12 @@
 #' \strong{Other arguments}
 #' \describe{
 #' \item{\code{plot_type}}{Experimental.  Integer determining plot type to print.  Defaults to 1.}
-#' \item{\code{plot_layout}}{Vector specifying the number of rows and columns 
-#' in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
+#' \item{\code{plot_layout}}{Vector specifying the number of rows and columns
+#' in the plotting grid.  For example, 3 rows and 2 columns would be specified as
 #' \code{plot_layout = c(3, 2)}.}
 #' }
+#' @return A \code{ggplot2} object visualizing the inspection results.
+#' @author Alastair Rushworth
 #' @export
 #' @examples 
 #' # Load 'starwars' data
@@ -51,7 +53,7 @@
 #' x <- inspect_cat(starwars) 
 #' show_plot(x)
 #' 
-#' # Correlation betwee numeric columns + confidence intervals
+#' # Correlation between numeric columns + confidence intervals
 #' x <- inspect_cor(starwars)
 #' show_plot(x)
 #' 

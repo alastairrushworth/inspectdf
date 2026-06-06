@@ -1,6 +1,6 @@
 Package: inspectdf
 Title: Inspection, Comparison and Visualisation of Data Frames
-Version: 0.0.12
+Version: 0.0.13
 Authors@R: c(
     person("Alastair", "Rushworth", email = "alastairmrushworth@gmail.com", role = c("aut", "cre")),
     person("David", "Wilkins", email = "david@wilkox.org", role = "ctb"),
@@ -20,4 +20,4 @@ Suggests: testthat
 License: GPL-2
 URL: https://alastairrushworth.github.io/inspectdf/
 BugReports: https://github.com/alastairrushworth/inspectdf/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
