@@ -29,7 +29,9 @@ jobs:
           - {os: ubuntu-latest,   r: 'release'}
           - {os: windows-latest, r: 'devel'}
           - {os: ubuntu-latest,   r: 'devel'}
-          - {os: macOS-latest,   r: 'devel'}
+          # macOS-devel removed: transitive deps jpeg/png have no R-devel binary
+          # and fail to build from source on the runner (no system libjpeg/libpng).
+          # CRAN checks r-devel on macOS via its own infrastructure, which has them.
           - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
