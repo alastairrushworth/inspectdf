@@ -2,14 +2,17 @@
 % Please edit documentation in R/show_plot.R
 \name{show_plot}
 \alias{show_plot}
-\title{Simple graphical inspection of dataframe summaries}
+\title{Simple graphical inspection of data frame summaries}
 \usage{
 show_plot(x, ...)
 }
 \arguments{
-\item{x}{Dataframe resulting from the output of an \code{inspect_*()} function.}
+\item{x}{Data frame resulting from the output of an \code{inspect_*()} function.}
 
 \item{...}{Optional arguments that modify the plot output, see Details.}
+}
+\value{
+A \code{ggplot2} object visualizing the inspection results.
 }
 \description{
 Easily visualise output from \code{inspect_*()} functions.
@@ -47,8 +50,8 @@ for less common categories but at the expense of increased plot rendering time. 
 \strong{Other arguments}
 \describe{
 \item{\code{plot_type}}{Experimental.  Integer determining plot type to print.  Defaults to 1.}
-\item{\code{plot_layout}}{Vector specifying the number of rows and columns 
-in the plotting grid.  For example, 3 rows and 2 columns would be specified as 
+\item{\code{plot_layout}}{Vector specifying the number of rows and columns
+in the plotting grid.  For example, 3 rows and 2 columns would be specified as
 \code{plot_layout = c(3, 2)}.}
 }
 }
@@ -60,7 +63,7 @@ data("starwars", package = "dplyr")
 x <- inspect_cat(starwars) 
 show_plot(x)
 
-# Correlation betwee numeric columns + confidence intervals
+# Correlation between numeric columns + confidence intervals
 x <- inspect_cor(starwars)
 show_plot(x)
 
@@ -83,4 +86,7 @@ show_plot(x)
 # Barplot of column types
 x <- inspect_types(starwars)
 show_plot(x)
+}
+\author{
+Alastair Rushworth
 }

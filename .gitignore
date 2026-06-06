@@ -16,3 +16,5 @@ testing.R
 Untitled.R
 *.dll
 new_cor.R
+
+tests/testthat/_snaps/*

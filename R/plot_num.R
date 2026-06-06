@@ -1,5 +1,6 @@
 #' @importFrom dplyr all_of
 #' @importFrom dplyr pull
+#' @importFrom dplyr row_number
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 coord_cartesian
 #' @importFrom ggplot2 facet_wrap
@@ -16,6 +17,7 @@
 #' @importFrom ggplot2 sec_axis
 #' @importFrom ggplot2 theme
 #' @importFrom rlang :=
+#' @importFrom rlang .data
 #' @importFrom tidyr pivot_longer
 #' @importFrom tidyr unnest
 
@@ -40,25 +42,25 @@ plot_num_single <- function(
   }
   # add histogram midpoints
   df_plot <- bind_rows(df_plot$hist)
-  bin_width <- df_plot %>% 
-    group_by(col_name) %>%
-    summarise(bar_width = diff(mid)[1] * 0.9)
-  df_plot <- df_plot %>% 
+  bin_width <- df_plot %>%
+    group_by(.data$col_name) %>%
+    summarise(bar_width = diff(.data$mid)[1] * 0.9)
+  df_plot <- df_plot %>%
     left_join(bin_width, by = "col_name")
   # add a colour scale variable in df_plot
   # scale densities to have max of 1 and min 0
   if(!is.na(col_palette)){
     df_plot <- df_plot %>%
-      group_by(col_name) %>%
-      mutate(prop_z  = prop / max(prop)) %>%
+      group_by(.data$col_name) %>%
+      mutate(prop_z  = .data$prop / max(.data$prop)) %>%
       ungroup
   } else {
     df_plot['prop_z'] = 'blue'
   }
-  
+
   # generate basic plot with columns
   plt <- df_plot %>%
-    ggplot(aes(x = mid, y = prop, width = bar_width, fill = prop_z)) + 
+    ggplot(aes(x = .data$mid, y = .data$prop, width = .data$bar_width, fill = .data$prop_z)) + 
     geom_col() + 
     labs(
       x = "", y = "Probability", 
@@ -66,9 +68,9 @@ plot_num_single <- function(
       subtitle = ""
     ) +
     facet_wrap(
-      ~ col_name, 
-      scales = "free", 
-      nrow = plot_layout[[1]], 
+      ~ .data$col_name,
+      scales = "free",
+      nrow = plot_layout[[1]],
       ncol = plot_layout[[2]]
     )
   # colour fill can depend on user input, if provided
@@ -99,8 +101,8 @@ plot_num_pair <- function(
   # set the plot_layout if not specified
   if(is.null(plot_layout)) plot_layout <- list(NULL, 3)
   # chop stuff off
-  df_plot <- df_plot %>% select(-jsd) 
-  # if columns missing in either dataframe, use buckets from the other
+  df_plot <- df_plot %>% select(-"jsd") 
+  # if columns missing in either data frame, use buckets from the other
   # replace frequencies with NA.
   x_1 <- which(unlist(lapply(df_plot$hist_1, is.null)))
   x_2 <- which(unlist(lapply(df_plot$hist_2, is.null)))
@@ -133,21 +135,21 @@ plot_num_pair <- function(
                         as.integer(first_dig))
     return(first_dig)
   }
-  xy <- df_plot %>% 
-    select(cname = col_name, pval) %>%
-    mutate(significant = as.integer(pval < alpha) + 2) %>%
+  xy <- df_plot %>%
+    select(cname = "col_name", "pval") %>%
+    mutate(significant = as.integer(.data$pval < alpha) + 2) %>%
     replace_na(list(significant = 1)) %>%
-    mutate(significant = c("gray30", "lightskyblue1", "red3")[significant])
+    mutate(significant = c("gray30", "lightskyblue1", "red3")[.data$significant])
   
   get_numV <- Vectorize(get_num)
   ord_vals <- trns_plot %>%
-    select(value) %>%
+    select("value") %>%
     distinct() %>%
-    mutate(first_num = suppressWarnings(get_numV(value))) %>%
-    arrange(first_num)
+    mutate(first_num = suppressWarnings(get_numV(.data$value))) %>%
+    arrange(.data$first_num)
   # generate a heatplot
   plt <- trns_plot %>%
-    ggplot(aes(x = dfn, y = factor(value, levels = ord_vals$value), fill = prop)) +
+    ggplot(aes(x = .data$dfn, y = factor(.data$value, levels = ord_vals$value), fill = .data$prop)) +
     geom_rect(data = xy, fill = xy$significant,  
               xmin = -Inf, xmax = Inf, 
               ymin = -Inf, ymax = Inf, alpha = 0.5, 
@@ -156,12 +158,12 @@ plot_num_pair <- function(
   # check for ggfittext install
   if(requireNamespace("ggfittext", quietly = TRUE)){
     plt <- plt + ggfittext::geom_fit_text(
-      aes(label = round(prop * 100, 1)),
+      aes(label = round(.data$prop * 100, 1)),
       contrast = TRUE,
       na.rm = TRUE)
   } else {
     plt <- plt + ggfittext::geom_fit_text(
-      aes(label = round(prop * 100, 1)),
+      aes(label = round(.data$prop * 100, 1)),
       contrast = TRUE,
       na.rm = TRUE)
   }
@@ -169,10 +171,10 @@ plot_num_pair <- function(
   plt <- plt + 
     scale_fill_gradient(low = "white", high = "steelblue") +
     theme(legend.position = "none") +
-    labs(x = "", y = "", 
-         title =  paste0("Heat plot comparison of numeric columns")) + 
-    facet_wrap(~ cname, scales = "free", 
-               nrow = plot_layout[[1]], 
+    labs(x = "", y = "",
+         title =  paste0("Heat plot comparison of numeric columns")) +
+    facet_wrap(~ .data$cname, scales = "free",
+               nrow = plot_layout[[1]],
                ncol = plot_layout[[2]])  
   return(plt)
 }
@@ -215,12 +217,12 @@ plot_num_grouped <- function(
   } else {
     # group_order  <- as.character(unique(grp_nms))
     group_order <- attr(df_plot, 'group_lengths') %>%
-      arrange(rank_mean) %>%
+      arrange(.data$rank_mean) %>%
       pull(grp_var)
   }
   attr(df_plot, 'group_lengths') %>%
     mutate(!!(grp_var) := as.character(.data[[grp_var]]))
-  
+
   df_plot <- df_plot %>%
     mutate(!!(grp_var) := factor(as.character(grp_nms), levels = group_order)) %>%
     mutate(df_int = as.integer(.data[[grp_var]]))
@@ -231,13 +233,13 @@ plot_num_grouped <- function(
     mutate(!!(grp_var) := factor(as.character(.data[[grp_var]]), levels = group_order))
   
   # get global mean, min and max for graphics
-  global_stats <- df_plot %>% 
+  global_stats <- df_plot %>%
     left_join(grp_lengths, by = grp_var) %>%
-    group_by(col_name) %>%
+    group_by(.data$col_name) %>%
     summarise(
-      xmin = min(min, na.rm = TRUE), 
-      xmax = max(max, na.rm = TRUE), 
-      xmn  = sum((rows * mean)) / sum(rows)
+      xmin = min(.data$min, na.rm = TRUE),
+      xmax = max(.data$max, na.rm = TRUE),
+      xmn  = sum((.data$rows * .data$mean)) / sum(.data$rows)
     )
   
   # if the plot is paired, then rename the hist comparison cols and 
@@ -261,18 +263,18 @@ plot_num_grouped <- function(
   
   # pull out the histograms into a separate object
   # unnest to long format
-  hists_long <- df_plot %>% 
-    select(.data[[grp_var]], col_name, hist) %>%
-    unnest(hist)
+  hists_long <- df_plot %>%
+    select(.data[[grp_var]], "col_name", "hist") %>%
+    unnest("hist")
   # work out the bin widths for each column and join back
-  bin_width <- hists_long %>% 
-    group_by(col_name) %>%
-    summarise(bar_width = diff(sort(unique(mid)))[1] * 0.9)
+  bin_width <- hists_long %>%
+    group_by(.data$col_name) %>%
+    summarise(bar_width = diff(sort(unique(.data$mid)))[1] * 0.9)
   hists_long <- hists_long %>%
     left_join(bin_width, by = 'col_name') %>%
     mutate(df_int = as.integer(.data[[grp_var]])) %>%
-    mutate(key_to_color = as.factor(1:nrow(.))) %>% 
-    filter(prop > 0)
+    mutate(key_to_color = as.factor(row_number())) %>%
+    filter(.data$prop > 0)
   hists_long$prop[is.na(hists_long$prop)] <- 0
   # number of columns in the data
   ncolumns   <- length(unique(hists_long$col_name))
@@ -285,57 +287,57 @@ plot_num_grouped <- function(
   colour_vector <- vcols[col_inds]
   
   # statistics associated with each data frame
-  stats <- df_plot %>% 
-    filter(col_name %in% df_plot$col_name) %>% 
-    left_join(bin_width, by = 'col_name') %>% 
-    select(.data[[grp_var]], col_name, min, mean, max, bar_width, df_int)
-  
-  # pivot the stats dataframe to long
+  stats <- df_plot %>%
+    filter(.data$col_name %in% df_plot$col_name) %>%
+    left_join(bin_width, by = 'col_name') %>%
+    select(.data[[grp_var]], "col_name", "min", "mean", "max", "bar_width", "df_int")
+
+  # pivot the stats data frame to long
   stats_mn <- stats %>%
     pivot_longer(cols = c('mean'), names_to = "stat_type") %>%
     mutate(linetype = 'solid')
-  xlabs <- df_plot %>% distinct(.data[[grp_var]], df_int)
-  
+  xlabs <- df_plot %>% distinct(.data[[grp_var]], .data$df_int)
+
   # global stats - pivot long and add a print friendly label string
   # format text for printing on the graphic
   fmt <- function(x) prettyNum(x, digits = 4)
   global_stats <- global_stats %>%
-    pivot_longer(-col_name) %>% 
+    pivot_longer(-"col_name") %>%
     left_join(bin_width, by = 'col_name') %>%
-    mutate(print_value = fmt(value)) %>%
+    mutate(print_value = fmt(.data$value)) %>%
     mutate(xcoord = mean(unique(hists_long$df_int)) + 0.87/2 - 1)
   
   # set up the plot regions
   pp <- hists_long %>%
     ggplot(
       aes(
-        ymin = (mid - bar_width / 2) / bar_width, 
-        ymax = (mid + bar_width / 2) / bar_width, 
-        xmin = (df_int - 1),
-        xmax = (df_int - 1 + 0.87),
-        fill = key_to_color
+        ymin = (.data$mid - .data$bar_width / 2) / .data$bar_width,
+        ymax = (.data$mid + .data$bar_width / 2) / .data$bar_width,
+        xmin = (.data$df_int - 1),
+        xmax = (.data$df_int - 1 + 0.87),
+        fill = .data$key_to_color
       )
     ) 
   
   # add gray max / min / mean lines as global guides
-  pp <- 
-    pp + 
+  pp <-
+    pp +
     geom_hline(
       na.rm = TRUE,
-      data = global_stats, 
+      data = global_stats,
       aes(
-        yintercept = value / bar_width,
-        group = col_name
-      ), 
+        yintercept = .data$value / .data$bar_width,
+        group = .data$col_name
+      ),
       color = 'gray60'
     )
   
   # add rectangles histograms where there are non-zero probs
-  pp <- 
-    pp + 
+  pp <-
+    pp +
     geom_rect(na.rm = TRUE) +
     scale_fill_manual(values = colour_vector) +
-    facet_grid(col_name~., scales = 'free', switch = 'y') +
+    facet_grid(.data$col_name~., scales = 'free', switch = 'y') +
     theme(
       legend.position  = 'none',
       panel.grid.major = element_blank(),
@@ -373,10 +375,10 @@ plot_num_grouped <- function(
       inherit.aes = FALSE, 
       data = xlabs,
       aes(
-        ymin = -10, 
-        ymax = 0, 
-        xmin = df_int - 1, 
-        xmax = df_int, 
+        ymin = -10,
+        ymax = 0,
+        xmin = .data$df_int - 1,
+        xmax = .data$df_int,
         label = .data[[grp_var]]
       )) +
     coord_cartesian(clip = 'off')
@@ -386,78 +388,78 @@ plot_num_grouped <- function(
   #   geom_errorbar(alpha = 0.5)
   
   # add line segments for group means
-  pp <- 
-    pp + 
+  pp <-
+    pp +
     geom_segment(
       color = 'gray60',
-      data = stats_mn, 
+      data = stats_mn,
       na.rm = TRUE,
       aes(
-        y    = value / bar_width, 
-        yend = value / bar_width,
-        x    = df_int - 1,
-        xend = df_int - 1 + 0.87,
-        linetype = linetype
-      ), 
+        y    = .data$value / .data$bar_width,
+        yend = .data$value / .data$bar_width,
+        x    = .data$df_int - 1,
+        xend = .data$df_int - 1 + 0.87,
+        linetype = .data$linetype
+      ),
       inherit.aes = FALSE
     )
-  
+
   # add max / mins line segments
-  stats_max_min <- stats %>% 
-    select(.data[[grp_var]], col_name, min, max, bar_width, df_int) %>%
+  stats_max_min <- stats %>%
+    select(.data[[grp_var]], "col_name", "min", "max", "bar_width", "df_int") %>%
     distinct() %>%
     pivot_longer(cols = c('min', 'max'), names_to = 'stat_type')
-  pp <- 
-    pp + 
+  pp <-
+    pp +
     geom_segment(
       na.rm = TRUE,
-      data = stats_max_min, 
+      data = stats_max_min,
       aes(
-        y    = value / bar_width, 
-        yend = value / bar_width,
-        x    = (df_int - 1), 
-        xend = (df_int - 1 + 0.87), 
-        group = col_name
-      ), 
+        y    = .data$value / .data$bar_width,
+        yend = .data$value / .data$bar_width,
+        x    = (.data$df_int - 1),
+        xend = (.data$df_int - 1 + 0.87),
+        group = .data$col_name
+      ),
       color = 'gray60',
       inherit.aes = FALSE)
-  max_min_stats <- stats %>% 
-    select(min, max, bar_width, df_int, col_name) %>% 
+  max_min_stats <- stats %>%
+    select("min", "max", "bar_width", "df_int", "col_name") %>%
     distinct()
   max_min_stats <- bind_rows(
-    max_min_stats, 
-    (max_min_stats %>% mutate(df_int = df_int + 0.87))
+    max_min_stats,
+    (max_min_stats %>% mutate(df_int = .data$df_int + 0.87))
   )
-  pp <- 
-    pp + 
+  pp <-
+    pp +
     geom_segment(
       na.rm = TRUE,
-      data = max_min_stats, 
+      data = max_min_stats,
       aes(
-        y    = min / bar_width, 
-        yend = max / bar_width,
-        x    = (df_int - 1), 
-        xend = (df_int - 1), 
-        group = col_name
-      ), 
+        y    = .data$min / .data$bar_width,
+        yend = .data$max / .data$bar_width,
+        x    = (.data$df_int - 1),
+        xend = (.data$df_int - 1),
+        group = .data$col_name
+      ),
       color = 'gray60',
       inherit.aes = FALSE)
-  
+
   # add text label to max min lines
   pp <-
     pp +
     geom_label(
       na.rm = TRUE,
-      data = global_stats %>% filter(name != 'xmn'),
+      data = global_stats %>% filter(.data$name != 'xmn'),
       aes(
-        y = value / bar_width,
-        x = xcoord,
-        label = print_value
+        y = .data$value / .data$bar_width,
+        x = .data$xcoord,
+        label = .data$print_value
       ),
-      color = 'gray60', 
-      inherit.aes = FALSE, 
-      label.size = NA, 
-      size = 3, 
+      color = 'gray60',
+      inherit.aes = FALSE,
+      label.size = NA,
+      size = 3,
       hjust = 0.5,
       fontface = 'italic'
     )

@@ -1,6 +1,8 @@
+#' @importFrom dplyr filter
 #' @importFrom dplyr full_join
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
+#' @importFrom rlang .data
 #' @importFrom stats fisher.test
 #' @importFrom tidyr replace_na
 
@@ -17,11 +19,11 @@ chisq <- function(Mlist1, Mlist2, n_1, n_2){
             # replace anything missing with 0
             replace_na(list(prop.x = 0, prop.y = 0)) %>%
             # proportion of counts in each histogram
-            mutate(prop.x = as.integer(n_1 * prop.x), prop.y = as.integer(n_2 * prop.y)) %>%
+            mutate(prop.x = as.integer(n_1 * .data$prop.x), prop.y = as.integer(n_2 * .data$prop.y)) %>%
             # drop the values column
-            select(-value, -contains("cnt")) %>% 
+            select(-"value", -contains("cnt")) %>% 
             # drop rows where both are exactly 0
-            filter(prop.x > 0 | prop.y > 0) %>%
+            filter(.data$prop.x > 0 | .data$prop.y > 0) %>%
             # convert to a matrix and transpose to a pair of row vectors
             as.matrix %>% t)
         # apply fisher's exact test and extract the statistic

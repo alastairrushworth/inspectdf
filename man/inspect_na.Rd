@@ -2,7 +2,7 @@
 % Please edit documentation in R/inspect_na.R
 \name{inspect_na}
 \alias{inspect_na}
-\title{Summary and comparison of the rate of missingness across dataframe columns}
+\title{Summary and comparison of the rate of missingness across data frame columns}
 \usage{
 inspect_na(df1, df2 = NULL)
 }
@@ -17,20 +17,20 @@ A tibble summarising the count and percentage of columnwise missingness
 for one or a pair of data frames.
 }
 \description{
-For a single dataframe, summarise the rate of missingness in each 
-column.  If two dataframes are supplied, compare missingness for columns appearing 
-in both dataframes.  For grouped dataframes, summarise the rate of missingness
+For a single data frame, summarise the rate of missingness in each
+column.  If two data frames are supplied, compare missingness for columns appearing
+in both data frames.  For grouped data frames, summarise the rate of missingness
 separately for each group.
 }
 \details{
-For a \strong{single dataframe}, the tibble returned contains the columns: \cr
+For a \strong{single data frame}, the tibble returned contains the columns: \cr
 \itemize{
   \item \code{col_name}, a character vector containing column names of \code{df1}.
-  \item \code{cnt}, an integer vector containing the number of missing values by 
+  \item \code{cnt}, an integer vector containing the number of missing values by
   column.
   \item \code{pcnt}, the percentage of records in each columns that is missing.
 }
-For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
+For a \strong{pair of data frames}, the tibble returned contains the columns: \cr
 \itemize{
   \item \code{col_name}, the name of the columns occurring in either \code{df1} or \code{df2}.
   \item \code{cnt_1}, \code{cnt_2}, a pair of integer vectors containing counts of missing entries
@@ -41,21 +41,21 @@ For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
   values indicate evidence that the rate of missingness differs for a column occurring 
   in both \code{df1} and \code{df2}.
 }
-For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
-the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
+For a \strong{grouped data frame}, the tibble returned is as for a single data frame, but where
+the first \code{k} columns are the grouping columns.  There will be as many rows in the result
 as there are unique combinations of the grouping variables.
 }
 \examples{
 # Load dplyr for starwars data & pipe
 library(dplyr)
 
-# Single dataframe summary
+# Single data frame summary
 inspect_na(starwars)
 
-# Paired dataframe comparison
+# Paired data frame comparison
 inspect_na(starwars, starwars[1:20, ])
 
-# Grouped dataframe summary
+# Grouped data frame summary
 starwars \%>\% group_by(gender) \%>\% inspect_na()
 }
 \seealso{

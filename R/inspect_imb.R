@@ -1,21 +1,21 @@
 #' Summary and comparison of the most common levels in categorical columns 
 #' 
-#' @description For a single dataframe, summarise the most common level in each 
-#' categorical column. If two dataframes are supplied, compare the most common 
-#' levels of categorical features appearing in both dataframes.  For grouped 
-#' dataframes, summarise the levels of categorical columns in the dataframe
+#' @description For a single data frame, summarise the most common level in each
+#' categorical column. If two data frames are supplied, compare the most common
+#' levels of categorical features appearing in both data frames.  For grouped
+#' data frames, summarise the levels of categorical columns in the data frame
 #' split by group.
 #'
-#' @param df1 A dataframe.
+#' @param df1 A data frame.
 #' @param df2 An optional second data frame for comparing columnwise imbalance.  
 #' Defaults to \code{NULL}.  
 #' @param include_na Logical flag, whether to include missing values as a unique level.  Default
 #' is \code{FALSE} - to ignore \code{NA} values.
-#' @return  A tibble summarising and comparing the imbalance for each categorical column 
-#' in one or a pair of dataframes.
-#' 
-#' @details 
-#' For a \strong{single dataframe}, the tibble returned contains the columns: \cr
+#' @return  A tibble summarising and comparing the imbalance for each categorical column
+#' in one or a pair of data frames.
+#'
+#' @details
+#' For a \strong{single data frame}, the tibble returned contains the columns: \cr
 #' \itemize{
 #'   \item \code{col_name}, a character vector containing column names of \code{df1}.
 #'   \item \code{value}, a character vector containing the most common categorical level 
@@ -25,22 +25,22 @@
 #'   \item \code{cnt}, the number of occurrences of the most common categorical level in each
 #'   column of \code{df1}.
 #' }
-#' For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
+#' For a \strong{pair of data frames}, the tibble returned contains the columns: \cr
 #' \itemize{
-#'   \item \code{col_name}, a character vector containing names of the unique columns in \code{df1} 
+#'   \item \code{col_name}, a character vector containing names of the unique columns in \code{df1}
 #'   and \code{df2}.
-#'   \item \code{value}, a character vector containing the most common categorical level 
-#'   in each column of \code{df1}.  
-#'   \item \code{pcnt_1}, \code{pcnt_2}, the percentage occurrence of \code{value} in 
+#'   \item \code{value}, a character vector containing the most common categorical level
+#'   in each column of \code{df1}.
+#'   \item \code{pcnt_1}, \code{pcnt_2}, the percentage occurrence of \code{value} in
 #'   the column \code{col_name} for each of \code{df1} and \code{df2}, respectively.
-#'   \item \code{cnt_1}, \code{cnt_2}, the number of occurrences of of \code{value} in 
+#'   \item \code{cnt_1}, \code{cnt_2}, the number of occurrences of of \code{value} in
 #'   the column \code{col_name} for each of \code{df1} and \code{df2}, respectively.
-#'   \item \code{p_value}, p-value associated with the null hypothesis that the true rate of 
-#'   occurrence is the same for both dataframes.  Small values indicate stronger evidence of a difference
+#'   \item \code{p_value}, p-value associated with the null hypothesis that the true rate of
+#'   occurrence is the same for both data frames.  Small values indicate stronger evidence of a difference
 #'   in the rate of occurrence.
 #' }
-#' For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
-#' the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
+#' For a \strong{grouped data frame}, the tibble returned is as for a single data frame, but where
+#' the first \code{k} columns are the grouping columns.  There will be as many rows in the result
 #' as there are unique combinations of the grouping variables.
 #' 
 #' @author Alastair Rushworth
@@ -50,13 +50,13 @@
 #' # Load dplyr for starwars data & pipe
 #' library(dplyr)
 #' 
-#' # Single dataframe summary
+#' # Single data frame summary
 #' inspect_imb(starwars)
-#' 
-#' # Paired dataframe comparison
+#'
+#' # Paired data frame comparison
 #' inspect_imb(starwars, starwars[1:20, ])
-#' 
-#' # Grouped dataframe summary
+#'
+#' # Grouped data frame summary
 #' starwars %>% group_by(gender) %>% inspect_imb()
 #' @importFrom tibble tibble
 #' @importFrom dplyr arrange
@@ -65,21 +65,22 @@
 #' @importFrom dplyr full_join
 #' @importFrom dplyr mutate
 #' @importFrom dplyr rename
-#' @importFrom dplyr select_if
 #' @importFrom dplyr select
+#' @importFrom dplyr where
 #' @importFrom dplyr slice
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 
 inspect_imb <- function(df1, df2 = NULL, include_na = FALSE){
   
-  # perform basic column check on dataframe input
+  # perform basic column check on data frame input
   input_type <- check_df_cols(df1, df2)
   # capture the data frame names
   df_names <- get_df_names()
   if(input_type == "single"){
     # pick out categorical columns
-    df_cat <- df1 %>% 
-      select_if(function(v) is.character(v) | is.factor(v) | is.logical(v))
+    df_cat <- df1 %>%
+      select(where(function(v) is.character(v) | is.factor(v) | is.logical(v)))
     n_cols <- ncol(df_cat)
     # calculate imbalance if any columns available
     if(n_cols > 0){
@@ -98,17 +99,17 @@ inspect_imb <- function(df1, df2 = NULL, include_na = FALSE){
         }
         levels_list[[i]] <- first_row
       }
-      # collapse highest imbalance into single dataframe
+      # collapse highest imbalance into single data frame
       names(levels_list) <- names_cat
       imb_cols  <- suppressWarnings(bind_rows(levels_list, .id = "col_name"))
       
       # tidy up table output
-      out <- imb_cols %>% 
-        mutate(prop = 100 * prop) %>%
-        arrange(desc(prop)) %>% 
-        select(col_name, value, pcnt = prop, cnt)
+      out <- imb_cols %>%
+        mutate(prop = 100 * .data$prop) %>%
+        arrange(desc(.data$prop)) %>%
+        select("col_name", "value", pcnt = "prop", "cnt")
     } else {
-      # return empty dataframe if no categorical columns 
+      # return empty data frame if no categorical columns 
       out <- tibble(col_name = character(), 
                     value = character(), 
                     pcnt = numeric(), 
@@ -117,14 +118,15 @@ inspect_imb <- function(df1, df2 = NULL, include_na = FALSE){
   }
   if(input_type == "pair"){
     # summary of df1
-    s1 <- inspect_imb(df1, include_na = include_na) %>% 
-      rename(pcnt_1 = pcnt, cnt_1 = cnt)
+    s1 <- inspect_imb(df1, include_na = include_na) %>%
+      rename(pcnt_1 = "pcnt", cnt_1 = "cnt")
     # summary of df2
-    s2 <- inspect_imb(df2, include_na = include_na) %>% 
-      rename(pcnt_2 = pcnt, cnt_2 = cnt)
+    s2 <- inspect_imb(df2, include_na = include_na) %>%
+      rename(pcnt_2 = "pcnt", cnt_2 = "cnt")
     # left join summaries together
-    out <- left_join(s1, s2, by = c("col_name", "value")) %>%
-      mutate(p_value = prop_test_imb(., n_1 = nrow(df1), n_2 = nrow(df2)))
+    out <- left_join(s1, s2, by = c("col_name", "value"))
+    out <- out %>%
+      mutate(p_value = prop_test_imb(out, n_1 = nrow(df1), n_2 = nrow(df2)))
   } 
   if(input_type == "grouped"){
     out <- apply_across_groups(df = df1, fn = inspect_imb)

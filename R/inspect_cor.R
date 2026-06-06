@@ -1,7 +1,7 @@
-#' Tidy correlation coefficients for numeric dataframe columns
+#' Tidy correlation coefficients for numeric data frame columns
 #' 
-#' @description Summarise and compare Pearson, Kendall and Spearman correlations for 
-#' numeric columns in one, two or grouped dataframes.
+#' @description Summarise and compare Pearson, Kendall and Spearman correlations for
+#' numeric columns in one, two or grouped data frames.
 #'
 #' @param df1 A data frame. 
 #' @param df2 An optional second data frame for comparing correlation 
@@ -16,7 +16,7 @@
 #' @details When \code{df2 = NULL}, a tibble containing correlation coefficients for \code{df1} is 
 #' returned:
 #' \itemize{
-#'   \item \code{col_1}, \code{co1_2} character vectors containing names of numeric 
+#'   \item \code{col_1}, \code{col_2} character vectors containing names of numeric
 #'   columns in \code{df1}.
 #'   \item \code{corr} the calculated correlation coefficient.
 #'   \item \code{p_value} p-value associated with a test where the null hypothesis is that 
@@ -34,7 +34,7 @@
 #'  a comparison of the correlation coefficients across pairs of columns common to both 
 #'  dataframes.
 #' \itemize{
-#'   \item \code{col_1}, \code{co1_2} character vectors containing names of numeric columns 
+#'   \item \code{col_1}, \code{col_2} character vectors containing names of numeric columns
 #'   in either \code{df1} or \code{df2}.
 #'   \item \code{corr_1}, \code{corr_2} numeric columns containing correlation coefficients from
 #'   \code{df1} and \code{df2}, respectively.
@@ -42,21 +42,23 @@
 #'   coefficients are the same.  Small values indicate that the true correlation coefficients 
 #'   differ between the two dataframes.
 #' }
-#' 
+#'
 #' Note that confidence intervals for \code{kendall} and \code{spearman} assume a normal sampling
 #' distribution for the Fisher z-transform of the correlation.
+#' @author Alastair Rushworth
+#' @seealso \code{\link{show_plot}}
 #' @export
 #' @examples
 #' 
 #' # Load dplyr for starwars data & pipe
 #' library(dplyr)
 #' 
-#' # Single dataframe summary
+#' # Single data frame summary
 #' inspect_cor(starwars)
 #' # Only show correlations with 'mass' column
 #' inspect_cor(starwars, with_col = "mass")
-#' 
-#' # Paired dataframe summary
+#'
+#' # Paired data frame summary
 #' inspect_cor(starwars, starwars[1:10, ])
 #' 
 #' # NOT RUN - change in correlation over time
@@ -73,23 +75,24 @@
 #' @importFrom dplyr full_join
 #' @importFrom dplyr mutate
 #' @importFrom dplyr rename
-#' @importFrom dplyr select_if
 #' @importFrom dplyr select
+#' @importFrom dplyr where
 #' @importFrom dplyr slice
 #' @importFrom dplyr summarize
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @importFrom tibble tibble
 #' @importFrom tidyr nest
 
 inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL, 
                         alpha = 0.05){
-  # perform basic column check on dataframe input
+  # perform basic column check on data frame input
   input_type <- check_df_cols(df1, df2)
   # capture the data frame names
   df_names <- get_df_names()
   # filter to only the numeric variables
-  df_numeric <- df1 %>% 
-    select_if(is.numeric)
+  df_numeric <- df1 %>%
+    select(where(is.numeric))
   # if only a single df input
   if(input_type == "single"){
     # check that with_col exists
@@ -110,13 +113,13 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
                                             alpha = alpha, 
                                             method = method))
       # return top strongest if requested
-      pair <- cor_df %>% select(pair) %>% unlist
-      out <- cor_df %>% select(-pair)
+      pair <- cor_df %>% select(.data$pair) %>% unlist
+      out <- cor_df %>% select(-.data$pair)
       
       # attach attributes required for plotting
       attr(out, "pair") <- pair
     } else {
-      # return empty dataframe 
+      # return empty data frame 
       out <- tibble(col_1 = character(), 
                     col_2 = character(), 
                     corr = numeric())
@@ -124,13 +127,13 @@ inspect_cor <- function(df1, df2 = NULL, method = "pearson", with_col = NULL,
   } 
   if(input_type == "pair"){
     # stats for df1
-    s1 <- inspect_cor(df1, method = method) %>% 
-      select(col_1, col_2, corr) %>% 
-      rename(corr_1 = corr)
+    s1 <- inspect_cor(df1, method = method) %>%
+      select(.data$col_1, .data$col_2, .data$corr) %>%
+      rename(corr_1 = .data$corr)
     # stats for df2
-    s2 <- inspect_cor(df2, method = method) %>% 
-      select(col_1, col_2, corr) %>% 
-      rename(corr_2 = corr)
+    s2 <- inspect_cor(df2, method = method) %>%
+      select(.data$col_1, .data$col_2, .data$corr) %>%
+      rename(corr_2 = .data$corr)
     # join the two
     out <- full_join(s1, s2, by = c("col_1", "col_2"))
     # add p_value for test of difference between correlation coefficients

@@ -4,12 +4,13 @@
 #' @importFrom dplyr desc
 #' @importFrom dplyr filter
 #' @importFrom dplyr mutate
-#' @importFrom dplyr mutate_all
-#' @importFrom dplyr select_
+#' @importFrom dplyr select
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
+#' @importFrom rlang .data
 #' @importFrom tibble as_tibble
 #' @importFrom tibble tibble
+#' @importFrom tidyr pivot_longer
 #' @importFrom stats qnorm
 #' @importFrom stats pnorm
 #' @importFrom stats cor
@@ -34,23 +35,23 @@ cor_test_2 <- function(df_input, df_name, with_col, alpha, method){
   if(is.null(with_col)) nna_mat[upper.tri(nna_mat, diag = TRUE)] <- Inf
   # get the number of non-null elements
   nna_df <- nna_mat %>%
-    as_tibble(rownames = 'col_1') %>% 
-    gather(key = "col_2", value = "nna", -col_1) %>%
-    filter(!nna == Inf)
+    as_tibble(rownames = 'col_1') %>%
+    pivot_longer(cols = -"col_1", names_to = "col_2", values_to = "nna") %>%
+    filter(!.data$nna == Inf)
   # get the correlation table
   cd <- cor(x = x, y = y, use = "pairwise.complete.obs", method = method)
   if(is.null(with_col)) cd[upper.tri(cd, diag = TRUE)] <- Inf
   cor_out <- cd %>%
-    as_tibble(rownames = 'col_1') %>% 
-    gather(key = "col_2", value = "corr", -col_1) %>%
-    filter(!corr == Inf | is.na(corr)) %>%
-    mutate(nna = nna_df$nna, se = (1 / sqrt(nna - 3)), pcnt_nna = 100 * nna / nrow(df_input)) %>%
-    arrange(desc(abs(corr))) %>%
-    mutate(p_value = 2 * pnorm(-abs(corr / se))) %>%
-    mutate(lower = tanh(atanh(corr) - qnorm(1 - (alpha/2)) * se)) %>%
-    mutate(upper = tanh(atanh(corr) + qnorm(1 - (alpha/2)) * se)) %>%
-    mutate(pair = paste(col_1, col_2, sep = " & ")) %>%
-    select(col_1, col_2, pair, corr, p_value, lower, upper, pcnt_nna)
+    as_tibble(rownames = 'col_1') %>%
+    pivot_longer(cols = -"col_1", names_to = "col_2", values_to = "corr") %>%
+    filter(!.data$corr == Inf | is.na(.data$corr)) %>%
+    mutate(nna = nna_df$nna, se = (1 / sqrt(.data$nna - 3)), pcnt_nna = 100 * .data$nna / nrow(df_input)) %>%
+    arrange(desc(abs(.data$corr))) %>%
+    mutate(p_value = 2 * pnorm(-abs(.data$corr / .data$se))) %>%
+    mutate(lower = tanh(atanh(.data$corr) - qnorm(1 - (alpha/2)) * .data$se)) %>%
+    mutate(upper = tanh(atanh(.data$corr) + qnorm(1 - (alpha/2)) * .data$se)) %>%
+    mutate(pair = paste(.data$col_1, .data$col_2, sep = " & ")) %>%
+    select("col_1", "col_2", "pair", "corr", "p_value", "lower", "upper", "pcnt_nna")
 
   # return tibble of correlations
   return(cor_out)

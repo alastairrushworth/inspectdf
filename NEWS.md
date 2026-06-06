@@ -1,25 +1,28 @@
 
-# `inspectdf` development version
+# `inspectdf` 0.0.13
 
-- fix `ìnspect_num(df1, df2)` with different ranges and different set of
-  columns. (#51, cregouby)
-
-# `inspectdf` 0.0.12
-
-- Migrate to `vdiffr` 1.0.0 for graphics tests
-- Fixed
-  [\#32](https://github.com/alastairrushworth/inspectdf/issues/32),
-  improved appearance of `inspect_cat()` plots when number of categories
-  is small. Thanks to [Ivo Kwee](https://github.com/ivokwee) for the
-  suggestion.
-- Fixed
-  [\#40](https://github.com/alastairrushworth/inspectdf/issues/40),
-  ensuring `inspect_num()` histogram bins are correct in comparisons of
-  data frames. Thanks to [Roel
-  Verbelen](https://github.com/RoelVerbelen) for the report.
-- Added grouped graphical comparison for `inspect_num()`
-  [\#41](https://github.com/alastairrushworth/inspectdf/issues/41),
-  thanks to [cregouby](https://github.com/cregouby) for the report.
+-   Fixed compatibility with `dplyr` >= 1.1.0 by replacing deprecated
+    functions: `select_if()` replaced with `select(where())`, and
+    `mutate_if()` replaced with `mutate(across(where()))`.
+-   Fixed critical bug in `plot_cat()` where `bind_rows(.id = )` with
+    unnamed lists caused failures in newer `dplyr` versions. Function now
+    properly assigns column names to list elements.
+-   Fixed issue in `plot_cat()` where filtering by non-existent `jsd`
+    column removed all rows when plotting single dataframe summaries.
+-   Fixed
+    [\#48](https://github.com/alastairrushworth/inspectdf/issues/48),
+    `inspect_num(df1, df2)` with different ranges and different set of
+    columns. Thanks to [cregouby](https://github.com/cregouby) for the
+    [\#51](https://github.com/alastairrushworth/inspectdf/pull/51) fix.
+-   Fixed
+    [\#45](https://github.com/alastairrushworth/inspectdf/issues/45),
+    partial argument matching warning in `format_size()`. Changed
+    `unit = "auto"` to `units = "auto"` in call to `format()`. Thanks to
+    [&#64;salim-b](https://github.com/salim-b) for the report.
+-   Updated CRAN checks badge URL from deprecated
+    `cranchecks.info/badges/` to new `badges.cranchecks.info/` service.
+-   Fixed `ggplot2` deprecation warning by replacing `size` parameter
+    with `linewidth` in `geom_bar()`.
 
 # `inspectdf` 0.0.11
 
@@ -54,7 +57,7 @@
   coincided for dataframe comparisons of imbalance (for example, with
   `inspect_imb(df1, df2) %>% show_plot()`)  
 - Plots for grouped summaries: `inspect_cor()`, `inspect_na()` and
-  \`inspect.
+  `inspect_num()`.
 - `inspect_cor()` slight speed up for dataframes with large numbers of
   columns.
 - `inspect_cor()` can be filtered prior to plotting, for example

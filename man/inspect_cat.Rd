@@ -7,7 +7,7 @@
 inspect_cat(df1, df2 = NULL, include_int = FALSE)
 }
 \arguments{
-\item{df1}{A dataframe.}
+\item{df1}{A data frame.}
 
 \item{df2}{An optional second data frame for comparing categorical levels.
 Defaults to \code{NULL}.}
@@ -15,17 +15,17 @@ Defaults to \code{NULL}.}
 \item{include_int}{Logical flag - whether to treat integer columns as categories.  Default is \code{FALSE}.}
 }
 \value{
-A tibble summarising or comparing the categorical features 
-in one or a pair of dataframes.
+A tibble summarising or comparing the categorical features
+in one or a pair of data frames.
 }
 \description{
-For a single dataframe, summarise the levels of each categorical 
-column.  If two dataframes are supplied, compare the levels of categorical features 
-that appear in both dataframes.  For grouped dataframes, summarise the levels 
+For a single data frame, summarise the levels of each categorical
+column.  If two data frames are supplied, compare the levels of categorical features
+that appear in both data frames.  For grouped data frames, summarise the levels
 of categorical features separately for each group.
 }
 \details{
-For a \strong{single dataframe}, the tibble returned contains the columns: \cr
+For a \strong{single data frame}, the tibble returned contains the columns: \cr
 \itemize{
   \item \code{col_name}, character vector containing column names of \code{df1}.
   \item \code{cnt} integer column containing count of unique levels found in each column, 
@@ -35,7 +35,7 @@ For a \strong{single dataframe}, the tibble returned contains the columns: \cr
   \code{common}.
   \item \code{levels}, a named list containing relative frequency tibbles for each feature.
 }
-For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
+For a \strong{pair of data frames}, the tibble returned contains the columns: \cr
 \itemize{
   \item \code{col_name}, character vector containing names of columns appearing in both 
   \code{df1} and \code{df2}.
@@ -47,21 +47,21 @@ For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
   is based on a modified Chi-squared statistic.
   \item \code{lvls_1}, \code{lvls_2}, the relative frequency of levels in each of \code{df1} and \code{df2}.
 }
-For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
-the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
+For a \strong{grouped data frame}, the tibble returned is as for a single data frame, but where
+the first \code{k} columns are the grouping columns.  There will be as many rows in the result
 as there are unique combinations of the grouping variables.
 }
 \examples{
 # Load dplyr for starwars data & pipe
 library(dplyr)
 
-# Single dataframe summary
+# Single data frame summary
 inspect_cat(starwars)
 
-# Paired dataframe comparison
+# Paired data frame comparison
 inspect_cat(starwars, starwars[1:20, ])
 
-# Grouped dataframe summary
+# Grouped data frame summary
 starwars \%>\% group_by(gender) \%>\% inspect_cat()
 }
 \seealso{

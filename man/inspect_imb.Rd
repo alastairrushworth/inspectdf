@@ -7,7 +7,7 @@
 inspect_imb(df1, df2 = NULL, include_na = FALSE)
 }
 \arguments{
-\item{df1}{A dataframe.}
+\item{df1}{A data frame.}
 
 \item{df2}{An optional second data frame for comparing columnwise imbalance.
 Defaults to \code{NULL}.}
@@ -16,18 +16,18 @@ Defaults to \code{NULL}.}
 is \code{FALSE} - to ignore \code{NA} values.}
 }
 \value{
-A tibble summarising and comparing the imbalance for each categorical column 
-in one or a pair of dataframes.
+A tibble summarising and comparing the imbalance for each categorical column
+in one or a pair of data frames.
 }
 \description{
-For a single dataframe, summarise the most common level in each 
-categorical column. If two dataframes are supplied, compare the most common 
-levels of categorical features appearing in both dataframes.  For grouped 
-dataframes, summarise the levels of categorical columns in the dataframe
+For a single data frame, summarise the most common level in each
+categorical column. If two data frames are supplied, compare the most common
+levels of categorical features appearing in both data frames.  For grouped
+data frames, summarise the levels of categorical columns in the data frame
 split by group.
 }
 \details{
-For a \strong{single dataframe}, the tibble returned contains the columns: \cr
+For a \strong{single data frame}, the tibble returned contains the columns: \cr
 \itemize{
   \item \code{col_name}, a character vector containing column names of \code{df1}.
   \item \code{value}, a character vector containing the most common categorical level 
@@ -37,35 +37,35 @@ For a \strong{single dataframe}, the tibble returned contains the columns: \cr
   \item \code{cnt}, the number of occurrences of the most common categorical level in each
   column of \code{df1}.
 }
-For a \strong{pair of dataframes}, the tibble returned contains the columns: \cr
+For a \strong{pair of data frames}, the tibble returned contains the columns: \cr
 \itemize{
-  \item \code{col_name}, a character vector containing names of the unique columns in \code{df1} 
+  \item \code{col_name}, a character vector containing names of the unique columns in \code{df1}
   and \code{df2}.
-  \item \code{value}, a character vector containing the most common categorical level 
-  in each column of \code{df1}.  
-  \item \code{pcnt_1}, \code{pcnt_2}, the percentage occurrence of \code{value} in 
+  \item \code{value}, a character vector containing the most common categorical level
+  in each column of \code{df1}.
+  \item \code{pcnt_1}, \code{pcnt_2}, the percentage occurrence of \code{value} in
   the column \code{col_name} for each of \code{df1} and \code{df2}, respectively.
-  \item \code{cnt_1}, \code{cnt_2}, the number of occurrences of of \code{value} in 
+  \item \code{cnt_1}, \code{cnt_2}, the number of occurrences of of \code{value} in
   the column \code{col_name} for each of \code{df1} and \code{df2}, respectively.
-  \item \code{p_value}, p-value associated with the null hypothesis that the true rate of 
-  occurrence is the same for both dataframes.  Small values indicate stronger evidence of a difference
+  \item \code{p_value}, p-value associated with the null hypothesis that the true rate of
+  occurrence is the same for both data frames.  Small values indicate stronger evidence of a difference
   in the rate of occurrence.
 }
-For a \strong{grouped dataframe}, the tibble returned is as for a single dataframe, but where 
-the first \code{k} columns are the grouping columns.  There will be as many rows in the result 
+For a \strong{grouped data frame}, the tibble returned is as for a single data frame, but where
+the first \code{k} columns are the grouping columns.  There will be as many rows in the result
 as there are unique combinations of the grouping variables.
 }
 \examples{
 # Load dplyr for starwars data & pipe
 library(dplyr)
 
-# Single dataframe summary
+# Single data frame summary
 inspect_imb(starwars)
 
-# Paired dataframe comparison
+# Paired data frame comparison
 inspect_imb(starwars, starwars[1:20, ])
 
-# Grouped dataframe summary
+# Grouped data frame summary
 starwars \%>\% group_by(gender) \%>\% inspect_imb()
 }
 \seealso{

@@ -1,6 +1,9 @@
+#' @importFrom dplyr pull
 #' @importFrom ggplot2 scale_color_discrete
 #' @importFrom ggplot2 annotate
-#' 
+#' @importFrom rlang .data
+#' @importFrom tidyr pivot_longer
+#'
 plot_na_single <- function(
     df_plot, 
     text_labels = TRUE, 
@@ -13,12 +16,12 @@ plot_na_single <- function(
   # define a plot wide nudge interval
   nudge <- max(df_plot$pcnt) / 50
   # convert col_name to factor
-  df_plot <- df_plot %>% 
-    mutate(col_name = factor(col_name, levels = as.character(col_name)))
-  
+  df_plot <- df_plot %>%
+    mutate(col_name = factor(.data$col_name, levels = as.character(.data$col_name)))
+
   # construct bar plot of missingness
-  plt <- df_plot %>% 
-    ggplot(aes(x = col_name, y = pcnt, fill = col_name, label = cnt)) +
+  plt <- df_plot %>%
+    ggplot(aes(x = .data$col_name, y = .data$pcnt, fill = .data$col_name, label = .data$cnt)) +
     geom_bar(stat = "identity") + 
     labs(x = '', y = "% of column that is NA", 
          title = paste0("Prevalence of NAs in df::", df_names$df1), 
@@ -38,15 +41,15 @@ plot_na_single <- function(
     # label_df
     label_df <- tibble(col_name = x, pcnt = y)
     label_df$fill <- NA
-    # labels white 
-    label_white <- label_df %>% filter(pcnt > big_bar) 
+    # labels white
+    label_white <- label_df %>% filter(.data$pcnt > big_bar)
     max_lab <- ifelse(all(is.na(label_white$pcnt)), NA, max(label_white$pcnt, na.rm = T))
     # labels grey
-    label_grey <- label_df %>% 
-      filter(pcnt <= big_bar, pcnt > 0) %>%
-      mutate(ymax = pcnt + 0.5 * max_lab)
+    label_grey <- label_df %>%
+      filter(.data$pcnt <= big_bar, .data$pcnt > 0) %>%
+      mutate(ymax = .data$pcnt + 0.5 * max_lab)
     # labels zero
-    label_zero <- label_df %>% filter(pcnt == 0)
+    label_zero <- label_df %>% filter(.data$pcnt == 0)
 
     # add white labels at the top of the bigger bars
     if(nrow(label_white) > 0){
@@ -106,17 +109,17 @@ plot_na_pair <- function(
   df_names <- attr(df_plot, "df_names")
   leg_text <- as.character(unlist(df_names))
   na_tab  <- df_plot
-  df_plot <- df_plot %>% 
-    select(-starts_with("cnt")) %>% 
-    gather(key = "data_frame", value = "pcnt", -col_name, -p_value) %>%
-    mutate(data_frame = gsub("pcnt_", "", data_frame))
+  df_plot <- df_plot %>%
+    select(-starts_with("cnt")) %>%
+    pivot_longer(cols = c(-.data$col_name, -.data$p_value), names_to = "data_frame", values_to = "pcnt") %>%
+    mutate(data_frame = gsub("pcnt_", "", .data$data_frame))
   df_plot <- df_plot[seq(dim(df_plot)[1],1),]
-  p_val_tab <- df_plot %>% 
-    mutate(is_sig = as.integer(p_value < alpha) + 2, index = 1:nrow(df_plot)) %>%
+  p_val_tab <- df_plot %>%
+    mutate(is_sig = as.integer(.data$p_value < alpha) + 2, index = 1:nrow(df_plot)) %>%
     replace_na(list(is_sig = 1)) %>%
-    select(is_sig, index) 
-  plt <- ggplot(df_plot, aes(x = factor(col_name, levels = rev(as.character(na_tab$col_name))), 
-                                 y = pcnt, color = as.factor(data_frame))) +
+    select("is_sig", "index")
+  plt <- ggplot(df_plot, aes(x = factor(.data$col_name, levels = rev(as.character(na_tab$col_name))),
+                                 y = .data$pcnt, color = as.factor(.data$data_frame))) +
     geom_blank() + theme_bw() + 
     theme(panel.border = element_blank(), panel.grid.major = element_blank()) +
     geom_rect(
@@ -152,24 +155,24 @@ plot_na_grouped <- function(
   group_name <- colnames(df_plot)[1]
   if(plot_type == 1){
     # get ordering of variable pairs by median correlation
-    col_ord <- df_plot %>% 
+    col_ord <- df_plot %>%
       ungroup %>%
-      group_by(col_name) %>%
-      summarize(md_pcnt = median(pcnt, na.rm = T)) %>%
-      arrange(md_pcnt) %>%
-      .$col_name
+      group_by(.data$col_name) %>%
+      summarize(md_pcnt = median(.data$pcnt, na.rm = T)) %>%
+      arrange(.data$md_pcnt) %>%
+      pull(.data$col_name)
     # create pair columns and arrange by col_ord
-    out <- df_plot %>% 
+    out <- df_plot %>%
       ungroup %>%
-      mutate(col_name = factor(col_name, levels = col_ord)) %>%
-      arrange(col_name) 
+      mutate(col_name = factor(.data$col_name, levels = col_ord)) %>%
+      arrange(.data$col_name)
     # jitter points if number of column pairs <= 10
-    jitter_width <- ifelse(length(unique(out$col_name)) > 10, 0, 0.25) 
+    jitter_width <- ifelse(length(unique(out$col_name)) > 10, 0, 0.25)
     plt <- out %>%
-      ggplot(aes_string(x = 'col_name', y = 'pcnt', col = 'col_name', group = group_name)) + 
-      geom_jitter(alpha = 0.5, width = jitter_width, height = 0, size = 1.8) + 
-      theme(legend.position='none') + 
-      coord_flip() + 
+      ggplot(aes(x = .data$col_name, y = .data$pcnt, col = .data$col_name, group = .data[[group_name]])) +
+      geom_jitter(alpha = 0.5, width = jitter_width, height = 0, size = 1.8) +
+      theme(legend.position='none') +
+      coord_flip() +
       ylab("Missingness by group") +
       xlab("")
   } else {
