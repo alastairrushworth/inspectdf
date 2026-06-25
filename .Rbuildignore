@@ -2,6 +2,7 @@
 ^docs$
 ^vignettes/pkgdown$
 ^pkgdown$
+^_pkgdown\.yml$
 ^inst$
 ^checks\.R$
 ^testing\.R$
