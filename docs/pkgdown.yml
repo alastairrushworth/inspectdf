@@ -1,13 +1,15 @@
-pandoc: 2.17.1.1
-pkgdown: 2.0.6
+pandoc: '3.10'
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
-  inspect_cat_examples: pkgdown/inspect_cat_examples.html
-  inspect_cor_exampes: pkgdown/inspect_cor_exampes.html
-  inspect_imb_examples: pkgdown/inspect_imb_examples.html
-  inspect_mem_examples: pkgdown/inspect_mem_examples.html
-  inspect_na_examples: pkgdown/inspect_na_examples.html
-  inspect_num_examples: pkgdown/inspect_num_examples.html
-  inspect_types_examples: pkgdown/inspect_types_examples.html
-last_built: 2022-08-09T06:13Z
-
+  pkgdown/inspect_cat_examples: pkgdown/inspect_cat_examples.html
+  pkgdown/inspect_cor_examples: pkgdown/inspect_cor_examples.html
+  pkgdown/inspect_imb_examples: pkgdown/inspect_imb_examples.html
+  pkgdown/inspect_mem_examples: pkgdown/inspect_mem_examples.html
+  pkgdown/inspect_na_examples: pkgdown/inspect_na_examples.html
+  pkgdown/inspect_num_examples: pkgdown/inspect_num_examples.html
+  pkgdown/inspect_types_examples: pkgdown/inspect_types_examples.html
+last_built: 2026-06-25T12:10Z
+urls:
+  reference: https://alastairrushworth.github.io/inspectdf/reference
+  article: https://alastairrushworth.github.io/inspectdf/articles
