@@ -2,3 +2,13 @@ url: https://alastairrushworth.com/inspectdf
 
 template:
   bootstrap: 5
+  includes:
+    in_header: |
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y8XLWX2T51"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-Y8XLWX2T51');
+      </script>
