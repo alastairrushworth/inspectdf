@@ -74,8 +74,8 @@ combinations of the grouping variables.
 
 ## See also
 
-[`inspect_cat`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md),
-[`show_plot`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+[`inspect_cat`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md),
+[`show_plot`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
 
 ## Author
 
