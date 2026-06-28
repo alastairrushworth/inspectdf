@@ -25,7 +25,7 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 
 ## `inspect_cor()` for a single dataframe
 
-[`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md)
+[`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md)
 returns a tibble containing Pearson’s correlation coefficient,
 confidence intervals and $`p`$-values for pairs of numeric columns . The
 function combines the functionality of
@@ -56,7 +56,7 @@ inspect_cor(storms)
 
 A plot showing point estimate and confidence intervals is printed when
 using the
-[`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+[`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
 function. Note that intervals that straddle the null value of 0 are
 shown in gray:
 
@@ -79,7 +79,7 @@ Notes:
 ## `inspect_cor()` for two dataframes
 
 When a second dataframe is provided,
-[`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md)
+[`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md)
 returns a tibble that compares correlation coefficients of the first
 dataframe to those in the second. The `p_value` column contains a
 measure of evidence for whether the two correlation coefficients are
@@ -127,5 +127,5 @@ Notes:
 - For a pair of features, if either coefficient is `NA`, the comparison
   is omitted from the visualisation.
 - The significance level can be specified using the `alpha` argument to
-  [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md).
+  [`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md).
   The default is `alpha = 0.05`.

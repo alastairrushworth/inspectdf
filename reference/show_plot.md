@@ -55,13 +55,13 @@ A `ggplot2` object visualizing the inspection results.
   [pokemon theme](https://www.color-hex.com/color-palette/78664)
 
 **Arguments for plotting
-[`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md)**
+[`inspect_cat()`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md)**
 
 - `high_cardinality`:
 
   Minimum number of occurrences of category to be shown as a distinct
   segment in the plot
-  ([`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md)
+  ([`inspect_cat()`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md)
   only). Default is 0 - all distinct levels are shown. Setting
   `high_cardinality > 0` can speed up plot rendering when categorical
   columns contain many near-unique values.

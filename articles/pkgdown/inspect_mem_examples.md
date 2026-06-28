@@ -49,7 +49,7 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 ## `inspect_mem()` for a single dataframe
 
 To explore the memory usage of the columns in a data frame, use
-[`inspect_mem()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_mem.md).
+[`inspect_mem()`](https://alastairrushworth.com/inspectdf/reference/inspect_mem.md).
 The command returns a `tibble` containing the size of each column in the
 dataframe.
 
@@ -78,7 +78,7 @@ inspect_mem(starwars)
     ## 14 height       400 400 bytes  0.719
 
 A barplot can be produced by passing the result to
-[`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md):
+[`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md):
 
 ``` r
 
@@ -90,7 +90,7 @@ inspect_mem(starwars) %>% show_plot()
 ## `inspect_mem()` for two dataframes
 
 When a second dataframe is provided,
-[`inspect_mem()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_mem.md)
+[`inspect_mem()`](https://alastairrushworth.com/inspectdf/reference/inspect_mem.md)
 will create a dataframe comparing the size of each column for both input
 dataframes. The summaries for the first and second dataframes are show
 in columns with names appended with `_1` and `_2`, respectively.

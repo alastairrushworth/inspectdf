@@ -27,7 +27,7 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 
 Understanding categorical columns that are dominated by a single level
 can be useful.
-[`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_imb.md)
+[`inspect_imb()`](https://alastairrushworth.com/inspectdf/reference/inspect_imb.md)
 returns a tibble containing categorical column names (`col_name`); the
 most frequently occurring categorical level in each column (`value`) and
 `pctn` & `cnt` the percentage and count which the value occurs. The
@@ -52,7 +52,7 @@ inspect_imb(starwars)
     ## 8 name       Ackbar     1.15     1
 
 A barplot is printed by passing the result to the
-[`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+[`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
 function:
 
 ``` r
@@ -65,7 +65,7 @@ inspect_imb(starwars) %>% show_plot()
 ## `inspect_imb()` for two dataframes
 
 When a second dataframe is provided,
-[`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_imb.md)
+[`inspect_imb()`](https://alastairrushworth.com/inspectdf/reference/inspect_imb.md)
 returns a tibble that compares the frequency of the most common
 categorical values of the first dataframe to those in the second. The
 `p_value` column contains a measure of evidence for whether the true
@@ -103,5 +103,5 @@ inspect_imb(star_1, star_2) %>% show_plot()
   the imbalance, while blue bars indicate inequality. If a `p_value`
   cannot be calculated, no coloured bar is shown.
 - The significance level can be specified using the `alpha` argument to
-  [`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_imb.md).
+  [`inspect_imb()`](https://alastairrushworth.com/inspectdf/reference/inspect_imb.md).
   The default is `alpha = 0.05`.

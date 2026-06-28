@@ -25,7 +25,7 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 
 ## `inspect_na()` for a single dataframe
 
-[`inspect_na()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_na.md)
+[`inspect_na()`](https://alastairrushworth.com/inspectdf/reference/inspect_na.md)
 summarises the prevalence of missing values by each column in a data
 frame. A tibble containing the count (`cnt`) and the overall percentage
 (`pcnt`) of missing values is returned.
@@ -55,7 +55,7 @@ inspect_na(starwars)
     ## 14 starships      0  0
 
 A barplot can be produced by passing the result to
-[`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md):
+[`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md):
 
 ``` r
 
@@ -67,7 +67,7 @@ inspect_na(starwars) %>% show_plot()
 ## `inspect_na()` for two dataframes
 
 When a second dataframe is provided,
-[`inspect_na()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_na.md)
+[`inspect_na()`](https://alastairrushworth.com/inspectdf/reference/inspect_na.md)
 returns a tibble containing counts and percentage missingness by column,
 with summaries for the first and second data frames are show in columns
 with names appended with `_1` and `_2`, respectively. In addition, a
@@ -117,5 +117,5 @@ Notes:
   missingness, while blue bars indicate inequality. If a `p_value`
   cannot be calculated, no coloured bar is shown.
 - The significance level can be specified using the `alpha` argument to
-  [`inspect_na()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_na.md).
+  [`inspect_na()`](https://alastairrushworth.com/inspectdf/reference/inspect_na.md).
   The default is `alpha = 0.05`.

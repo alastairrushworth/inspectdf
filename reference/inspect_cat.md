@@ -77,8 +77,8 @@ combinations of the grouping variables.
 
 ## See also
 
-[`inspect_imb`](https://alastairrushworth.github.io/inspectdf/reference/inspect_imb.md),
-[`show_plot`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+[`inspect_imb`](https://alastairrushworth.com/inspectdf/reference/inspect_imb.md),
+[`show_plot`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
 
 ## Author
 
