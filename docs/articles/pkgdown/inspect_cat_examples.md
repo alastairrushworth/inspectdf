@@ -27,17 +27,17 @@ head(starwars)
 
 ## `inspect_cat()` for a single data frame
 
-[`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md)
+[`inspect_cat()`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md)
 returns a tibble summarising categorical features in a data frame,
 combining the functionality of the
-[`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_imb.md)
+[`inspect_imb()`](https://alastairrushworth.com/inspectdf/reference/inspect_imb.md)
 and [`table()`](https://rdrr.io/r/base/table.html) functions. The tibble
 generated contains the columns
 
 - `col_name` name of each categorical column
 - `cnt` the number of unique levels in the feature
 - `common` the most common level (see also
-  [`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_imb.md))\
+  [`inspect_imb()`](https://alastairrushworth.com/inspectdf/reference/inspect_imb.md))\
 - `common_pcnt` the percentage occurrence of the most dominant level\
 - `levels` a list of tibbles each containing frequency tabulations of
   all levels
@@ -90,7 +90,7 @@ x$levels$hair_color
 Note that by default, if missing (`NA`) values are present, they are
 counted as a distinct categorical level. A barplot showing the
 composition of each categorical column can be created using the
-[`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+[`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
 function. Note how missing values are shown as grey bars:
 
 ``` r
@@ -101,7 +101,7 @@ x %>% show_plot()
 ![](inspect_cat_examples_files/figure-html/unnamed-chunk-4-1.png)
 
 The argument `high_cardinality` in the
-[`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+[`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
 function can be used to bundle together categories that occur only a
 small number of times. For example, to combine categories only occurring
 once, use:
@@ -132,7 +132,7 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 ```
 
 To compare the character columns in a pair of data frames, use the
-[`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md):
+[`inspect_cat()`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md):
 
 ``` r
 
@@ -162,4 +162,4 @@ The tibble returned has the following columns
   in both data frames.\
 - `lvls_1` and `lvl2_2` are named list columns containing the frequency
   tables for each column in the first and second data frame input to
-  [`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md)
+  [`inspect_cat()`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md)

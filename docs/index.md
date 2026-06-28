@@ -22,7 +22,7 @@ The package has three aims:
 - to support quick visualisation of data frames
 
 Check out the [package
-website](https://alastairrushworth.github.io/inspectdf/) for further
+website](https://alastairrushworth.com/inspectdf/) for further
 documentation and examples.
 
 ## Installation
@@ -43,19 +43,19 @@ install.packages("inspectdf")
 
 ## Key functions
 
-- [`inspect_types()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_types_examples.html)
+- [`inspect_types()`](https://alastairrushworth.com/inspectdf/articles/pkgdown/inspect_types_examples.html)
   summary of column types
-- [`inspect_mem()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_mem_examples.html)
+- [`inspect_mem()`](https://alastairrushworth.com/inspectdf/articles/pkgdown/inspect_mem_examples.html)
   summary of memory usage of columns
-- [`inspect_na()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_na_examples.html)
+- [`inspect_na()`](https://alastairrushworth.com/inspectdf/articles/pkgdown/inspect_na_examples.html)
   columnwise prevalence of missing values
-- [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_cor_examples.html)
+- [`inspect_cor()`](https://alastairrushworth.com/inspectdf/articles/pkgdown/inspect_cor_examples.html)
   correlation coefficients of numeric columns
-- [`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_imb_examples.html)
+- [`inspect_imb()`](https://alastairrushworth.com/inspectdf/articles/pkgdown/inspect_imb_examples.html)
   feature imbalance of categorical columns
-- [`inspect_num()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_num_examples.html)
+- [`inspect_num()`](https://alastairrushworth.com/inspectdf/articles/pkgdown/inspect_num_examples.html)
   summaries of numeric columns
-- [`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/articles/pkgdown/inspect_cat_examples.html)
+- [`inspect_cat()`](https://alastairrushworth.com/inspectdf/articles/pkgdown/inspect_cat_examples.html)
   summaries of categorical columns
 
 ## Comments? Suggestions? Issues?

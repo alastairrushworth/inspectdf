@@ -2,23 +2,23 @@
 
 ## All functions
 
-- [`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md)
+- [`inspect_cat()`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md)
   : Summary and comparison of the levels in categorical columns
-- [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md)
+- [`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md)
   : Tidy correlation coefficients for numeric data frame columns
-- [`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_imb.md)
+- [`inspect_imb()`](https://alastairrushworth.com/inspectdf/reference/inspect_imb.md)
   : Summary and comparison of the most common levels in categorical
   columns
-- [`inspect_mem()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_mem.md)
+- [`inspect_mem()`](https://alastairrushworth.com/inspectdf/reference/inspect_mem.md)
   : Summary and comparison of memory usage of data frame columns
-- [`inspect_na()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_na.md)
+- [`inspect_na()`](https://alastairrushworth.com/inspectdf/reference/inspect_na.md)
   : Summary and comparison of the rate of missingness across data frame
   columns
-- [`inspect_num()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_num.md)
+- [`inspect_num()`](https://alastairrushworth.com/inspectdf/reference/inspect_num.md)
   : Summary and comparison of numeric columns
-- [`inspect_types()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_types.md)
+- [`inspect_types()`](https://alastairrushworth.com/inspectdf/reference/inspect_types.md)
   : Summary and comparison of column types
-- [`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+- [`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
   : Simple graphical inspection of data frame summaries
-- [`tech`](https://alastairrushworth.github.io/inspectdf/reference/tech.md)
+- [`tech`](https://alastairrushworth.com/inspectdf/reference/tech.md)
   : Tech stocks closing prices

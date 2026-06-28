@@ -61,7 +61,7 @@ combinations of the grouping variables.
 
 ## See also
 
-[`show_plot`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+[`show_plot`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
 
 ## Author
 
