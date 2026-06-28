@@ -34,10 +34,10 @@
 CRAN release: 2021-04-02
 
 - Bug fixes to
-  [`inspect_types()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_types.md)
+  [`inspect_types()`](https://alastairrushworth.com/inspectdf/reference/inspect_types.md)
   for pairwise comparison plots
 - Updated tests for
-  [`inspect_types()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_types.md)
+  [`inspect_types()`](https://alastairrushworth.com/inspectdf/reference/inspect_types.md)
   for pairwise comparisons
 
 ## `inspectdf` 0.0.10
@@ -45,16 +45,16 @@ CRAN release: 2021-04-02
 CRAN release: 2021-02-20
 
 - Add `include_int` option in
-  [`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md)
+  [`inspect_cat()`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md)
   to allow treatment of integer columns as categorical.
 - Improved p-values associated with binned categorical and numeric
   comparisons. This is now based on a modified chi-squared test and is
   labelled as `pval` in the resulting output.
 - Fixed [\#27](https://github.com/alastairrushworth/inspectdf/issues/27)
   ensuring plots for
-  [`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md)
+  [`inspect_cat()`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md)
   respect any filtering or sorting of the summary output prior to
-  [`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md).
+  [`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md).
   Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the
   report.
 - Additional detail in `inspect_type()` comparison of two dataframes to
@@ -74,28 +74,28 @@ CRAN release: 2020-06-25
   all `inspect_*()` functions. To generate visualisations of data frame
   summaries, please use the more flexible `show_plot(inspect_*())` or
   via the pipe `inspect_*() %>% show_plot()`.
-- [`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+- [`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
   improvement that nudges points that might otherwise have coincided for
   dataframe comparisons of imbalance (for example, with
   `inspect_imb(df1, df2) %>% show_plot()`)\
 - Plots for grouped summaries:
-  [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md),
-  [`inspect_na()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_na.md)
+  [`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md),
+  [`inspect_na()`](https://alastairrushworth.com/inspectdf/reference/inspect_na.md)
   and
-  [`inspect_num()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_num.md).
-- [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md)
+  [`inspect_num()`](https://alastairrushworth.com/inspectdf/reference/inspect_num.md).
+- [`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md)
   slight speed up for dataframes with large numbers of columns.
-- [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md)
+- [`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md)
   can be filtered prior to plotting, for example
   `inspect_cor(starwars) %>% filter(abs(corr) > 0.2) %>% show_plot()`.
   Thanks to [Roel Verbelen](https://github.com/RoelVerbelen) for the
   [suggestion](https://github.com/alastairrushworth/inspectdf/issues/24)
 - Fixed bug causing
-  [`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_imb.md)
+  [`inspect_imb()`](https://alastairrushworth.com/inspectdf/reference/inspect_imb.md)
   to fail on certain types of factor columns. Thanks to [Roel
   Verbelen](https://github.com/RoelVerbelen) for the
   [report](https://github.com/alastairrushworth/inspectdf/issues/26).
-- [`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+- [`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
   has new arguments `label_size`, `label_angle` and `label_color`. Each
   provide adjustments to text annotation where applicable. Thanks to
   [Bartosz Bursa](https://github.com/bartekbursa) for the
@@ -109,18 +109,18 @@ CRAN release: 2020-06-25
 CRAN release: 2019-11-05
 
 - Added `bytes` column to
-  [`inspect_mem()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_mem.md)
+  [`inspect_mem()`](https://alastairrushworth.com/inspectdf/reference/inspect_mem.md)
   output, for downstream numeric comparison and consistency with
   `inspectpd`.
 - Added `pcnt_nna` column to
-  [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md)
+  [`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md)
   output containing the percentage of pairwise complete observations
   used calculated correlations. Thanks to Theo Broekman for the
   suggestion.
 - Fixed bug causing order of grouping variable in grouped `inspect_`
   statements to be incorrect. Thanks to the report from Theo Broekman.
 - Removed erroneous print statement from
-  [`inspect_num()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_num.md).
+  [`inspect_num()`](https://alastairrushworth.com/inspectdf/reference/inspect_num.md).
 
 ## `inspectdf` 0.0.6
 
@@ -131,7 +131,7 @@ CRAN release: 2019-09-29
 - Added option for `inspect_num() %>% show_plot()` to show histograms
   with color palettes specified by the `col_palette` argument.
 - Fixed bug causing
-  [`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_imb.md)
+  [`inspect_imb()`](https://alastairrushworth.com/inspectdf/reference/inspect_imb.md)
   to sometimes fail when factors present. Thanks to [Doug
   Friedman](https://github.com/doug-friedman) for the
   [report](https://github.com/alastairrushworth/inspectdf/issues/19).
@@ -141,16 +141,16 @@ CRAN release: 2019-09-29
 CRAN release: 2019-08-26
 
 - Fixed error causing
-  [`inspect_num()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_num.md)
+  [`inspect_num()`](https://alastairrushworth.com/inspectdf/reference/inspect_num.md)
   to fail when columns contained all `NA` values. Thanks to [Ryan
   Tanner](https://github.com/ryanatanner) for the
   [report](https://github.com/alastairrushworth/inspectdf/issues/18)
 - Speed-up of
-  [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md)
+  [`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md)
   for large data frames with many numeric columns.
 - Added approximate confidence intervals and tests for
   `method = 'kendall'` and `method = 'spearman'` in
-  [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md).
+  [`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md).
 
 ## `inspectdf` 0.0.4
 
@@ -160,7 +160,7 @@ CRAN release: 2019-07-27
   present. Thanks to the
   [report](https://github.com/alastairrushworth/inspectdf/issues/13) by
   [Metin Yazici](https://github.com/strboul).
-- [`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+- [`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
   now returns a `ggplot2` object rather than printing the plot - thanks
   to [Garrick Aden-Buie](https://github.com/gadenbuie) for the
   [suggestion](https://github.com/alastairrushworth/inspectdf/issues/14).
@@ -168,7 +168,7 @@ CRAN release: 2019-07-27
   for small regions.
 - Added `tech` dataset.
 - Fix for text annotation of
-  [`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md)
+  [`inspect_cat()`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md)
   plots when labels are empty strings. By default `""` will be shown.
   Thanks to [Michael Swenson](https://github.com/mwswenson) for the
   [report](https://github.com/alastairrushworth/inspectdf/issues/12)
@@ -177,9 +177,9 @@ CRAN release: 2019-07-27
   `spearman` and `kendall`. Note that confidence intervals and tests
   currently only supported for `pearson`.
 - Fix error when duplicate factor labels present in
-  [`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md)
+  [`inspect_cat()`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md)
   &
-  [`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_imb.md).
+  [`inspect_imb()`](https://alastairrushworth.com/inspectdf/reference/inspect_imb.md).
 
 ## `inspectdf` 0.0.3
 
@@ -192,23 +192,23 @@ CRAN release: 2019-06-27
   Thanks to [David Wilkins](https://github.com/wilkox) for the
   [PR](https://github.com/alastairrushworth/inspectdf/pull/9).
 - 6 different color palettes supported in
-  [`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+  [`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
   via `col_palette` argument. Colorblind friendly option specified via
   `show_plot(col_palette = 1)` - thanks to [Richard
   Careaga](https://github.com/technocrat) [for the
   suggestion](https://github.com/alastairrushworth/inspectdf/pull/3).
-- [`inspect_imb()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_imb.md).
+- [`inspect_imb()`](https://alastairrushworth.com/inspectdf/reference/inspect_imb.md).
   - `include_na` option for categorical columns that are 100% missing,
     or constant are underlined in plot for easier comprehension.
-- [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md)
+- [`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md)
   - Points and whiskers changed to coloured bands for single dataframe
     summaries - these are easier to see when CIs are narrow.\
   - Points changed to bars for
-    [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md)
+    [`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md)
     comparison plots - makes it easier to see smaller differences in
     correlations.\
   - `NA` correlations omitted from
-    [`inspect_cor()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cor.md)
+    [`inspect_cor()`](https://alastairrushworth.com/inspectdf/reference/inspect_cor.md)
     comparison when plotted. Ordering of correlations reversed to be
     consistent with returned tibble.
 
@@ -216,13 +216,13 @@ CRAN release: 2019-06-27
 
 CRAN release: 2019-05-23
 
-- [`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+- [`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
   function (`show_plot` argument in `inspect_` functions will be dropped
   in a future version)
 - `high_cardinality` argument in
-  [`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+  [`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
   for combining unique or near-unique categories for plotting
-  [`inspect_cat()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.md).
+  [`inspect_cat()`](https://alastairrushworth.com/inspectdf/reference/inspect_cat.md).
 - `progress` bars shown when processing larger datasets
 - Improvements to plots throughout
 

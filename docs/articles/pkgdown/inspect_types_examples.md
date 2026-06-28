@@ -28,7 +28,7 @@ head(starwars)
 ## `inspect_types()` for a single dataframe
 
 To explore the column types in a data frame, use the function
-[`inspect_types()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_types.md).
+[`inspect_types()`](https://alastairrushworth.com/inspectdf/reference/inspect_types.md).
 The command returns a `tibble` summarising the counts and percentages of
 columns with particular types.
 
@@ -61,7 +61,7 @@ x$col_name$list
     ##     "films"  "vehicles" "starships"
 
 A radial visualisation of all columns and types is returned by the
-[`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+[`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
 command:
 
 ``` r
@@ -90,7 +90,7 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 ```
 
 When a second dataframe is provided,
-[`inspect_types()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_types.md)
+[`inspect_types()`](https://alastairrushworth.com/inspectdf/reference/inspect_types.md)
 returns a tibble that compares the column names and types found in each
 of the input data frames. The columns `cnt_1` and `cnt_2` contain the
 total number of columns with each type found in the first and second
@@ -151,7 +151,7 @@ x %>% select(type, issues) %>% unnest(issues)
 
 Finally, we can produce a simple visualisation showing the differences
 between `star_1` and `star_2` using
-[`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md):
+[`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md):
 
 ``` r
 

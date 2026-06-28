@@ -25,12 +25,12 @@ star_2 <- starwars %>% sample_n(50) %>% select(-1, -2)
 
 ## `inspect_num()` for a single dataframe
 
-[`inspect_num()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_num.md)
+[`inspect_num()`](https://alastairrushworth.com/inspectdf/reference/inspect_num.md)
 combining some of the functionality of
 [`summary()`](https://rdrr.io/r/base/summary.html) and
 [`hist()`](https://rdrr.io/r/graphics/hist.html) by returning summaries
 of numeric columns.
-[`inspect_num()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_num.md)
+[`inspect_num()`](https://alastairrushworth.com/inspectdf/reference/inspect_num.md)
 returns standard numerical summaries (`min`, `q1`, `mean`,
 `median`,`q3`, `max`, `sd`), but also the percentage of missing entries
 (`pcnt_na`) and a simple histogram (`hist`).
@@ -87,7 +87,7 @@ inspect_num(storms)$hist$pressure
 
 A histogram is generated for each numeric feature by passing the result
 to the
-[`show_plot()`](https://alastairrushworth.github.io/inspectdf/reference/show_plot.md)
+[`show_plot()`](https://alastairrushworth.com/inspectdf/reference/show_plot.md)
 function:
 
 ``` r
@@ -101,7 +101,7 @@ inspect_num(storms, breaks = 10) %>%
 ## `inspect_num()` for two dataframes
 
 When comparing a pair of dataframes using
-[`inspect_num()`](https://alastairrushworth.github.io/inspectdf/reference/inspect_num.md),
+[`inspect_num()`](https://alastairrushworth.com/inspectdf/reference/inspect_num.md),
 the histograms of common numeric features are calculated, using
 identical bins. The list columns `hist_1` and `hist_2` contain the
 histograms of the features in the first and second dataframes. A formal
